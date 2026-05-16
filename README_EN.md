@@ -17,6 +17,7 @@ FlatPaper is a Hexo theme inspired by flat illustrations and paper cards, featur
 - **Pages routed by `type:`**: set `type: link | tags | categories` in front-matter to route to a custom layout (the more common `layout:` field still works).
 - **Friends page**: `/links/` supports grouped cards, avatar fallback, per-link RSS badges, and a hover signal-pulse animation.
 - **In-page search**: global Ctrl+K / Cmd+K popup backed by an inline JSON index of all posts (large sites can cap the count with `search.limit` in `_config.yml`).
+- **Optional Twikoo comments**: enable in `_config.yml` with your own deployed backend URL; per-page opt-out via front-matter `comments: false`.
 - **Dark mode**: single-class toggle, persisted to `localStorage`; every component has a dark variant.
 - **Configurable footer**: write custom copy with `{year}` and `{name}` placeholders.
 - **Icons via Lucide**: icons are embedded as inline SVG (no network, no font), and every theme icon is driven by the same EJS partial.
@@ -142,6 +143,11 @@ umami:                                # Umami analytics; no script is injected w
   host: analytics.example.com         # Umami service domain (no scheme, no path)
   website_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   domains: example.com,www.example.com # optional; only report on these hostnames
+
+twikoo:                               # optional comment system; no DOM is rendered when disabled
+  enable: false
+  envId: https://twikoo.example.com   # Twikoo backend URL
+  # cdn: https://cdn.example.com/twikoo.all.min.js  # optional; overrides the default jsDelivr CDN
 ```
 
 When Umami is enabled, the following snippet is injected right before `</head>`:
@@ -152,6 +158,10 @@ When Umami is enabled, the following snippet is injected right before `</head>`:
 
 - `host` only accepts plain `domain` or `domain:port` values (e.g. `analytics.example.com`, `localhost:3000`). A leading `https://` is stripped automatically; anything containing other characters is rejected and no script is injected.
 - `domains` is Umami's built-in **blog-domain allowlist**: the tracker only reports when the visiting page's `hostname` matches an entry, which is the cleanest way to keep `localhost`, ephemeral preview URLs, or sites cloned and redeployed by others out of your stats. The field is optional; both a comma-separated string and a YAML list are accepted.
+
+When Twikoo is enabled, the comments section renders **after the main content of every page** (on post pages, below the related-posts card). You need to deploy a Twikoo backend yourself — see the [Twikoo quick start](https://twikoo.js.org/quick-start.html). Add `comments: false` to any page's front-matter (links, about, tag/category pages, etc.) to disable comments there. On post pages, the reactions footer's "comment" button smooth-scrolls to `#tcomment`; the share button calls `navigator.share` (with a clipboard-copy fallback when the API is unavailable).
+
+> For site-wide visitor analytics, use the Umami integration documented above. Twikoo does not expose an official pageview API, so the theme does not maintain a per-post visitor counter.
 
 ### UI Options and Current Defaults
 

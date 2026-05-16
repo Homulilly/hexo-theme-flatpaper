@@ -1,0 +1,16 @@
+<%
+// Shared Twikoo SDK loader. Outputs the <script defer> tag once per page
+// when enable + envId are both set. Kept separate from `comments.ejs` so any
+// future Twikoo feature can rely on the global SDK without duplicating the
+// loader.
+var tk = theme.twikoo;
+if (tk && tk.enable && tk.envId) {
+  var cdn = flatpaper_safe_url(
+    tk.cdn || 'https://cdn.jsdelivr.net/npm/twikoo@1.7.9/dist/twikoo.all.min.js',
+    'href'
+  );
+  if (cdn && cdn !== '#') {
+%>
+<script defer src="<%= cdn %>"></script>
+<% }
+} %>

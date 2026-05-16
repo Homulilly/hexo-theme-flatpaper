@@ -1,0 +1,27 @@
+<%
+// Twikoo comments. Renders on every page that doesn't explicitly opt out via
+// front-matter `comments: false`. Three required gates: theme.twikoo.enable,
+// theme.twikoo.envId, and `page.comments !== false`. page.comments defaults
+// to undefined, which counts as opted-in.
+// The Twikoo SDK <script> is loaded once globally by _partial/twikoo-sdk.ejs;
+// this partial only emits the DOM mount point and the init call.
+var tk = theme.twikoo || {};
+var enabled = tk.enable && tk.envId && page.comments !== false;
+if (enabled) {
+%>
+<section class="comments-section" aria-label="评论">
+  <header class="comments-section__head">
+    <h2><%- partial('_partial/icons', { icon: 'message-circle' }) %>评论</h2>
+  </header>
+  <div id="tcomment"></div>
+</section>
+<script>
+window.addEventListener('load', function () {
+  if (typeof twikoo === 'undefined') return;
+  twikoo.init({
+    envId: <%- JSON.stringify(tk.envId) %>,
+    el: '#tcomment'
+  });
+});
+</script>
+<% } %>

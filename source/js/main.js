@@ -538,5 +538,26 @@
     });
   });
 
+  // ---- Reactions footer: comment / share buttons ----
+  // Comment button jumps to #tcomment when Twikoo is mounted on the page;
+  // share button uses the Web Share API, falling back to clipboard copy.
+  // Heart button has no behavior — kept as a decorative placeholder.
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    if (action === 'scroll-to-comments') {
+      var anchor = document.getElementById('tcomment');
+      if (anchor) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (action === 'share') {
+      var data = { title: document.title, url: location.href };
+      if (navigator.share) {
+        navigator.share(data).catch(function () { /* user cancelled */ });
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(location.href);
+      }
+    }
+  });
+
   bindGlobalOnce();
 })();

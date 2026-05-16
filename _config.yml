@@ -86,3 +86,11 @@ umami:
   host:                                 # 例如：analytics.example.com
   website_id:                           # 例如：xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   # domains: example.com,www.example.com
+
+# Twikoo 评论（https://twikoo.js.org）
+# 需自行部署后端：https://twikoo.js.org/quick-start.html
+# 仅文章页渲染评论区；单篇可在 front-matter 用 `comments: false` 关闭。
+twikoo:
+  enable: false
+  envId:                                # Twikoo 后端 URL，例如：https://twikoo.example.com
+  # cdn:                                # 可选；覆盖默认 jsDelivr CDN（私有镜像 / 企业 CDN）

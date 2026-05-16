@@ -66,13 +66,13 @@ var relatedPosts = allPosts
         <%- partial('_partial/icons', { icon: 'heart' }) %>
       </button>
       <span class="reaction-label">Like</span>
-      <button type="button" class="reaction reaction--comment" aria-label="评论">
+      <button type="button" class="reaction reaction--comment" aria-label="评论" data-action="scroll-to-comments">
         <%- partial('_partial/icons', { icon: 'message-circle' }) %>
       </button>
       <span class="reaction-label">评论</span>
     </div>
     <div class="reaction-group reaction-group--right">
-      <button type="button" class="reaction reaction--share" aria-label="分享">
+      <button type="button" class="reaction reaction--share" aria-label="分享" data-action="share">
         <%- partial('_partial/icons', { icon: 'share-2' }) %>
       </button>
       <span class="reaction-label">分享</span>
