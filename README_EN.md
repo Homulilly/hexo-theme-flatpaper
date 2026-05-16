@@ -18,6 +18,7 @@ FlatPaper is a Hexo theme inspired by flat illustrations and paper cards, featur
 - **Friends page**: `/links/` supports grouped cards, avatar fallback, per-link RSS badges, and a hover signal-pulse animation.
 - **In-page search**: global Ctrl+K / Cmd+K popup backed by an inline JSON index of all posts (large sites can cap the count with `search.limit` in `_config.yml`).
 - **Optional Twikoo comments**: enable in `_config.yml` with your own deployed backend URL; per-page opt-out via front-matter `comments: false`.
+- **Optional image lightbox**: enable Fancybox in `_config.yml` and every `<img>` inside `.article-content` on post / standalone pages becomes a Fancybox gallery — click to zoom, arrow keys / swipes to navigate, ESC to close.
 - **Dark mode**: single-class toggle, persisted to `localStorage`; every component has a dark variant.
 - **Configurable footer**: write custom copy with `{year}` / `{name}` (the site's `author`) / `{theme}` (a link back to the theme repo) placeholders; the attribution can be kept or dropped.
 - **Icons via Lucide**: icons are embedded as inline SVG (no network, no font), and every theme icon is driven by the same EJS partial.
@@ -146,6 +147,11 @@ twikoo:                               # optional comment system; no DOM is rende
   enable: false
   envId: https://twikoo.example.com   # Twikoo backend URL
   # cdn: https://cdn.example.com/twikoo.all.min.js  # optional; overrides the default jsDelivr CDN
+
+fancybox:                             # image lightbox; assets load only on post / page layouts
+  enable: false
+  # cdn_css: https://cdn.example.com/fancybox.css     # optional; overrides default jsDelivr CSS
+  # cdn_js:  https://cdn.example.com/fancybox.umd.js  # optional; overrides default jsDelivr JS
 ```
 
 When Umami is enabled, the following snippet is injected right before `</head>`:
@@ -160,6 +166,8 @@ When Umami is enabled, the following snippet is injected right before `</head>`:
 When Twikoo is enabled, the comments section renders **after the main content of post pages and standalone pages** (about / friends / etc. with `layout: page`); on post pages it sits below the related-posts card. Index pages (home, archives, categories, tags) never show the comment box. You need to deploy a Twikoo backend yourself — see the [Twikoo quick start](https://twikoo.js.org/quick-start.html). Any page can still opt out by adding `comments: false` to its front-matter. On post pages, the reactions footer's "comment" button smooth-scrolls to `#tcomment`; the share button calls `navigator.share` (with a clipboard-copy fallback when the API is unavailable).
 
 > For site-wide visitor analytics, use the Umami integration documented above. Twikoo does not expose an official pageview API, so the theme does not maintain a per-post visitor counter.
+
+With Fancybox enabled, every `<img>` inside `.article-content` is wrapped client-side in `<a data-fancybox="gallery">`, so **all images on the page automatically share one gallery** — arrow keys / swipes navigate, double-click / wheel zooms, ESC closes. Images already wrapped in `<a>` (e.g. `[![](img)](url)`) are left alone; mark an individual image with `class="no-zoom"` to skip the lightbox. CDN assets are only loaded on post pages and `layout: page` pages — index pages (home / archives / tags / categories) stay lean.
 
 ### UI Options and Current Defaults
 

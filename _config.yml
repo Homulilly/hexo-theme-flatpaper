@@ -96,3 +96,12 @@ twikoo:
   enable: false
   envId:                                # Twikoo 后端 URL，例如：https://twikoo.example.com
   # cdn:                                # 可选；覆盖默认 jsDelivr CDN（私有镜像 / 企业 CDN）
+
+# Fancybox 图片灯箱（https://fancyapps.com/fancybox/）
+# 启用后，文章页与独立页面（layout: page）的正文 <img> 自动用 Fancybox 包裹：
+# 点击放大、左右键切换、ESC 关闭。同一页面内所有图片共属一个 gallery。
+# 已被 <a> 包裹的图片不重复包裹；要单独排除某张图给它加 class="no-zoom"。
+fancybox:
+  enable: false
+  # cdn_css:                            # 可选；覆盖默认 jsDelivr CSS
+  # cdn_js:                             # 可选；覆盖默认 jsDelivr JS

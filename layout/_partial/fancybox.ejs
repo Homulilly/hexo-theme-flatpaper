@@ -1,0 +1,22 @@
+<%
+// Fancybox lightbox assets. Loaded only on post pages and standalone pages
+// (about / friends / etc. with layout: page) — index pages have no body
+// images to lightbox. Both CDN URLs pass through flatpaper_safe_url to block
+// javascript: / data: injection if a user mis-configures.
+var fb = theme.fancybox;
+var isContentPage = is_post() || page.layout === 'page';
+if (fb && fb.enable && isContentPage) {
+  var css = flatpaper_safe_url(
+    fb.cdn_css || 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css',
+    'href'
+  );
+  var js = flatpaper_safe_url(
+    fb.cdn_js || 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js',
+    'href'
+  );
+  if (css && css !== '#' && js && js !== '#') {
+%>
+<link rel="stylesheet" href="<%= css %>">
+<script defer src="<%= js %>"></script>
+<% }
+} %>

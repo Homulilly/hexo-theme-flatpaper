@@ -559,5 +559,39 @@
     }
   });
 
+  // ---- Fancybox: wrap article images, then bind the lightbox ----
+  // Runs ONLY when the layout has marked <html data-fancybox-enabled="1">,
+  // which the layout emits when theme.fancybox.enable is true AND the current
+  // page is a post or layout: page. Without that flag we don't touch the DOM
+  // at all — images stay plain <img>, no surprise click-to-raw behavior.
+  // Anchors are added on script run (DOM is already parsed since js/main is
+  // injected at body end), Fancybox.bind runs on window 'load' once the
+  // deferred SDK is available.
+  // Skipped: <img> already inside an <a>; <img class="no-zoom">; <img> inside
+  // a <picture> (wrapping the <img> alone breaks picture > source* + img
+  // responsive selection — picture support could re-parent the whole
+  // <picture> in a future iteration).
+  if (document.documentElement.getAttribute('data-fancybox-enabled') === '1') {
+    var imgs = document.querySelectorAll('.article-content img');
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (!img.src) continue;
+      if (img.closest('a')) continue;
+      if (img.closest('picture')) continue;
+      if (img.classList.contains('no-zoom')) continue;
+      var a = document.createElement('a');
+      a.href = img.currentSrc || img.src;
+      a.setAttribute('data-fancybox', 'gallery');
+      if (img.alt) a.setAttribute('data-caption', img.alt);
+      img.parentNode.insertBefore(a, img);
+      a.appendChild(img);
+    }
+    window.addEventListener('load', function () {
+      if (typeof window.Fancybox !== 'undefined') {
+        window.Fancybox.bind('[data-fancybox="gallery"]');
+      }
+    });
+  }
+
   bindGlobalOnce();
 })();

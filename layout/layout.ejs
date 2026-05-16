@@ -1,9 +1,13 @@
 <!doctype html>
-<html lang="<%= config.language || 'zh-CN' %>">
+<%
+var fbEnabled = theme.fancybox && theme.fancybox.enable && (is_post() || page.layout === 'page');
+%>
+<html lang="<%= config.language || 'zh-CN' %>"<% if (fbEnabled) { %> data-fancybox-enabled="1"<% } %>>
 <head>
   <%- partial('_partial/head') %>
   <%- partial('_partial/umami') %>
   <%- partial('_partial/twikoo-sdk') %>
+  <%- partial('_partial/fancybox') %>
 </head>
 <%
 var tapeDisabled = theme.tape === false || (theme.tape && theme.tape.enable === false);
