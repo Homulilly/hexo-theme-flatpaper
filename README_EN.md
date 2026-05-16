@@ -117,7 +117,7 @@ welcome:                              # welcome card (home page left sidebar)
 
 excerpt_length: 96
 recent_posts: 5                       # also used as the related-post limit on post pages
-related_posts: 4                      # override only the related-post count if needed
+related_posts: 4                      # override only the related-post count if needed; 0 disables the block
 
 tags:
   style: tape                         # "tape" or "pill"
@@ -226,7 +226,7 @@ Post pages automatically append a **standalone "Related Posts" card** below the 
 - Posts with a 0 score are excluded entirely; when no related posts exist, the card does not render
 - When scores tie, newer posts win
 
-Set `related_posts` (or fall back to `recent_posts`) to control how many cards are shown.
+Set `related_posts` (or fall back to `recent_posts`) to control how many cards are shown. Set `related_posts: 0` explicitly to disable the entire block (the card stops rendering).
 
 ### Search
 

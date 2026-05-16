@@ -46,6 +46,8 @@ welcome:
 excerpt_length: 96
 # 侧边栏 / 相关位置展示的最近文章数量
 recent_posts: 5
+# 文章页底部"相关文章"展示数量；0 表示禁用；不配置则回退到 recent_posts
+related_posts: 3
 
 # 前端搜索索引上限（0 或留空 = 不限）。文章很多时调小可减小首屏 JSON 体积。
 search:

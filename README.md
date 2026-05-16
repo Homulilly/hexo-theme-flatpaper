@@ -116,7 +116,7 @@ welcome:                              # 欢迎卡片（首页左侧栏）
 
 excerpt_length: 96
 recent_posts: 5                       # 也用作文章页相关文章数量上限
-related_posts: 4                      # 如果需要，可只覆盖“相关文章”数量
+related_posts: 4                      # 如果需要，可只覆盖“相关文章”数量；0 表示禁用整块
 
 tags:
   style: tape                         # "tape" 或 "pill"
@@ -224,7 +224,7 @@ cover: /images/walk.jpg               # 或绝对 URL
 - 0 分文章会被完全排除；没有相关文章时，该卡片不会渲染
 - 分数相同时，较新的文章优先
 
-设置 `related_posts`（或回退到 `recent_posts`）可控制展示卡片数量。
+设置 `related_posts`（或回退到 `recent_posts`）可控制展示卡片数量。将 `related_posts` 显式设为 `0` 可完全禁用该模块（整块卡片不渲染）。
 
 ### 搜索
 
