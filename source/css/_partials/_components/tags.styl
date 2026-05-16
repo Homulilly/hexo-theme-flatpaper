@@ -54,6 +54,7 @@
 .tag-cloud {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
 }
 
@@ -114,6 +115,31 @@
 .dark-mode .tag-chip-3 { color: #c2d4bf; }
 .dark-mode .tag-chip-4 { background: rgba(156, 143, 235, 0.32); color: #c8bee0; }
 .dark-mode .tag-chip-5 { color: #e0b8a8; }
+
+/* 4 size tiers driven by post count on /tags. Tier 1 matches the default
+   .tag-chip metrics, so the sidebar's tag-cloud (no size class) stays in line
+   with the smallest tier visually. */
+.tag-size-1 { min-height: 24px; padding: 0 11px; font-size: 12px; }
+.tag-size-2 { min-height: 28px; padding: 0 13px; font-size: 14px; }
+.tag-size-3 { min-height: 32px; padding: 0 15px; font-size: 16px; }
+.tag-size-4 { min-height: 36px; padding: 0 18px; font-size: 18px; font-weight: 700; }
+
+/* Darker ink for /tags-page chips only. The sidebar tag-cloud (no .tag-size-N
+   class) stays on the lighter palette defined above. Targets `.tag-chip-N` on
+   tags-page chips so each tape color keeps its own hue, just darker. */
+.tag-chip[class*='tag-size-'].tag-chip-0 { color: #2f6649; }
+.tag-chip[class*='tag-size-'].tag-chip-1 { color: #1f4e83; }
+.tag-chip[class*='tag-size-'].tag-chip-2 { color: #6f4d0e; }
+.tag-chip[class*='tag-size-'].tag-chip-3 { color: #2e5e3a; }
+.tag-chip[class*='tag-size-'].tag-chip-4 { color: #443289; }
+.tag-chip[class*='tag-size-'].tag-chip-5 { color: #893f30; }
+
+.dark-mode .tag-chip[class*='tag-size-'].tag-chip-0 { color: #d9e8d5; }
+.dark-mode .tag-chip[class*='tag-size-'].tag-chip-1 { color: #c2d4ec; }
+.dark-mode .tag-chip[class*='tag-size-'].tag-chip-2 { color: #f1d9a8; }
+.dark-mode .tag-chip[class*='tag-size-'].tag-chip-3 { color: #d4e1cf; }
+.dark-mode .tag-chip[class*='tag-size-'].tag-chip-4 { color: #dad2f0; }
+.dark-mode .tag-chip[class*='tag-size-'].tag-chip-5 { color: #f0cabb; }
 
 .tag-style-pill .tag-chip {
   min-height: 28px;

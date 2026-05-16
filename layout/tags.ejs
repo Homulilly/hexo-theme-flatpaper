@@ -2,11 +2,21 @@
   <h1>标签</h1>
   <%
   var tags = site.tags ? site.tags.toArray() : [];
+  // Bucket each tag into one of 4 size tiers based on post count. When all
+  // tags have the same count (or there's only one tag), everyone gets tier 2
+  // so nothing looks demoted.
+  var counts = tags.map(function (t) { return t.length || 0; });
+  var maxCount = counts.length ? Math.max.apply(null, counts) : 0;
+  var minCount = counts.length ? Math.min.apply(null, counts) : 0;
+  function sizeBucket(n) {
+    if (maxCount === minCount) return 2;
+    return Math.round(1 + 3 * (n - minCount) / (maxCount - minCount));
+  }
   %>
   <% if (tags.length) { %>
     <div class="tag-cloud">
       <% tags.forEach(function(tag, index) { %>
-        <a class="tag-chip tag-chip-<%= index % 6 %>" href="<%- url_for(tag.path) %>"><%= tag.name %></a>
+        <a class="tag-chip tag-chip-<%= index % 6 %> tag-size-<%= sizeBucket(tag.length || 0) %>" href="<%- url_for(tag.path) %>"><%= tag.name %></a>
       <% }) %>
     </div>
   <% } else { %>
