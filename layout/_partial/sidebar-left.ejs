@@ -1,18 +1,22 @@
 <aside class="paper-sidebar paper-sidebar--left">
   <% if (is_home()) { %>
+    <%
+      var w = theme.welcome || {};
+      var ctaText = w.cta_text || '开始阅读';
+      var ctaLink = w.cta_link || 'archives/';
+    %>
     <section class="welcome-card">
-      <div class="welcome-thumb" aria-hidden="true">
-        <div class="sun"></div>
-        <div class="cloud cloud-a"></div>
-        <div class="cloud cloud-b"></div>
-        <div class="mountain mountain-a"></div>
-        <div class="mountain mountain-b"></div>
+      <div class="welcome-thumb<%= w.image ? ' welcome-thumb--image' : '' %>" aria-hidden="true">
+        <% if (w.image) { %>
+          <img src="<%= flatpaper_safe_url(url_for(w.image), 'image') %>" alt="" loading="lazy" referrerpolicy="no-referrer">
+        <% } else { %>
+          <div class="sun"></div>
+          <div class="cloud cloud-a"></div>
+          <div class="cloud cloud-b"></div>
+          <div class="mountain mountain-a"></div>
+          <div class="mountain mountain-b"></div>
+        <% } %>
       </div>
-      <%
-        var w = theme.welcome || {};
-        var ctaText = w.cta_text || '开始阅读';
-        var ctaLink = w.cta_link || 'archives/';
-      %>
       <p class="hello"><span class="green-dot"></span><%= w.label || 'Hello!' %></p>
       <h1><%= w.title || '欢迎来到 FlatPaper' %></h1>
       <p class="welcome-text"><%= w.text || '一个专注于内容与阅读体验的博客主题。' %></p>

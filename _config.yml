@@ -63,9 +63,12 @@ rss:
 welcome:
   label: 今日份记录
   title: 把日子，慢慢写下来
-  text: 记一些小事。
+  text: 生活不是每天都精彩，但总有值得收藏的片段。
   cta_text: 开始阅读
   cta_link: archives/
+  # 自定义封面图。留空则使用 CSS 绘制的山景默认图。
+  # 支持站内相对路径（如 /images/welcome.jpg，放在站点 source/ 下）或绝对 URL。
+  # image:
 
 # 首页文章卡片摘要的最大字符数（无 <!-- more --> 时按正文截断）
 excerpt_length: 96
