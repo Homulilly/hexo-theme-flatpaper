@@ -32,9 +32,11 @@ social:
   #   github, twitter, x, mail/email, rss,
   #   steam, bilibili, youtube, facebook, instagram, telegram, weibo
   # 写法 1：键 -> URL（按键名自动匹配图标）
-  GitHub: https://github.com/
-  Twitter: https://twitter.com/
-  Email: mailto:you@example.com
+  # 默认不提供任何条目，避免主题默认值在站点配置中被"注释掉"后仍然显现。
+  # 在站点的 _config.flatpaper.yml 里按需启用：
+  # GitHub: https://github.com/yourname
+  # Twitter: https://twitter.com/yourname
+  # Email: mailto:you@example.com
   # X: https://x.com/yourname
   # YouTube: https://youtube.com/@yourchannel
   # Bilibili: https://space.bilibili.com/12345
