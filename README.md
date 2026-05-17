@@ -2,7 +2,8 @@
 
 A Hexo theme inspired by flat illustrations and paper cards — dashed outlines, sticky notes, tape strips, and a soft, low-contrast reading interface. Built on modular Stylus partials and a small EJS template layer, with no runtime dependencies.
 
-**[Live demo](https://flatpaper.nep.me/)** · **[Author's blog](https://homulilly.com/)**
+- **[Live demo](https://flatpaper.nep.me/)**. 
+- **[Author's blog](https://homulilly.com/)**
 
 ## Document
 
@@ -14,9 +15,6 @@ Documentation is available in multiple languages:
 | Light mode | Dark mode |
 | --- | --- |
 | ![home light](preview/home.webp) | ![home dark](preview/home-dark.webp) |
-
-- Live demo: <https://flatpaper.nep.me/>
-- Author's blog: <https://homulilly.com/>
 
 ## Installation
 
