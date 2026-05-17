@@ -9,19 +9,21 @@ FlatPaper is a Hexo theme inspired by flat illustrations and paper cards, featur
 ## Highlights
 
 - **Adaptive layout**: three columns on the home / list pages, two columns on post pages, and a single-column drawer mode on narrow screens.
-- **Sticky sidebars**: home / list page sidebars stick inside the viewport; the post page TOC stays sticky across the full article range.
+- **Sticky TOC**: the post page TOC card stays sticky across the full article range; home / list page sidebars scroll normally with the page.
 - **Featured carousel**: pin up to four posts in `_config.yml`, with automatic rotation and hover-to-pause support.
 - **Cover images**: reads `post.cover` / `thumbnail` / `image` / `banner` / the first inline `<img>` in the rendered post body; falls back to a CSS scene when no image exists.
-- **macOS-style code blocks**: language badge (auto-detected, hidden for plaintext), copy and collapse buttons; supports `dark` / `sand` / `light` code themes.
-- **Hexo NexT-compatible tags**: `{% note %}` (6 styles, foldable) and `{% tabs %}` (with collapsible mode); note also accepts the VitePress-style `::: type [title] ... :::` container syntax.
+- **Personalize profile / welcome card**: `profile.avatar_shape` toggles between `square` and `circle` masks; `welcome.image` swaps the CSS mountain scene for a custom 16:9 cover image.
+- **macOS-style code blocks**: language badge (auto-detected, hidden for plaintext), copy and collapse buttons; supports `dark` / `sand` / `light` code themes. **Line-number interactions**: single-click toggles a highlight on that line, double-click copies the line's text.
+- **Hexo NexT-compatible tags**: `{% note %}` (6 colors x 4 visual styles `flat / simple / modern / disabled`, foldable) and `{% tabs %}` (with collapsible mode); note also accepts the VitePress-style `::: type [title] ... :::` container syntax.
 - **Pages routed by `type:`**: set `type: link | tags | categories` in front-matter to route to a custom layout (the more common `layout:` field still works).
 - **Friends page**: `/links/` supports grouped cards, avatar fallback, per-link RSS badges, and a hover signal-pulse animation.
 - **In-page search**: global Ctrl+K / Cmd+K popup backed by an inline JSON index of all posts (large sites can cap the count with `search.limit` in `_config.yml`).
-- **Optional Twikoo comments**: enable in `_config.yml` with your own deployed backend URL; per-page opt-out via front-matter `comments: false`.
+- **Optional comment system**: top-level `comments: twikoo | artalk` selects between Twikoo and Artalk; leave it empty / remove the field to disable comments entirely. Each system keeps its own config block, and any page can opt out via front-matter `comments: false`.
 - **Optional image lightbox**: enable Fancybox in `_config.yml` and every `<img>` inside `.article-content` on post / standalone pages becomes a Fancybox gallery — click to zoom, arrow keys / swipes to navigate, ESC to close.
+- **Custom HTML injection**: `inject.head` / `inject.bottom` accept arrays of raw HTML strings that are emitted verbatim before `</head>` / `</body>` — drop in extra CSS / JS without touching templates.
 - **Dark mode**: single-class toggle, persisted to `localStorage`; every component has a dark variant.
 - **Configurable footer**: write custom copy with `{year}` / `{name}` (the site's `author`) / `{theme}` (a link back to the theme repo) placeholders; the attribution can be kept or dropped.
-- **Icons via Lucide**: icons are embedded as inline SVG (no network, no font), and every theme icon is driven by the same EJS partial.
+- **Icon set**: Lucide outline icons plus Simple Icons brand glyphs (GitHub / X / YouTube / Bilibili / Steam / Facebook / Instagram / Telegram / Weibo, and more), all embedded as inline SVG and driven by the same EJS partial.
 
 ## Quick Start
 
@@ -98,11 +100,22 @@ menu:                                 # primary nav; string paths are still supp
 profile:                              # rendered in the left sidebar; author name is read from the site _config.yml's `author`
   role: Daily notes
   bio: Likes walking, brewing coffee, and reading a little...
+  # avatar: /images/avatar.png        # avatar image path; leave empty to use the CSS-drawn default
+  avatar_shape: square                # `square` (default) or `circle` (circular mask)
 
-social:                               # label -> URL; icons are resolved by label
+social:                               # key -> URL; icons auto-match by key (case-insensitive)
+  # Built-in: github, twitter, x, mail/email, rss, steam, bilibili,
+  #           youtube, facebook, instagram, telegram, weibo
   GitHub: https://github.com/me
-  Twitter: https://twitter.com/me
+  X: https://x.com/me                 # new Twitter (X) logo
   Email: mailto:hi@example.com
+  # Object form — custom icon / inline SVG
+  # Mastodon:
+  #   url: https://mastodon.social/@me
+  #   icon: send                       # reuse any registered icon name
+  # Zhihu:
+  #   url: https://www.zhihu.com/people/me
+  #   svg: '<path d="..."/>'           # raw SVG children; viewBox 24x24, currentColor
 
 rss:                                  # RSS icon appended to the social links row
   enable: true
@@ -114,6 +127,7 @@ welcome:                              # welcome card (home page left sidebar)
   text: A place to collect small moments that are too quiet for social feeds.
   cta_text: Start reading             # CTA button label at the bottom of the card
   cta_link: archives/                 # CTA button link (passed through url_for)
+  # image: /images/welcome.jpg        # 16:9 custom cover image; leave empty to keep the CSS mountain scene
 
 excerpt_length: 96
 recent_posts: 5                       # also used as the related-post limit on post pages
@@ -134,6 +148,10 @@ footer:                               # HTML allowed; placeholders: {year} / {na
   left: '&copy; {year} {name}'        # {name} is the site _config.yml's `author`
   right: 'Powered by Theme {theme}'   # {theme} renders as a link to the theme repo
 
+note:                                 # {% note %} appearance
+  style: flat                         # flat | simple | modern | disabled
+  icons: true                         # whether to show the circular icon badge
+
 code:
   theme: sand                         # "dark", "sand", or "light"
 
@@ -143,15 +161,29 @@ umami:                                # Umami analytics; no script is injected w
   website_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   domains: example.com,www.example.com # optional; only report on these hostnames
 
-twikoo:                               # optional comment system; no DOM is rendered when disabled
-  enable: false
+comments:                             # Comment system selector: twikoo | artalk (empty / removed = no comments)
+
+twikoo:                               # Twikoo (self-hosted backend)
   envId: https://twikoo.example.com   # Twikoo backend URL
   # cdn: https://cdn.example.com/twikoo.all.min.js  # optional; overrides the default jsDelivr CDN
+
+artalk:                               # Artalk (self-hosted backend)
+  server: https://artalk.example.com  # Artalk backend URL
+  site: 'My Site'                     # site name; must match what's registered on the Artalk backend
+  # cdn_css: https://cdn.example.com/Artalk.css     # optional
+  # cdn_js:  https://cdn.example.com/Artalk.js      # optional
 
 fancybox:                             # image lightbox; assets load only on post / page layouts
   enable: false
   # cdn_css: https://cdn.example.com/fancybox.css     # optional; overrides default jsDelivr CSS
   # cdn_js:  https://cdn.example.com/fancybox.umd.js  # optional; overrides default jsDelivr JS
+
+inject:                               # raw HTML injection (arrays; each entry is emitted verbatim)
+  head:                               # injected before </head>
+    # - <link rel="stylesheet" href="/css/custom.css">
+    # - <script src="/js/extra.js"></script>
+  bottom:                             # injected before </body>
+    # - <script src="/js/late.js" defer></script>
 ```
 
 When Umami is enabled, the following snippet is injected right before `</head>`:
@@ -163,9 +195,14 @@ When Umami is enabled, the following snippet is injected right before `</head>`:
 - `host` only accepts plain `domain` or `domain:port` values (e.g. `analytics.example.com`, `localhost:3000`). A leading `https://` is stripped automatically; anything containing other characters is rejected and no script is injected.
 - `domains` is Umami's built-in **blog-domain allowlist**: the tracker only reports when the visiting page's `hostname` matches an entry, which is the cleanest way to keep `localhost`, ephemeral preview URLs, or sites cloned and redeployed by others out of your stats. The field is optional; both a comma-separated string and a YAML list are accepted.
 
-When Twikoo is enabled, the comments section renders **after the main content of post pages and standalone pages** (about / friends / etc. with `layout: page`); on post pages it sits below the related-posts card. Index pages (home, archives, categories, tags) never show the comment box. You need to deploy a Twikoo backend yourself — see the [Twikoo quick start](https://twikoo.js.org/quick-start.html). Any page can still opt out by adding `comments: false` to its front-matter. On post pages, the reactions footer's "comment" button smooth-scrolls to `#tcomment`; the share button calls `navigator.share` (with a clipboard-copy fallback when the API is unavailable).
+**Comments** are gated by the top-level `comments:` selector: set it to `twikoo` or `artalk` and the corresponding system activates (as long as its required field is filled — `envId` for Twikoo, `server` for Artalk). Leave it empty / remove the field and no comment UI renders. Comments appear **after the main content of post pages and standalone pages** (about / friends / etc. with `layout: page`); index pages (home, archives, categories, tags) never show them. Both systems require a self-hosted backend:
 
-> For site-wide visitor analytics, use the Umami integration documented above. Twikoo does not expose an official pageview API, so the theme does not maintain a per-post visitor counter.
+- Twikoo: see the [Twikoo quick start](https://twikoo.js.org/quick-start.html). Container id is `#tcomment`.
+- Artalk: see the [Artalk deployment guide](https://artalk.js.org/guide/deploy.html). Container id is `#artalk-comments`, initialization goes through `Artalk.init({...})`. `pageKey` defaults to `page.permalink`, `pageTitle` to `page.title`, and `site` must match the site name registered in the Artalk admin.
+
+Any page can still opt out by adding `comments: false` to its front-matter; the comment SDK is also only loaded on content pages, never on index pages. The reactions footer's "comment" button locates whichever container is mounted (Twikoo or Artalk) and smooth-scrolls to it; the share button calls `navigator.share` (with a clipboard-copy fallback when the API is unavailable).
+
+> For site-wide visitor analytics, use the Umami integration documented above. Neither comment system exposes an official pageview API, so the theme does not maintain a per-post visitor counter.
 
 With Fancybox enabled, every `<img>` inside `.article-content` is wrapped client-side in `<a data-fancybox="gallery">`, so **all images on the page automatically share one gallery** — arrow keys / swipes navigate, double-click / wheel zooms, ESC closes. Images already wrapped in `<a>` (e.g. `[![](img)](url)`) are left alone; mark an individual image with `class="no-zoom"` to skip the lightbox. CDN assets are only loaded on post pages and `layout: page` pages — index pages (home / archives / tags / categories) stay lean.
 
@@ -246,6 +283,39 @@ Per-block UI:
 - Language badge on the left, auto-detected from the highlight.js class (for example `figure.highlight.js -> JavaScript`). `plain / plaintext / text / txt / none / raw` resolve to empty and hide the badge.
 - Copy support
 - Collapse support (chevron, rotates 180 degrees)
+
+**Line-number interactions**:
+
+- **Single-click a line number**: toggles a soft yellow highlight on that gutter row and the matching code row. Multiple rows can be highlighted independently; click the same row again to clear it.
+- **Double-click a line number**: copies the matching code line's text to the clipboard and briefly flashes the gutter row green (~500ms).
+- The full row width is the hit target — you don't have to click the digits precisely.
+
+### Avatar and Welcome Card
+
+- `profile.avatar`: an image path under the site `source/` (e.g. `/images/avatar.png`) or an absolute URL; leave it empty to use the CSS-drawn default avatar.
+- `profile.avatar_shape`: `square` (default) renders the avatar with a 10px subtle rounding; `circle` applies a circular mask.
+- `welcome.image`: cover image for the welcome card; setting it switches the container to a 16:9 aspect ratio, flush with the card edge (`overflow: hidden` + 12px top corner radius). Leave empty to keep the default CSS mountain scene.
+
+### Note Block Appearance
+
+`note.style` ships four looks that mirror the equivalent NexT presets:
+
+- **`flat`** (default): left accent strip + soft tinted background, rounded card.
+- **`simple`**: left accent strip + 1px thin border, no background fill.
+- **`modern`**: fully filled rounded box without the left accent strip, paired with a 1px inset border.
+- **`disabled`**: strips all chrome but keeps the `<details>` foldable semantics; the body uses the site's regular prose styling.
+
+`note.icons: true | false` controls whether the circular icon badge appears next to the body / title. With icons off, the body reclaims the icon column and aligns flush with the card padding.
+
+### Custom Injection
+
+`inject.head` / `inject.bottom` are arrays of HTML strings; each entry is emitted verbatim before `</head>` or `</body>`. You can inject:
+
+- Custom CSS: `- <link rel="stylesheet" href="/css/custom.css">`
+- Custom JS: `- <script src="/js/extra.js" defer></script>`
+- Inline `<style>` / `<script>` blocks, third-party SDKs, or any other HTML fragment.
+
+The contents are **not escaped** — they're spliced directly into the page, so only put trusted, self-authored values in there.
 
 ## Custom Tags (Hexo NexT Compatible)
 
