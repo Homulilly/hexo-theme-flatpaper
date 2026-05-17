@@ -45,12 +45,26 @@ var profile = theme.profile || {};
     <p><%= profile.bio || '热爱生活，热爱代码，喜欢分享技术与生活中的点滴。' %></p>
     <div class="socials">
       <% Object.keys(theme.social || {}).forEach(function(name) {
+        var raw = theme.social[name];
+        var entry = (raw && typeof raw === 'object') ? raw : { url: raw };
+        var href = entry.url || entry.href || '';
+        if (!href) { return; }
         var key = name.toLowerCase();
-        var iconMap = { github: 'github', twitter: 'twitter', x: 'twitter', email: 'mail', mail: 'mail', rss: 'rss' };
-        var iconName = iconMap[key] || 'send';
+        var iconMap = {
+          github: 'github', twitter: 'twitter', x: 'x-twitter',
+          email: 'mail', mail: 'mail', rss: 'rss',
+          steam: 'steam', bilibili: 'bilibili', youtube: 'youtube',
+          facebook: 'facebook', instagram: 'instagram',
+          telegram: 'telegram', weibo: 'weibo'
+        };
+        var iconName = entry.icon || iconMap[key] || 'send';
       %>
-        <a href="<%= flatpaper_safe_url(theme.social[name], 'href') %>" target="_blank" rel="noopener" aria-label="<%= name %>">
-          <%- partial('_partial/icons', { icon: iconName }) %>
+        <a href="<%= flatpaper_safe_url(href, 'href') %>" target="_blank" rel="noopener" aria-label="<%= name %>">
+          <% if (entry.svg) { %>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" class="lucide lucide-custom" aria-hidden="true"><%- entry.svg %></svg>
+          <% } else { %>
+            <%- partial('_partial/icons', { icon: iconName }) %>
+          <% } %>
         </a>
       <% }) %>
       <% if (theme.rss && theme.rss.enable) { %>
