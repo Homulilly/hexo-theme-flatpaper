@@ -581,15 +581,17 @@
   });
 
   // ---- Reactions footer: comment / share buttons ----
-  // Comment button jumps to #tcomment when Twikoo is mounted on the page;
-  // share button uses the Web Share API, falling back to clipboard copy.
-  // Heart button has no behavior — kept as a decorative placeholder.
+  // Comment button scrolls to whichever comment system is mounted (Twikoo /
+  // Artalk), falling back to the wrapping .comments-section. Share button
+  // uses the Web Share API and falls back to clipboard copy.
   document.addEventListener('click', function (e) {
     var btn = e.target.closest && e.target.closest('[data-action]');
     if (!btn) return;
     var action = btn.getAttribute('data-action');
     if (action === 'scroll-to-comments') {
-      var anchor = document.getElementById('tcomment');
+      var anchor = document.getElementById('tcomment')
+                || document.getElementById('artalk-comments')
+                || document.querySelector('.comments-section');
       if (anchor) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else if (action === 'share') {
       var data = { title: document.title, url: location.href };

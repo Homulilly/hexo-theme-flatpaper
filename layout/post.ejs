@@ -64,11 +64,7 @@ var relatedPosts = allPosts
 
   <footer class="article-reactions">
     <div class="reaction-group">
-      <button type="button" class="reaction reaction--like" aria-label="喜欢">
-        <%- partial('_partial/icons', { icon: 'heart' }) %>
-      </button>
-      <span class="reaction-label">Like</span>
-      <button type="button" class="reaction reaction--comment" aria-label="评论" data-action="scroll-to-comments">
+      <button type="button" class="reaction reaction--comment" aria-label="跳转到评论区" data-action="scroll-to-comments">
         <%- partial('_partial/icons', { icon: 'message-circle' }) %>
       </button>
       <span class="reaction-label">评论</span>
