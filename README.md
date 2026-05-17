@@ -1,49 +1,42 @@
 # FlatPaper
 
-FlatPaper 是一个受扁平插画与纸质卡片启发的 Hexo 主题，包含虚线描边、便签、胶带条以及柔和低对比度的阅读界面。主题基于模块化 Stylus partial、小量 EJS 模板层构建，没有运行时依赖。
+A Hexo theme inspired by flat illustrations and paper cards — dashed outlines, sticky notes, tape strips, and a soft, low-contrast reading interface. Built on modular Stylus partials and a small EJS template layer, with no runtime dependencies.
 
-**[Demo 站点](https://flatpaper.nep.me/)** · **[预览：Aroes's blog](https://homulilly.com/)**
+**[Live demo](https://flatpaper.nep.me/)** · **[Author's blog](https://homulilly.com/)**
 
-![preview](preview/home.webp)
+## Document
 
-## 亮点
+Documentation is available in multiple languages:  
+- **中文** — [README_zh.md](README_zh.md)
 
-- **自适应布局**：首页 / 列表页为三栏，文章页为两栏，窄屏下切换为单栏抽屉模式。
-- **TOC 粘性**：文章页 TOC 卡片会在整篇文章范围内保持粘性；首页 / 列表页侧栏跟随页面正常滚动。
-- **精选轮播**：可在 `_config.yml` 中置顶最多四篇文章，自动轮播并支持悬停暂停。
-- **封面图**：读取 `post.cover` / `thumbnail` / `image` / `banner` / 第一张正文内联 `<img>`；没有图片时回退到 CSS 场景。
-- **个人资料 / 欢迎卡可个性化**：`profile.avatar_shape` 支持 `square` / `circle` 头像遮罩；`welcome.image` 可换上自定义 16:9 封面图替代默认 CSS 山景。
-- **macOS 风格代码块**：语言徽标（自动检测，纯文本隐藏）、复制和折叠按钮；支持 `dark` / `sand` / `light` 代码主题。**行号交互**：单击行号高亮对应行，双击复制该行内容。
-- **兼容 Hexo NexT 标签**：`{% note %}`（6 种颜色 × 4 种外观风格 `flat / simple / modern / disabled`，可折叠）和 `{% tabs %}`（支持折叠模式）；note 同时支持 VitePress 风格的 `::: type [title] ... :::` 容器语法。
-- **通过 `type:` 路由页面**：在 front-matter 中设置 `type: link | tags | categories` 即可路由到自定义布局（更常见的 `layout:` 字段仍然可用）。
-- **友链页**：`/links/` 支持分组卡片、头像回退、单链接 RSS 徽标，以及悬停时的信号脉冲动画。
-- **页内搜索**：全局 Ctrl+K / Cmd+K 弹窗，基于所有文章的内联 JSON 索引（大型站点可通过 `_config.yml` 中的 `search.limit` 限制数量）。
-- **可选评论系统**：顶层 `comments: twikoo | artalk` 切换 Twikoo 或 Artalk；填空 / 删除则不启用。每个系统的配置块独立存在，单页可在 front-matter 写 `comments: false` 关闭。
-- **可选图片灯箱**：开启后，文章页与独立页面 `.article-content` 内的图片自动接入 Fancybox 灯箱，支持点击放大、左右键 / 滑动切换、ESC 关闭；同页所有图共属一个 gallery。
-- **自定义 HTML 注入**：`inject.head` / `inject.bottom` 接收原样 HTML 数组，分别注入到 `</head>` / `</body>` 前，方便接入自定义 CSS / JS。
-- **深色模式**：单 class 切换，状态持久化到 `localStorage`；每个组件都有深色变体。
-- **可配置页脚**：可用 `{year}` / `{name}`（取站点 `author`）/ `{theme}`（渲染为指向主题仓库的署名链接）占位符编写自定义文案；署名可自由保留或删除。
-- **图标库**：Lucide 线条图标 + Simple Icons 品牌徽标（GitHub / X / YouTube / Bilibili / Steam / Facebook / Instagram / Telegram / Weibo 等），全部以内联 SVG 嵌入，由同一个 EJS partial 驱动。
+## Live Preview
 
-## 快速开始
+| Light mode | Dark mode |
+| --- | --- |
+| ![home light](preview/home.webp) | ![home dark](preview/home-dark.webp) |
+
+- Live demo: <https://flatpaper.nep.me/>
+- Author's blog: <https://homulilly.com/>
+
+## Installation
 
 ```bash
-# 在你的 Hexo 站点内
+# inside your Hexo site
 git clone https://github.com/Homulilly/hexo-theme-flatpaper.git themes/flatpaper
-# 或者直接复制该文件夹
+# or copy this folder directly
 
-# 在 <site>/_config.yml 中启用
+# enable it in <site>/_config.yml
 theme: flatpaper
 
-# 复制并编辑主题配置
+# copy and edit the theme config
 cp themes/flatpaper/_config.yml _config.flatpaper.yml
 
 hexo g && hexo s
 ```
 
-打开 <http://localhost:4000>。
+Open <http://localhost:4000>.
 
-建议在**站点** 的 `_config.yml` 中设置分页：
+Recommended pagination settings in the **site** `_config.yml`:
 
 ```yaml
 index_generator:
@@ -53,13 +46,14 @@ index_generator:
 per_page: 10
 ```
 
-如果希望启用 RSS feed:
+To enable an RSS feed:
+
 ```bash
 pnpm add hexo-generator-feed
 ```
 
 ```yaml
-# 站点 _config.yml
+# site _config.yml
 feed:
   enable: true
   type: atom
@@ -68,391 +62,406 @@ feed:
   content: true
 ```
 
-## 主题配置
+## Configuration
 
-所有选项都位于 `themes/flatpaper/_config.yml`。
-正确做法是在编辑前将它复制为 `<site>/_config.flatpaper.yml`。
+All options live in `themes/flatpaper/_config.yml`. Copy it to `<site>/_config.flatpaper.yml` before editing.
 
-> 站点名称（header 中的品牌文字）与 `<meta name="description">` 直接取自 Hexo 站点 `_config.yml` 的 `title` 与 `description`，主题不再重复配置。
+> The site name (brand text in the header) and `<meta name="description">` are read directly from the Hexo site `_config.yml` (`title` and `description`); the theme no longer duplicates them.
 
 ```yaml
-menu:                                 # 主导航；仍支持字符串路径写法
-  首页:
+menu:                                 # primary nav; string paths are still supported
+  Home:
     path: /
     icon: home
-  归档:
+  Archives:
     path: /archives/
     icon: archive
-  友链:
+  Links:
     path: /links/
     icon: link
-  分类:
+  Categories:
     path: /categories/
     icon: folder
-  标签:
+  Tags:
     path: /tags/
     icon: tag
-  关于:
+  About:
     path: /about/
     icon: user
 
-profile:                              # 渲染在左侧栏；作者名直接取站点 _config.yml 的 author
-  role: 日常记录
-  bio: 喜欢散步、煮咖啡、看一点书...
-  # avatar: /images/avatar.png        # 头像图片路径；留空则使用 CSS 绘制的默认头像
-  avatar_shape: square                # square（默认，方形）或 circle（圆形遮罩）
+profile:                              # rendered in the left sidebar; author name is read from the site _config.yml's `author`
+  role: Daily notes
+  bio: Likes walking, brewing coffee, and reading a little...
+  # avatar: /images/avatar.png        # avatar image path; leave empty to use the CSS-drawn default
+  avatar_shape: square                # `square` (default) or `circle` (circular mask)
 
-social:                               # 键 -> URL，图标按键名自动匹配（大小写不敏感）
-  # 内置：github, twitter, x, mail/email, rss, steam, bilibili,
-  #       youtube, facebook, instagram, telegram, weibo
+social:                               # key -> URL; icons auto-match by key (case-insensitive)
+  # Built-in: github, twitter, x, mail/email, rss, steam, bilibili,
+  #           youtube, facebook, instagram, telegram, weibo
   GitHub: https://github.com/me
-  X: https://x.com/me                 # 新 Twitter (X) Logo
+  X: https://x.com/me                 # new Twitter (X) logo
   Email: mailto:hi@example.com
-  # 对象写法 — 自定义图标 / SVG
+  # Object form — custom icon / inline SVG
   # Mastodon:
   #   url: https://mastodon.social/@me
-  #   icon: send                       # 复用任意已注册图标名
-  # 知乎:
+  #   icon: send                       # reuse any registered icon name
+  # Zhihu:
   #   url: https://www.zhihu.com/people/me
-  #   svg: '<path d="..."/>'           # 任意 SVG 子元素；视图框 24x24，颜色 currentColor
+  #   svg: '<path d="..."/>'           # raw SVG children; viewBox 24x24, currentColor
 
-rss:                                  # 追加到社交链接行的 RSS 图标
+rss:                                  # RSS icon appended to the social links row
   enable: true
   path: atom.xml
 
-welcome:                              # 欢迎卡片（首页左侧栏）
-  label: 今日份记录
-  title: 把日子，慢慢写下来
-  text: 在这里随手收集那些不值得发朋友圈的小事。
-  cta_text: 开始阅读                  # 卡片底部按钮文字
-  cta_link: archives/                 # 卡片底部按钮链接（经 url_for 处理）
-  # image: /images/welcome.jpg        # 16:9 自定义封面图；留空使用 CSS 山景
+welcome:                              # welcome card (home page left sidebar)
+  label: Today's note
+  title: Write the days down slowly
+  text: A place to collect small moments that are too quiet for social feeds.
+  cta_text: Start reading             # CTA button label at the bottom of the card
+  cta_link: archives/                 # CTA button link (passed through url_for)
+  # image: /images/welcome.jpg        # 16:9 custom cover image; leave empty to keep the CSS mountain scene
 
 excerpt_length: 96
-recent_posts: 5                       # 也用作文章页相关文章数量上限
-related_posts: 4                      # 如果需要，可只覆盖"相关文章"数量；0 表示禁用整块
+recent_posts: 5                       # also used as the related-post limit on post pages
+related_posts: 4                      # override only the related-post count if needed; 0 disables the block
 
 tags:
-  style: tape                         # "tape" 或 "pill"
+  style: tape                         # "tape" or "pill"
 
-featured:                             # 首页最多 4 篇置顶文章
-  - hello-world                       # slug / 完整路径 / 最后一段路径 / 标题
+featured:                             # up to 4 pinned posts on the home page
+  - hello-world                       # slug / full path / last path segment / title
   - flatpaper-design-notes
-featured_autoplay: 5000               # 毫秒；0 表示禁用
+featured_autoplay: 5000               # milliseconds; 0 disables it
 
 tape:
-  enable: true                        # false 会隐藏所有胶带装饰
+  enable: true                        # false hides all tape decorations
 
-footer:                               # 允许 HTML；占位符：{year} / {name} / {theme}
-  left: '© {year} {name}'             # {name} 取站点 _config.yml 的 author
-  right: 'Powered by Theme {theme}'   # {theme} 渲染为指向主题仓库的署名链接
+footer:                               # HTML allowed; placeholders: {year} / {name} / {theme}
+  left: '&copy; {year} {name}'        # {name} is the site _config.yml's `author`
+  right: 'Powered by Theme {theme}'   # {theme} renders as a link to the theme repo
 
-note:                                 # {% note %} 提示块外观
+note:                                 # {% note %} appearance
   style: flat                         # flat | simple | modern | disabled
-  icons: true                         # 是否显示左侧圆形图标徽章
+  icons: true                         # whether to show the circular icon badge
 
 code:
-  theme: sand                         # "dark"、"sand" 或 "light"
+  theme: sand                         # "dark", "sand", or "light"
 
-umami:                                # Umami 网站统计；关闭时不注入任何脚本
+umami:                                # Umami analytics; no script is injected when disabled
   enable: false
-  host: analytics.example.com         # Umami 服务的域名（不含协议、不含路径）
+  host: analytics.example.com         # Umami service domain (no scheme, no path)
   website_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-  domains: example.com,www.example.com # 可选；仅在这些域名下上报
+  domains: example.com,www.example.com # optional; only report on these hostnames
 
-comments:                             # 评论系统选择： twikoo | artalk （留空 / 删除则不启用评论区）
+comments:                             # Comment system selector: twikoo | artalk (empty / removed = no comments)
 
-twikoo:                               # Twikoo（自部署后端）
-  envId: https://twikoo.example.com   # Twikoo 后端 URL
-  # cdn: https://cdn.example.com/twikoo.all.min.js  # 可选；覆盖默认 jsDelivr CDN
+twikoo:                               # Twikoo (self-hosted backend)
+  envId: https://twikoo.example.com   # Twikoo backend URL
+  # cdn: https://cdn.example.com/twikoo.all.min.js  # optional; overrides the default jsDelivr CDN
 
-artalk:                               # Artalk（自部署后端）
-  server: https://artalk.example.com  # Artalk 后端 URL
-  site: '站点名'                       # 站点名（需与 Artalk 后台已注册的一致）
-  # cdn_css: https://cdn.example.com/Artalk.css   # 可选
-  # cdn_js:  https://cdn.example.com/Artalk.js    # 可选
+artalk:                               # Artalk (self-hosted backend)
+  server: https://artalk.example.com  # Artalk backend URL
+  site: 'My Site'                     # site name; must match what's registered on the Artalk backend
+  # cdn_css: https://cdn.example.com/Artalk.css     # optional
+  # cdn_js:  https://cdn.example.com/Artalk.js      # optional
 
-fancybox:                             # 图片灯箱；仅文章页与 layout: page 的页面加载
+fancybox:                             # image lightbox; assets load only on post / page layouts
   enable: false
-  # cdn_css: https://cdn.example.com/fancybox.css  # 可选；覆盖默认 jsDelivr CSS
-  # cdn_js:  https://cdn.example.com/fancybox.umd.js # 可选；覆盖默认 jsDelivr JS
+  # cdn_css: https://cdn.example.com/fancybox.css     # optional; overrides default jsDelivr CSS
+  # cdn_js:  https://cdn.example.com/fancybox.umd.js  # optional; overrides default jsDelivr JS
 
-inject:                               # 自定义 HTML 注入（数组，每个条目原样输出）
-  head:                               # 注入到 </head> 之前
+inject:                               # raw HTML injection (arrays; each entry is emitted verbatim)
+  head:                               # injected before </head>
     # - <link rel="stylesheet" href="/css/custom.css">
     # - <script src="/js/extra.js"></script>
-  bottom:                             # 注入到 </body> 之前
+  bottom:                             # injected before </body>
     # - <script src="/js/late.js" defer></script>
 ```
 
-启用 Umami 后，会在每个页面 `</head>` 之前注入：
+When Umami is enabled, the following snippet is injected right before `</head>`:
 
 ```html
 <script defer src="https://<host>/script.js" data-website-id="<website_id>" data-domains="..."></script>
 ```
 
-- `host` 仅接受形如 `analytics.example.com` 或 `localhost:3000` 的纯域名 / 域名+端口；带协议的写法（`https://...`）会被自动清洗，其他特殊字符会被拒绝，脚本不会注入。
-- `domains` 是 Umami 自带的**博客域名白名单**：只有当访客打开的页面 `hostname` 在列表里时 tracker 才会上报，用来排除 `localhost`、临时预览域名、或别人 clone 部署到自己域名的情况。字段可省略；可写成逗号分隔的字符串或 YAML 列表。
+- `host` only accepts plain `domain` or `domain:port` values (e.g. `analytics.example.com`, `localhost:3000`). A leading `https://` is stripped automatically; anything containing other characters is rejected and no script is injected.
+- `domains` is Umami's built-in **blog-domain allowlist**: the tracker only reports when the visiting page's `hostname` matches an entry. The field is optional; both a comma-separated string and a YAML list are accepted.
 
-**评论系统**通过顶层 `comments:` 选择器开启：写入 `twikoo` 或 `artalk` 即启用对应系统（前提是该系统的必填字段也已填写——Twikoo 是 `envId`，Artalk 是 `server`）；留空 / 删除则不渲染评论区。评论会在**文章页**与**独立页面**（about / 友链等 `layout: page`）的正文之后渲染；索引页（首页 / 归档 / 分类 / 标签）始终不渲染评论。两种系统都需要自行部署后端：
+**Comments** are gated by the top-level `comments:` selector: set it to `twikoo` or `artalk` and the corresponding system activates (as long as its required field is filled — `envId` for Twikoo, `server` for Artalk). Leave it empty / remove the field and no comment UI renders. Comments appear **after the main content of post pages and standalone pages** (about / friends / etc. with `layout: page`); index pages (home, archives, categories, tags) never show them. Both systems require a self-hosted backend:
 
-- Twikoo：参考 [Twikoo 快速开始](https://twikoo.js.org/quick-start.html)。容器 id 为 `#tcomment`。
-- Artalk：参考 [Artalk 部署文档](https://artalk.js.org/guide/deploy.html)。容器 id 为 `#artalk-comments`，初始化通过 `Artalk.init({...})` 调用，`pageKey` 默认使用 `page.permalink`，`pageTitle` 用 `page.title`，`site` 字段需与 Artalk 后台已注册的站点名一致。
+- Twikoo: see the [Twikoo quick start](https://twikoo.js.org/quick-start.html). Container id is `#tcomment`.
+- Artalk: see the [Artalk deployment guide](https://artalk.js.org/guide/deploy.html). Container id is `#artalk-comments`, initialization goes through `Artalk.init({...})`. `pageKey` defaults to `page.permalink`, `pageTitle` to `page.title`, and `site` must match the site name registered in the Artalk admin.
 
-任意页面都可以在 front-matter 写 `comments: false` 单独关闭；评论 SDK 也只在内容页加载，不会出现在首页等列表页。文章页 reactions 行的"评论"图标按钮会自动定位到当前评论系统的容器（Twikoo / Artalk 两种 id 都识别）做平滑滚动；分享按钮调用 `navigator.share`（不支持时复制 URL 到剪贴板）。
+Any page can still opt out by adding `comments: false` to its front-matter; the comment SDK is also only loaded on content pages, never on index pages. The reactions footer's "comment" button locates whichever container is mounted (Twikoo or Artalk) and smooth-scrolls to it; the share button calls `navigator.share` (with a clipboard-copy fallback when the API is unavailable).
 
-> 站点访问统计请使用上面已介绍的 Umami 后台 —— 评论系统不提供官方的 pageview API，不在主题里维护文章访问计数。
+> For site-wide visitor analytics, use the Umami integration documented above. Neither comment system exposes an official pageview API, so the theme does not maintain a per-post visitor counter.
 
-启用 Fancybox 后，`.article-content` 内所有 `<img>` 会在浏览器里自动用 `<a data-fancybox="gallery">` 包裹，因此**同页全部图片自动归入同一个 gallery**，灯箱内可用左右键 / 滑动手势翻图、ESC 关闭、双击 / 滚轮缩放。已经被作者主动包成 `<a>` 链接（如 `[![](img)](url)`）的图片不会被二次包裹；某张图想完全跳过灯箱可以加 `class="no-zoom"`。CDN 加载仅在文章页与 `layout: page` 的页面发生，列表页（首页 / 归档 / 标签 / 分类）不引入。
+With Fancybox enabled, every `<img>` inside `.article-content` is wrapped client-side in `<a data-fancybox="gallery">`, so **all images on the page automatically share one gallery** — arrow keys / swipes navigate, double-click / wheel zooms, ESC closes. Images already wrapped in `<a>` (e.g. `[![](img)](url)`) are left alone; mark an individual image with `class="no-zoom"` to skip the lightbox. CDN assets are only loaded on post pages and `layout: page` pages — index pages (home / archives / tags / categories) stay lean.
 
-### UI 选项与当前默认值
+### UI Options and Current Defaults
 
-- `menu` 格式，图标通过 `layout/_partial/icons.ejs` 解析。
+- `menu` format, with icons resolved by `layout/_partial/icons.ejs`.
+
 ```yml
-# 写法一
-# 这里 首页 是显示文字，/ 是链接路径。  
-  menu:
-    首页: /
-    归档: /archives/
-    关于: /about/
- 
-# 写法二
-  menu:
-    - path: /
-      label: 首页
-      icon: home
+# Form 1
+# Here Home is the display text, and / is the link path.
+menu:
+  Home: /
+  Archives: /archives/
+  About: /about/
 
-    - path: /archives/
-      name: 归档
-      icon: archive
+# Form 2
+menu:
+  - path: /
+    label: Home
+    icon: home
+
+  - path: /archives/
+    name: Archives
+    icon: archive
 ```
 
-- 滚动时可能移动的内部分隔线尽量使用原生 `1px dashed` 边框；外层纸张 / 卡片描边保持 `2px dashed`。
-- `tags.style` 全局控制标签 chip：`tape` 使用轻微旋转的小胶带条，`pill` 使用圆角胶囊外观。
-- 首页和文章交互元素统一使用 Lucide 图标：最新文章、相关文章、顶部导航链接以及“查看更多”箭头都通过共享图标 partial 渲染。
-- `code.theme` 支持 `dark`、`sand` 和 `light`。`sand` 是暖色奶油代码主题；`light` 是白色代码主题。
+- Internal separators that may move while scrolling use native `1px dashed` borders where possible; outer paper / card outlines stay `2px dashed`.
+- `tags.style` controls tag chips globally: `tape` uses lightly rotated small tape strips, while `pill` uses rounded capsules.
+- Home and post interaction elements consistently use Lucide icons: latest posts, related posts, top navigation links, and "view more" arrows all render through the shared icon partial.
+- `code.theme` supports `dark`, `sand`, and `light`. `sand` is the warm cream code theme; `light` is the white code theme.
 
-### 精选轮播
+### Featured Carousel
 
-- `featured` 接受文章 slug、完整 permalink 路径、最后一段路径或精确标题。匹配不区分大小写。
-- 只在首页分页的**第 1 页**渲染。
-- 1 篇文章渲染为单张静态卡片。2–4 篇文章渲染为轮播，包含箭头、圆点指示器、键盘方向键和悬停 / 聚焦暂停的自动轮播。
+- `featured` accepts post slugs, full permalink paths, the last path segment, or exact titles. Matching is case-insensitive.
+- It renders only on **page 1** of the home pagination.
+- 1 post renders as a single static card. 2-4 posts render as a carousel with arrows, dot indicators, keyboard arrow support, and autoplay that pauses on hover / focus.
 
-### 封面图
+### Cover Images
 
 ```yaml
 ---
-title: 周末散步
+title: Weekend Walk
 date: 2026-05-16
-cover: /images/walk.jpg               # 或绝对 URL
+cover: /images/walk.jpg               # or an absolute URL
 ---
 ```
 
-解析顺序为：`cover` → `thumbnail` → `image` → `banner` → 渲染正文中的第一张内联 `<img>`，第一个命中项生效。都没有时，回退到 CSS 场景（太阳 + 云 + 山 / 电脑 / 相机）。
+Resolution order: `cover` -> `thumbnail` -> `image` -> `banner` -> the first inline `<img>` in the rendered body. The first match wins. If none exist, the theme falls back to a CSS scene (sun + clouds + mountains / computer / camera).
 
-图片使用 `object-fit: cover; object-position: 50% 50%`，宽图会保留可见的垂直中心线。
+Images use `object-fit: cover; object-position: 50% 50%`, so wide images keep the visible vertical centerline.
 
-### 相关文章
+### Related Posts
 
-文章页会在正文下方自动追加一个**独立的“相关文章”卡片**。评分函数：
+Post pages automatically append a **standalone "Related Posts" card** below the article. Scoring:
 
-- 每个相同分类 +3
-- 每个相同标签 +2
-- 0 分文章会被完全排除；没有相关文章时，该卡片不会渲染
-- 分数相同时，较新的文章优先
+- Each shared category +3
+- Each shared tag +2
+- Posts with a 0 score are excluded entirely; when no related posts exist, the card does not render
+- When scores tie, newer posts win
 
-设置 `related_posts`（或回退到 `recent_posts`）可控制展示卡片数量。将 `related_posts` 显式设为 `0` 可完全禁用该模块（整块卡片不渲染）。
+Set `related_posts` (or fall back to `recent_posts`) to control how many cards are shown. Set `related_posts: 0` explicitly to disable the entire block (the card stops rendering).
 
-### 搜索
+### Search
 
-点击 header 中的放大镜按钮，或在任意位置按 **Ctrl + K / Cmd + K**。按 **Esc** 关闭。结果会基于最近 120 篇文章的内联 JSON 索引（标题 + 200 字符摘要）进行过滤。关键词会用 `<mark>` 高亮。
+Click the magnifier button in the header, or press **Ctrl + K / Cmd + K** anywhere. Press **Esc** to close. Results are filtered from an inline JSON index of the most recent 120 posts (title + 200-character excerpt). Keywords are highlighted with `<mark>`.
 
-### 深色模式
+### Dark Mode
 
-Header 中的圆形切换按钮会将状态存储到 `localStorage['flatpaper-mode']`。切换按钮会在绘制前读取已存储状态，以避免 FOUC 闪烁。
+The circular toggle button in the header stores state in `localStorage['flatpaper-mode']`. The toggle reads the stored state before paint to avoid FOUC.
 
-### 代码块主题
+### Code Block Theme
 
-`code.theme` 接受 `dark`、`sand` 或 `light`。`sand` 是奶油 / 浅色代码主题；`light` 是白色代码主题。该值会写入 `<body data-code-theme="...">`，一个 CSS scope 会覆盖所有代码块。
+`code.theme` accepts `dark`, `sand`, or `light`. `sand` is the cream / light code theme; `light` is the white code theme. The value is written to `<body data-code-theme="...">`, and a CSS scope covers all code blocks.
 
-单个代码块 UI：
+Per-block UI:
 
-- macOS 风格标题栏，包含三个彩色圆点
-- 左侧语言徽标，会从 highlight.js class 自动检测（例如 `figure.highlight.js → JavaScript`）。`plain / plaintext / text / txt / none / raw` 会解析为空并隐藏徽标。
-- 支持复制
-- 支持折叠（chevron，旋转 180°）
+- macOS-style title bar with three colored dots
+- Language badge on the left, auto-detected from the highlight.js class (for example `figure.highlight.js -> JavaScript`). `plain / plaintext / text / txt / none / raw` resolve to empty and hide the badge.
+- Copy support
+- Collapse support (chevron, rotates 180 degrees)
 
-**行号交互**：
+**Line-number interactions**:
 
-- **单击行号**：高亮对应行（行号 + 代码行同时加上淡黄色背景），可独立点击多行，再次单击同一行号取消高亮。
-- **双击行号**：把对应代码行的文本写入剪贴板，行号闪绿色 ~500ms 表示已复制。
-- 整行行号都是热区，不需要精确点中数字。
+- **Single-click a line number**: toggles a soft yellow highlight on that gutter row and the matching code row. Multiple rows can be highlighted independently; click the same row again to clear it.
+- **Double-click a line number**: copies the matching code line's text to the clipboard and briefly flashes the gutter row green (~500ms).
+- The full row width is the hit target — you don't have to click the digits precisely.
 
-### 头像与欢迎卡
+### Avatar and Welcome Card
 
-- `profile.avatar`：站点 `source/` 下的图片路径（如 `/images/avatar.png`），或绝对 URL；留空则使用 CSS 绘制的默认头像。
-- `profile.avatar_shape`：`square`（默认）按 10px 微圆角的方形呈现；`circle` 应用圆形遮罩。
-- `welcome.image`：欢迎卡封面图；填值后容器变成 16:9 自适应比例并贴卡片内边沿（`overflow: hidden` + 顶部 12px 圆角）。留空则保留默认 CSS 山景动画。
+- `profile.avatar`: an image path under the site `source/` (e.g. `/images/avatar.png`) or an absolute URL; leave it empty to use the CSS-drawn default avatar.
+- `profile.avatar_shape`: `square` (default) renders the avatar with a 10px subtle rounding; `circle` applies a circular mask.
+- `welcome.image`: cover image for the welcome card; setting it switches the container to a 16:9 aspect ratio, flush with the card edge (`overflow: hidden` + 12px top corner radius). Leave empty to keep the default CSS mountain scene.
 
-### Note 提示块外观
+### Note Block Appearance
 
-`note.style` 支持四种风格，与 NexT 主题的对应外观一致：
+`note.style` ships four looks that mirror the equivalent NexT presets:
 
-- **`flat`**（默认）：左侧实色条 + 淡背景填充，圆角卡片。
-- **`simple`**：左侧实色条 + 1px 细边框，无背景填充。
-- **`modern`**：完全填充的圆角盒，无左侧条，搭配 1px inset 边框。
-- **`disabled`**：去掉所有装饰但保留 `<details>` 折叠语义，正文用站点正文样式。
+- **`flat`** (default): left accent strip + soft tinted background, rounded card.
+- **`simple`**: left accent strip + 1px thin border, no background fill.
+- **`modern`**: fully filled rounded box without the left accent strip, paired with a 1px inset border.
+- **`disabled`**: strips all chrome but keeps the `<details>` foldable semantics; the body uses the site's regular prose styling.
 
-`note.icons: true | false` 控制是否在内容/标题前显示圆形图标徽章；关闭后正文会回收图标列，左对齐贴齐 padding。
+`note.icons: true | false` controls whether the circular icon badge appears next to the body / title. With icons off, the body reclaims the icon column and aligns flush with the card padding.
 
-### 自定义注入
+### Custom Injection
 
-`inject.head` / `inject.bottom` 是字符串数组，每个条目原样输出到 `</head>` 或 `</body>` 之前。可以注入：
+`inject.head` / `inject.bottom` are arrays of HTML strings; each entry is emitted verbatim before `</head>` or `</body>`. You can inject:
 
-- 自定义 CSS：`- <link rel="stylesheet" href="/css/custom.css">`
-- 自定义 JS：`- <script src="/js/extra.js" defer></script>`
-- 内联 `<style>` / `<script>` 块、第三方 SDK 等任意 HTML 片段。
+- Custom CSS: `- <link rel="stylesheet" href="/css/custom.css">`
+- Custom JS: `- <script src="/js/extra.js" defer></script>`
+- Inline `<style>` / `<script>` blocks, third-party SDKs, or any other HTML fragment.
 
-注入内容**不会被转义**，等于把你的配置直接拼进页面，所以只能放可信内容。
+The contents are **not escaped** — they're spliced directly into the page, so only put trusted, self-authored values in there.
 
-## 自定义标签（兼容 Hexo NexT）
+## Highlights
+
+- **Adaptive layout**: three columns on home / list pages, two columns on post pages, single-column drawer mode on narrow screens.
+- **Sticky TOC**: the post-page TOC card stays sticky across the full article range; home / list page sidebars scroll normally with the page.
+- **Featured carousel**: pin up to four posts in `_config.yml`, with automatic rotation and hover-to-pause support.
+- **Cover images**: resolves `cover` / `thumbnail` / `image` / `banner` / first inline `<img>`; falls back to a CSS-drawn scene when no image exists.
+- **Personalize profile / welcome card**: `profile.avatar_shape` toggles between `square` and `circle` masks; `welcome.image` swaps the CSS mountain scene for a custom 16:9 cover image.
+- **macOS-style code blocks**: language badge (auto-detected), copy / collapse buttons, and `dark` / `sand` / `light` themes. Single-click a line number to highlight that line; double-click to copy it.
+- **Hexo NexT-compatible tags**: `{% note %}` (6 colors × 4 visual styles `flat / simple / modern / disabled`, foldable) and `{% tabs %}` (with collapsible mode); also accepts the VitePress-style `::: type [title] ... :::` container syntax.
+- **Pages routed by `type:`**: set `type: link | tags | categories` in front-matter to route to a custom layout.
+- **Friends page**: grouped cards, avatar fallback, per-link RSS badges, and a hover signal-pulse animation.
+- **In-page search**: global Ctrl+K / Cmd+K popup backed by an inline JSON index of all posts.
+- **Optional comment system**: top-level `comments: twikoo | artalk` selects Twikoo or Artalk; any page can opt out via front-matter `comments: false`.
+- **Dark mode**: single-class toggle, persisted to `localStorage`; every component has a dark variant.
+
+## Custom Tags (Hexo NexT Compatible)
 
 ### `{% note %}`
 
 ```
 {% note success %}
-  一个 Success 提示
+  A success note
 {% endnote %}
 
-{% note warning 注意事项 %}
-  提供标题时，note 会渲染为可折叠的 <details>。
+{% note warning Notice %}
+  When a title is provided, the note renders as a foldable <details>.
 {% endnote %}
 ```
 
-支持类型：`default · primary · success · info · warning · danger`。添加标题会将 note 变成可折叠 disclosure（原生 `<details>`，无需 JS）。
+Supported types: `default`, `primary`, `success`, `info`, `warning`, `danger`. Adding a title turns the note into a foldable disclosure (native `<details>`, no JS needed).
 
-也可以使用 VitePress 风格的容器语法，与上面的标签**完全等价**：
+You can also use the VitePress-style container syntax, which is **fully equivalent** to the tag above:
 
 ```
 ::: success
-一个 Success 提示
+A success note
 :::
 
-::: warning 注意事项
-提供标题时，note 会渲染为可折叠的 <details>。
+::: warning Notice
+When a title is provided, the note renders as a foldable <details>.
 :::
 ```
 
-`:::` 改写发生在 `before_post_render`，代码块内的 `:::`（fenced ``` / ~~~ / 4 空格缩进）会被完整保留、不会误触发。两种语法可以在同一篇文章里混用。
+The `:::` rewrite happens at `before_post_render`, and any `:::` inside fenced (``` / ~~~) or 4-space-indented code is preserved verbatim. Both syntaxes can be mixed freely within a single post.
 
 ### `{% tabs %}`
 
 ```
-{% tabs 标签, 1 %}
+{% tabs Tab, 1 %}
 <!-- tab -->
-**选项卡 1**
+**Tab 1**
 <!-- endtab -->
-<!-- tab 自定义名 -->
-内容…
+<!-- tab Custom name -->
+Content...
 <!-- endtab -->
 {% endtabs %}
 ```
 
-- 第一个参数：当单个 tab 没有提供名称时使用的基础名称（`标签 1`、`标签 2`、…）。
-- 第二个参数：从 1 开始的默认 tab 索引。使用 **`-1`** 进入折叠模式：所有 tab 初始关闭，点击展开，再次点击折叠。
+- First argument: base name used when an individual tab does not provide one (`Tab 1`, `Tab 2`, ...).
+- Second argument: 1-based default tab index. Use **`-1`** for collapsed mode: all tabs start closed, click to expand, and click again to collapse.
 
-## 特殊页面
+## Special Pages
 
-Front-matter `type:` 会将 `source/<dir>/index.md` 路由到自定义布局（原始 `layout:` 仍可作为 fallback 使用）：
+Front-matter `type:` routes `source/<dir>/index.md` to a custom layout (the original `layout:` still works as a fallback):
 
 ```yaml
 ---
-title: 友情链接
-type: links            # 或：tags、categories
+title: Links
+type: links            # or: tags, categories
 ---
 ```
 
-识别值：`links` · `tags` · `categories`。其他值 / 缺失值 → 默认页面布局。
+Recognized values: `links`, `tags`, `categories`. Anything else / missing value -> default page layout.
 
-### 友链页（`type: links`）
+### Friends Page (`type: links`)
 
-数据位于 `source/_data/links.yml`。支持多个分组：
+Data lives in `source/_data/links.yml`. Multiple groups are supported:
 
 ```yaml
 - class_name: DEMO
-  class_desc: 常见开发与文档网站链接示例，用于测试友链卡片展示效果。
+  class_desc: Example links to common development and documentation sites, used to test friend-link card rendering.
   flink_style: demo
   link_list:
     - name: GitHub
       link: https://github.com/
       avatar: https://github.githubassets.com/favicons/favicon.svg
-      descr: 面向开发者的代码托管与协作平台。
-      rss:  # 可选，会在卡片上显示 RSS 徽标
+      descr: Code hosting and collaboration platform for developers.
+      rss:  # optional, shows an RSS badge on the card
 ```
 
-卡片包含：头像（缺失时回退到首字母）+ 名称 + 描述。RSS 徽标会始终可见，并在 hover 时播放 “signal-pulse” 动画（图标晃动 + 圆环向外扩散）。Front-matter 下方的 markdown 正文会正常渲染，并用虚线分隔。
+Cards include: avatar (first-letter fallback when missing) + name + description. RSS badges are always visible, and play a "signal-pulse" animation on hover (icon wiggle + outward ring). The markdown body below the front-matter renders normally and is separated with a dashed rule.
 
-## 布局
+## Layout
 
-| 布局           | 文件                           | 用途                                             |
+| Layout         | File                           | Purpose                                          |
 | -------------- | ------------------------------ | ------------------------------------------------ |
-| Home           | `layout/index.ejs`             | 精选轮播 + 分页文章网格                          |
-| Post           | `layout/post.ejs`              | 两栏文章 + reactions + 上一篇 / 下一篇 + 相关文章卡片 |
-| Page           | `layout/page.ejs`              | 默认页面；按 `type:` 路由到自定义布局            |
-| Friends        | `layout/link.ejs`              | 友链网格 + 可选 markdown 正文                    |
-| Archive        | `layout/archive.ejs`           | 按日期分组的文章列表 + 分页                      |
-| Category index | `layout/categories.ejs`        | 类似标签云的紧凑网格                             |
-| Category       | `layout/category.ejs`          | 单个分类下的文章 + 分页                          |
-| Tag index      | `layout/tags.ejs`              | 标签云                                           |
-| Tag            | `layout/tag.ejs`               | 单个标签下的文章 + 分页                          |
+| Home           | `layout/index.ejs`             | Featured carousel + paginated post grid          |
+| Post           | `layout/post.ejs`              | Two-column article + reactions + previous / next + related posts card |
+| Page           | `layout/page.ejs`              | Default page; routes to a custom layout by `type:` |
+| Friends        | `layout/link.ejs`              | Friends grid + optional markdown body            |
+| Archive        | `layout/archive.ejs`           | Date-grouped post list + pagination              |
+| Category index | `layout/categories.ejs`        | Tag-cloud-like compact grid                      |
+| Category       | `layout/category.ejs`          | Posts under one category + pagination            |
+| Tag index      | `layout/tags.ejs`              | Tag cloud                                        |
+| Tag            | `layout/tag.ejs`               | Posts under one tag + pagination                 |
 
-`layout/_partial/` 中的共享 partial：
+Shared partials in `layout/_partial/`:
 
-- `head.ejs`：meta + stylesheet
-- `header.ejs`：品牌 · 导航 · 搜索 · 主题切换 · 抽屉切换（仅窄屏）
-- `footer.ejs`：支持 `{year}` / `{name}` / `{theme}` 模板 token 的可配置页脚；`{theme}` 渲染为指向主题仓库的署名链接
-- `sidebar-left.ejs` / `sidebar-right.ejs`：见下面的侧栏布局说明
-- `recent-posts.ejs`：可复用的“最近文章”卡片
-- `post-card.ejs`：首页 / 网格卡片，带边缘出血缩略图
-- `archive-list.ejs`：分页归档 / 分类 / 标签列表
-- `thumbnail.ejs`：真实封面图与 CSS 场景回退
-- `search.ejs`：弹窗 dialog + 内联 JSON 索引
-- `icons.ejs`：Lucide 图标查找
+- `head.ejs`: meta + stylesheet
+- `header.ejs`: brand, navigation, search, theme toggle, drawer toggle (narrow screens only)
+- `footer.ejs`: configurable footer with `{year}` / `{name}` / `{theme}` template tokens; `{theme}` renders as a link to the theme repo
+- `sidebar-left.ejs` / `sidebar-right.ejs`: see the sidebar layout note below
+- `recent-posts.ejs`: reusable "Recent Posts" card
+- `post-card.ejs`: home / grid card with edge-bleed thumbnail
+- `archive-list.ejs`: paginated archive / category / tag list
+- `thumbnail.ejs`: real cover image and CSS-scene fallback
+- `search.ejs`: popup dialog + inline JSON index
+- `icons.ejs`: Lucide icon lookup
 
-### 侧栏布局说明
+### Sidebar Layout Note
 
-在 DOM 中，视觉上的**左**列由 `sidebar-right.ejs` 渲染（profile、文章页 TOC、首页分类 / 标签），视觉上的**右**列来自 `sidebar-left.ejs`（首页欢迎卡片、最近文章）。这个顺序是为了让窄屏下更有用的“左”面板成为汉堡按钮控制的抽屉。
+In the DOM, the visual **left** column is rendered by `sidebar-right.ejs` (profile, post page TOC, home categories / tags), while the visual **right** column comes from `sidebar-left.ejs` (home welcome card, recent posts). This order makes the more useful "left" panel become the hamburger-controlled drawer on narrow screens.
 
-文章页会完全跳过 `sidebar-left`，只保留一个侧栏。
+Post pages skip `sidebar-left` entirely and keep only one sidebar.
 
-## 开发
+## Development
 
 ```
 themes/flatpaper/
-├── _config.yml
-├── layout/
-│   ├── _partial/                    # head、header、footer、sidebars、search、icons 等
-│   └── *.ejs                        # 每个顶层布局一个文件
-├── scripts/
-│   ├── tags.js                      # Hexo extension：{% note %} + {% tabs %}
-│   ├── note-container.js            # before_post_render：::: 容器 → {% note %}
-│   └── _note-types.js               # note 类型白名单（tags.js / note-container.js 共用）
-└── source/
-    ├── css/
-    │   ├── style.styl               # 主入口：按 @import 顺序组织 partial
-    │   └── _partials/
-    │       ├── var.styl             # CSS 自定义属性（tokens）
-    │       ├── base.styl            # reset、html / body、page-grain
-    │       ├── _layout/             # header、shell、tape、footer、responsive
-    │       ├── _global/             # section-head、thumbnail、pager
-    │       ├── _components/         # welcome、toc、featured、post-card 等
-    │       ├── _page/               # article、archive-taxonomy
-    │       └── _mode/               # code-dark、code-sand、code-light
-    └── js/main.js                   # 单 bundle：主题切换、搜索、锚点、
-                                     #   TOC scrollspy（含 bottom-lock）、轮播、
-                                     #   侧栏抽屉、代码块 UI、tabs
+|-- _config.yml
+|-- layout/
+|   |-- _partial/                    # head, header, footer, sidebars, search, icons, etc.
+|   `-- *.ejs                        # one file per top-level layout
+|-- scripts/
+|   |-- tags.js                      # Hexo extension: {% note %} + {% tabs %}
+|   |-- note-container.js            # before_post_render: ::: container -> {% note %}
+|   `-- _note-types.js               # shared note-type whitelist (tags.js / note-container.js)
+`-- source/
+    |-- css/
+    |   |-- style.styl               # main entry: organizes partials by @import order
+    |   `-- _partials/
+    |       |-- var.styl             # CSS custom properties (tokens)
+    |       |-- base.styl            # reset, html / body, page-grain
+    |       |-- _layout/             # header, shell, tape, footer, responsive
+    |       |-- _global/             # section-head, thumbnail, pager
+    |       |-- _components/         # welcome, toc, featured, post-card, etc.
+    |       |-- _page/               # article, archive-taxonomy
+    |       `-- _mode/               # code-dark, code-sand, code-light
+    `-- js/main.js                   # single bundle: theme toggle, search, anchors,
+                                     #   TOC scrollspy (with bottom-lock), carousel,
+                                     #   sidebar drawer, code block UI, tabs
 ```
 
-## 许可证
+## License
 
 MIT
