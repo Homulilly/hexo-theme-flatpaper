@@ -172,8 +172,55 @@
     grid-template-columns: 1fr;
   }
 
+  .featured-copy {
+    padding: 26px 28px 22px;
+  }
+
   .featured-thumb {
-    min-height: 160px;
+    min-height: 180px;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .featured-thumb .paper-thumb,
+  .featured-thumb .paper-thumb--large {
+    min-height: 180px;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .featured-thumb::before {
+    top: -1px;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 30px;
+    filter: drop-shadow(0 1px 0 rgba(255, 248, 236, 0.72)) drop-shadow(0 3px 4px rgba(82, 64, 38, 0.22));
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 56%,
+      96% 38%,
+      92% 62%,
+      87% 35%,
+      83% 67%,
+      78% 42%,
+      73% 58%,
+      68% 33%,
+      63% 65%,
+      58% 40%,
+      53% 56%,
+      48% 32%,
+      43% 68%,
+      38% 39%,
+      33% 60%,
+      28% 36%,
+      23% 64%,
+      18% 41%,
+      13% 55%,
+      8% 30%,
+      4% 62%,
+      0 46%
+    );
   }
 
   .post-list {
@@ -238,7 +285,11 @@
   }
 
   .featured-paper {
-    padding: 22px 20px;
+    padding: 0;
+  }
+
+  .featured-copy {
+    padding: 22px 20px 20px;
   }
 
   .featured-paper h1 {

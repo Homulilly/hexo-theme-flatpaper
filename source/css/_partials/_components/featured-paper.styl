@@ -2,9 +2,9 @@
 .featured-paper {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(170px, 0.9fr);
-  gap: 24px;
+  gap: 0;
   align-items: stretch;
-  padding: 26px 28px;
+  padding: 0;
   overflow: visible;
 }
 
@@ -13,9 +13,12 @@
 }
 
 .featured-copy {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 26px 28px;
 }
 
 .label-pill {
@@ -112,15 +115,60 @@
 
 .featured-thumb {
   position: relative;
-  border-radius: 10px;
+  align-self: stretch;
+  border-radius: 0 12px 12px 0;
   overflow: hidden;
-  min-height: 160px;
+  min-height: 180px;
 }
 
 .featured-thumb .paper-thumb,
 .featured-thumb .paper-thumb--large {
   width: 100%;
   height: 100%;
-  min-height: 160px;
-  border-radius: 10px;
+  min-height: 180px;
+  border-radius: 0 12px 12px 0;
+}
+
+.featured-thumb::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  z-index: 2;
+  width: 30px;
+  pointer-events: none;
+  background: var(--paper);
+  filter: drop-shadow(1px 0 0 rgba(255, 248, 236, 0.72)) drop-shadow(3px 1px 4px rgba(82, 64, 38, 0.22));
+  clip-path: polygon(
+    0 0,
+    72% 0,
+    56% 4%,
+    75% 7%,
+    48% 11%,
+    79% 15%,
+    62% 18%,
+    70% 23%,
+    51% 27%,
+    77% 31%,
+    59% 35%,
+    73% 39%,
+    46% 43%,
+    80% 47%,
+    65% 51%,
+    54% 55%,
+    76% 58%,
+    50% 63%,
+    78% 67%,
+    61% 70%,
+    72% 74%,
+    47% 78%,
+    79% 82%,
+    58% 86%,
+    74% 90%,
+    52% 94%,
+    68% 97%,
+    63% 100%,
+    0 100%
+  );
 }
