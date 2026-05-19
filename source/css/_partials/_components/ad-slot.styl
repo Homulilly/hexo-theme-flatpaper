@@ -1,0 +1,25 @@
+// AdSense slot wrapper. Renders only when the slot is configured.
+// The <ins.adsbygoogle> already declares display:block — we just give the
+// wrapper breathing room so an unfilled slot doesn't visually collapse
+// against neighboring content during fill.
+
+.ad-slot
+  display: block
+  margin: 1.5rem 0
+  text-align: center
+  min-height: 1px
+
+.ad-slot ins.adsbygoogle
+  display: block
+  margin: 0 auto
+
+.ad-slot--post-top
+  margin-top: 1rem
+  margin-bottom: 1.75rem
+
+.ad-slot--post-bottom
+  margin-top: 1.75rem
+  margin-bottom: 1.25rem
+
+.paper-sidebar .ad-slot--sidebar
+  margin: 1rem 0 0

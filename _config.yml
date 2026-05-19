@@ -144,8 +144,17 @@ umami:
 adsense:
   enable: false
   # 例如：ca-pub-1234567890123456
-  client:                               
+  client:
   # account: false
+  # 预置广告位：每项留空则该位置不渲染。值可写成 ad_slot ID 字符串，
+  # 或对象形式 { slot, format, layout, layout_key, responsive } 用于覆盖默认。
+  #   post_top    文章标题/元信息与正文之间
+  #   post_bottom 正文结束、上一篇/下一篇导航之前
+  #   sidebar     右侧栏底部（文章页 / 列表页通用）
+  slots:
+    post_top: 
+    post_bottom: 
+    sidebar: 
 
 # 评论系统选择： twikoo | artalk （留空 / 删除则不启用评论区）
 # 只在文章和独立页面（layout: page）渲染；单篇可在 front-matter 用 `comments: false` 关闭。

@@ -58,6 +58,8 @@ var relatedPosts = allPosts
     </div>
   </header>
 
+  <%- partial('_partial/adsense-slot', { name: 'post_top' }) %>
+
   <div class="article-content">
     <%- page.content %>
   </div>
@@ -76,6 +78,8 @@ var relatedPosts = allPosts
       <span class="reaction-label">分享</span>
     </div>
   </footer>
+
+  <%- partial('_partial/adsense-slot', { name: 'post_bottom' }) %>
 
   <nav class="article-actions">
     <% if (page.prev) { %>

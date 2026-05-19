@@ -1,0 +1,38 @@
+<%
+// Render a single AdSense ad unit if the slot is configured.
+// Expects local `name` = the key under theme.adsense.slots.
+// Each slot value can be either a string (the ad_slot ID) or an object
+// { slot, format, layout, responsive }. We whitelist every interpolated
+// value to the AdSense-accepted charsets so a typo can't break out of an
+// attribute.
+var ads = theme.adsense;
+if (ads && ads.enable && ads.client && ads.slots && name && ads.slots[name]) {
+  var client = String(ads.client).trim();
+  if (/^ca-pub-\d{10,20}$/.test(client)) {
+    var raw = ads.slots[name];
+    var cfg = (raw && typeof raw === 'object' && !Array.isArray(raw)) ? raw : { slot: raw };
+    var slot = cfg.slot != null ? String(cfg.slot).trim() : '';
+    if (slot && /^\d{6,20}$/.test(slot)) {
+      var format = cfg.format ? String(cfg.format).trim() : 'auto';
+      if (!/^[a-z\-]+$/i.test(format)) format = 'auto';
+      var layout = cfg.layout ? String(cfg.layout).trim() : '';
+      if (layout && !/^[a-z0-9\-]+$/i.test(layout)) layout = '';
+      var layoutKey = cfg.layout_key ? String(cfg.layout_key).trim() : '';
+      if (layoutKey && !/^[A-Za-z0-9+\/=_\-]+$/.test(layoutKey)) layoutKey = '';
+      var responsive = cfg.responsive === false ? 'false' : 'true';
+      var slotClass = 'ad-slot--' + String(name).replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+%>
+<div class="ad-slot <%= slotClass %>">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="<%= client %>"
+       data-ad-slot="<%= slot %>"
+       data-ad-format="<%= format %>"<% if (layout) { %>
+       data-ad-layout="<%= layout %>"<% } %><% if (layoutKey) { %>
+       data-ad-layout-key="<%= layoutKey %>"<% } %>
+       data-full-width-responsive="<%= responsive %>"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<%   }
+  }
+} %>
