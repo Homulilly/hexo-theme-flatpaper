@@ -134,6 +134,19 @@ umami:
   website_id:                           # 例如：xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   # domains: example.com,www.example.com
 
+# Google AdSense
+# enable 为 true 且 client 合法时，会在每个页面 <head> 中注入 AdSense loader：
+#   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<client>" crossorigin="anonymous"></script>
+# 同时附带一个 <meta name="google-adsense-account" content="<client>">，用于站点审核期识别归属。
+# client  发布商 ID，形如 ca-pub-1234567890123456
+# account 可选；默认与 client 一致。设为 false 可禁用 meta 标签，或填入其它 ca-pub-* 覆盖
+# 注意：变现还需在站点根放置 ads.txt（例如 source/ads.txt），主题不会代为生成。
+adsense:
+  enable: false
+  # 例如：ca-pub-1234567890123456
+  client:                               
+  # account: false
+
 # 评论系统选择： twikoo | artalk （留空 / 删除则不启用评论区）
 # 只在文章和独立页面（layout: page）渲染；单篇可在 front-matter 用 `comments: false` 关闭。
 comments:

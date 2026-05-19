@@ -6,6 +6,7 @@ var fbEnabled = theme.fancybox && theme.fancybox.enable && (is_post() || page.la
 <head>
   <%- partial('_partial/head') %>
   <%- partial('_partial/umami') %>
+  <%- partial('_partial/adsense') %>
   <%- partial('_partial/comments-sdk') %>
   <%- partial('_partial/fancybox') %>
   <% (theme.inject && Array.isArray(theme.inject.head) ? theme.inject.head : []).forEach(function(snippet) { if (snippet) { %>

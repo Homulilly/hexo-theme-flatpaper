@@ -1,0 +1,30 @@
+<%
+// Google AdSense loader.
+// Renders nothing unless enable + client are both set and client matches
+// the expected `ca-pub-<digits>` shape — the publisher ID is interpolated
+// into the script src, so anything outside that charset would be a
+// markup-injection risk.
+var ads = theme.adsense;
+if (ads && ads.enable && ads.client) {
+  var client = String(ads.client).trim();
+  if (/^ca-pub-\d{10,20}$/.test(client)) {
+    var src = flatpaper_safe_url(
+      'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + client,
+      'href'
+    );
+    if (src && src !== '#') {
+      // Optional verification meta. Defaults to the same publisher ID so
+      // sites in review get picked up without extra config; set
+      // `account: false` to opt out, or override with a different value.
+      var account = ads.account;
+      if (account === undefined || account === null || account === true) account = client;
+      var accountStr = account === false ? '' : String(account).trim();
+      var accountOk = accountStr && /^ca-pub-\d{10,20}$/.test(accountStr);
+%>
+<script async src="<%= src %>" crossorigin="anonymous"></script>
+<% if (accountOk) { %>
+<meta name="google-adsense-account" content="<%= accountStr %>">
+<% }
+    }
+  }
+} %>
