@@ -3,6 +3,8 @@ var allPosts = flatpaper_sorted_posts();
 var categories = site.categories ? site.categories.toArray() : [];
 var tags = site.tags ? site.tags.toArray() : [];
 var profile = theme.profile || {};
+var socials = profile.social || theme.social || {};
+var rss = profile.rss || theme.rss || {};
 function siteInfoEntry(value) {
   if (value === false || value == null) return false;
   if (value === true) return { href: '' };
@@ -150,8 +152,8 @@ function menuActive(href) {
       </div>
     <% } %>
     <div class="socials">
-      <% Object.keys(theme.social || {}).forEach(function(name) {
-        var raw = theme.social[name];
+      <% Object.keys(socials).forEach(function(name) {
+        var raw = socials[name];
         var entry = (raw && typeof raw === 'object') ? raw : { url: raw };
         var href = entry.url || entry.href || '';
         if (!href) { return; }
@@ -173,8 +175,8 @@ function menuActive(href) {
           <% } %>
         </a>
       <% }) %>
-      <% if (theme.rss && theme.rss.enable) { %>
-        <a href="<%= flatpaper_safe_url(url_for(theme.rss.path || 'atom.xml'), 'href') %>" aria-label="RSS feed" title="RSS">
+      <% if (rss && rss.enable) { %>
+        <a href="<%= flatpaper_safe_url(url_for(rss.path || 'atom.xml'), 'href') %>" aria-label="RSS feed" title="RSS">
           <%- partial('_partial/icons', { icon: 'rss' }) %>
         </a>
       <% } %>

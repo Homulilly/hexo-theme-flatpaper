@@ -96,24 +96,22 @@ profile:                              # rendered in the left sidebar; author nam
     posts: /archives/
     categories: /categories/
     tags: /tags/
-
-social:                               # key -> URL; icons auto-match by key (case-insensitive)
-  # Built-in: github, twitter, x, mail/email, rss, steam, bilibili,
-  #           youtube, facebook, instagram, telegram, weibo
-  GitHub: https://github.com/me
-  X: https://x.com/me                 # new Twitter (X) logo
-  Email: mailto:hi@example.com
-  # Object form — custom icon / inline SVG
-  # Mastodon:
-  #   url: https://mastodon.social/@me
-  #   icon: send                       # reuse any registered icon name
-  # Zhihu:
-  #   url: https://www.zhihu.com/people/me
-  #   svg: '<path d="..."/>'           # raw SVG children; viewBox 24x24, currentColor
-
-rss:                                  # RSS icon appended to the social links row
-  enable: true
-  path: atom.xml
+  social:                             # key -> URL; icons auto-match by key (case-insensitive)
+    # Built-in: github, twitter, x, mail/email, rss, steam, bilibili,
+    #           youtube, facebook, instagram, telegram, weibo
+    GitHub: https://github.com/me
+    X: https://x.com/me               # new Twitter (X) logo
+    Email: mailto:hi@example.com
+    # Object form — custom icon / inline SVG
+    # Mastodon:
+    #   url: https://mastodon.social/@me
+    #   icon: send                     # reuse any registered icon name
+    # Zhihu:
+    #   url: https://www.zhihu.com/people/me
+    #   svg: '<path d="..."/>'         # raw SVG children; viewBox 24x24, currentColor
+  rss:                                # RSS icon appended to the social links row
+    enable: true
+    path: atom.xml
 
 welcome:                              # welcome card (home page left sidebar)
   label: Today's note
@@ -310,6 +308,8 @@ Per-block UI:
 - `profile.avatar`: an image path under the site `source/` (e.g. `/images/avatar.png`) or an absolute URL; leave it empty to use the CSS-drawn default avatar.
 - `profile.avatar_shape`: `square` (default) renders the avatar with a 10px subtle rounding; `circle` applies a circular mask.
 - `profile.site_info`: stats shown in the profile card. Empty values and `false` hide an item, `true` shows plain text, and any other non-empty value renders as that item's link.
+- `profile.social`: social links shown in the profile card; keys auto-match built-in icons, object values can override the icon or provide inline SVG.
+- `profile.rss`: appends an RSS icon to the profile social links row when `enable: true`.
 - `welcome.image`: cover image for the welcome card; setting it switches the container to a 16:9 aspect ratio, flush with the card edge (`overflow: hidden` + 12px top corner radius). Leave empty to keep the default CSS mountain scene.
 
 ### Note Block Appearance

@@ -42,39 +42,37 @@ profile:
     posts: /archives/
     categories: /categories/
     tags: /tags/
-
-social:
-  # 内置图标（按键名自动匹配，大小写不敏感）：
-  #   github, twitter, x, mail/email, rss,
-  #   steam, bilibili, youtube, facebook, instagram, telegram, weibo
-  # 写法 1：键 -> URL（按键名自动匹配图标）
-  # 默认不提供任何条目，避免主题默认值在站点配置中被"注释掉"后仍然显现。
-  # 在站点的 _config.flatpaper.yml 里按需启用：
-  # GitHub: https://github.com/yourname
-  # Twitter: https://twitter.com/yourname
-  # Email: mailto:you@example.com
-  # X: https://x.com/yourname
-  # YouTube: https://youtube.com/@yourchannel
-  # Bilibili: https://space.bilibili.com/12345
-  # Steam: https://steamcommunity.com/id/yourname
-  # Facebook: https://facebook.com/yourname
-  # Instagram: https://instagram.com/yourname
-  # Telegram: https://t.me/yourname
-  # Weibo: https://weibo.com/u/12345
-  # 写法 2：对象 -> 指定使用某个内置图标（用于自定义命名 / 别名）
-  # Mastodon:
-  #   url: https://mastodon.social/@yourname
-  #   icon: send
-  # 写法 3：完全自定义 SVG —— 提供 <path>/<circle> 等子元素字符串，
-  # 容器视图框为 24x24，颜色用 currentColor
-  # 知乎:
-  #   url: https://www.zhihu.com/people/yourname
-  #   svg: '<path d="M2 2 L22 22"/>'
-
-# 在 socials 区域追加一个 RSS 图标（需要装 hexo-generator-feed 并在站点 _config.yml 启用 feed）
-rss:
-  enable: true
-  path: atom.xml
+  social:
+    # 内置图标（按键名自动匹配，大小写不敏感）：
+    #   github, twitter, x, mail/email, rss,
+    #   steam, bilibili, youtube, facebook, instagram, telegram, weibo
+    # 写法 1：键 -> URL（按键名自动匹配图标）
+    # 默认不提供任何条目，避免主题默认值在站点配置中被"注释掉"后仍然显现。
+    # 在站点的 _config.flatpaper.yml 里按需启用：
+    # GitHub: https://github.com/yourname
+    # Twitter: https://twitter.com/yourname
+    # Email: mailto:you@example.com
+    # X: https://x.com/yourname
+    # YouTube: https://youtube.com/@yourchannel
+    # Bilibili: https://space.bilibili.com/12345
+    # Steam: https://steamcommunity.com/id/yourname
+    # Facebook: https://facebook.com/yourname
+    # Instagram: https://instagram.com/yourname
+    # Telegram: https://t.me/yourname
+    # Weibo: https://weibo.com/u/12345
+    # 写法 2：对象 -> 指定使用某个内置图标（用于自定义命名 / 别名）
+    # Mastodon:
+    #   url: https://mastodon.social/@yourname
+    #   icon: send
+    # 写法 3：完全自定义 SVG —— 提供 <path>/<circle> 等子元素字符串，
+    # 容器视图框为 24x24，颜色用 currentColor
+    # 知乎:
+    #   url: https://www.zhihu.com/people/yourname
+    #   svg: '<path d="M2 2 L22 22"/>'
+  # 在 socials 区域追加一个 RSS 图标（需要装 hexo-generator-feed 并在站点 _config.yml 启用 feed）
+  rss:
+    enable: true
+    path: atom.xml
 
 welcome:
   label: 今日份记录
