@@ -2,12 +2,13 @@
 
 A Hexo theme inspired by flat illustrations and paper cards — dashed outlines, sticky notes, tape strips, and a soft, low-contrast reading interface. Built on modular Stylus partials and a small EJS template layer, with no runtime dependencies.
 
-- **[Live demo](https://flatpaper.nep.me/)**. 
+- **[Live demo](https://flatpaper.nep.me/)**.
 - **[Author's blog](https://homulilly.com/)**
 
 ## Document
 
-Documentation is available in multiple languages:  
+Documentation is available in multiple languages:
+
 - **中文** — [README_zh.md](README_zh.md)
 
 ## Live Preview
@@ -67,116 +68,133 @@ All options live in `themes/flatpaper/_config.yml`. Copy it to `<site>/_config.f
 > The site name (brand text in the header) and `<meta name="description">` are read directly from the Hexo site `_config.yml` (`title` and `description`); the theme no longer duplicates them.
 
 ```yaml
-menu:                                 # primary nav; string link shorthand is still supported
+menu:
   Home:
     link: /
     icon: home
   Archives:
     link: /archives/
     icon: archive
-  Links:
-    link: /links/
-    icon: link
-  Categories:
-    link: /categories/
-    icon: folder
-  Tags:
-    link: /tags/
-    icon: tag
-  About:
-    link: /about/
-    icon: user
+  # Links:
+  #   link: /links/
+  #   icon: link
+  # Nested menu example:
+  # Site:
+  #   icon: folder
+  #   item:
+  #     Categories:
+  #       link: /categories/
+  #       icon: folder
+  #     Tags:
+  #       link: /tags/
+  #       icon: tag
+  #     About:
+  #       link: /about/
+  #       icon: user
 
-profile:                              # rendered in the left sidebar; author name is read from the site _config.yml's `author`
+profile:
   role: Daily notes
-  bio: Likes walking, brewing coffee, and reading a little...
-  # avatar: /images/avatar.png        # avatar image path; leave empty to use the CSS-drawn default
-  avatar_shape: square                # `square` (default) or `circle` (circular mask)
+  bio: Introduce yourself in one or two memorable sentences.
+  avatar:                             # image path under site source/; empty uses the CSS-drawn default avatar
+  avatar_shape: square                # square or circle
   site_info:                          # empty / false hides; true shows plain text; other non-empty values become links
-    posts: /archives/
-    categories: /categories/
-    tags: /tags/
-  social:                             # key -> URL; icons auto-match by key (case-insensitive)
-    # Built-in: github, twitter, x, mail/email, rss, steam, bilibili,
-    #           youtube, facebook, instagram, telegram, weibo
-    GitHub: https://github.com/me
-    X: https://x.com/me               # new Twitter (X) logo
-    Email: mailto:hi@example.com
-    # Object form — custom icon / inline SVG
+    # posts: /archives/
+    # categories: /categories/
+    # tags: /tags/
+  social:
+    # Built-in icon keys: github, twitter, x, mail/email, rss, steam, bilibili,
+    # youtube, facebook, instagram, telegram, weibo
+    # GitHub: https://github.com/yourname
+    # X: https://x.com/yourname
+    # Email: mailto:you@example.com
     # Mastodon:
-    #   url: https://mastodon.social/@me
-    #   icon: send                     # reuse any registered icon name
+    #   url: https://mastodon.social/@yourname
+    #   icon: send
     # Zhihu:
-    #   url: https://www.zhihu.com/people/me
-    #   svg: '<path d="..."/>'         # raw SVG children; viewBox 24x24, currentColor
-  rss:                                # RSS icon appended to the social links row
+    #   url: https://www.zhihu.com/people/yourname
+    #   svg: '<path d="M2 2 L22 22"/>'
+  rss:
     enable: true
-    path: atom.xml
+    path: /atom.xml
 
-welcome:                              # welcome card (home page left sidebar)
+welcome:
   label: Today's note
   title: Write the days down slowly
-  text: A place to collect small moments that are too quiet for social feeds.
-  cta_text: Start reading             # CTA button label at the bottom of the card
-  cta_link: archives/                 # CTA button link (passed through url_for)
-  # image: /images/welcome.jpg        # 16:9 custom cover image; leave empty to keep the CSS mountain scene
+  text: Life is not spectacular every day, but there are always moments worth keeping.
+  cta_text: Start reading
+  cta_link: archives/
+  # image: /images/welcome.jpg        # optional 16:9 cover image; empty keeps the CSS mountain scene
 
 excerpt_length: 96
-recent_posts: 5                       # also used as the related-post limit on post pages
-related_posts: 4                      # override only the related-post count if needed; 0 disables the block
+recent_posts: 10
+related_posts: 4                      # 0 disables related posts
+
+search:
+  limit: 0                            # 0 or empty means unlimited
 
 tags:
-  style: tape                         # "tape" or "pill"
+  style: tape                         # tape | pill
 
-featured:                             # up to 4 pinned posts on the home page
-  - hello-world                       # slug / full path / last path segment / title
-  - flatpaper-design-notes
-featured_autoplay: 5000               # milliseconds; 0 disables it
-featured_image_zigzag: true           # enable the zigzag edge on featured images
+featured:
+  # - hello-world
+  # - markdown-elements-showcase
+featured_autoplay: 5000               # milliseconds; 0 disables autoplay
+featured_image_zigzag: true
+
+color: green                          # green | pink | blue | orange | sakura
 
 tape:
-  enable: true                        # false hides all tape decorations
+  enable: true
 
-footer:                               # HTML allowed; placeholders: {year} / {name} / {theme}
-  left: '&copy; {year} {name}'        # {name} is the site _config.yml's `author`
-  right: 'Powered by Theme {theme}'   # {theme} renders as a link to the theme repo
+footer:
+  left: '© {year} By {name}'          # placeholders: {year}, {name}, {theme}
+  right: 'Powered by Theme {theme}'
 
-note:                                 # {% note %} appearance
+note:
   style: flat                         # flat | simple | modern | disabled
-  icons: true                         # whether to show the circular icon badge
+  icons: true
 
 code:
-  theme: sand                         # "dark", "sand", or "light"
+  theme: dark                         # dark | sand | light
 
-umami:                                # Umami analytics; no script is injected when disabled
+umami:
   enable: false
-  host: analytics.example.com         # Umami service domain (no scheme, no path)
-  website_id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-  domains: example.com,www.example.com # optional; only report on these hostnames
+  host:                               # e.g. analytics.example.com
+  website_id:                         # e.g. xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+  # domains: example.com,www.example.com
 
-comments:                             # Comment system selector: twikoo | artalk (empty / removed = no comments)
-
-twikoo:                               # Twikoo (self-hosted backend)
-  envId: https://twikoo.example.com   # Twikoo backend URL
-  # cdn: https://cdn.example.com/twikoo.all.min.js  # optional; overrides the default jsDelivr CDN
-
-artalk:                               # Artalk (self-hosted backend)
-  server: https://artalk.example.com  # Artalk backend URL
-  site: 'My Site'                     # site name; must match what's registered on the Artalk backend
-  # cdn_css: https://cdn.example.com/Artalk.css     # optional
-  # cdn_js:  https://cdn.example.com/Artalk.js      # optional
-
-fancybox:                             # image lightbox; assets load only on post / page layouts
+adsense:
   enable: false
-  # cdn_css: https://cdn.example.com/fancybox.css     # optional; overrides default jsDelivr CSS
-  # cdn_js:  https://cdn.example.com/fancybox.umd.js  # optional; overrides default jsDelivr JS
+  client:                             # e.g. ca-pub-1234567890123456
+  account: false
+  slots:
+    post_top:
+    post_bottom:
+    sidebar:
 
-inject:                               # raw HTML injection (arrays; each entry is emitted verbatim)
-  head:                               # injected before </head>
-    # - <link rel="stylesheet" href="/css/custom.css">
+comments:                             # twikoo | artalk; empty disables comments
+
+twikoo:
+  envId:                              # e.g. https://twikoo.example.com
+  # cdn:
+
+artalk:
+  server:                             # e.g. https://artalk.example.com
+  site:
+  # cdn_css:
+  # cdn_js:
+
+fancybox:
+  enable: true
+  # cdn_css:
+  # cdn_js:
+
+inject:
+  head:
+    # - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
     # - <script src="/js/extra.js"></script>
-  bottom:                             # injected before </body>
-    # - <script src="/js/late.js" defer></script>
+  bottom:
+    # - <script src="/js/extra.js" defer></script>
 ```
 
 When Umami is enabled, the following snippet is injected right before `</head>`:
@@ -193,54 +211,7 @@ When Umami is enabled, the following snippet is injected right before `</head>`:
 - Twikoo: see the [Twikoo quick start](https://twikoo.js.org/quick-start.html). Container id is `#tcomment`.
 - Artalk: see the [Artalk deployment guide](https://artalk.js.org/guide/deploy.html). Container id is `#artalk-comments`, initialization goes through `Artalk.init({...})`. `pageKey` defaults to `page.permalink`, `pageTitle` to `page.title`, and `site` must match the site name registered in the Artalk admin.
 
-Any page can still opt out by adding `comments: false` to its front-matter; the comment SDK is also only loaded on content pages, never on index pages. The reactions footer's "comment" button locates whichever container is mounted (Twikoo or Artalk) and smooth-scrolls to it; the share button calls `navigator.share` (with a clipboard-copy fallback when the API is unavailable).
-
-> For site-wide visitor analytics, use the Umami integration documented above. Neither comment system exposes an official pageview API, so the theme does not maintain a per-post visitor counter.
-
-With Fancybox enabled, every `<img>` inside `.article-content` is wrapped client-side in `<a data-fancybox="gallery">`, so **all images on the page automatically share one gallery** — arrow keys / swipes navigate, double-click / wheel zooms, ESC closes. Images already wrapped in `<a>` (e.g. `[![](img)](url)`) are left alone; mark an individual image with `class="no-zoom"` to skip the lightbox. CDN assets are only loaded on post pages and `layout: page` pages — index pages (home / archives / tags / categories) stay lean.
-
 ### UI Options and Current Defaults
-
-- `menu` format, with icons resolved by `layout/_partial/icons.ejs`.
-
-```yml
-# Form 1
-# Here Home is the display text, and / is the link.
-menu:
-  Home: /
-  Archives: /archives/
-  About: /about/
-
-# Form 2
-menu:
-  - link: /
-    label: Home
-    icon: home
-
-  - link: /archives/
-    name: Archives
-    icon: archive
-
-# Second-level links
-menu:
-  Docs:
-    link: /docs/
-    icon: folder
-    item:
-      Guide:
-        link: /docs/guide/
-        icon: link
-      API:
-        link: /docs/api/
-        icon: hash
-```
-
-Second-level links must be placed under the parent `item` field. A parent with second-level links renders as a toggle button, not a link; add a child item explicitly if you need a parent landing page link.
-
-- Internal separators that may move while scrolling use native `1px dashed` borders where possible; outer paper / card outlines stay `2px dashed`.
-- `tags.style` controls tag chips globally: `tape` uses lightly rotated small tape strips, while `pill` uses rounded capsules.
-- Home and post interaction elements consistently use Lucide icons: latest posts, related posts, top navigation links, and "view more" arrows all render through the shared icon partial.
-- `code.theme` supports `dark`, `sand`, and `light`. `sand` is the warm cream code theme; `light` is the white code theme.
 
 ### Featured Carousel
 
@@ -348,7 +319,7 @@ The contents are **not escaped** — they're spliced directly into the page, so 
 - **Optional comment system**: top-level `comments: twikoo | artalk` selects Twikoo or Artalk; any page can opt out via front-matter `comments: false`.
 - **Dark mode**: single-class toggle, persisted to `localStorage`; every component has a dark variant.
 
-## Custom Tags (Hexo NexT Compatible)
+## Custom Tags
 
 ### `{% note %}`
 

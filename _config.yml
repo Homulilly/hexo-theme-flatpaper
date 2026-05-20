@@ -1,7 +1,4 @@
 # 导航菜单：
-# - 一级链接可用对象写法：名称 -> { link, icon }
-# - 二级链接写在父级的 item 下；子项同样支持 link / icon / label
-# - 有二级链接时，父级会渲染为展开按钮，不作为链接跳转；需要父级页请在 item 中单独加一项
 menu:
   首页:
     link: /
@@ -9,28 +6,24 @@ menu:
   归档:
     link: /archives/
     icon: archive
-  友链:
-    link: /links/
-    icon: link
-    # item:
-    #   项目:
-    #     link: /projects/
-    #     icon: folder
-    #   朋友:
-    #     link: /links/friends/
-    #     icon: link
-  # 分类:
-  #   link: /categories/
-  #   icon: folder
-  # 标签:
-  #   link: /tags/
-  #   icon: tag
-  # 关于:
-  #   link: /about/
-  #   icon: user
+  # 友链:
+  #   link: /links/
+  #   icon: link
 
+  ## 二级菜单示例
+  # 站点:
+  #   icon: folder
+  #   item:
+  #     分类:
+  #       link: /categories/
+  #       icon: folder
+  #     标签:
+  #       link: /tags/
+  #       icon: tag
+  #     关于:
+  #       link: /about/
+  #       icon: user
 profile:
-  # 作者名直接取站点 _config.yml 的 author 字段；这里不再重复配置
   role: 日常记录
   bio: 介绍一下自己 — 一两句话，写写你想被别人记住的部分。
   # 头像图片路径（站点根的 source/ 目录下）。留空则使用 CSS 绘制的默认头像。
@@ -39,9 +32,9 @@ profile:
   avatar_shape: square
   # Profile 卡片站点统计；为空或 false 隐藏，true 显示无链接，其他非空值渲染为链接
   site_info:
-    posts: /archives/
-    categories: /categories/
-    tags: /tags/
+    # posts: /archives/
+    # categories: /categories/
+    # tags: /tags/
   social:
     # 内置图标（按键名自动匹配，大小写不敏感）：
     #   github, twitter, x, mail/email, rss,
@@ -72,7 +65,7 @@ profile:
   # 在 socials 区域追加一个 RSS 图标（需要装 hexo-generator-feed 并在站点 _config.yml 启用 feed）
   rss:
     enable: true
-    path: atom.xml
+    path: /atom.xml
 
 welcome:
   label: 今日份记录
@@ -87,9 +80,9 @@ welcome:
 # 首页文章卡片摘要的最大字符数（无 <!-- more --> 时按正文截断）
 excerpt_length: 96
 # 侧边栏 / 相关位置展示的最近文章数量
-recent_posts: 5
+recent_posts: 10
 # 文章页底部"相关文章"展示数量；0 表示禁用；不配置则回退到 recent_posts
-related_posts: 3
+related_posts: 4
 
 # 前端搜索索引上限（0 或留空 = 不限）。文章很多时调小可减小首屏 JSON 体积。
 search:
@@ -133,7 +126,7 @@ footer:
 # icons：是否在正文/标题前显示圆形图标徽章（true | false）
 note:
   style: flat
-  icons: true  
+  icons: true
 
 # 代码块外观主题： dark | sand | light
 code:
@@ -162,16 +155,16 @@ adsense:
   enable: false
   # 例如：ca-pub-1234567890123456
   client:
-  # account: false
+  account: false
   # 预置广告位：每项留空则该位置不渲染。值可写成 ad_slot ID 字符串，
   # 或对象形式 { slot, format, layout, layout_key, responsive } 用于覆盖默认。
   #   post_top    文章标题/元信息与正文之间
   #   post_bottom 正文结束、上一篇/下一篇导航之前
   #   sidebar     右侧栏底部（文章页 / 列表页通用）
   slots:
-    post_top: 
-    post_bottom: 
-    sidebar: 
+    post_top:
+    post_bottom:
+    sidebar:
 
 # 评论系统选择： twikoo | artalk （留空 / 删除则不启用评论区）
 # 只在文章和独立页面（layout: page）渲染；单篇可在 front-matter 用 `comments: false` 关闭。
@@ -194,10 +187,10 @@ artalk:
 # 点击放大、左右键切换、ESC 关闭。同一页面内所有图片共属一个 gallery。
 # 已被 <a> 包裹的图片不重复包裹；要单独排除某张图给它加 class="no-zoom"。
 fancybox:
-  enable: false
+  enable: true
   # cdn_css:                            # 可选；覆盖默认 jsDelivr CSS
-  # cdn_js:    
-  
+  # cdn_js:
+
 # 自定义 css 与 js 注入
 # head：每个条目原样输出到 </head> 之前
 # bottom：每个条目原样输出到 </body> 之前
