@@ -67,6 +67,7 @@ function menuText(label, item) {
 }
 function menuActive(href) {
   var hrefPath = String(href || '');
+  if (!hrefPath) return false;
   return (hrefPath === '/' && is_home()) || (hrefPath !== '/' && page.path && page.path.indexOf(hrefPath.replace(/^\//, '')) === 0);
 }
 %>
@@ -80,11 +81,11 @@ function menuActive(href) {
     <nav class="site-nav-drawer" aria-label="移动端导航">
       <% Object.keys(theme.menu || {}).forEach(function(label) {
         var item = theme.menu[label];
-        var href = menuHref(item) || '/';
+        var href = menuHref(item);
         var icon = menuIcon(item);
         var text = menuText(label, item);
         var children = menuChildren(item);
-        var active = menuActive(href);
+        var active = href ? menuActive(href) : false;
         children.forEach(function (child) { if (menuActive(menuHref(child.item))) active = true; });
       %>
         <% if (children.length) { %>
@@ -109,7 +110,7 @@ function menuActive(href) {
             </div>
           </div>
         <% } else { %>
-          <a class="<%= active ? 'active' : '' %>" href="<%= flatpaper_safe_url(url_for(String(href)), 'href') %>">
+          <a class="<%= active ? 'active' : '' %>" href="<%= flatpaper_safe_url(url_for(String(href || '/')), 'href') %>">
             <% if (icon) { %><%- partial('_partial/icons', { icon: icon }) %><% } %>
             <span><%= text %></span>
           </a>
