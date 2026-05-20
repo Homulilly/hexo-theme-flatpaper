@@ -126,7 +126,7 @@ welcome:
   # image: /images/welcome.jpg        # 可选 16:9 封面图；留空保留 CSS 山景
 
 excerpt_length: 96
-recent_posts: 10
+recent_posts: 10                      # 侧边栏随机文章数量；候选池为生成期最新 100 篇
 related_posts: 4                      # 0 表示禁用相关文章
 
 search:
@@ -247,7 +247,7 @@ cover: /images/walk.jpg               # 或绝对 URL
 
 ### 搜索
 
-点击 header 中的放大镜按钮，或在任意位置按 **Ctrl + K / Cmd + K**。按 **Esc** 关闭。结果会基于最近 120 篇文章的内联 JSON 索引（标题 + 200 字符摘要）进行过滤。关键词会用 `<mark>` 高亮。
+点击 header 中的放大镜按钮，或在任意位置按 **Ctrl + K / Cmd + K**。按 **Esc** 关闭。默认基于全部文章的内联 JSON 索引进行过滤；可通过 `search.limit` 限制为最新 N 篇。关键词会用 `<mark>` 高亮。
 
 ### 深色模式
 
@@ -416,7 +416,7 @@ type: links            # 或：tags、categories
 - `header.ejs`：品牌 · 导航 · 搜索 · 主题切换 · 抽屉切换（仅窄屏）
 - `footer.ejs`：支持 `{year}` / `{name}` / `{theme}` 模板 token 的可配置页脚；`{theme}` 渲染为指向主题仓库的署名链接
 - `sidebar-left.ejs` / `sidebar-right.ejs`：见下面的侧栏布局说明
-- `recent-posts.ejs`：可复用的"最近文章"卡片
+- `random-posts.ejs`：可复用的随机文章卡片，候选池为生成期最新 100 篇
 - `post-card.ejs`：首页 / 网格卡片，带边缘出血缩略图
 - `archive-list.ejs`：分页归档 / 分类 / 标签列表
 - `thumbnail.ejs`：真实封面图与 CSS 场景回退
@@ -425,7 +425,7 @@ type: links            # 或：tags、categories
 
 ### 侧栏布局说明
 
-在 DOM 中，视觉上的**左**列由 `sidebar-right.ejs` 渲染（profile、文章页 TOC、首页分类 / 标签），视觉上的**右**列来自 `sidebar-left.ejs`（首页欢迎卡片、最近文章）。这个顺序是为了让窄屏下更有用的"左"面板成为汉堡按钮控制的抽屉。
+在 DOM 中，视觉上的**左**列由 `sidebar-right.ejs` 渲染（profile、文章页 TOC、首页分类 / 标签），视觉上的**右**列来自 `sidebar-left.ejs`（首页欢迎卡片、随机文章）。这个顺序是为了让窄屏下更有用的"左"面板成为汉堡按钮控制的抽屉。
 
 文章页会完全跳过 `sidebar-left`，只保留一个侧栏。
 

@@ -36,7 +36,7 @@ var noteIcons = !(theme.note && theme.note.icons === false);
   <%- partial('_partial/header') %>
 
   <%
-  // Two-column layout: posts and standalone pages (about / friends / etc.) drop the recent-posts rail.
+  // Two-column layout: posts and standalone pages (about / friends / etc.) drop the random-posts rail.
   var isTwoColumn = is_post() || page.layout === 'page';
   %>
   <main class="paper-shell <%= isTwoColumn ? 'paper-shell--article' : '' %>">

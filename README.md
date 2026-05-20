@@ -126,7 +126,7 @@ welcome:
   # image: /images/welcome.jpg        # optional 16:9 cover image; empty keeps the CSS mountain scene
 
 excerpt_length: 96
-recent_posts: 10
+recent_posts: 10                      # random sidebar post count; candidates are the latest 100 posts at generate time
 related_posts: 4                      # 0 disables related posts
 
 search:
@@ -247,7 +247,7 @@ Set `related_posts` (or fall back to `recent_posts`) to control how many cards a
 
 ### Search
 
-Click the magnifier button in the header, or press **Ctrl + K / Cmd + K** anywhere. Press **Esc** to close. Results are filtered from an inline JSON index of the most recent 120 posts (title + 200-character excerpt). Keywords are highlighted with `<mark>`.
+Click the magnifier button in the header, or press **Ctrl + K / Cmd + K** anywhere. Press **Esc** to close. Results are filtered from an inline JSON index of all posts by default; set `search.limit` to cap it to the latest N posts. Keywords are highlighted with `<mark>`.
 
 ### Dark Mode
 
@@ -416,7 +416,7 @@ Shared partials in `layout/_partial/`:
 - `header.ejs`: brand, navigation, search, theme toggle, drawer toggle (narrow screens only)
 - `footer.ejs`: configurable footer with `{year}` / `{name}` / `{theme}` template tokens; `{theme}` renders as a link to the theme repo
 - `sidebar-left.ejs` / `sidebar-right.ejs`: see the sidebar layout note below
-- `recent-posts.ejs`: reusable "Recent Posts" card
+- `random-posts.ejs`: reusable random-posts card, backed by the latest 100 posts at generate time
 - `post-card.ejs`: home / grid card with edge-bleed thumbnail
 - `archive-list.ejs`: paginated archive / category / tag list
 - `thumbnail.ejs`: real cover image and CSS-scene fallback
@@ -425,7 +425,7 @@ Shared partials in `layout/_partial/`:
 
 ### Sidebar Layout Note
 
-In the DOM, the visual **left** column is rendered by `sidebar-right.ejs` (profile, post page TOC, home categories / tags), while the visual **right** column comes from `sidebar-left.ejs` (home welcome card, recent posts). This order makes the more useful "left" panel become the hamburger-controlled drawer on narrow screens.
+In the DOM, the visual **left** column is rendered by `sidebar-right.ejs` (profile, post page TOC, home categories / tags), while the visual **right** column comes from `sidebar-left.ejs` (home welcome card, random posts). This order makes the more useful "left" panel become the hamburger-controlled drawer on narrow screens.
 
 Post pages skip `sidebar-left` entirely and keep only one sidebar.
 

@@ -45,7 +45,7 @@ function safeUrl(value, kind) {
 hexo.extend.helper.register('flatpaper_safe_url', safeUrl);
 
 // Posts sorted newest-first, cached for the current generate pass.
-// Several partials (recent-posts, sidebar-right, post.ejs related list,
+// Several partials (random-posts, sidebar-right, post.ejs related list,
 // index.ejs featured resolver) all call site.posts.sort('date', -1).toArray()
 // independently — on big sites that adds up. Invalidate when post count
 // changes so a `hexo generate --watch` rebuild after adding/removing posts

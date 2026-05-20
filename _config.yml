@@ -79,8 +79,8 @@ welcome:
 
 # 首页文章卡片摘要的最大字符数（无 <!-- more --> 时按正文截断）
 excerpt_length: 96
-# 侧边栏 / 相关位置展示的最近文章数量
-recent_posts: 10
+# 侧边栏随机文章展示数量；候选池为生成期最新 100 篇
+recent_posts: 6
 # 文章页底部"相关文章"展示数量；0 表示禁用；不配置则回退到 recent_posts
 related_posts: 4
 
