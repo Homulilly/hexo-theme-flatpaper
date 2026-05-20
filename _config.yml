@@ -1,3 +1,8 @@
+# 导航菜单：
+# - 一级链接可用对象写法：名称 -> { path, icon }
+# - 也兼容字符串写法：名称 -> /path/
+# - 二级链接写在父级的 children / items / submenu 下；子项同样支持 path / icon / label
+# - 有二级链接时，父级会渲染为展开按钮，不作为链接跳转；需要父级页请在 children 中单独加一项
 menu:
   首页:
     path: /
@@ -8,6 +13,13 @@ menu:
   友链:
     path: /links/
     icon: link
+    # children:
+    #   项目:
+    #     path: /projects/
+    #     icon: folder
+    #   朋友:
+    #     path: /links/friends/
+    #     icon: link
   分类:
     path: /categories/
     icon: folder

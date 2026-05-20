@@ -94,6 +94,44 @@
         safeStorage.set('flatpaper-mode', root.classList.contains('dark-mode') ? 'dark' : 'light');
       });
     }
+
+    document.querySelectorAll('.site-nav-item.has-children').forEach(function (item) {
+      var btn = item.querySelector('.site-nav-parent');
+      if (!btn || btn.dataset.flatpaperBound) return;
+      btn.dataset.flatpaperBound = '1';
+      btn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        var willOpen = !item.classList.contains('is-open');
+        document.querySelectorAll('.site-nav-item.has-children.is-open').forEach(function (openItem) {
+          openItem.classList.remove('is-open');
+          var openBtn = openItem.querySelector('.site-nav-parent');
+          if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+        });
+        item.classList.toggle('is-open', willOpen);
+        btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      });
+    });
+
+    document.addEventListener('click', function (event) {
+      if (event.target.closest && event.target.closest('.site-nav-item.has-children')) return;
+      document.querySelectorAll('.site-nav-item.has-children.is-open').forEach(function (item) {
+        item.classList.remove('is-open');
+        var btn = item.querySelector('.site-nav-parent');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.querySelectorAll('.drawer-nav-parent').forEach(function (btn) {
+      if (btn.dataset.flatpaperBound) return;
+      btn.dataset.flatpaperBound = '1';
+      btn.addEventListener('click', function () {
+        var group = btn.closest('.drawer-nav-group');
+        if (!group) return;
+        var willOpen = !group.classList.contains('is-open');
+        group.classList.toggle('is-open', willOpen);
+        btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      });
+    });
   }
 
   // ---- Search popover ----
@@ -199,7 +237,15 @@
   }
 
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { closePanel(); closeSidebar(); }
+    if (e.key === 'Escape') {
+      closePanel();
+      closeSidebar();
+      document.querySelectorAll('.site-nav-item.has-children.is-open').forEach(function (item) {
+        item.classList.remove('is-open');
+        var btn = item.querySelector('.site-nav-parent');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    }
     if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
       openPanel();

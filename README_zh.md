@@ -218,7 +218,22 @@ menu:
   - path: /archives/
     name: 归档
     icon: archive
+
+# 二级链接
+menu:
+  文档:
+    path: /docs/
+    icon: folder
+    children:
+      指南:
+        path: /docs/guide/
+        icon: link
+      API:
+        path: /docs/api/
+        icon: hash
 ```
+
+二级链接也可以用 `items` 或 `submenu` 代替 `children`。有二级链接时，父级会渲染为展开按钮，不作为链接跳转；如果需要父级页面入口，请在子项里显式加一项。
 
 - 滚动时可能移动的内部分隔线尽量使用原生 `1px dashed` 边框；外层纸张 / 卡片描边保持 `2px dashed`。
 - `tags.style` 全局控制标签 chip：`tape` 使用轻微旋转的小胶带条，`pill` 使用圆角胶囊外观。

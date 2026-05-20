@@ -74,19 +74,40 @@ body::before {
   gap: 6px;
 }
 
+.site-nav-item {
+  position: relative;
+}
+
+.site-nav-link,
 .site-nav a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   min-width: 60px;
+  min-height: 36px;
   padding: 8px 16px;
+  border: 0;
   border-radius: 999px;
   color: var(--muted);
+  background: transparent;
+  font: inherit;
   font-weight: 600;
   font-size: 14px;
   text-align: center;
+  cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.site-nav-parent::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-left: 2px;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  opacity: 0.72;
 }
 
 /* Drawer-only nav card. Hidden on desktop; shown when the drawer opens on narrow screens. */
@@ -100,20 +121,80 @@ body::before {
   display: none;
 }
 
-.site-nav a .lucide {
+.site-nav a .lucide,
+.site-nav-link .lucide {
   width: 15px;
   height: 15px;
 }
 
 .site-nav a:hover,
-.site-nav a.active {
+.site-nav a.active,
+.site-nav-link:hover,
+.site-nav-link.active,
+.site-nav-item.active > .site-nav-link,
+.site-nav-item:hover > .site-nav-link,
+.site-nav-item:focus-within > .site-nav-link {
   color: var(--green-deep);
   background: var(--green-soft);
 }
 
 .dark-mode .site-nav a.active,
-.dark-mode .site-nav a:hover {
+.dark-mode .site-nav a:hover,
+.dark-mode .site-nav-link.active,
+.dark-mode .site-nav-link:hover,
+.dark-mode .site-nav-item.active > .site-nav-link,
+.dark-mode .site-nav-item:hover > .site-nav-link,
+.dark-mode .site-nav-item:focus-within > .site-nav-link {
   color: var(--green-leaf);
+}
+
+.site-nav-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 32;
+  display: grid;
+  gap: 4px;
+  min-width: 132px;
+  padding: 18px 8px 8px;
+  border: 1px dashed var(--dash);
+  border-radius: 10px;
+  background: var(--paper);
+  background-clip: padding-box;
+  box-shadow: 0 10px 0 -8px transparent, var(--small-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -4px);
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0.16s;
+}
+
+.site-nav-item:hover .site-nav-menu,
+.site-nav-item:focus-within .site-nav-menu,
+.site-nav-item.is-open .site-nav-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0s;
+}
+
+.site-nav-menu a {
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 32px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  color: var(--ink-soft);
+  font-size: 13px;
+  text-align: left;
+}
+
+.site-nav-menu a .lucide {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
 }
 
 .header-tools {

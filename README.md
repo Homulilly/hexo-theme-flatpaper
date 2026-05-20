@@ -218,7 +218,22 @@ menu:
   - path: /archives/
     name: Archives
     icon: archive
+
+# Second-level links
+menu:
+  Docs:
+    path: /docs/
+    icon: folder
+    children:
+      Guide:
+        path: /docs/guide/
+        icon: link
+      API:
+        path: /docs/api/
+        icon: hash
 ```
+
+Second-level links can also use `items` or `submenu` instead of `children`. A parent with second-level links renders as a toggle button, not a link; add a child item explicitly if you need a parent landing page link.
 
 - Internal separators that may move while scrolling use native `1px dashed` borders where possible; outer paper / card outlines stay `2px dashed`.
 - `tags.style` controls tag chips globally: `tape` uses lightly rotated small tape strips, while `pill` uses rounded capsules.

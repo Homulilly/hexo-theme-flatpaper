@@ -1,4 +1,38 @@
 <header class="site-header">
+  <%
+  function menuChildren(item) {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) return [];
+    var raw = item.children || item.items || item.submenu || item.submenus;
+    if (!raw) return [];
+    if (Array.isArray(raw)) {
+      return raw.map(function (child, index) {
+        var isObj = child && typeof child === 'object' && !Array.isArray(child);
+        var childText = isObj ? (child.label || child.name || child.title || ('Item ' + (index + 1))) : String(child);
+        return { label: childText, item: child };
+      });
+    }
+    if (typeof raw === 'object') {
+      return Object.keys(raw).map(function (childLabel) {
+        return { label: childLabel, item: raw[childLabel] };
+      });
+    }
+    return [];
+  }
+  function menuHref(item) {
+    var isObj = item && typeof item === 'object' && !Array.isArray(item);
+    return isObj ? (item.path || item.href || item.url || item.link || '') : item;
+  }
+  function menuIcon(item) {
+    return (item && typeof item === 'object' && !Array.isArray(item)) ? item.icon : null;
+  }
+  function menuText(label, item) {
+    return (item && typeof item === 'object' && !Array.isArray(item)) ? (item.label || item.name || item.title || label) : label;
+  }
+  function menuActive(href) {
+    var hrefPath = String(href || '');
+    return (hrefPath === '/' && is_home()) || (hrefPath !== '/' && page.path && page.path.indexOf(hrefPath.replace(/^\//, '')) === 0);
+  }
+  %>
   <button class="icon-button js-sidebar-toggle sidebar-toggle" type="button" aria-label="打开侧边栏" aria-controls="paper-sidebar-drawer" aria-expanded="false">
     <%- partial('_partial/icons', { icon: 'menu' }) %>
   </button>
@@ -11,17 +45,40 @@
   <nav class="site-nav" aria-label="Primary navigation">
     <% Object.keys(theme.menu || {}).forEach(function(label) {
       var item = theme.menu[label];
-      var isObjectItem = item && typeof item === 'object' && !Array.isArray(item);
-      var href = isObjectItem ? (item.path || item.href || item.url || item.link || '/') : item;
-      var icon = isObjectItem ? item.icon : null;
-      var text = isObjectItem ? (item.label || item.name || label) : label;
-      var hrefPath = String(href || '/');
-      var active = (hrefPath === '/' && is_home()) || (hrefPath !== '/' && page.path && page.path.indexOf(hrefPath.replace(/^\//, '')) === 0);
+      var href = menuHref(item) || '/';
+      var icon = menuIcon(item);
+      var text = menuText(label, item);
+      var children = menuChildren(item);
+      var active = menuActive(href);
+      children.forEach(function (child) { if (menuActive(menuHref(child.item))) active = true; });
     %>
-      <a class="<%= active ? 'active' : '' %>" href="<%= flatpaper_safe_url(url_for(hrefPath), 'href') %>">
-        <% if (icon) { %><%- partial('_partial/icons', { icon: icon }) %><% } %>
-        <span><%= text %></span>
-      </a>
+      <% if (children.length) { %>
+        <div class="site-nav-item has-children<%= active ? ' active' : '' %>">
+          <button class="site-nav-link site-nav-parent" type="button" aria-haspopup="true" aria-expanded="false">
+            <% if (icon) { %><%- partial('_partial/icons', { icon: icon }) %><% } %>
+            <span><%= text %></span>
+          </button>
+          <div class="site-nav-menu" role="menu">
+            <% children.forEach(function (child) {
+              var childItem = child.item;
+              var childHref = menuHref(childItem) || '#';
+              var childIcon = menuIcon(childItem);
+              var childText = menuText(child.label, childItem);
+              var childActive = menuActive(childHref);
+            %>
+              <a role="menuitem" class="<%= childActive ? 'active' : '' %>" href="<%= flatpaper_safe_url(url_for(String(childHref)), 'href') %>">
+                <% if (childIcon) { %><%- partial('_partial/icons', { icon: childIcon }) %><% } %>
+                <span><%= childText %></span>
+              </a>
+            <% }) %>
+          </div>
+        </div>
+      <% } else { %>
+        <a class="site-nav-link <%= active ? 'active' : '' %>" href="<%= flatpaper_safe_url(url_for(String(href)), 'href') %>">
+          <% if (icon) { %><%- partial('_partial/icons', { icon: icon }) %><% } %>
+          <span><%= text %></span>
+        </a>
+      <% } %>
     <% }) %>
   </nav>
 

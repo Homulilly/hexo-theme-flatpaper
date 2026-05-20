@@ -85,19 +85,27 @@
     gap: 4px;
   }
 
-  .site-nav-drawer a {
+  .site-nav-drawer a,
+  .drawer-nav-parent {
     display: inline-flex;
     align-items: center;
     gap: 10px;
+    width: 100%;
     padding: 9px 12px;
+    border: 0;
     border-radius: 10px;
     color: var(--ink-soft);
+    background: transparent;
+    font: inherit;
     font-weight: 600;
     font-size: 15px;
+    text-align: left;
+    cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
   }
 
-  .site-nav-drawer a .lucide {
+  .site-nav-drawer a .lucide,
+  .drawer-nav-parent .lucide {
     width: 17px;
     height: 17px;
     color: var(--muted);
@@ -105,24 +113,64 @@
   }
 
   .site-nav-drawer a:hover,
-  .site-nav-drawer a.active {
+  .site-nav-drawer a.active,
+  .drawer-nav-parent:hover,
+  .drawer-nav-group.active > .drawer-nav-parent {
     color: var(--green-deep);
     background: var(--green-soft);
   }
 
   .site-nav-drawer a:hover .lucide,
-  .site-nav-drawer a.active .lucide {
+  .site-nav-drawer a.active .lucide,
+  .drawer-nav-parent:hover .lucide,
+  .drawer-nav-group.active > .drawer-nav-parent .lucide {
     color: var(--green-deep);
   }
 
   .dark-mode .site-nav-drawer a:hover,
-  .dark-mode .site-nav-drawer a.active {
+  .dark-mode .site-nav-drawer a.active,
+  .dark-mode .drawer-nav-parent:hover,
+  .dark-mode .drawer-nav-group.active > .drawer-nav-parent {
     color: var(--green-leaf);
   }
 
   .dark-mode .site-nav-drawer a:hover .lucide,
-  .dark-mode .site-nav-drawer a.active .lucide {
+  .dark-mode .site-nav-drawer a.active .lucide,
+  .dark-mode .drawer-nav-parent:hover .lucide,
+  .dark-mode .drawer-nav-group.active > .drawer-nav-parent .lucide {
     color: var(--green-leaf);
+  }
+
+  .drawer-nav-parent::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    margin-left: auto;
+    border-right: 1.6px solid currentColor;
+    border-bottom: 1.6px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.18s ease;
+    opacity: 0.72;
+  }
+
+  .drawer-nav-group.is-open > .drawer-nav-parent::after {
+    transform: rotate(225deg);
+  }
+
+  .drawer-nav-children {
+    display: none;
+    padding: 3px 0 4px 21px;
+  }
+
+  .drawer-nav-group.is-open > .drawer-nav-children {
+    display: grid;
+    gap: 2px;
+  }
+
+  .drawer-nav-children a {
+    min-height: 32px;
+    padding: 7px 10px;
+    font-size: 14px;
   }
 
   /* Drawer mode for the visual-left sidebar (DOM: sidebar-right).
