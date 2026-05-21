@@ -1,8 +1,11 @@
 <%
 var recentLimit = theme.recent_posts || 5;
+var randomPoolLimit = parseInt(theme.random_posts_pool, 10);
 var randomPool = flatpaper_sorted_posts()
-  .filter(function (p) { return !page.path || p.path !== page.path; })
-  .slice(0, 100);
+  .filter(function (p) { return !page.path || p.path !== page.path; });
+if (randomPoolLimit > 0) {
+  randomPool = randomPool.slice(0, randomPoolLimit);
+}
 var recentPosts = randomPool.slice(0, recentLimit);
 function jsonForScript(value) {
   return JSON.stringify(value).replace(/<\//g, '<\\/');

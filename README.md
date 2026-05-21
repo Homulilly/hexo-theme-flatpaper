@@ -126,7 +126,8 @@ welcome:
   # image: /images/welcome.jpg        # optional 16:9 cover image; empty keeps the CSS mountain scene
 
 excerpt_length: 96
-recent_posts: 6                       # random sidebar post count; candidates are the latest 100 posts at generate time
+recent_posts: 6                       # random sidebar post count
+random_posts_pool: 100                # candidate pool from latest N posts; 0 or empty means unlimited
 related_posts: 4                      # 0 disables related posts
 
 search:
@@ -416,7 +417,7 @@ Shared partials in `layout/_partial/`:
 - `header.ejs`: brand, navigation, search, theme toggle, drawer toggle (narrow screens only)
 - `footer.ejs`: configurable footer with `{year}` / `{name}` / `{theme}` template tokens; `{theme}` renders as a link to the theme repo
 - `sidebar-left.ejs` / `sidebar-right.ejs`: see the sidebar layout note below
-- `random-posts.ejs`: reusable random-posts card, backed by the latest 100 posts at generate time
+- `random-posts.ejs`: reusable random-posts card, backed by a configurable latest-post candidate pool
 - `post-card.ejs`: home / grid card with edge-bleed thumbnail
 - `archive-list.ejs`: paginated archive / category / tag list
 - `thumbnail.ejs`: real cover image and CSS-scene fallback

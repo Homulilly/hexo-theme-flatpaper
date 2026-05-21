@@ -126,7 +126,8 @@ welcome:
   # image: /images/welcome.jpg        # 可选 16:9 封面图；留空保留 CSS 山景
 
 excerpt_length: 96
-recent_posts: 6                       # 侧边栏随机文章数量；候选池为生成期最新 100 篇
+recent_posts: 6                       # 侧边栏随机文章数量
+random_posts_pool: 100                # 候选池取生成期最新 N 篇；0 或留空表示不限
 related_posts: 4                      # 0 表示禁用相关文章
 
 search:
@@ -416,7 +417,7 @@ type: links            # 或：tags、categories
 - `header.ejs`：品牌 · 导航 · 搜索 · 主题切换 · 抽屉切换（仅窄屏）
 - `footer.ejs`：支持 `{year}` / `{name}` / `{theme}` 模板 token 的可配置页脚；`{theme}` 渲染为指向主题仓库的署名链接
 - `sidebar-left.ejs` / `sidebar-right.ejs`：见下面的侧栏布局说明
-- `random-posts.ejs`：可复用的随机文章卡片，候选池为生成期最新 100 篇
+- `random-posts.ejs`：可复用的随机文章卡片，候选池大小可配置
 - `post-card.ejs`：首页 / 网格卡片，带边缘出血缩略图
 - `archive-list.ejs`：分页归档 / 分类 / 标签列表
 - `thumbnail.ejs`：真实封面图与 CSS 场景回退
