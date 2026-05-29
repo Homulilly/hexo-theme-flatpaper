@@ -86,6 +86,29 @@ random_posts_pool: 100
 # 文章页底部"相关文章"展示数量；0 表示禁用；不配置则默认 3 篇
 related_posts: 4
 
+# 文章底部互动区（评论 / 分享 一行）追加的自定义条目，常用于"赞赏 / 打赏"。
+# 点击按钮后，气泡弹出一张图片（一般是收款二维码）。可添加多个。
+# 每项字段：
+#   type   目前仅支持 image（弹出一张图片）
+#   name   按钮旁文字，如 赞赏 / 微信 / 支付宝（缺省为 赞赏）
+#   icon   图标名：gift（默认）| alipay | wechat | paypal | heart 或任意内置图标
+#   align  left（靠左，与"评论"同侧）| right（靠右，与"分享"同侧，默认）
+#   image  图片路径（站点 source/ 下的相对路径，如 /images/reward.jpg）或绝对 URL
+#   title  可选；气泡标题，缺省用 name
+reactions:
+  custom:
+    # - type: image
+    #   name: 赞赏
+    #   icon: wechat
+    #   align: right
+    #   image: /images/reward-wechat.jpg
+    #   title: 微信赞赏
+    # - type: image
+    #   name: 支付宝
+    #   icon: alipay
+    #   align: right
+    #   image: /images/reward-alipay.jpg
+
 # 前端搜索索引上限（0 或留空 = 不限）。文章很多时调小可减小首屏 JSON 体积。
 search:
   limit: 0

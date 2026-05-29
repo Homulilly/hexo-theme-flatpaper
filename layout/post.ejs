@@ -3,6 +3,21 @@ var categories = page.categories ? page.categories.toArray() : [];
 var tags = page.tags ? page.tags.toArray() : [];
 // related_posts 显式设为 0 表示禁用；未配置则使用 3
 var relatedCount = (theme.related_posts != null ? theme.related_posts : 3);
+
+// 文章底部互动区的自定义条目（赞赏 / 打赏等）。
+// 当前支持 type: image —— 点击按钮气泡弹出一张图片（通常是收款二维码）。
+// align 决定靠左(left)还是靠右(right，默认)；支持配置多个。
+var reactionCfg = theme.reactions || {};
+var customReactions = Array.isArray(reactionCfg.custom) ? reactionCfg.custom : [];
+var leftReactions = [];
+var rightReactions = [];
+customReactions.forEach(function (item) {
+  if (!item) return;
+  var type = String(item.type || 'image').toLowerCase();
+  // 目前仅支持 image 类型
+  if (type !== 'image' || !item.image) return;
+  (String(item.align || 'right').toLowerCase() === 'left' ? leftReactions : rightReactions).push(item);
+});
 var allPosts = relatedCount > 0 ? flatpaper_sorted_posts() : [];
 
 // Build id sets for fast match
@@ -73,8 +88,10 @@ var relatedPosts = allPosts
         <%- partial('_partial/icons', { icon: 'message-circle' }) %>
       </button>
       <span class="reaction-label">评论</span>
+      <% leftReactions.forEach(function (item) { %><%- partial('_partial/reaction-pop', { item: item }) %><% }) %>
     </div>
     <div class="reaction-group reaction-group--right">
+      <% rightReactions.forEach(function (item) { %><%- partial('_partial/reaction-pop', { item: item }) %><% }) %>
       <button type="button" class="reaction reaction--share" aria-label="分享" data-action="share">
         <%- partial('_partial/icons', { icon: 'share-2' }) %>
       </button>

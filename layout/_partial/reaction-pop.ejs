@@ -1,0 +1,19 @@
+<%
+// 渲染文章底部互动区的一个自定义条目（赞赏 / 打赏等）。
+// 期望 local：item = { type, name, icon, align, image, title }
+// 目前只处理 type: image —— 点击按钮，气泡内弹出 item.image。
+var name = item.name || '赞赏';
+var icon = item.icon || 'gift';
+var align = String(item.align || 'right').toLowerCase() === 'left' ? 'left' : 'right';
+var bubbleTitle = item.title || name;
+%>
+<div class="reaction-pop reaction-pop--<%= align %>">
+  <button type="button" class="reaction reaction--reward" data-action="toggle-pop" aria-expanded="false" aria-label="<%= name %>">
+    <%- partial('_partial/icons', { icon: icon }) %>
+  </button>
+  <span class="reaction-label"><%= name %></span>
+  <div class="reaction-bubble" role="dialog" aria-label="<%= bubbleTitle %>" hidden>
+    <% if (bubbleTitle) { %><div class="reaction-bubble-title"><%= bubbleTitle %></div><% } %>
+    <img class="reaction-bubble-img no-zoom" src="<%- url_for(item.image) %>" alt="<%= bubbleTitle %>" loading="lazy">
+  </div>
+</div>

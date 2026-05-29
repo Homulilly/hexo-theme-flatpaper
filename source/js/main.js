@@ -742,14 +742,28 @@
     });
   });
 
-  // ---- Reactions footer: comment / share buttons ----
+  // ---- Reactions footer: comment / share / reward buttons ----
   // Comment button scrolls to whichever comment system is mounted (Twikoo /
   // Artalk), falling back to the wrapping .comments-section. Share button
-  // uses the Web Share API and falls back to clipboard copy.
+  // uses the Web Share API and falls back to clipboard copy. Reward buttons
+  // (toggle-pop) open/close a popover bubble holding a custom image (QR code).
+  function closeAllPops(except) {
+    var open = document.querySelectorAll('.reaction--reward[aria-expanded="true"]');
+    for (var i = 0; i < open.length; i++) {
+      if (open[i] === except) continue;
+      open[i].setAttribute('aria-expanded', 'false');
+      var b = open[i].parentNode.querySelector('.reaction-bubble');
+      if (b) b.hidden = true;
+    }
+  }
   document.addEventListener('click', function (e) {
+    // Clicks inside an open bubble (e.g. the QR image) keep it open.
+    if (e.target.closest && e.target.closest('.reaction-bubble')) return;
     var btn = e.target.closest && e.target.closest('[data-action]');
-    if (!btn) return;
+    if (!btn) { closeAllPops(null); return; }
     var action = btn.getAttribute('data-action');
+    // Any action other than toggling a popover dismisses open popovers.
+    if (action !== 'toggle-pop') closeAllPops(null);
     if (action === 'scroll-to-comments') {
       var anchor = document.getElementById('tcomment')
                 || document.getElementById('artalk-comments')
@@ -762,7 +776,16 @@
       } else if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(location.href);
       }
+    } else if (action === 'toggle-pop') {
+      var bubble = btn.parentNode.querySelector('.reaction-bubble');
+      var willOpen = btn.getAttribute('aria-expanded') !== 'true';
+      closeAllPops(btn);
+      btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      if (bubble) bubble.hidden = !willOpen;
     }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAllPops(null);
   });
 
   // ---- Fancybox: wrap article images, then bind the lightbox ----
