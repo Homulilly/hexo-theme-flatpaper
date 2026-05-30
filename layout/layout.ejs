@@ -20,7 +20,7 @@ var accentColor = theme.color || theme.accent_color || theme.theme_color || 'gre
 accentColor = String(accentColor).toLowerCase();
 if (['green', 'pink', 'blue', 'orange', 'sakura'].indexOf(accentColor) === -1) accentColor = 'green';
 var codeTheme = theme.code && theme.code.theme ? String(theme.code.theme).toLowerCase() : 'dark';
-if (['dark', 'sand', 'light'].indexOf(codeTheme) === -1) codeTheme = 'dark';
+if (['dark', 'sand', 'light', 'simple'].indexOf(codeTheme) === -1) codeTheme = 'dark';
 var noteStyle = theme.note && theme.note.style ? String(theme.note.style).toLowerCase() : 'flat';
 if (['flat', 'simple', 'modern', 'disabled'].indexOf(noteStyle) === -1) noteStyle = 'flat';
 var noteIcons = !(theme.note && theme.note.icons === false);
