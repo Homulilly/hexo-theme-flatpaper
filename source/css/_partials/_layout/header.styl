@@ -261,6 +261,17 @@ body::before {
   width: 14px;
   height: 14px;
   color: var(--muted);
+  transition: color 0.16s ease;
+}
+
+.site-nav-menu a:hover .lucide,
+.site-nav-menu a.active .lucide {
+  color: var(--green-deep);
+}
+
+.dark-mode .site-nav-menu a:hover .lucide,
+.dark-mode .site-nav-menu a.active .lucide {
+  color: var(--green-leaf);
 }
 
 .header-tools {
