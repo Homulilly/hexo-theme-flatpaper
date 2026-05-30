@@ -26,6 +26,16 @@ a {
   text-decoration: none;
 }
 
+/* Text selection follows the active accent (remapped via --green). */
+::selection {
+  color: var(--ink);
+  background: var(--green-soft);
+}
+::-moz-selection {
+  color: var(--ink);
+  background: var(--green-soft);
+}
+
 img {
   max-width: 100%;
   height: auto;
