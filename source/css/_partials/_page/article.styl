@@ -155,18 +155,33 @@
 }
 
 .article-content a {
+  position: relative;
+  top: 0;
   color: var(--green-deep);
   font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: rgba(79, 136, 98, 0.32);
+  text-decoration-color: unquote('color-mix(in srgb, var(--green) 42%, transparent)');
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
   overflow-wrap: anywhere;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease, top 0.18s ease;
 }
 
 .article-content a:hover {
-  color: var(--orange);
-  text-decoration-color: currentColor;
+  top: -1px;
+  color: var(--green-deep);
+  text-decoration-color: var(--green-deep);
+}
+
+.dark-mode .article-content a {
+  color: var(--green-leaf);
+  text-decoration-color: unquote('color-mix(in srgb, var(--green-leaf) 38%, transparent)');
+}
+
+.dark-mode .article-content a:hover {
+  top: -1px;
+  color: var(--green-leaf);
+  text-decoration-color: var(--green-leaf);
 }
 
 .article-content ul,
