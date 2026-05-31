@@ -54,8 +54,20 @@
 
 .related-paper__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
+}
+
+@media (max-width: 1180px) {
+  .related-paper__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .related-paper__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .related-card {
