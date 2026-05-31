@@ -4,16 +4,16 @@ var summary = strip_html(post.excerpt || post.content || '').replace(/\s+/g, ' '
 var max = theme.excerpt_length || 96;
 if (summary.length > max) summary = summary.slice(0, max) + '...';
 %>
-<article class="post-card" data-title="<%= post.title %>">
-  <a class="post-thumb-link" href="<%- url_for(post.path) %>" aria-label="<%= post.title %>">
+<a class="post-card" href="<%- url_for(post.path) %>" data-title="<%= post.title %>" aria-label="<%= post.title %>">
+  <span class="post-thumb-link" aria-hidden="true">
     <%- partial('_partial/thumbnail', { index: index, post: post }) %>
-  </a>
+  </span>
   <div class="post-card-copy">
-    <h3><a href="<%- url_for(post.path) %>"><%= post.title %></a></h3>
+    <h3><%= post.title %></h3>
     <p><%= summary %></p>
     <div class="meta-line">
       <span class="meta-date"><%- partial('_partial/icons', { icon: 'calendar' }) %><%= date(post.date, 'YYYY-MM-DD') %></span>
       <% if (categories.length) { %><span class="meta-cat"><%- partial('_partial/icons', { icon: 'folder' }) %><%= categories[0].name %></span><% } %>
     </div>
   </div>
-</article>
+</a>
