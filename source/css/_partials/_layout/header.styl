@@ -75,8 +75,20 @@ body::before {
 }
 
 .brand-text {
+  position: relative;
+  display: inline-block;
   color: var(--ink);
   text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.brand-text:hover {
+  color: var(--green-deep);
+  transform: translateY(-2px);
+}
+
+.dark-mode .brand-text:hover {
+  color: var(--green-leaf);
 }
 
 .brand-mark-wrapper {
