@@ -45,22 +45,30 @@ body::before {
 .brand-mark {
   display: inline-grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border: 1px dashed var(--line);
+  border-radius: 50%;
+  color: var(--ink-soft);
+  background: var(--paper-warm);
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.brand:hover .brand-mark {
   color: var(--green-deep);
+  border-color: var(--green);
   background: var(--green-soft);
+  transform: translateY(-1px);
 }
 
 .brand-mark .lucide {
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
   stroke-width: 2;
 }
 
 .dark-mode .brand-mark {
-  color: var(--green-leaf);
-  background: rgba(130, 191, 144, 0.18);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .brand-text {
