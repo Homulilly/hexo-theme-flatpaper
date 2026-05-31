@@ -52,6 +52,21 @@
     var accentPicker = document.querySelector('.accent-picker');
     var accentToggle = document.querySelector('.accent-toggle');
     var accentMenu = document.querySelector('.accent-menu');
+    var brandNavWrapper = document.querySelector('.brand-mark-wrapper');
+    var brandNavToggle = brandNavWrapper ? brandNavWrapper.querySelector('.brand-mark') : null;
+    var brandNavMenu = brandNavWrapper ? brandNavWrapper.querySelector('.brand-nav-menu') : null;
+    function closeBrandNav() {
+      if (!brandNavWrapper || !brandNavToggle) return;
+      brandNavWrapper.classList.remove('is-open');
+      brandNavToggle.setAttribute('aria-expanded', 'false');
+    }
+    function openBrandNav() {
+      if (!brandNavWrapper || !brandNavToggle) return;
+      var rect = brandNavToggle.getBoundingClientRect();
+      root.style.setProperty('--brand-nav-top', Math.round(rect.bottom + 10) + 'px');
+      brandNavWrapper.classList.add('is-open');
+      brandNavToggle.setAttribute('aria-expanded', 'true');
+    }
     function closeAccentMenu() {
       if (!accentPicker || !accentToggle) return;
       accentPicker.classList.remove('is-open');
@@ -83,6 +98,32 @@
       });
       document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape') closeAccentMenu();
+      });
+    }
+
+    if (brandNavWrapper && brandNavToggle && brandNavMenu && !brandNavToggle.dataset.flatpaperBound) {
+      brandNavToggle.dataset.flatpaperBound = '1';
+      brandNavToggle.addEventListener('click', function (event) {
+        event.stopPropagation();
+        if (brandNavWrapper.classList.contains('is-open')) closeBrandNav();
+        else openBrandNav();
+      });
+      brandNavMenu.addEventListener('click', function (event) {
+        event.stopPropagation();
+      });
+      brandNavMenu.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeBrandNav);
+      });
+      document.addEventListener('click', function (event) {
+        if (!brandNavWrapper.contains(event.target)) closeBrandNav();
+      });
+      document.addEventListener('pointerdown', function (event) {
+        if (!brandNavWrapper.contains(event.target)) closeBrandNav();
+      });
+      window.addEventListener('resize', closeBrandNav);
+      window.addEventListener('scroll', closeBrandNav, { passive: true });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeBrandNav();
       });
     }
 

@@ -41,10 +41,10 @@
   <div class="brand">
     <div class="brand-mark-wrapper">
       <% if (theme.nav && theme.nav.enable) { %>
-        <button class="brand-mark" type="button" aria-haspopup="true" aria-expanded="false">
+        <button class="brand-mark" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="brand-nav-menu">
           <%- partial('_partial/icons', { icon: 'layout-grid' }) %>
         </button>
-        <div class="brand-nav-menu" role="menu">
+        <div class="brand-nav-menu" id="brand-nav-menu" role="menu">
           <% (theme.nav.menu || []).forEach(function(group) { %>
             <div class="brand-nav-group">
               <div class="brand-nav-title"><%= group.title %></div>
