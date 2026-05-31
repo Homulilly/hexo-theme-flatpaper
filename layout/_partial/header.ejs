@@ -38,10 +38,37 @@
     <%- partial('_partial/icons', { icon: 'menu' }) %>
   </button>
 
-  <a class="brand" href="<%- url_for('/') %>" aria-label="FlatPaper home">
-    <span class="brand-mark" aria-hidden="true"><%- partial('_partial/icons', { icon: 'layout-grid' }) %></span>
-    <span class="brand-text"><%= config.title || 'FlatPaper' %></span>
-  </a>
+  <div class="brand">
+    <div class="brand-mark-wrapper">
+      <% if (theme.nav && theme.nav.enable) { %>
+        <button class="brand-mark" type="button" aria-haspopup="true" aria-expanded="false">
+          <%- partial('_partial/icons', { icon: 'layout-grid' }) %>
+        </button>
+        <div class="brand-nav-menu" role="menu">
+          <% (theme.nav.menu || []).forEach(function(group) { %>
+            <div class="brand-nav-group">
+              <div class="brand-nav-title"><%= group.title %></div>
+              <% (group.item || []).forEach(function(item) { %>
+                <a role="menuitem" href="<%= item.link %>" target="_blank" rel="noopener noreferrer">
+                  <% if (item.icon && item.icon.indexOf('http') === 0) { %>
+                    <img src="<%= item.icon %>" alt="" class="nav-img-icon" aria-hidden="true" />
+                  <% } else if (item.icon) { %>
+                    <%- partial('_partial/icons', { icon: item.icon }) %>
+                  <% } %>
+                  <span><%= item.name %></span>
+                </a>
+              <% }) %>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <a class="brand-mark" href="<%- url_for('/') %>" aria-label="FlatPaper home">
+          <%- partial('_partial/icons', { icon: 'layout-grid' }) %>
+        </a>
+      <% } %>
+    </div>
+    <a class="brand-text" href="<%- url_for('/') %>"><%= config.title || 'FlatPaper' %></a>
+  </div>
 
   <nav class="site-nav" aria-label="Primary navigation">
     <% Object.keys(theme.menu || {}).forEach(function(label) {

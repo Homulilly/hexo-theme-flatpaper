@@ -47,6 +47,8 @@ body::before {
   place-items: center;
   width: 40px;
   height: 40px;
+  padding: 0;
+  cursor: pointer;
   border: 1px dashed var(--line);
   border-radius: 50%;
   color: var(--ink-soft);
@@ -73,6 +75,102 @@ body::before {
 
 .brand-text {
   color: var(--ink);
+  text-decoration: none;
+}
+
+.brand-mark-wrapper {
+  position: relative;
+  display: inline-grid;
+}
+
+.brand-nav-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: max-content;
+  padding: 16px;
+  border: 1px dashed var(--dash);
+  border-radius: 12px;
+  background: var(--paper);
+  box-shadow: var(--small-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0.16s;
+}
+
+.brand-nav-menu::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 12px;
+}
+
+.brand-mark-wrapper:hover .brand-nav-menu,
+.brand-mark-wrapper:focus-within .brand-nav-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0s;
+}
+
+.brand-nav-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  gap: 4px 12px;
+}
+
+.brand-nav-title {
+  grid-column: 1 / -1;
+  padding: 4px 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.brand-nav-group a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.brand-nav-group a:hover {
+  color: var(--green-deep);
+  background: var(--green-soft);
+}
+
+.brand-nav-group a .lucide {
+  width: 16px;
+  height: 16px;
+  color: inherit;
+}
+
+.brand-nav-group a .nav-img-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+.dark-mode .brand-nav-group a:hover {
+  color: var(--green-leaf);
+  background: rgba(130, 191, 144, 0.12);
 }
 
 .site-nav {

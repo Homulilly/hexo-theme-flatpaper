@@ -9,9 +9,8 @@ menu:
   # 友链:
   #   link: /links/
   #   icon: link
-
-  ## 二级菜单示例
-  # 站点:
+  # # 二级菜单示例
+  # 文章:
   #   icon: folder
   #   item:
   #     分类:
@@ -23,6 +22,21 @@ menu:
   #     关于:
   #       link: /about/
   #       icon: user
+
+nav:
+  enable: false
+  menu:
+    - title: Live DEMO
+      item:
+        - name: FlapaperDemo
+          link: https://flatpaper.nep.me/
+          icon: leaf
+    - title: Project
+      item:
+        - name: 简易工具
+          link: https://tools.ooo.run
+          icon: https://tools.ooo.run/favicon.ico
+
 profile:
   role: 日常记录
   bio: 介绍一下自己 — 一两句话，写写你想被别人记住的部分。
