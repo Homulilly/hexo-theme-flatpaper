@@ -1,14 +1,14 @@
 # 导航菜单：
 menu:
-  首页:
-    link: /
-    icon: home
-  归档:
-    link: /archives/
-    icon: archive
+  # 首页:
+  #   link: /
+  #   icon: home
   # 友链:
   #   link: /links/
   #   icon: link
+  # 关于:
+  #    link: /about/
+  #    icon: user 
   # # 二级菜单示例
   # 文章:
   #   icon: folder
@@ -19,9 +19,9 @@ menu:
   #     标签:
   #       link: /tags/
   #       icon: tag
-  #     关于:
-  #       link: /about/
-  #       icon: user
+  #     归档:
+  #       link: /archives/
+  #       icon: archive
 
 nav:
   enable: false
@@ -31,6 +31,9 @@ nav:
         - name: FlapaperDemo
           link: https://flatpaper.nep.me/
           icon: leaf
+        - name: Homulilly
+          link: https://homulilly.com/
+          icon: https://homulilly.com/images/avatar.jpg
     - title: Project
       item:
         - name: 简易工具
