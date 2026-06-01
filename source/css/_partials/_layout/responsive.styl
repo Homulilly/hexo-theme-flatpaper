@@ -55,6 +55,11 @@
     padding: 16px 20px;
   }
 
+  .brand-mark-wrapper,
+  .accent-picker {
+    display: none;
+  }
+
   .brand-nav-menu {
     position: fixed;
     top: var(--brand-nav-top, 96px);
@@ -113,6 +118,74 @@
   .nav-card {
     display: block;
     padding: 12px 10px;
+  }
+
+  .brand-link-card {
+    display: grid;
+    gap: 14px;
+    padding: 14px 12px;
+  }
+
+  .brand-link-group {
+    display: grid;
+    gap: 6px;
+  }
+
+  .brand-link-title {
+    padding: 0 4px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .brand-link-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .brand-link-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .brand-link-list a:hover {
+    color: var(--green-deep);
+    background: var(--green-soft);
+  }
+
+  .brand-link-list a .lucide,
+  .brand-link-list a .nav-img-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .brand-link-list a .nav-img-icon {
+    object-fit: contain;
+    border-radius: 2px;
+  }
+
+  .brand-link-list a span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dark-mode .brand-link-list a:hover {
+    color: var(--green-leaf);
+    background: rgba(130, 191, 144, 0.12);
   }
 
   .site-nav-drawer {
@@ -348,12 +421,7 @@
     font-size: 18px;
   }
 
-  .brand-nav-menu {
-    width: unquote('min(calc(100vw - 24px), 340px)');
-    padding: 14px;
-  }
-
-  .brand-nav-group {
+  .brand-link-list {
     grid-template-columns: 1fr;
   }
 

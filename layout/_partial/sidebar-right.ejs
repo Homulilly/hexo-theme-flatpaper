@@ -183,6 +183,28 @@ function menuActive(href) {
     </div>
   </section>
 
+  <% if (theme.nav && theme.nav.enable && theme.nav.menu && theme.nav.menu.length) { %>
+    <section class="side-card brand-link-card" aria-label="站点链接">
+      <% (theme.nav.menu || []).forEach(function(group) { %>
+        <div class="brand-link-group">
+          <div class="brand-link-title"><%= group.title %></div>
+          <div class="brand-link-list">
+            <% (group.item || []).forEach(function(item) { %>
+              <a href="<%= flatpaper_safe_url(item.link, 'href') %>" target="_blank" rel="noopener noreferrer">
+                <% if (item.icon && item.icon.indexOf('http') === 0) { %>
+                  <img src="<%= flatpaper_safe_url(item.icon, 'image') %>" alt="" class="nav-img-icon" aria-hidden="true" />
+                <% } else if (item.icon) { %>
+                  <%- partial('_partial/icons', { icon: item.icon }) %>
+                <% } %>
+                <span><%= item.name %></span>
+              </a>
+            <% }) %>
+          </div>
+        </div>
+      <% }) %>
+    </section>
+  <% } %>
+
   <% if (is_post()) { %>
     <section class="side-card toc-card">
       <h2><%- partial('_partial/icons', { icon: 'table-of-contents' }) %>文章目录</h2>
