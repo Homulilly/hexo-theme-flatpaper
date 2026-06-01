@@ -18,7 +18,7 @@ var tapeDisabled = theme.tape === false || (theme.tape && theme.tape.enable === 
 var tagStyle = theme.tags && theme.tags.style === 'pill' ? 'pill' : 'tape';
 var accentColor = theme.color || theme.accent_color || theme.theme_color || 'green';
 accentColor = String(accentColor).toLowerCase();
-if (['green', 'pink', 'blue', 'orange', 'sakura'].indexOf(accentColor) === -1) accentColor = 'green';
+if (['green', 'pink', 'blue', 'orange', 'sakura', 'black'].indexOf(accentColor) === -1) accentColor = 'green';
 var codeTheme = theme.code && theme.code.theme ? String(theme.code.theme).toLowerCase() : 'dark';
 if (['dark', 'sand', 'light', 'simple'].indexOf(codeTheme) === -1) codeTheme = 'dark';
 var noteStyle = theme.note && theme.note.style ? String(theme.note.style).toLowerCase() : 'flat';

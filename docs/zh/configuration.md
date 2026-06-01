@@ -179,7 +179,7 @@ tape:
 ```
 
 - `tags.style`：`tape` 或 `pill`
-- `color`：`green`、`pink`、`blue`、`orange`、`sakura`
+- `color`：`green`、`pink`、`blue`、`orange`、`sakura`、`black`
 - 桌面端通过 Header 调色盘选择主题色；移动端在侧栏顶部直接显示色点。
 - 用户选择会写入 `flatpaper-accent` cookie。
 

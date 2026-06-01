@@ -60,6 +60,13 @@ html[data-accent="orange"] {
   --color-accent-muted: #f0ad76;
 }
 
+html[data-accent="black"] {
+  --color-accent: #111111;
+  --color-accent-strong: #111111;
+  --color-accent-soft: rgba(17, 17, 17, 0.12);
+  --color-accent-muted: #111111;
+}
+
 .dark-mode {
   --bg: #1f2427;
   --paper: #2b3132;
@@ -115,4 +122,11 @@ html[data-accent="orange"] {
   --color-accent-strong: #d8874d;
   --color-accent-soft: #503d2d;
   --color-accent-muted: #f2b47e;
+}
+
+.dark-mode[data-accent="black"] {
+  --color-accent: #f5f5f5;
+  --color-accent-strong: #f5f5f5;
+  --color-accent-soft: rgba(255, 255, 255, 0.14);
+  --color-accent-muted: #f5f5f5;
 }

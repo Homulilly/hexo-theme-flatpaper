@@ -181,7 +181,7 @@ tape:
 ```
 
 - `tags.style`: `tape` or `pill`
-- `color`: `green`, `pink`, `blue`, `orange`, or `sakura`
+- `color`: `green`, `pink`, `blue`, `orange`, `sakura`, or `black`
 - On desktop the palette button opens the color menu; on mobile color swatches appear directly in the sidebar drawer.
 - The chosen accent is stored in the `flatpaper-accent` cookie.
 

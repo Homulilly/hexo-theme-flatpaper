@@ -29,7 +29,7 @@
   // double-binding via a dataset flag. Everything else binds inline on
   // initial DOM nodes — fine for a multi-page Hexo build.
   var root = document.documentElement;
-  var accents = ['green', 'pink', 'sakura', 'blue', 'orange'];
+  var accents = ['green', 'pink', 'sakura', 'blue', 'orange', 'black'];
   var defaultAccent = document.body && document.body.dataset.defaultAccent ? document.body.dataset.defaultAccent : 'green';
   if (accents.indexOf(defaultAccent) === -1) defaultAccent = 'green';
   var storedAccent = safeCookie.get('flatpaper-accent');
