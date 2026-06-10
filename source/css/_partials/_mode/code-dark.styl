@@ -356,8 +356,10 @@
 
 .article-content table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   margin: 22px 0;
+  border: 1px solid var(--line);
   border-radius: 10px;
   overflow: hidden;
   font-size: 14px;
@@ -366,8 +368,24 @@
 .article-content th,
 .article-content td {
   padding: 10px 12px;
-  border: 1px solid var(--line);
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   text-align: left;
+}
+
+.article-content tr > :last-child {
+  border-right: 0;
+}
+
+.article-content tbody tr:last-child > th,
+.article-content tbody tr:last-child > td,
+.article-content tfoot tr:last-child > th,
+.article-content tfoot tr:last-child > td,
+.article-content table > tr:last-child > th,
+.article-content table > tr:last-child > td,
+.article-content thead:last-child tr:last-child > th {
+  border-bottom: 0;
 }
 
 .article-content th {
