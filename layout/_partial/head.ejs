@@ -1,10 +1,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f7f3e9">
-<title><% if (page.title && !is_home()) { %><%= page.title %> | <% } %><%= config.title || 'FlatPaper' %></title>
-<% if (config.description) { %>
-  <meta name="description" content="<%= config.description %>">
-<% } %>
+<%
+var siteTitle = config.title || 'FlatPaper';
+var titleParts = [];
+if (is_tag()) titleParts.push('标签：' + page.tag);
+else if (is_category()) titleParts.push('分类：' + page.category);
+else if (is_archive()) titleParts.push('归档' + (page.year ? '：' + page.year + (page.month ? '/' + (page.month < 10 ? '0' : '') + page.month : '') : ''));
+else if (page.title && !is_home()) titleParts.push(page.title);
+if (page.current && page.current > 1) titleParts.push('第 ' + page.current + ' 页');
+var fullTitle = titleParts.length ? titleParts.join(' · ') + ' | ' + siteTitle : siteTitle;
+// First string-valued cover-ish front-matter field, for og:image; open_graph
+// falls back to page.photos / first content image on its own.
+var ogImage = ['cover', 'thumbnail', 'image', 'banner'].map(function (k) { return page[k]; }).filter(function (v) { return typeof v === 'string' && v; })[0];
+var canonicalUrl = (page.permalink || full_url_for(page.path || '')).replace(/index\.html$/, '');
+%>
+<title><%= fullTitle %></title>
+<%- open_graph({ title: fullTitle, image: ogImage, url: canonicalUrl }) %>
+<link rel="canonical" href="<%= canonicalUrl %>">
 <%
 var accentColor = theme.color || theme.accent_color || theme.theme_color || 'green';
 accentColor = String(accentColor).toLowerCase();

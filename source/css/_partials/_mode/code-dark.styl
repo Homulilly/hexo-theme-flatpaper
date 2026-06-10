@@ -274,26 +274,29 @@
   display: none;
 }
 
+/* Interaction colors go through variables (defaults tuned for this dark
+   default theme) so the light/sand/simple code themes can retune them just by
+   resetting the variables — see the other _mode/*.styl files. */
 .article-content .highlight td.gutter .line:hover:not(.is-highlight):not(.is-copied) {
-  background: rgba(255, 255, 255, 0.04);
-  color: #d8d2c5;
+  background: var(--code-gutter-hover-bg, rgba(255, 255, 255, 0.04));
+  color: var(--code-gutter-hover-ink, #d8d2c5);
 }
 
 .article-content .highlight td.gutter .line.is-highlight {
-  background: rgba(241, 193, 84, 0.18);
-  color: #f0bd4d;
+  background: var(--code-gutter-hl-bg, rgba(241, 193, 84, 0.18));
+  color: var(--code-gutter-hl-ink, #f0bd4d);
 }
 
 .article-content .highlight td.gutter .line.is-copied {
   background: unquote('color-mix(in srgb, var(--color-accent-muted) 40%, transparent)');
-  color: #fff;
+  color: var(--code-gutter-copied-ink, #fff);
 }
 
 .article-content .highlight td.code .line.is-highlight {
   display: block;
   margin: 0 -20px;
   padding: 0 20px;
-  background: rgba(241, 193, 84, 0.12);
+  background: var(--code-line-hl-bg, rgba(241, 193, 84, 0.12));
 }
 
 .article-content .highlight td.code .line.is-highlight + br {

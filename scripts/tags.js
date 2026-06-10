@@ -27,7 +27,10 @@ function escapeHTML(str) {
 function safeUrl(value, kind) {
   const fallback = kind === 'image' ? '' : '#';
   const url = String(value == null ? '' : value).trim();
-  if (!url || /[\u0000-\u001f\u007f]/.test(url) || url.charAt(0) === '\\') return fallback;
+  // Reject backslashes anywhere, not just leading: WHATWG URL treats \ as /
+  // in special schemes, so e.g. "/\evil.com" resolves cross-origin while
+  // still looking like a relative path. Legit URLs never need a raw backslash.
+  if (!url || /[\u0000-\u001f\u007f\\]/.test(url)) return fallback;
 
   if (url.indexOf('//') === 0) return url;
 

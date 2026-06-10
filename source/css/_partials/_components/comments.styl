@@ -1,0 +1,31 @@
+/* ============== COMMENTS ============== */
+/* Wrapper card around the mounted comment system (Twikoo / Artalk),
+   rendered by _partial/comments.ejs below the article inside .paper-main.
+   Mirrors the paper-card treatment from shell.styl. */
+.comments-section {
+  position: relative;
+  border: 2px dashed var(--dash);
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: var(--small-shadow);
+  padding: 26px 30px;
+}
+
+.comments-section__head h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.comments-section__head h2 .lucide {
+  width: 18px;
+  height: 18px;
+  color: var(--color-accent);
+}
+
+.dark-mode .comments-section__head h2 .lucide {
+  color: var(--color-accent-muted);
+}

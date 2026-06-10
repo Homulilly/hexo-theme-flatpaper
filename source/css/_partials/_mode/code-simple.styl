@@ -57,6 +57,17 @@ body[data-code-theme="simple"] .article-content .highlight td.gutter pre {
   color: var(--muted);
 }
 
+/* Line-number interaction states (consumed by code-dark.styl's .line rules).
+   Built from theme tokens, which already flip in dark mode. */
+body[data-code-theme="simple"] {
+  --code-gutter-hover-bg: unquote('color-mix(in srgb, var(--ink) 7%, transparent)');
+  --code-gutter-hover-ink: var(--ink-soft);
+  --code-gutter-hl-bg: unquote('color-mix(in srgb, var(--yellow) 26%, transparent)');
+  --code-gutter-hl-ink: var(--ink);
+  --code-gutter-copied-ink: var(--color-accent-strong);
+  --code-line-hl-bg: unquote('color-mix(in srgb, var(--yellow) 14%, transparent)');
+}
+
 /* Syntax highlighting mapped to theme variables: without these overrides the
    unscoped code-dark.styl token colors would apply, which are unreadable on
    the simple theme's light background. */

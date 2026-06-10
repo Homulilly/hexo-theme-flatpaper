@@ -47,6 +47,17 @@ body[data-code-theme="sand"] .article-content .highlight td.gutter pre {
   color: rgba(60, 50, 25, 0.4);
 }
 
+/* Line-number interaction states (consumed by code-dark.styl's .line rules).
+   Sand flips to a dark surface in dark mode, hence the .dark-mode reset below. */
+body[data-code-theme="sand"] {
+  --code-gutter-hover-bg: rgba(60, 50, 25, 0.07);
+  --code-gutter-hover-ink: rgba(60, 50, 25, 0.7);
+  --code-gutter-hl-bg: rgba(176, 137, 38, 0.24);
+  --code-gutter-hl-ink: #8a6a14;
+  --code-gutter-copied-ink: var(--color-accent-strong);
+  --code-line-hl-bg: rgba(176, 137, 38, 0.12);
+}
+
 /* Token colors - soft palette tuned for cream paper */
 body[data-code-theme="sand"] .article-content .highlight .comment,
 body[data-code-theme="sand"] .article-content .highlight .quote { color: #8a8678; font-style: italic; }
@@ -102,4 +113,15 @@ body[data-code-theme="sand"] .article-content > pre::-webkit-scrollbar-thumb {
 
 .dark-mode body[data-code-theme="sand"] .article-content .highlight td.gutter pre {
   color: rgba(241, 235, 222, 0.4);
+}
+
+/* Back to the dark-surface interaction palette (same values as the
+   code-dark.styl defaults). */
+.dark-mode body[data-code-theme="sand"] {
+  --code-gutter-hover-bg: rgba(255, 255, 255, 0.04);
+  --code-gutter-hover-ink: #d8d2c5;
+  --code-gutter-hl-bg: rgba(241, 193, 84, 0.18);
+  --code-gutter-hl-ink: #f0bd4d;
+  --code-gutter-copied-ink: #fff;
+  --code-line-hl-bg: rgba(241, 193, 84, 0.12);
 }

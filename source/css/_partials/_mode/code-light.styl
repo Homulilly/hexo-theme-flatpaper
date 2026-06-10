@@ -47,6 +47,18 @@ body[data-code-theme="light"] .article-content .highlight td.gutter pre {
   color: #8c959f;
 }
 
+/* Line-number interaction states (consumed by code-dark.styl's .line rules).
+   The light theme keeps light code blocks even in dark mode, so a single set
+   covers both modes. */
+body[data-code-theme="light"] {
+  --code-gutter-hover-bg: rgba(31, 35, 40, 0.06);
+  --code-gutter-hover-ink: #57606a;
+  --code-gutter-hl-bg: rgba(212, 167, 44, 0.25);
+  --code-gutter-hl-ink: #9a6700;
+  --code-gutter-copied-ink: #1a7f37;
+  --code-line-hl-bg: rgba(212, 167, 44, 0.12);
+}
+
 /* Token colors - white paper palette */
 body[data-code-theme="light"] .article-content .highlight .comment,
 body[data-code-theme="light"] .article-content .highlight .quote { color: #6e7781; font-style: italic; }
