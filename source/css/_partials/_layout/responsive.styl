@@ -339,8 +339,11 @@
   }
 
   /* Stacked layout: the in-flow sidebar is a normal block, not a sticky scroller.
+     `display: grid` also undoes the ≤1200px hide — that hide only covers the
+     960–1200px range, where the two-column shell can't fit this rail.
      (.paper-sidebar--right is hoisted into the drawer via its own fixed rule.) */
   .paper-shell > .paper-sidebar--left {
+    display: grid;
     position: static;
     max-height: none;
     overflow: visible;

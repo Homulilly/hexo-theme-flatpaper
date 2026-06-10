@@ -21,15 +21,20 @@
 var searchLimit = (theme.search && typeof theme.search.limit === 'number') ? theme.search.limit : 0;
 var searchPool = flatpaper_sorted_posts();
 if (searchLimit > 0) searchPool = searchPool.slice(0, searchLimit);
+// JSON.stringify alone leaves "</script>" intact, which would terminate this
+// script element early if a post title/excerpt contains it.
+function jsonForScript(value) {
+  return JSON.stringify(value).replace(/<\//g, '<\\/');
+}
 %>
 <script type="application/json" id="flatpaper-post-index">
 [
 <% searchPool.forEach(function (post, index, arr) { %>
   {
-    "title": <%- JSON.stringify(post.title || 'Untitled') %>,
-    "url": <%- JSON.stringify(url_for(post.path)) %>,
-    "date": <%- JSON.stringify(date(post.date, 'YYYY-MM-DD')) %>,
-    "text": <%- JSON.stringify(strip_html(post.excerpt || post.content || '').replace(/\s+/g, ' ').trim().slice(0, 200)) %>
+    "title": <%- jsonForScript(post.title || 'Untitled') %>,
+    "url": <%- jsonForScript(url_for(post.path)) %>,
+    "date": <%- jsonForScript(date(post.date, 'YYYY-MM-DD')) %>,
+    "text": <%- jsonForScript(strip_html(post.excerpt || post.content || '').replace(/\s+/g, ' ').trim().slice(0, 200)) %>
   }<%= index < arr.length - 1 ? ',' : '' %>
 <% }) %>
 ]

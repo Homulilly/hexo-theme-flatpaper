@@ -14,7 +14,10 @@ if (['green', 'pink', 'blue', 'orange', 'sakura', 'black'].indexOf(accentColor) 
   (function () {
     var accents = { green: 1, pink: 1, blue: 1, orange: 1, sakura: 1, black: 1 };
     var match = document.cookie.match(/(?:^|;\s*)flatpaper-accent=([^;]+)/);
-    var accent = match ? decodeURIComponent(match[1]) : '<%= accentColor %>';
+    var accent = '<%= accentColor %>';
+    if (match) {
+      try { accent = decodeURIComponent(match[1]); } catch (e) {}
+    }
     if (!accents[accent]) accent = '<%= accentColor %>';
     document.documentElement.setAttribute('data-accent', accent);
     try {

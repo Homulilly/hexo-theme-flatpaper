@@ -14,7 +14,10 @@
     get: function (key) {
       var escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + escaped + '=([^;]+)'));
-      return match ? decodeURIComponent(match[1]) : null;
+      if (!match) return null;
+      // A malformed percent sequence (e.g. written by another script on the
+      // same origin) makes decodeURIComponent throw, which would abort the IIFE.
+      try { return decodeURIComponent(match[1]); } catch (e) { return null; }
     },
     set: function (key, value) {
       try {

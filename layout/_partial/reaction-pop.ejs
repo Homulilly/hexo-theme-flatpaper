@@ -14,6 +14,6 @@ var bubbleTitle = item.title || name;
   <span class="reaction-label"><%= name %></span>
   <div class="reaction-bubble" role="dialog" aria-label="<%= bubbleTitle %>" hidden>
     <% if (bubbleTitle) { %><div class="reaction-bubble-title"><%= bubbleTitle %></div><% } %>
-    <img class="reaction-bubble-img no-zoom" src="<%- url_for(item.image) %>" alt="<%= bubbleTitle %>" loading="lazy">
+    <img class="reaction-bubble-img no-zoom" src="<%= flatpaper_safe_url(url_for(item.image), 'image') %>" alt="<%= bubbleTitle %>" loading="lazy">
   </div>
 </div>

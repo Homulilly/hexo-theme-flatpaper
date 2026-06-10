@@ -49,9 +49,9 @@
             <div class="brand-nav-group">
               <div class="brand-nav-title"><%= group.title %></div>
               <% (group.item || []).forEach(function(item) { %>
-                <a role="menuitem" href="<%= item.link %>" target="_blank" rel="noopener noreferrer">
+                <a role="menuitem" href="<%= flatpaper_safe_url(item.link, 'href') %>" target="_blank" rel="noopener noreferrer">
                   <% if (item.icon && item.icon.indexOf('http') === 0) { %>
-                    <img src="<%= item.icon %>" alt="" class="nav-img-icon" aria-hidden="true" />
+                    <img src="<%= flatpaper_safe_url(item.icon, 'image') %>" alt="" class="nav-img-icon" aria-hidden="true" />
                   <% } else if (item.icon) { %>
                     <%- partial('_partial/icons', { icon: item.icon }) %>
                   <% } %>
