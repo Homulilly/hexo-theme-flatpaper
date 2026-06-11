@@ -37,7 +37,7 @@ Images use `object-fit: cover` and `object-position: 50% 50%`.
 
 Search is opened by the header magnifier or `Ctrl+K` / `Cmd+K`.
 
-The search index is generated inline from posts. `search.limit` can cap the index to the latest N posts for large sites. Results highlight matched keywords with `<mark>`.
+The search index is built at generate time as a standalone `flatpaper-search.json` and fetched lazily the first time the panel opens — it is not inlined into pages. `search.limit` can cap the index to the latest N posts for large sites. Results highlight matched keywords with `<mark>`.
 
 ## Dark Mode and Accent Color
 
