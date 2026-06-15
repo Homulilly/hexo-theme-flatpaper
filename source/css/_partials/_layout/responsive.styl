@@ -308,15 +308,15 @@
     gap: 22px;
   }
 
-  /* Stacked layout: the in-flow sidebar is a normal block, not a sticky scroller.
-     `display: grid` also undoes the ≤1200px hide — that hide only covers the
-     960–1200px range, where the two-column shell can't fit this rail.
-     (.paper-sidebar--right is hoisted into the drawer via its own fixed rule.) */
+  /* In single-column mode, keep the secondary rail hidden instead of stacking
+     the welcome card and random posts below the article list. */
   .paper-shell > .paper-sidebar--left {
-    display: grid;
-    position: static;
-    max-height: none;
-    overflow: visible;
+    display: none;
+  }
+
+  .welcome-card,
+  .recent-card {
+    display: none;
   }
 
   .featured-paper {
@@ -375,7 +375,7 @@
   }
 
   .post-list {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .article-paper {
@@ -399,6 +399,10 @@
 }
 
 @media (max-width: 600px) {
+  .post-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .related-paper__grid {
     grid-template-columns: minmax(0, 1fr);
   }
