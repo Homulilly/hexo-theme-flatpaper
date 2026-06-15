@@ -73,6 +73,31 @@
   font-size: 17px;
 }
 
+/* hand-drawn underline beneath section headings: a slightly irregular SVG
+   stroke masks an accent fill, kept short and soft so it reads as a pen mark. */
+.article-content h2::after,
+.article-content h3::after {
+  content: "";
+  display: block;
+  margin-top: 6px;
+  width: 2.2em;
+  max-width: 56%;
+  height: 7px;
+  background-color: var(--color-accent);
+  opacity: 0.8;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 7' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'><path d='M1 4.5 C 10 2.5 16 5 24 3.6 C 32 2.2 40 5.2 47 3.4'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 7' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'><path d='M1 4.5 C 10 2.5 16 5 24 3.6 C 32 2.2 40 5.2 47 3.4'/></svg>");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.dark-mode .article-content h2::after,
+.dark-mode .article-content h3::after {
+  background-color: var(--color-accent-muted);
+}
+
 .article-content .heading-anchor {
   position: absolute;
   display: inline-block;
@@ -159,10 +184,11 @@
   top: 0;
   color: var(--color-accent-strong);
   font-weight: 600;
-  text-decoration: underline;
-  text-decoration-color: unquote('color-mix(in srgb, var(--color-accent) 42%, transparent)');
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: unquote('color-mix(in srgb, var(--color-accent) 52%, transparent)');
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
   overflow-wrap: anywhere;
   transition: color 0.18s ease, text-decoration-color 0.18s ease, top 0.18s ease;
 }
@@ -184,6 +210,23 @@
   text-decoration-color: var(--color-accent-muted);
 }
 
+/* highlighter marker: solid accent fill + uneven radius mimic a felt-tip
+   swash; box-decoration-break keeps it intact across line wraps. */
+.article-content mark {
+  background: unquote('color-mix(in srgb, var(--color-accent-soft) 82%, var(--color-accent) 18%)');
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0.06em 0.22em;
+  border-radius: 0.7em 0.35em 0.6em 0.3em / 0.35em 0.7em 0.3em 0.6em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.dark-mode .article-content mark {
+  background: unquote('color-mix(in srgb, var(--color-accent-soft) 70%, var(--color-accent) 30%)');
+  color: var(--ink);
+}
+
 .article-content ul,
 .article-content ol {
   padding-left: 22px;
@@ -193,14 +236,21 @@
   margin: 6px 0;
 }
 
+/* hand-drawn wavy divider: an SVG squiggle masks a solid ink fill, so it
+   inherits --line and the dark-mode token like the rest of the ink. */
 .article-content hr {
-  height: 1px;
-  margin: 28px 0;
+  height: 10px;
+  margin: 30px auto;
   border: 0;
-  background-image: linear-gradient(to right, var(--line) 60%, transparent 60%);
-  background-size: 18px 1px;
-  background-repeat: repeat-x;
-  background-position: left center;
+  background-color: var(--line);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'><path d='M0 5 C 5 0 7 0 10 5 C 13 10 17 10 20 5 C 23 0 27 0 30 5 C 33 10 37 10 40 5'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'><path d='M0 5 C 5 0 7 0 10 5 C 13 10 17 10 20 5 C 23 0 27 0 30 5 C 33 10 37 10 40 5'/></svg>");
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 40px 10px;
+  mask-size: 40px 10px;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 .article-content blockquote {
