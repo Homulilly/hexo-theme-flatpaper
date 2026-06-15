@@ -182,6 +182,49 @@ body[data-note-icons="off"][data-note-style="simple"] details.flatpaper-note > .
   padding-left: 14px;
 }
 
+/* ===== Style: sticky — paper sticker, square corners, top-center tape ===== */
+body[data-note-style="sticky"] .flatpaper-note {
+  margin: 32px 6px 26px;
+  padding: 18px 18px 16px;
+  border: 1px solid unquote('color-mix(in srgb, var(--note-accent) 24%, var(--paper-solid) 76%)');
+  border-radius: 0;
+  background: unquote('color-mix(in srgb, var(--note-accent) 12%, var(--paper-solid) 88%)');
+  box-shadow: 3px 3px 7px rgba(82, 64, 38, 0.1);
+}
+
+/* striped tape, tinted to the note's own accent */
+body[data-note-style="sticky"] .flatpaper-note::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  z-index: 1;
+  width: 70px;
+  height: 20px;
+  border-radius: 1px;
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px 7px),
+    unquote('color-mix(in srgb, var(--note-accent) 36%, transparent)');
+  box-shadow: 0 2px 6px rgba(82, 64, 38, 0.14);
+  transform: translateX(-50%) rotate(-1deg);
+}
+
+/* collapsible variant: keep tape clear of the title row */
+body[data-note-style="sticky"] details.flatpaper-note {
+  padding: 0;
+}
+body[data-note-style="sticky"] details.flatpaper-note > .flatpaper-note__title {
+  padding: 14px 16px 12px;
+}
+body[data-note-style="sticky"] details.flatpaper-note > .flatpaper-note__body {
+  padding: 12px 18px 14px 46px;
+  border-top: 1px dashed var(--note-border);
+}
+
+.dark-mode body[data-note-style="sticky"] .flatpaper-note {
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.25);
+}
+
 /* ===== Style: disabled — strip decoration, keep semantics ===== */
 body[data-note-style="disabled"] .flatpaper-note {
   display: block;
