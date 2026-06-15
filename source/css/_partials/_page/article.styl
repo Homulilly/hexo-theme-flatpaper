@@ -204,12 +204,34 @@
 }
 
 .article-content blockquote {
-  margin: 18px 0;
-  padding: 8px 18px;
-  border-left: 4px solid var(--color-accent);
-  border-radius: 0 10px 10px 0;
-  background: unquote('color-mix(in srgb, var(--color-accent-soft) 45%, transparent)');
+  position: relative;
+  margin: 38px 12px 30px;
+  padding: 28px 28px 22px;
+  border: 1px solid unquote('color-mix(in srgb, var(--color-accent) 22%, var(--paper-solid) 78%)');
+  border-radius: 0;
+  background: unquote('color-mix(in srgb, var(--color-accent-soft) 50%, var(--paper-solid) 50%)');
   color: var(--ink-soft);
+  box-shadow: 3px 3px 7px rgba(82, 64, 38, 0.1);
+  transform: rotate(-0.5deg);
+  transform-origin: center top;
+}
+
+.article-content blockquote::before {
+  content: "";
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  z-index: 1;
+  width: 96px;
+  height: 26px;
+  border-radius: 1px;
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px 7px),
+    var(--tape-pink);
+  opacity: 0.85;
+  box-shadow: 0 2px 6px rgba(82, 64, 38, 0.14);
+  filter: saturate(0.92);
+  transform: translateX(-50%) rotate(-1deg);
 }
 
 .article-content blockquote > :first-child { margin-top: 0; }
@@ -217,6 +239,15 @@
 
 .article-content blockquote p {
   margin: 6px 0;
+}
+
+.dark-mode .article-content blockquote {
+  border-color: unquote('color-mix(in srgb, var(--color-accent-muted) 28%, var(--line) 72%)');
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.25);
+}
+
+.dark-mode .article-content blockquote::before {
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.24);
 }
 
 .article-content sup {
