@@ -40,6 +40,11 @@ nav:
     #       link: https://tools.ooo.run
     #       icon: https://tools.ooo.run/favicon.ico
 
+# Favicon：默认使用主题内置 /images/favicon.svg。
+# 设为 false 时不输出 <link rel="icon">，交给浏览器请求站点根目录 /favicon.ico。
+# favicon: /images/favicon.svg
+# favicon: false
+
 profile:
   role: 日常记录
   bio: 介绍一下自己 — 一两句话，写写你想被别人记住的部分。

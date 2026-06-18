@@ -40,6 +40,11 @@ nav:
     #       link: https://tools.ooo.run
     #       icon: https://tools.ooo.run/favicon.ico
 
+# Favicon: uses the bundled /images/favicon.svg by default.
+# Set false to omit <link rel="icon"> and let browsers request /favicon.ico.
+# favicon: /images/favicon.svg
+# favicon: false
+
 profile:
   role: Daily notes
   bio: A short introduction about who you are and what you want people to remember.

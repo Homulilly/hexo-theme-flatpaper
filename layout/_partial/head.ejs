@@ -94,6 +94,20 @@ function absoluteUrl(value) {
   return full_url_for(url_for(raw));
 }
 
+function assetUrl(value) {
+  var raw = String(value || '');
+  if (/^(https?:)?\/\//i.test(raw)) return raw;
+  return url_for(raw);
+}
+
+function faviconType(value) {
+  var path = String(value || '').split(/[?#]/)[0].toLowerCase();
+  if (path.slice(-4) === '.svg') return 'image/svg+xml';
+  if (path.slice(-4) === '.png') return 'image/png';
+  if (path.slice(-4) === '.ico') return 'image/x-icon';
+  return '';
+}
+
 function isoDate(value) {
   if (!value) return '';
   var d = new Date(value);
@@ -137,10 +151,15 @@ if (is_post()) {
 } else {
   jsonLd.about = titleParts.length ? titleParts[0] : siteTitle;
 }
+var favicon = theme.favicon === false ? '' : (theme.favicon || '/images/favicon.svg');
+var faviconMime = faviconType(favicon);
 %>
 <title><%= fullTitle %></title>
 <%- open_graph({ title: fullTitle, description: seoDescription, image: ogImage, url: canonicalUrl }) %>
 <link rel="canonical" href="<%= canonicalUrl %>">
+<% if (favicon) { %>
+<link rel="icon" href="<%= flatpaper_safe_url(assetUrl(favicon), 'image') %>"<% if (faviconMime) { %> type="<%= faviconMime %>"<% } %>>
+<% } %>
 <script type="application/ld+json"><%- JSON.stringify(jsonLd).replace(/<\//g, '<\\/') %></script>
 <%
 var accentColor = theme.color || theme.accent_color || theme.theme_color || 'green';
