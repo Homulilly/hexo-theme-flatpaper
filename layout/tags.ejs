@@ -1,5 +1,5 @@
 <section class="taxonomy-paper">
-  <h1>标签</h1>
+  <h1><%= flatpaper_i18n('common.tags') %></h1>
   <%
   var tags = site.tags ? site.tags.toArray() : [];
   // Bucket each tag into one of 4 size tiers based on post count. When all
@@ -20,6 +20,6 @@
       <% }) %>
     </div>
   <% } else { %>
-    <p class="empty-state">暂时还没有标签。</p>
+    <p class="empty-state"><%= flatpaper_i18n('taxonomy.empty_tags') %></p>
   <% } %>
 </section>

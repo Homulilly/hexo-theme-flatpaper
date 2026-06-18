@@ -15,16 +15,16 @@ var posts = page.posts ? page.posts.toArray() : flatpaper_sorted_posts();
 </section>
 
 <% if (page.total && page.total > 1) { %>
-  <nav class="pager" aria-label="归档分页">
+  <nav class="pager" aria-label="<%= flatpaper_i18n('pagination.archive_pager') %>">
     <% if (page.prev) { %>
       <a class="pager-link pager-link--prev" href="<%- url_for(page.prev_link) %>">
         <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
-        <span>上一页</span>
+        <span><%= flatpaper_i18n('pagination.prev') %></span>
       </a>
     <% } else { %>
       <span class="pager-link pager-link--prev is-disabled" aria-disabled="true">
         <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
-        <span>上一页</span>
+        <span><%= flatpaper_i18n('pagination.prev') %></span>
       </span>
     <% } %>
 
@@ -32,12 +32,12 @@ var posts = page.posts ? page.posts.toArray() : flatpaper_sorted_posts();
 
     <% if (page.next) { %>
       <a class="pager-link pager-link--next" href="<%- url_for(page.next_link) %>">
-        <span>下一页</span>
+        <span><%= flatpaper_i18n('pagination.next') %></span>
         <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </a>
     <% } else { %>
       <span class="pager-link pager-link--next is-disabled" aria-disabled="true">
-        <span>下一页</span>
+        <span><%= flatpaper_i18n('pagination.next') %></span>
         <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </span>
     <% } %>

@@ -104,6 +104,16 @@ Cards support:
 - hover signal-pulse animation
 - markdown body below the links data
 
+## Multi-language UI
+
+FlatPaper's built-in interface text is localized and selected from the Hexo site `language` setting, supporting `zh-CN` and `en` with a `zh-CN` fallback.
+
+- Template strings are resolved through a theme i18n helper backed by `languages/zh-CN.yml` and `languages/en.yml`.
+- Runtime strings used by `source/js/main.js` (search states, code controls, anchor labels) are injected into the page as `window.FLATPAPER_I18N` rather than hardcoded in the script.
+- Only theme UI strings are translated; post content and site data are untouched.
+
+See [Configuration → Language](configuration.md#language) for selection rules.
+
 ## Integrations
 
 FlatPaper includes optional wiring for:

@@ -43,11 +43,18 @@ Post pages skip `sidebar-left` and keep one sidebar.
 ```text
 themes/flatpaper/
 |-- _config.yml
+|-- _config.en.yaml
 |-- docs/
+|-- languages/
+|   |-- zh-CN.yml
+|   `-- en.yml
 |-- layout/
 |   |-- _partial/
 |   `-- *.ejs
 |-- scripts/
+|   |-- i18n.js
+|   |-- menu-helpers.js
+|   |-- search-index.js
 |   |-- tags.js
 |   |-- note-container.js
 |   `-- _note-types.js
@@ -83,6 +90,18 @@ themes/flatpaper/
 - reaction popovers
 - comment jump/share button
 - Fancybox content wrapping
+- localized runtime strings read from `window.FLATPAPER_I18N`
+
+## Internationalization
+
+Built-in interface text is localized through `scripts/i18n.js`, which registers EJS helpers and reads translation tables from `languages/zh-CN.yml` and `languages/en.yml`.
+
+- `flatpaper_i18n('key.path', ...args)` returns a translated string, with `%s` / `%d` substitution. Falls back to `zh-CN`, then to the key itself.
+- `flatpaper_i18n_language()` returns the resolved language (`zh-CN` or `en`).
+- `flatpaper_i18n_json()` serializes the flattened table for the page; `layout/layout.ejs` injects it as `window.FLATPAPER_I18N` so `main.js` can resolve the same keys at runtime via its `t()` helper.
+- Translation keys are grouped by page/component (`common`, `pagination`, `index`, `post`, `search`, `code`, `head`, `navigation`, `colors`, ...). Keep `zh-CN.yml` and `en.yml` in sync; the helper flattens nested keys to dotted paths (e.g. `search.empty`).
+
+Code comments, the slug-cleaning regex, and Chinese documentation/config samples are intentionally not extracted.
 
 ## Build Check
 

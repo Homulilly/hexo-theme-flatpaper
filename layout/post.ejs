@@ -84,18 +84,18 @@ var relatedPosts = allPosts
 
   <footer class="article-reactions">
     <div class="reaction-group">
-      <button type="button" class="reaction reaction--comment" aria-label="跳转到评论区" data-action="scroll-to-comments">
+      <button type="button" class="reaction reaction--comment" aria-label="<%= flatpaper_i18n('post.scroll_to_comments') %>" data-action="scroll-to-comments">
         <%- partial('_partial/icons', { icon: 'message-circle' }) %>
       </button>
-      <span class="reaction-label">评论</span>
+      <span class="reaction-label"><%= flatpaper_i18n('common.comments') %></span>
       <% leftReactions.forEach(function (item) { %><%- partial('_partial/reaction-pop', { item: item }) %><% }) %>
     </div>
     <div class="reaction-group reaction-group--right">
       <% rightReactions.forEach(function (item) { %><%- partial('_partial/reaction-pop', { item: item }) %><% }) %>
-      <button type="button" class="reaction reaction--share" aria-label="分享" data-action="share">
+      <button type="button" class="reaction reaction--share" aria-label="<%= flatpaper_i18n('common.share') %>" data-action="share">
         <%- partial('_partial/icons', { icon: 'share-2' }) %>
       </button>
-      <span class="reaction-label">分享</span>
+      <span class="reaction-label"><%= flatpaper_i18n('common.share') %></span>
     </div>
   </footer>
 
@@ -105,26 +105,26 @@ var relatedPosts = allPosts
     <% if (page.prev) { %>
       <a class="article-action article-action--prev" href="<%- url_for(page.prev.path) %>">
         <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
-        <span class="action-label">上一篇</span>
+        <span class="action-label"><%= flatpaper_i18n('post.previous') %></span>
         <span class="action-title"><%= page.prev.title %></span>
       </a>
     <% } else { %>
       <span class="article-action article-action--prev is-disabled" aria-disabled="true">
         <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
-        <span class="action-label">上一篇</span>
-        <span class="action-title">没有更早的文章了</span>
+        <span class="action-label"><%= flatpaper_i18n('post.previous') %></span>
+        <span class="action-title"><%= flatpaper_i18n('post.no_previous') %></span>
       </span>
     <% } %>
     <% if (page.next) { %>
       <a class="article-action article-action--next" href="<%- url_for(page.next.path) %>">
-        <span class="action-label">下一篇</span>
+        <span class="action-label"><%= flatpaper_i18n('post.next') %></span>
         <span class="action-title"><%= page.next.title %></span>
         <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </a>
     <% } else { %>
       <span class="article-action article-action--next is-disabled" aria-disabled="true">
-        <span class="action-label">下一篇</span>
-        <span class="action-title">已经是最新的一篇</span>
+        <span class="action-label"><%= flatpaper_i18n('post.next') %></span>
+        <span class="action-title"><%= flatpaper_i18n('post.no_next') %></span>
         <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </span>
     <% } %>
@@ -132,16 +132,16 @@ var relatedPosts = allPosts
 </article>
 </div>
 
-<button type="button" class="back-to-top" data-action="scroll-to-top" aria-label="返回顶部" hidden>
+<button type="button" class="back-to-top" data-action="scroll-to-top" aria-label="<%= flatpaper_i18n('post.back_to_top') %>" hidden>
   <%- partial('_partial/icons', { icon: 'arrow-up' }) %>
 </button>
 
 <% if (relatedPosts.length) { %>
   <section class="related-paper">
     <header class="related-paper__head">
-      <h2><%- partial('_partial/icons', { icon: 'link' }) %>相关文章</h2>
+      <h2><%- partial('_partial/icons', { icon: 'link' }) %><%= flatpaper_i18n('post.related_posts') %></h2>
       <a class="related-paper__more" href="<%- url_for((config.archive_dir || 'archives') + '/') %>">
-        <span>查看更多</span>
+        <span><%= flatpaper_i18n('post.view_more') %></span>
         <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </a>
     </header>

@@ -1,0 +1,115 @@
+common:
+  posts: 文章
+  categories: 分类
+  tags: 标签
+  comments: 评论
+  share: 分享
+  page: 页面
+  archive: 归档
+  post_list: 文章列表
+  search_posts: 搜索文章
+  random_posts: 随机文章
+  reward: 赞赏
+  view_all: 查看全部
+
+pagination:
+  prev: 上一页
+  next: 下一页
+  post_pager: 文章分页
+  archive_pager: 归档分页
+
+index:
+  featured: 精选文章
+  pinned: 置顶
+  read_more: 阅读全文
+  previous_slide: 上一张
+  next_slide: 下一张
+  carousel_pagination: 轮播页码
+  carousel_slide: 第 %d 张
+  latest_posts: 最新文章
+  empty_posts: 还没有文章。创建第一篇文章后，这里会显示最新内容。
+
+archive:
+  title: 归档
+  post_list: 文章列表
+
+taxonomy:
+  category_count: "%d 篇"
+  empty_categories: 暂时还没有分类。
+  empty_tags: 暂时还没有标签。
+
+links:
+  label: 友链
+  title: 友情链接
+  empty_data: 暂未加载到友链数据。请确认 source/_data/links.yml 存在并已 hexo clean。
+  rss_label: "%s 的 RSS"
+
+post:
+  scroll_to_comments: 跳转到评论区
+  previous: 上一篇
+  next: 下一篇
+  no_previous: 没有更早的文章了
+  no_next: 已经是最新的一篇
+  back_to_top: 返回顶部
+  related_posts: 相关文章
+  view_more: 查看更多
+
+search:
+  placeholder: 输入关键词，按 Esc 关闭
+  empty: 输入关键词后显示匹配的文章
+  loading: 正在加载搜索索引…
+  load_failed: 搜索索引加载失败，请重新打开搜索重试
+  no_result: 没有找到与 "%s" 相关的文章
+  close: 关闭搜索
+
+code:
+  copy: 复制代码
+  collapse: 折叠代码
+  expand: 展开代码
+
+heading:
+  anchor: "链接到此节: %s"
+
+head:
+  tag: 标签：%s
+  category: 分类：%s
+  archive: 归档
+  archive_with_date: 归档：%s
+  page_number: 第 %d 页
+
+navigation:
+  primary: 主导航
+  mobile: 移动端导航
+  brand_home: FlatPaper 首页
+  open_sidebar: 打开侧边栏
+  close_sidebar: 关闭侧边栏
+  sidebar: 侧边栏
+  sidebar_tools: 侧边栏工具
+  site_links: 站点链接
+  site_info: 站点信息
+
+colors:
+  choose_theme_color: 选择主题色
+  theme_color: 主题色
+  toggle_color_mode: 切换颜色模式
+  green: 绿色
+  pink: 粉色
+  sakura: 樱花粉
+  blue: 蓝色
+  orange: 橙色
+  black: 黑色
+
+profile:
+  default_bio: 热爱生活，热爱代码，喜欢分享技术与生活中的点滴。
+
+welcome:
+  cta: 开始阅读
+  title: 欢迎来到 FlatPaper
+  text: 一个专注于内容与阅读体验的博客主题。
+
+toc:
+  title: 文章目录
+  empty: 目录会根据文章标题自动生成。
+
+sidebar:
+  hot_tags: 热门标签

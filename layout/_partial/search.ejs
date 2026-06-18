@@ -4,20 +4,20 @@
 %>
 <div class="search-panel" aria-hidden="true" data-index-url="<%= url_for('flatpaper-search.json') %>">
   <div class="search-backdrop js-search-close"></div>
-  <section class="search-dialog" role="dialog" aria-modal="true" aria-label="搜索文章">
+  <section class="search-dialog" role="dialog" aria-modal="true" aria-label="<%= flatpaper_i18n('common.search_posts') %>">
     <span class="tape tape--top-left" aria-hidden="true"></span>
     <header class="search-head">
-      <h2><span class="green-dot"></span>搜索文章</h2>
-      <button class="icon-button js-search-close" type="button" aria-label="关闭搜索">
+      <h2><span class="green-dot"></span><%= flatpaper_i18n('common.search_posts') %></h2>
+      <button class="icon-button js-search-close" type="button" aria-label="<%= flatpaper_i18n('search.close') %>">
         <%- partial('_partial/icons', { icon: 'x' }) %>
       </button>
     </header>
     <label class="search-field">
       <%- partial('_partial/icons', { icon: 'search' }) %>
-      <input id="flatpaper-search" class="search-input" type="search" placeholder="输入关键词，按 Esc 关闭" autocomplete="off">
+      <input id="flatpaper-search" class="search-input" type="search" placeholder="<%= flatpaper_i18n('search.placeholder') %>" autocomplete="off">
     </label>
-    <div class="search-results" data-empty="输入关键词后显示匹配的文章">
-      <p class="search-empty">输入关键词后显示匹配的文章</p>
+    <div class="search-results" data-empty="<%= flatpaper_i18n('search.empty') %>">
+      <p class="search-empty"><%= flatpaper_i18n('search.empty') %></p>
     </div>
   </section>
 </div>

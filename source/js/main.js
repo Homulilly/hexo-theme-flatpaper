@@ -28,6 +28,17 @@
     }
   };
 
+  var flatpaperI18n = window.FLATPAPER_I18N || {};
+  function t(key) {
+    var str = flatpaperI18n[key] || key || '';
+    var args = Array.prototype.slice.call(arguments, 1);
+    var index = 0;
+    return String(str).replace(/%(\d+\$)?[sd]/g, function (_, position) {
+      var argIndex = position ? parseInt(position, 10) - 1 : index++;
+      return args[argIndex] == null ? '' : String(args[argIndex]);
+    });
+  }
+
   // Global, idempotent bindings (theme toggle, global keydown, viewport
   // breakpoint listener) go through bindGlobalOnce() and are guarded against
   // double-binding via a dataset flag. Everything else binds inline on
@@ -342,7 +353,7 @@
     if (!keyword) {
       var empty = document.createElement('p');
       empty.className = 'search-empty';
-      empty.textContent = '输入关键词后显示匹配的文章';
+      empty.textContent = t('search.empty');
       results.appendChild(empty);
       return;
     }
@@ -350,8 +361,8 @@
       var pending = document.createElement('p');
       pending.className = 'search-empty';
       pending.textContent = indexState === 'error'
-        ? '搜索索引加载失败，请重新打开搜索重试'
-        : '正在加载搜索索引…';
+        ? t('search.load_failed')
+        : t('search.loading');
       results.appendChild(pending);
       return;
     }
@@ -363,7 +374,7 @@
     if (!hits.length) {
       var none = document.createElement('p');
       none.className = 'search-empty';
-      none.textContent = '没有找到与 "' + query + '" 相关的文章';
+      none.textContent = t('search.no_result', query);
       results.appendChild(none);
       return;
     }
@@ -565,7 +576,7 @@
     var copyBtn = document.createElement('button');
     copyBtn.type = 'button';
     copyBtn.className = 'code-action code-copy';
-    copyBtn.setAttribute('aria-label', '复制代码');
+    copyBtn.setAttribute('aria-label', t('code.copy'));
     copyBtn.innerHTML = ICON_COPY;
     copyBtn.addEventListener('click', function () {
       var text = getCodeText(block);
@@ -589,13 +600,13 @@
       var foldBtn = document.createElement('button');
       foldBtn.type = 'button';
       foldBtn.className = 'code-action code-fold';
-      foldBtn.setAttribute('aria-label', '折叠代码');
+      foldBtn.setAttribute('aria-label', t('code.collapse'));
       foldBtn.setAttribute('aria-expanded', 'true');
       foldBtn.innerHTML = ICON_CHEVRON;
       foldBtn.addEventListener('click', function () {
         var folded = block.classList.toggle('is-folded');
         foldBtn.setAttribute('aria-expanded', folded ? 'false' : 'true');
-        foldBtn.setAttribute('aria-label', folded ? '展开代码' : '折叠代码');
+        foldBtn.setAttribute('aria-label', folded ? t('code.expand') : t('code.collapse'));
       });
       bar.appendChild(foldBtn);
     }
@@ -678,7 +689,7 @@
       var link = document.createElement('a');
       link.className = 'heading-anchor';
       link.href = '#' + id;
-      link.setAttribute('aria-label', '链接到此节: ' + h.textContent);
+      link.setAttribute('aria-label', t('heading.anchor', h.textContent));
       h.insertBefore(link, h.firstChild);
     });
 

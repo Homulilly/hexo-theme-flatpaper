@@ -2,7 +2,7 @@
   <% if (is_home()) { %>
     <%
       var w = theme.welcome || {};
-      var ctaText = w.cta_text || '开始阅读';
+      var ctaText = w.cta_text || flatpaper_i18n('welcome.cta');
       var ctaLink = w.cta_link || (config.archive_dir || 'archives') + '/';
     %>
     <section class="welcome-card">
@@ -18,8 +18,8 @@
         <% } %>
       </div>
       <p class="hello"><span class="green-dot"></span><%= w.label || 'Hello!' %></p>
-      <h1><%= w.title || '欢迎来到 FlatPaper' %></h1>
-      <p class="welcome-text"><%= w.text || '一个专注于内容与阅读体验的博客主题。' %></p>
+      <h1><%= w.title || flatpaper_i18n('welcome.title') %></h1>
+      <p class="welcome-text"><%= w.text || flatpaper_i18n('welcome.text') %></p>
       <a class="welcome-cta" href="<%- url_for(ctaLink) %>"><span><%= ctaText %></span><%- partial('_partial/icons', { icon: 'arrow-right' }) %></a>
     </section>
   <% } %>

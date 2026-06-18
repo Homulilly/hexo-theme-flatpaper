@@ -30,9 +30,9 @@ function siteInfoUrl(href) {
   return flatpaper_safe_url(url_for(value), 'href');
 }
 var siteInfoItems = [
-  { key: 'posts', value: allPosts.length, label: '文章' },
-  { key: 'categories', value: categories.length, label: '分类' },
-  { key: 'tags', value: tags.length, label: '标签' }
+  { key: 'posts', value: allPosts.length, label: flatpaper_i18n('common.posts') },
+  { key: 'categories', value: categories.length, label: flatpaper_i18n('common.categories') },
+  { key: 'tags', value: tags.length, label: flatpaper_i18n('common.tags') }
 ].map(function (item) {
   var entry = siteInfoConfig(item.key);
   if (!entry) return null;
@@ -44,35 +44,35 @@ var __menu = flatpaper_menu_helpers();
 var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.icon, menuText = __menu.text, menuActive = __menu.active;
 %>
 
-<aside id="paper-sidebar-drawer" class="paper-sidebar paper-sidebar--right" aria-label="侧边栏">
-  <div class="drawer-toolbar" aria-label="侧边栏工具">
-    <div class="drawer-accent-options" role="group" aria-label="主题色">
-      <button type="button" class="accent-option" aria-label="绿色" aria-pressed="false" data-accent-option="green">
+<aside id="paper-sidebar-drawer" class="paper-sidebar paper-sidebar--right" aria-label="<%= flatpaper_i18n('navigation.sidebar') %>">
+  <div class="drawer-toolbar" aria-label="<%= flatpaper_i18n('navigation.sidebar_tools') %>">
+    <div class="drawer-accent-options" role="group" aria-label="<%= flatpaper_i18n('colors.theme_color') %>">
+      <button type="button" class="accent-option" aria-label="<%= flatpaper_i18n('colors.green') %>" aria-pressed="false" data-accent-option="green">
         <span class="accent-swatch accent-swatch--green" aria-hidden="true"></span>
       </button>
-      <button type="button" class="accent-option" aria-label="粉色" aria-pressed="false" data-accent-option="pink">
+      <button type="button" class="accent-option" aria-label="<%= flatpaper_i18n('colors.pink') %>" aria-pressed="false" data-accent-option="pink">
         <span class="accent-swatch accent-swatch--pink" aria-hidden="true"></span>
       </button>
-      <button type="button" class="accent-option" aria-label="樱花粉" aria-pressed="false" data-accent-option="sakura">
+      <button type="button" class="accent-option" aria-label="<%= flatpaper_i18n('colors.sakura') %>" aria-pressed="false" data-accent-option="sakura">
         <span class="accent-swatch accent-swatch--sakura" aria-hidden="true"></span>
       </button>
-      <button type="button" class="accent-option" aria-label="蓝色" aria-pressed="false" data-accent-option="blue">
+      <button type="button" class="accent-option" aria-label="<%= flatpaper_i18n('colors.blue') %>" aria-pressed="false" data-accent-option="blue">
         <span class="accent-swatch accent-swatch--blue" aria-hidden="true"></span>
       </button>
-      <button type="button" class="accent-option" aria-label="橙色" aria-pressed="false" data-accent-option="orange">
+      <button type="button" class="accent-option" aria-label="<%= flatpaper_i18n('colors.orange') %>" aria-pressed="false" data-accent-option="orange">
         <span class="accent-swatch accent-swatch--orange" aria-hidden="true"></span>
       </button>
-      <button type="button" class="accent-option" aria-label="黑色" aria-pressed="false" data-accent-option="black">
+      <button type="button" class="accent-option" aria-label="<%= flatpaper_i18n('colors.black') %>" aria-pressed="false" data-accent-option="black">
         <span class="accent-swatch accent-swatch--black" aria-hidden="true"></span>
       </button>
     </div>
-    <button class="icon-button drawer-close js-sidebar-close" type="button" aria-label="关闭侧边栏">
+    <button class="icon-button drawer-close js-sidebar-close" type="button" aria-label="<%= flatpaper_i18n('navigation.close_sidebar') %>">
       <%- partial('_partial/icons', { icon: 'x' }) %>
     </button>
   </div>
 
   <section class="side-card nav-card">
-    <nav class="site-nav-drawer" aria-label="移动端导航">
+    <nav class="site-nav-drawer" aria-label="<%= flatpaper_i18n('navigation.mobile') %>">
       <% Object.keys(theme.menu || {}).forEach(function(label) {
         var item = theme.menu[label];
         var href = menuHref(item);
@@ -125,9 +125,9 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
     <% } %>
     <h3><%= config.author || 'FlatPaper' %></h3>
     <% if (profile.role) { %><p class="profile-role"><%= profile.role %></p><% } %>
-    <p><%= profile.bio || '热爱生活，热爱代码，喜欢分享技术与生活中的点滴。' %></p>
+    <p><%= profile.bio || flatpaper_i18n('profile.default_bio') %></p>
     <% if (siteInfoItems.length) { %>
-      <div class="site-info" aria-label="站点信息">
+      <div class="site-info" aria-label="<%= flatpaper_i18n('navigation.site_info') %>">
         <% siteInfoItems.forEach(function(item) { %>
           <% if (item.href) { %>
             <a class="site-info__item" href="<%= item.href %>">
@@ -176,7 +176,7 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
   </section>
 
   <% if (theme.nav && theme.nav.enable && theme.nav.menu && theme.nav.menu.length) { %>
-    <section class="side-card brand-link-card" aria-label="站点链接">
+    <section class="side-card brand-link-card" aria-label="<%= flatpaper_i18n('navigation.site_links') %>">
       <% (theme.nav.menu || []).forEach(function(group) { %>
         <div class="brand-link-group">
           <div class="brand-link-title"><%= group.title %></div>
@@ -199,18 +199,18 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
 
   <% if (is_post()) { %>
     <section class="side-card toc-card">
-      <h2><%- partial('_partial/icons', { icon: 'table-of-contents' }) %>文章目录</h2>
+      <h2><%- partial('_partial/icons', { icon: 'table-of-contents' }) %><%= flatpaper_i18n('toc.title') %></h2>
       <div class="toc-content">
         <% if (typeof toc === 'function') { %>
           <%- toc(page.content, { list_number: false, min_depth: 2, max_depth: 3 }) %>
         <% } else { %>
-          <p>目录会根据文章标题自动生成。</p>
+          <p><%= flatpaper_i18n('toc.empty') %></p>
         <% } %>
       </div>
     </section>
   <% } else { %>
     <section class="side-card categories-card">
-      <h2><%- partial('_partial/icons', { icon: 'folder' }) %>分类</h2>
+      <h2><%- partial('_partial/icons', { icon: 'folder' }) %><%= flatpaper_i18n('common.categories') %></h2>
       <% categories.slice(0, 6).forEach(function(category, index) { %>
         <a href="<%- url_for(category.path) %>">
           <span class="dot dot-<%= index % 4 %>"></span>
@@ -222,9 +222,9 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
 
     <section class="side-card tag-card">
       <header class="tag-card__head">
-        <h2><%- partial('_partial/icons', { icon: 'flame' }) %>热门标签</h2>
+        <h2><%- partial('_partial/icons', { icon: 'flame' }) %><%= flatpaper_i18n('sidebar.hot_tags') %></h2>
         <a class="tag-card__more" href="<%- url_for((config.tag_dir || 'tags') + '/') %>">
-          <span>查看全部</span>
+          <span><%= flatpaper_i18n('common.view_all') %></span>
           <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
         </a>
       </header>

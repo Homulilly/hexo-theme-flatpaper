@@ -4,6 +4,26 @@ All theme options live in `themes/flatpaper/_config.yml`. Copy it to `<site>/_co
 
 The site name in the header and the meta description are read from the Hexo site `_config.yml` (`title` and `description`).
 
+## Language
+
+FlatPaper localizes its built-in interface text (navigation labels, search states, pagination, ARIA labels, etc.). The language is chosen from the Hexo site `_config.yml` `language` field:
+
+```yaml
+language: zh-CN
+# or a priority list
+language:
+  - zh-CN
+  - en
+```
+
+- Supported languages: `zh-CN` and `en`.
+- A string is matched directly; a list is matched in order, and the first supported language wins.
+- When `language` is empty, missing, or not supported, FlatPaper falls back to `zh-CN`.
+
+Only the theme's own interface strings are translated. Post content, site data, and your own configuration values are left as written.
+
+The theme ships two example configs: `_config.yml` (Chinese comments and defaults) and `_config.en.yaml` (the same keys with English comments and defaults). They share an identical key structure — pick whichever matches your site language as the base for `_config.flatpaper.yml`.
+
 ## Menu
 
 ```yaml

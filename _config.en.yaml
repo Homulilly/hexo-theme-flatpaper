@@ -1,0 +1,246 @@
+# Navigation menu:
+menu:
+  # Home:
+  #   link: /
+  #   icon: home
+  # Links:
+  #   link: /links/
+  #   icon: link
+  # About:
+  #    link: /about/
+  #    icon: user
+  # # Nested menu example
+  # Posts:
+  #   icon: folder
+  #   item:
+  #     Categories:
+  #       link: /categories/
+  #       icon: folder
+  #     Tags:
+  #       link: /tags/
+  #       icon: tag
+  #     Archives:
+  #       link: /archives/
+  #       icon: archive
+
+nav:
+  enable: false
+  menu:
+    # - title: Live DEMO
+    #   item:
+    #     - name: FlapaperDemo
+    #       link: https://flatpaper.nep.me/
+    #       icon: leaf
+    #     - name: Homulilly
+    #       link: https://homulilly.com/
+    #       icon: https://homulilly.com/images/avatar.jpg
+    # - title: Project
+    #   item:
+    #     - name: Simple Tools
+    #       link: https://tools.ooo.run
+    #       icon: https://tools.ooo.run/favicon.ico
+
+profile:
+  role: Daily notes
+  bio: A short introduction about who you are and what you want people to remember.
+  # Avatar image path under the site's source/ directory. Leave empty to use the CSS default avatar.
+  avatar:
+  # Avatar shape: square (default, original square) or circle (applies a circular mask).
+  avatar_shape: square
+  # Profile card site stats. Empty or false hides it; true shows text only; any other non-empty value renders as a link.
+  site_info:
+    # posts: /archives/
+    # categories: /categories/
+    # tags: /tags/
+  social:
+    # Built-in icons are matched by key name, case-insensitively:
+    #   github, twitter, x, mail/email, rss,
+    #   steam, bilibili, youtube, facebook, instagram, telegram, weibo
+    # Form 1: key -> URL. The icon is matched by key name.
+    # No entries are enabled by default, so commented-out theme defaults will not appear on your site.
+    # Enable what you need in the site's _config.flatpaper.yml:
+    # GitHub: https://github.com/yourname
+    # Twitter: https://twitter.com/yourname
+    # Email: mailto:you@example.com
+    # X: https://x.com/yourname
+    # YouTube: https://youtube.com/@yourchannel
+    # Bilibili: https://space.bilibili.com/12345
+    # Steam: https://steamcommunity.com/id/yourname
+    # Facebook: https://facebook.com/yourname
+    # Instagram: https://instagram.com/yourname
+    # Telegram: https://t.me/yourname
+    # Weibo: https://weibo.com/u/12345
+    # Form 2: object -> explicitly choose a built-in icon for custom names or aliases.
+    # Mastodon:
+    #   url: https://mastodon.social/@yourname
+    #   icon: send
+    # Form 3: fully custom SVG. Provide child elements such as <path>/<circle>.
+    # The container viewBox is 24x24 and color uses currentColor.
+    # Zhihu:
+    #   url: https://www.zhihu.com/people/yourname
+    #   svg: '<path d="M2 2 L22 22"/>'
+  # Append an RSS icon in the socials area. Requires hexo-generator-feed and feed enabled in the site _config.yml.
+  rss:
+    enable: true
+    path: /atom.xml
+
+welcome:
+  label: Today
+  title: Write the days down slowly
+  text: Not every day is spectacular, but there is always something worth keeping.
+  cta_text: Start reading
+  cta_link: archives/
+  # Custom cover image. Leave empty to use the CSS mountain illustration.
+  # Supports site-relative paths (such as /images/welcome.jpg under source/) or absolute URLs.
+  # image:
+
+# Maximum excerpt length for home post cards when no <!-- more --> marker is present.
+excerpt_length: 96
+# Number of random posts shown in the sidebar.
+random_posts: 5
+# Random post candidate pool size. Pick from the latest N posts at generation time; 0 or empty means unlimited.
+random_posts_pool: 100
+# Number of related posts at the bottom of posts. 0 disables it; unset defaults to 3.
+related_posts: 4
+
+# Custom action items appended to the post reaction row (comments / share), commonly used for rewards or tips.
+# Hovering or clicking the button opens a bubble with an image, usually a payment QR code. Multiple items are supported.
+# Fields:
+#   type   Currently only image is supported.
+#   name   Text next to the button, such as Reward / WeChat / Alipay. Defaults to Reward.
+#   icon   Icon name: gift (default) | alipay | wechat | paypal | heart or any built-in icon.
+#   align  left (beside Comments) | right (beside Share, default).
+#   image  Image path under the site's source/ directory, such as /images/reward.jpg, or an absolute URL.
+#   title  Optional bubble title. Defaults to name.
+reactions:
+  custom:
+    # - type: image
+    #   name: Reward
+    #   icon: wechat
+    #   align: right
+    #   image: /images/reward-wechat.jpg
+    #   title: WeChat reward
+    # - type: image
+    #   name: Alipay
+    #   icon: alipay
+    #   align: right
+    #   image: /images/reward-alipay.jpg
+
+# Frontend search index limit. 0 or empty means unlimited. Lower it on large sites to reduce the first JSON payload.
+search:
+  limit: 0
+
+# Tag style: tape | pill
+tags:
+  style: tape
+
+# Featured posts on the home carousel. Up to 4 items; match by post slug, path, or title.
+featured:
+  # - hello-world
+  # - markdown-elements-showcase
+  # - 2026/05/09/weekend-photowalk-notes
+
+# Carousel autoplay interval in milliseconds. 0 disables autoplay.
+featured_autoplay: 5000
+
+# Zigzag edge effect on the left side of featured images.
+featured_image_zigzag: true
+
+# Default theme color: green | pink | blue | orange | sakura | black
+color: green
+
+# Master switch for tape decorations.
+tape:
+  enable: true
+
+# Footer. Supports HTML. Placeholders: {year}=current year, {name}=site _config.yml author, {theme}=theme credit link.
+# Remove {theme} if you do not want to show the theme credit.
+# Defaults when footer is not configured: left "(c) {year} {author}", right "Powered by Theme FlatPaper".
+footer:
+  left: '(c) {year} By {name}'
+  right: 'Powered by Theme {theme}'
+
+# {% note %} block appearance:
+#   flat      Solid left bar + pale background fill (default)
+#   simple    No background, only solid left bar + thin border
+#   modern    Fully filled rounded box with no left bar
+#   sticky    Sticky-note style: square corners, subtle lower-right shadow, centered top tape
+#   disabled  Remove all decoration and keep semantic structure
+# icons: show circular icon badges before body/title (true | false)
+note:
+  style: flat
+  icons: true
+
+# Code block appearance theme: dark | sand | light
+code:
+  theme: dark
+
+# Umami analytics (https://umami.is)
+# When enable is true, an Umami tracker is injected before </head> on every page:
+#   <script defer src="https://<host>/script.js" data-website-id="<website_id>" [data-domains="..."]></script>
+# host       Umami service domain without protocol or path, for example analytics.example.com
+# website_id UUID generated for the site in the Umami dashboard
+# domains    Optional comma-separated string or YAML list. Only report from these domains to filter localhost, previews, or copied deployments.
+umami:
+  enable: false
+  host:                                 # Example: analytics.example.com
+  website_id:                           # Example: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+  # domains: example.com,www.example.com
+
+# Google AdSense
+# When enable is true and client is valid, the AdSense loader is injected into <head> on every page:
+#   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<client>" crossorigin="anonymous"></script>
+# A <meta name="google-adsense-account" content="<client>"> tag is also included for site review ownership checks.
+# client  Publisher ID, such as ca-pub-1234567890123456
+# account Optional. Defaults to client. Set false to disable the meta tag, or provide another ca-pub-* value to override.
+# Note: monetization also requires ads.txt at the site root, such as source/ads.txt. The theme does not generate it.
+adsense:
+  enable: false
+  # Example: ca-pub-1234567890123456
+  client:
+  account: false
+  # Preset ad slots. Empty values are not rendered. Values may be ad slot ID strings,
+  # or objects { slot, format, layout, layout_key, responsive } to override defaults.
+  #   post_top    Between post title/meta and content
+  #   post_bottom After content and before previous/next navigation
+  #   sidebar     Bottom of the right sidebar for posts and list pages
+  slots:
+    post_top:
+    post_bottom:
+    sidebar:
+
+# Comment system: twikoo | artalk. Empty or removed disables comments.
+# Rendered only on posts and standalone pages (layout: page). A single page can opt out with front-matter `comments: false`.
+comments:
+
+# Twikoo (https://twikoo.js.org). Deploy your own backend first: https://twikoo.js.org/quick-start.html
+twikoo:
+  envId:                                # Twikoo backend URL, for example https://twikoo.example.com
+  # cdn:                                # Optional. Override the default jsDelivr CDN for private mirrors or enterprise CDNs.
+
+# Artalk (https://artalk.js.org). Deploy your own backend first: https://artalk.js.org/guide/deploy.html
+artalk:
+  server:                               # Artalk backend URL, for example https://artalk.example.com
+  site:                                 # Site name. Must match a site registered in the Artalk dashboard.
+  # cdn_css:                            # Optional. Override the default jsDelivr CSS.
+  # cdn_js:                             # Optional. Override the default jsDelivr JS.
+
+# Fancybox image lightbox (https://fancyapps.com/fancybox/)
+# When enabled, images in posts and standalone pages (layout: page) are automatically wrapped by Fancybox:
+# click to zoom, use arrow keys to switch, press Esc to close. All images on the same page share one gallery.
+# Images already wrapped in <a> are not wrapped again. Add class="no-zoom" to exclude a specific image.
+fancybox:
+  enable: true
+  # cdn_css:                            # Optional. Override the default jsDelivr CSS.
+  # cdn_js:
+
+# Custom CSS and JS injection.
+# head: each item is output before </head> as-is.
+# bottom: each item is output before </body> as-is.
+# Items must be complete HTML strings, such as <link>, <script>, or <style>.
+inject:
+  head:
+    # - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
+    # - <script src="/js/xxx.js"></script>
+  bottom:
+    # - <script src="/js/xxx.js" defer></script>

@@ -91,6 +91,12 @@ type: links
 ---
 ```
 
+Switch the interface language (in the site `_config.yml`):
+
+```yaml
+language: en
+```
+
 ## Highlights
 
 - **Paper-first visual system**: soft cards, dashed borders, tape decoration, CSS illustration fallbacks, and readable low-contrast surfaces.
@@ -103,6 +109,7 @@ type: links
 - **Code block UI**: language badge, copy/collapse controls, multiple code themes, and line-number click/double-click interactions.
 - **Custom writing blocks**: NexT-compatible `{% note %}` and `{% tabs %}`, plus VitePress-style `:::` note containers.
 - **Built-in pages**: archives, categories, tags, and grouped friend links from `source/_data/links.yml`.
+- **Multi-language UI**: built-in interface text in Simplified Chinese and English, selected from the Hexo `language` setting with a `zh-CN` fallback; ships both `_config.yml` and `_config.en.yaml`.
 - **Optional integrations**: Twikoo, Artalk, Fancybox, Umami, AdSense, custom HTML injection, and RSS profile links.
 
 ## Documentation

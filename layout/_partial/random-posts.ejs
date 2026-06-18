@@ -15,7 +15,7 @@ function jsonForScript(value) {
 %>
 <% if (randomPosts.length) { %>
   <section class="side-card recent-card" data-random-posts-limit="<%= randomLimit %>">
-    <h2><%- partial('_partial/icons', { icon: 'shuffle' }) %>随机文章</h2>
+    <h2><%- partial('_partial/icons', { icon: 'shuffle' }) %><%= flatpaper_i18n('common.random_posts') %></h2>
     <ul class="recent-list js-random-posts">
       <% randomPosts.forEach(function (post) { %>
         <li>

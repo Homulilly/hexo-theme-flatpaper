@@ -2,7 +2,7 @@
 // 渲染文章底部互动区的一个自定义条目（赞赏 / 打赏等）。
 // 期望 local：item = { type, name, icon, align, image, title }
 // 目前只处理 type: image —— hover / 点击按钮，气泡内弹出 item.image。
-var name = item.name || '赞赏';
+var name = item.name || flatpaper_i18n('common.reward');
 var icon = item.icon || 'gift';
 var align = String(item.align || 'right').toLowerCase() === 'left' ? 'left' : 'right';
 var bubbleTitle = item.title || name;

@@ -4,7 +4,7 @@
   var __menu = flatpaper_menu_helpers();
   var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.icon, menuText = __menu.text, menuActive = __menu.active;
   %>
-  <button class="icon-button js-sidebar-toggle sidebar-toggle" type="button" aria-label="打开侧边栏" aria-controls="paper-sidebar-drawer" aria-expanded="false">
+  <button class="icon-button js-sidebar-toggle sidebar-toggle" type="button" aria-label="<%= flatpaper_i18n('navigation.open_sidebar') %>" aria-controls="paper-sidebar-drawer" aria-expanded="false">
     <%- partial('_partial/icons', { icon: 'menu' }) %>
   </button>
 
@@ -32,7 +32,7 @@
           <% }) %>
         </div>
       <% } else { %>
-        <a class="brand-mark" href="<%- url_for('/') %>" aria-label="FlatPaper home">
+        <a class="brand-mark" href="<%- url_for('/') %>" aria-label="<%= flatpaper_i18n('navigation.brand_home') %>">
           <%- partial('_partial/icons', { icon: 'layout-grid' }) %>
         </a>
       <% } %>
@@ -40,7 +40,7 @@
     <a class="brand-text" href="<%- url_for('/') %>"><%= config.title || 'FlatPaper' %></a>
   </div>
 
-  <nav class="site-nav" aria-label="Primary navigation">
+  <nav class="site-nav" aria-label="<%= flatpaper_i18n('navigation.primary') %>">
     <% Object.keys(theme.menu || {}).forEach(function(label) {
       var item = theme.menu[label];
       var href = menuHref(item);
@@ -81,35 +81,35 @@
   </nav>
 
   <div class="header-tools">
-    <button class="icon-button js-search-open" type="button" aria-label="搜索文章">
+    <button class="icon-button js-search-open" type="button" aria-label="<%= flatpaper_i18n('common.search_posts') %>">
       <%- partial('_partial/icons', { icon: 'search' }) %>
     </button>
     <div class="accent-picker">
-      <button class="icon-button accent-toggle" type="button" aria-label="选择主题色" title="选择主题色" aria-haspopup="true" aria-expanded="false" aria-controls="accent-menu">
+      <button class="icon-button accent-toggle" type="button" aria-label="<%= flatpaper_i18n('colors.choose_theme_color') %>" title="<%= flatpaper_i18n('colors.choose_theme_color') %>" aria-haspopup="true" aria-expanded="false" aria-controls="accent-menu">
         <%- partial('_partial/icons', { icon: 'palette' }) %>
       </button>
-      <div class="accent-menu" id="accent-menu" role="menu" aria-label="主题色">
-        <button type="button" class="accent-option" role="menuitemradio" aria-label="绿色" aria-checked="false" data-accent-option="green">
+      <div class="accent-menu" id="accent-menu" role="menu" aria-label="<%= flatpaper_i18n('colors.theme_color') %>">
+        <button type="button" class="accent-option" role="menuitemradio" aria-label="<%= flatpaper_i18n('colors.green') %>" aria-checked="false" data-accent-option="green">
           <span class="accent-swatch accent-swatch--green" aria-hidden="true"></span>
         </button>
-        <button type="button" class="accent-option" role="menuitemradio" aria-label="粉色" aria-checked="false" data-accent-option="pink">
+        <button type="button" class="accent-option" role="menuitemradio" aria-label="<%= flatpaper_i18n('colors.pink') %>" aria-checked="false" data-accent-option="pink">
           <span class="accent-swatch accent-swatch--pink" aria-hidden="true"></span>
         </button>
-        <button type="button" class="accent-option" role="menuitemradio" aria-label="樱花粉" aria-checked="false" data-accent-option="sakura">
+        <button type="button" class="accent-option" role="menuitemradio" aria-label="<%= flatpaper_i18n('colors.sakura') %>" aria-checked="false" data-accent-option="sakura">
           <span class="accent-swatch accent-swatch--sakura" aria-hidden="true"></span>
         </button>
-        <button type="button" class="accent-option" role="menuitemradio" aria-label="蓝色" aria-checked="false" data-accent-option="blue">
+        <button type="button" class="accent-option" role="menuitemradio" aria-label="<%= flatpaper_i18n('colors.blue') %>" aria-checked="false" data-accent-option="blue">
           <span class="accent-swatch accent-swatch--blue" aria-hidden="true"></span>
         </button>
-        <button type="button" class="accent-option" role="menuitemradio" aria-label="橙色" aria-checked="false" data-accent-option="orange">
+        <button type="button" class="accent-option" role="menuitemradio" aria-label="<%= flatpaper_i18n('colors.orange') %>" aria-checked="false" data-accent-option="orange">
           <span class="accent-swatch accent-swatch--orange" aria-hidden="true"></span>
         </button>
-        <button type="button" class="accent-option" role="menuitemradio" aria-label="黑色" aria-checked="false" data-accent-option="black">
+        <button type="button" class="accent-option" role="menuitemradio" aria-label="<%= flatpaper_i18n('colors.black') %>" aria-checked="false" data-accent-option="black">
           <span class="accent-swatch accent-swatch--black" aria-hidden="true"></span>
         </button>
       </div>
     </div>
-    <button class="theme-toggle" type="button" aria-label="切换颜色模式">
+    <button class="theme-toggle" type="button" aria-label="<%= flatpaper_i18n('colors.toggle_color_mode') %>">
       <span class="theme-icon theme-icon--sun"><%- partial('_partial/icons', { icon: 'sun' }) %></span>
       <span class="theme-icon theme-icon--moon"><%- partial('_partial/icons', { icon: 'moon' }) %></span>
     </button>

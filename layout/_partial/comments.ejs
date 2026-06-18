@@ -20,9 +20,9 @@ function jsonForScript(value) {
 }
 %>
 <% if (renderTwikoo) { %>
-<section class="comments-section" aria-label="评论">
+<section class="comments-section" aria-label="<%= flatpaper_i18n('common.comments') %>">
   <header class="comments-section__head">
-    <h2><%- partial('_partial/icons', { icon: 'message-circle' }) %>评论</h2>
+    <h2><%- partial('_partial/icons', { icon: 'message-circle' }) %><%= flatpaper_i18n('common.comments') %></h2>
   </header>
   <div id="tcomment"></div>
 </section>
@@ -36,9 +36,9 @@ window.addEventListener('load', function () {
 });
 </script>
 <% } else if (renderArtalk) { %>
-<section class="comments-section" aria-label="评论">
+<section class="comments-section" aria-label="<%= flatpaper_i18n('common.comments') %>">
   <header class="comments-section__head">
-    <h2><%- partial('_partial/icons', { icon: 'message-circle' }) %>评论</h2>
+    <h2><%- partial('_partial/icons', { icon: 'message-circle' }) %><%= flatpaper_i18n('common.comments') %></h2>
   </header>
   <div id="artalk-comments"></div>
 </section>

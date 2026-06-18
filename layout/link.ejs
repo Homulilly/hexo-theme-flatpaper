@@ -6,15 +6,15 @@ groups = groups.filter(function (g) { return g && (g.link_list || g.class_name);
 
 <article class="article-paper friends-page">
   <header class="article-header">
-    <span class="label-pill">友链</span>
-    <h1><%= page.title || '友情链接' %></h1>
+    <span class="label-pill"><%= flatpaper_i18n('links.label') %></span>
+    <h1><%= page.title || flatpaper_i18n('links.title') %></h1>
     <% if (page.subtitle) { %>
       <p class="friends-subtitle"><%= page.subtitle %></p>
     <% } %>
   </header>
 
   <% if (!groups.length) { %>
-    <p class="friends-empty">暂未加载到友链数据。请确认 <code>source/_data/links.yml</code> 存在并已 <code>hexo clean</code>。</p>
+    <p class="friends-empty"><%= flatpaper_i18n('links.empty_data') %></p>
   <% } %>
 
   <% groups.forEach(function (group) {
@@ -23,7 +23,7 @@ groups = groups.filter(function (g) { return g && (g.link_list || g.class_name);
   %>
     <section class="friends-group">
       <div class="friends-group__head">
-        <h2><span class="green-dot"></span><%= group.class_name || '友情链接' %></h2>
+        <h2><span class="green-dot"></span><%= group.class_name || flatpaper_i18n('links.title') %></h2>
         <% if (group.class_desc) { %>
           <span class="friends-group__desc"><%= group.class_desc %></span>
         <% } %>
@@ -48,7 +48,7 @@ groups = groups.filter(function (g) { return g && (g.link_list || g.class_name);
               </div>
             </a>
             <% if (item.rss) { %>
-              <a class="friend-card__rss" href="<%= flatpaper_safe_url(item.rss, 'href') %>" target="_blank" rel="noopener noreferrer" aria-label="<%= item.name %> 的 RSS" title="RSS">
+              <a class="friend-card__rss" href="<%= flatpaper_safe_url(item.rss, 'href') %>" target="_blank" rel="noopener noreferrer" aria-label="<%= flatpaper_i18n('links.rss_label', item.name) %>" title="RSS">
                 <%- partial('_partial/icons', { icon: 'rss' }) %>
               </a>
             <% } %>

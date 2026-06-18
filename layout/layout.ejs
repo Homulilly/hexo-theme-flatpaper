@@ -1,8 +1,9 @@
 <!doctype html>
 <%
 var fbEnabled = theme.fancybox && theme.fancybox.enable && (is_post() || page.layout === 'page');
+var htmlLang = flatpaper_i18n_language();
 %>
-<html lang="<%= config.language || 'zh-CN' %>"<% if (fbEnabled) { %> data-fancybox-enabled="1"<% } %>>
+<html lang="<%= htmlLang %>"<% if (fbEnabled) { %> data-fancybox-enabled="1"<% } %>>
 <head>
   <%- partial('_partial/head') %>
   <%- partial('_partial/umami') %>
@@ -54,6 +55,9 @@ var noteIcons = !(theme.note && theme.note.icons === false);
 
   <%- partial('_partial/footer') %>
   <%- partial('_partial/search') %>
+  <script>
+  window.FLATPAPER_I18N = <%- flatpaper_i18n_json() %>;
+  </script>
   <%- js('js/main') %>
   <% (theme.inject && Array.isArray(theme.inject.bottom) ? theme.inject.bottom : []).forEach(function(snippet) { if (snippet) { %>
   <%- snippet %>

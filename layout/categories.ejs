@@ -1,5 +1,5 @@
 <section class="taxonomy-paper">
-  <h1>分类</h1>
+  <h1><%= flatpaper_i18n('common.categories') %></h1>
   <%
   var categories = site.categories ? site.categories.toArray() : [];
   %>
@@ -9,11 +9,11 @@
         <a class="taxonomy-card" href="<%- url_for(category.path) %>">
           <span class="dot dot-<%= index % 4 %>"></span>
           <strong><%= category.name %></strong>
-          <em><%= category.length %> 篇</em>
+          <em><%= flatpaper_i18n('taxonomy.category_count', category.length) %></em>
         </a>
       <% }) %>
     </div>
   <% } else { %>
-    <p class="empty-state">暂时还没有分类。</p>
+    <p class="empty-state"><%= flatpaper_i18n('taxonomy.empty_categories') %></p>
   <% } %>
 </section>

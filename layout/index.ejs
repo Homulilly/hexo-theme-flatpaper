@@ -27,7 +27,7 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
   <section
     class="featured-carousel<%= featured.length > 1 ? ' has-multiple' : '' %>"
     data-autoplay="<%= autoplay %>"
-    aria-label="精选文章"
+    aria-label="<%= flatpaper_i18n('index.featured') %>"
   >
     <div class="featured-track">
       <% featured.forEach(function (post, idx) {
@@ -36,7 +36,7 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
         <article class="featured-paper<%= idx === 0 ? ' is-active' : '' %>" data-index="<%= idx %>">
           <span class="tape tape--top-left" aria-hidden="true"></span>
           <div class="featured-copy">
-            <span class="label-pill">置顶</span>
+            <span class="label-pill"><%= flatpaper_i18n('index.pinned') %></span>
             <h1><a href="<%- url_for(post.path) %>"><%= post.title %></a></h1>
             <p><%
               var raw = strip_html(post.excerpt || post.content || '').replace(/\s+/g, ' ');
@@ -50,7 +50,7 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
                   <a class="meta-cat-link" href="<%- url_for(featuredCats[0].path) %>"><%= featuredCats[0].name %></a>
                 </span>
               <% } %>
-              <a class="read-more" href="<%- url_for(post.path) %>"><span>阅读全文</span><%- partial('_partial/icons', { icon: 'arrow-right' }) %></a>
+              <a class="read-more" href="<%- url_for(post.path) %>"><span><%= flatpaper_i18n('index.read_more') %></span><%- partial('_partial/icons', { icon: 'arrow-right' }) %></a>
             </div>
           </div>
           <div class="featured-thumb<%= featuredImageZigzag ? ' featured-thumb--zigzag' : '' %>">
@@ -61,15 +61,15 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
     </div>
 
     <% if (featured.length > 1) { %>
-      <button type="button" class="carousel-arrow carousel-prev" aria-label="上一张">
+      <button type="button" class="carousel-arrow carousel-prev" aria-label="<%= flatpaper_i18n('index.previous_slide') %>">
         <%- partial('_partial/icons', { icon: 'chevron-left' }) %>
       </button>
-      <button type="button" class="carousel-arrow carousel-next" aria-label="下一张">
+      <button type="button" class="carousel-arrow carousel-next" aria-label="<%= flatpaper_i18n('index.next_slide') %>">
         <%- partial('_partial/icons', { icon: 'chevron-right' }) %>
       </button>
-      <div class="carousel-dots" role="group" aria-label="轮播页码">
+      <div class="carousel-dots" role="group" aria-label="<%= flatpaper_i18n('index.carousel_pagination') %>">
         <% featured.forEach(function (_, idx) { %>
-          <button type="button" class="carousel-dot<%= idx === 0 ? ' is-active' : '' %>" data-index="<%= idx %>" aria-label="第 <%= idx + 1 %> 张"></button>
+          <button type="button" class="carousel-dot<%= idx === 0 ? ' is-active' : '' %>" data-index="<%= idx %>" aria-label="<%= flatpaper_i18n('index.carousel_slide', idx + 1) %>"></button>
         <% }) %>
       </div>
     <% } %>
@@ -78,7 +78,7 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
 
 <% if (featured.length) { %>
   <section class="section-head">
-    <h2><%- partial('_partial/icons', { icon: 'history' }) %>最新文章</h2>
+    <h2><%- partial('_partial/icons', { icon: 'history' }) %><%= flatpaper_i18n('index.latest_posts') %></h2>
   </section>
 <% } %>
 
@@ -91,21 +91,21 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
 <% } else { %>
   <section class="empty-paper">
     <h1>FlatPaper</h1>
-    <p>还没有文章。创建第一篇文章后，这里会显示最新内容。</p>
+    <p><%= flatpaper_i18n('index.empty_posts') %></p>
   </section>
 <% } %>
 
 <% if (page.total && page.total > 1) { %>
-  <nav class="pager" aria-label="文章分页">
+  <nav class="pager" aria-label="<%= flatpaper_i18n('pagination.post_pager') %>">
     <% if (page.prev) { %>
       <a class="pager-link pager-link--prev" href="<%- url_for(page.prev_link) %>">
         <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
-        <span>上一页</span>
+        <span><%= flatpaper_i18n('pagination.prev') %></span>
       </a>
     <% } else { %>
       <span class="pager-link pager-link--prev is-disabled" aria-disabled="true">
         <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
-        <span>上一页</span>
+        <span><%= flatpaper_i18n('pagination.prev') %></span>
       </span>
     <% } %>
 
@@ -113,12 +113,12 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
 
     <% if (page.next) { %>
       <a class="pager-link pager-link--next" href="<%- url_for(page.next_link) %>">
-        <span>下一页</span>
+        <span><%= flatpaper_i18n('pagination.next') %></span>
         <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </a>
     <% } else { %>
       <span class="pager-link pager-link--next is-disabled" aria-disabled="true">
-        <span>下一页</span>
+        <span><%= flatpaper_i18n('pagination.next') %></span>
         <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </span>
     <% } %>

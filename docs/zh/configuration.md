@@ -4,6 +4,26 @@
 
 Header 中的站点标题与页面 description 读取自 Hexo 站点 `_config.yml` 的 `title` 与 `description`。
 
+## 语言
+
+FlatPaper 会本地化主题内置的界面文案（导航标签、搜索状态、分页、ARIA 文案等）。语言根据 Hexo 站点 `_config.yml` 中的 `language` 字段选择：
+
+```yaml
+language: zh-CN
+# 或者按优先级排列的列表
+language:
+  - zh-CN
+  - en
+```
+
+- 支持的语言：`zh-CN` 与 `en`。
+- 字符串直接匹配；列表按顺序匹配，命中的第一个受支持语言生效。
+- `language` 为空、缺失或未受支持时，回退到 `zh-CN`。
+
+只有主题自身的界面文案会被翻译，文章内容、站点数据和你自己的配置值保持原样。
+
+主题附带两份示例配置：`_config.yml`（中文注释与默认值）和 `_config.en.yaml`（键结构相同，注释与默认值为英文）。两者键结构完全一致，按站点语言选用其中一份作为 `_config.flatpaper.yml` 的基础即可。
+
 ## 导航菜单
 
 ```yaml

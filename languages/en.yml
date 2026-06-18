@@ -1,0 +1,115 @@
+common:
+  posts: Posts
+  categories: Categories
+  tags: Tags
+  comments: Comments
+  share: Share
+  page: Page
+  archive: Archive
+  post_list: Posts
+  search_posts: Search posts
+  random_posts: Random posts
+  reward: Reward
+  view_all: View all
+
+pagination:
+  prev: Previous
+  next: Next
+  post_pager: Post pagination
+  archive_pager: Archive pagination
+
+index:
+  featured: Featured posts
+  pinned: Pinned
+  read_more: Read more
+  previous_slide: Previous slide
+  next_slide: Next slide
+  carousel_pagination: Carousel pagination
+  carousel_slide: Slide %d
+  latest_posts: Latest posts
+  empty_posts: No posts yet. Create your first post and the latest content will appear here.
+
+archive:
+  title: Archive
+  post_list: Posts
+
+taxonomy:
+  category_count: "%d posts"
+  empty_categories: No categories yet.
+  empty_tags: No tags yet.
+
+links:
+  label: Friends
+  title: Friend links
+  empty_data: Could not load friend link data. Make sure source/_data/links.yml exists and run hexo clean.
+  rss_label: "%s's RSS"
+
+post:
+  scroll_to_comments: Jump to comments
+  previous: Previous
+  next: Next
+  no_previous: No earlier posts
+  no_next: This is the latest post
+  back_to_top: Back to top
+  related_posts: Related posts
+  view_more: View more
+
+search:
+  placeholder: Type keywords, press Esc to close
+  empty: Type keywords to search matching posts
+  loading: Loading search index...
+  load_failed: Failed to load the search index. Reopen search and try again.
+  no_result: No posts found for "%s"
+  close: Close search
+
+code:
+  copy: Copy code
+  collapse: Collapse code
+  expand: Expand code
+
+heading:
+  anchor: "Link to this section: %s"
+
+head:
+  tag: "Tag: %s"
+  category: "Category: %s"
+  archive: Archive
+  archive_with_date: "Archive: %s"
+  page_number: Page %d
+
+navigation:
+  primary: Primary navigation
+  mobile: Mobile navigation
+  brand_home: FlatPaper home
+  open_sidebar: Open sidebar
+  close_sidebar: Close sidebar
+  sidebar: Sidebar
+  sidebar_tools: Sidebar tools
+  site_links: Site links
+  site_info: Site information
+
+colors:
+  choose_theme_color: Choose theme color
+  theme_color: Theme color
+  toggle_color_mode: Toggle color mode
+  green: Green
+  pink: Pink
+  sakura: Sakura pink
+  blue: Blue
+  orange: Orange
+  black: Black
+
+profile:
+  default_bio: Loves life, code, and sharing notes from both.
+
+welcome:
+  cta: Start reading
+  title: Welcome to FlatPaper
+  text: A blog theme focused on content and a calm reading experience.
+
+toc:
+  title: Table of contents
+  empty: The table of contents is generated from post headings.
+
+sidebar:
+  hot_tags: Popular tags

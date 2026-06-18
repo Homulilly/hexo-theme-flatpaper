@@ -4,11 +4,14 @@
 <%
 var siteTitle = config.title || 'FlatPaper';
 var titleParts = [];
-if (is_tag()) titleParts.push('标签：' + page.tag);
-else if (is_category()) titleParts.push('分类：' + page.category);
-else if (is_archive()) titleParts.push('归档' + (page.year ? '：' + page.year + (page.month ? '/' + (page.month < 10 ? '0' : '') + page.month : '') : ''));
+if (is_tag()) titleParts.push(flatpaper_i18n('head.tag', page.tag));
+else if (is_category()) titleParts.push(flatpaper_i18n('head.category', page.category));
+else if (is_archive()) {
+  var archiveDate = page.year ? page.year + (page.month ? '/' + (page.month < 10 ? '0' : '') + page.month : '') : '';
+  titleParts.push(archiveDate ? flatpaper_i18n('head.archive_with_date', archiveDate) : flatpaper_i18n('head.archive'));
+}
 else if (page.title && !is_home()) titleParts.push(page.title);
-if (page.current && page.current > 1) titleParts.push('第 ' + page.current + ' 页');
+if (page.current && page.current > 1) titleParts.push(flatpaper_i18n('head.page_number', page.current));
 var fullTitle = titleParts.length ? titleParts.join(' · ') + ' | ' + siteTitle : siteTitle;
 // First string-valued cover-ish front-matter field, for og:image; open_graph
 // falls back to page.photos / first content image on its own.
