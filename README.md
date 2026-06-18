@@ -53,6 +53,17 @@ feed:
   content: true
 ```
 
+To generate a sitemap, install `hexo-generator-sitemap` and add the sitemap config to site `_config.yml`:
+
+```bash
+pnpm add hexo-generator-sitemap
+```
+
+```yaml
+sitemap:
+  path: sitemap.xml
+```
+
 ## Quick Examples
 
 Add a post cover:

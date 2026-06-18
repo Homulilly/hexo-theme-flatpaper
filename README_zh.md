@@ -53,6 +53,17 @@ feed:
   content: true
 ```
 
+如需生成站点地图，安装 `hexo-generator-sitemap` 并在站点 `_config.yml` 中补充 sitemap 配置：
+
+```bash
+pnpm add hexo-generator-sitemap
+```
+
+```yaml
+sitemap:
+  path: sitemap.xml
+```
+
 ## 快速示例
 
 给文章添加封面：
