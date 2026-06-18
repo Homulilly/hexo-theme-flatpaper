@@ -524,6 +524,14 @@
     return source.innerText.replace(/\s+$/, '');
   }
 
+  function isSingleLineCodeBlock(block) {
+    var codeLines = block.querySelectorAll('td.code pre .line');
+    if (codeLines.length) return codeLines.length === 1;
+
+    var text = getCodeText(block);
+    return text ? text.split(/\r\n|\r|\n/).length === 1 : false;
+  }
+
   function fallbackCopy(text) {
     var ta = document.createElement('textarea');
     ta.value = text;
@@ -539,11 +547,15 @@
     if (block.dataset.flatpaperEnhanced) return;
     block.dataset.flatpaperEnhanced = '1';
 
+    var isSingleLine = isSingleLineCodeBlock(block);
+    var useCompactSingleLine = isSingleLine && document.body.dataset.codeTheme === 'simple';
+    if (useCompactSingleLine) block.classList.add('is-single-line');
+
     var bar = document.createElement('div');
     bar.className = 'code-bar';
 
     var lang = detectLang(block);
-    if (lang) {
+    if (lang && !useCompactSingleLine) {
       var label = document.createElement('span');
       label.className = 'code-lang';
       label.textContent = lang;
@@ -573,22 +585,24 @@
     });
     bar.appendChild(copyBtn);
 
-    var foldBtn = document.createElement('button');
-    foldBtn.type = 'button';
-    foldBtn.className = 'code-action code-fold';
-    foldBtn.setAttribute('aria-label', '折叠代码');
-    foldBtn.setAttribute('aria-expanded', 'true');
-    foldBtn.innerHTML = ICON_CHEVRON;
-    foldBtn.addEventListener('click', function () {
-      var folded = block.classList.toggle('is-folded');
-      foldBtn.setAttribute('aria-expanded', folded ? 'false' : 'true');
-      foldBtn.setAttribute('aria-label', folded ? '展开代码' : '折叠代码');
-    });
-    bar.appendChild(foldBtn);
+    if (!useCompactSingleLine) {
+      var foldBtn = document.createElement('button');
+      foldBtn.type = 'button';
+      foldBtn.className = 'code-action code-fold';
+      foldBtn.setAttribute('aria-label', '折叠代码');
+      foldBtn.setAttribute('aria-expanded', 'true');
+      foldBtn.innerHTML = ICON_CHEVRON;
+      foldBtn.addEventListener('click', function () {
+        var folded = block.classList.toggle('is-folded');
+        foldBtn.setAttribute('aria-expanded', folded ? 'false' : 'true');
+        foldBtn.setAttribute('aria-label', folded ? '展开代码' : '折叠代码');
+      });
+      bar.appendChild(foldBtn);
+    }
 
     block.appendChild(bar);
 
-    setupGutterInteractions(block);
+    if (!useCompactSingleLine) setupGutterInteractions(block);
   }
 
   function copyText(text, onDone) {

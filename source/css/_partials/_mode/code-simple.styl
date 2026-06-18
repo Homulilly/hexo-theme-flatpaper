@@ -48,6 +48,47 @@ body[data-code-theme="simple"] .article-content .highlight .code-copy.is-copied 
   color: var(--color-accent);
 }
 
+body[data-code-theme="simple"] .article-content .highlight.is-single-line {
+  padding-top: 0;
+}
+
+body[data-code-theme="simple"] .article-content .highlight.is-single-line::before,
+body[data-code-theme="simple"] .article-content .highlight.is-single-line::after,
+body[data-code-theme="simple"] .article-content .highlight.is-single-line figcaption,
+body[data-code-theme="simple"] .article-content .highlight.is-single-line td.gutter {
+  display: none;
+}
+
+body[data-code-theme="simple"] .article-content .highlight.is-single-line .code-bar {
+  left: auto;
+  right: 8px;
+  top: 50%;
+  width: auto;
+  height: auto;
+  padding: 0;
+  border-bottom: 0;
+  transform: translateY(-50%);
+}
+
+body[data-code-theme="simple"] .article-content .highlight.is-single-line .code-copy {
+  border: none !important;
+  background: var(--paper-warm) !important;
+  box-shadow: -6px 0 0 var(--paper-warm);
+}
+
+body[data-code-theme="simple"] .article-content .highlight.is-single-line .code-copy:hover {
+  background: var(--paper-solid) !important;
+}
+
+body[data-code-theme="simple"] .article-content .highlight.is-single-line td.code {
+  width: 100%;
+  padding: 0;
+}
+
+body[data-code-theme="simple"] .article-content .highlight.is-single-line td.code pre {
+  padding: 12px 48px 12px 16px;
+}
+
 body[data-code-theme="simple"] .article-content .highlight td.gutter {
   background: transparent;
   border-right: 1px dashed var(--dash);
