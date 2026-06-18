@@ -20,6 +20,7 @@
   padding: 9px 0;
   border-bottom: 1px dashed var(--line);
   font-size: 14px;
+  transition: color 0.18s ease, transform 0.18s ease;
 }
 
 .categories-card a:last-child {
@@ -28,6 +29,7 @@
 
 .categories-card strong {
   font-weight: 600;
+  transition: color 0.18s ease;
 }
 
 .categories-card em,
@@ -43,9 +45,32 @@
   height: 9px;
   border-radius: 50%;
   background: var(--color-accent);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .dot-0 { background: var(--color-accent); }
 .dot-1 { background: var(--blue); }
 .dot-2 { background: var(--orange); }
 .dot-3 { background: var(--violet); }
+
+.categories-card a:hover {
+  color: var(--color-accent-strong);
+  transform: translateX(3px);
+}
+
+.categories-card a:hover em {
+  color: var(--color-accent-strong);
+}
+
+.categories-card a:hover .dot {
+  transform: scale(1.24);
+  box-shadow: 0 0 0 4px rgba(111, 166, 124, 0.14);
+}
+
+.dark-mode .categories-card a:hover {
+  color: var(--color-accent-muted);
+}
+
+.dark-mode .categories-card a:hover em {
+  color: var(--color-accent-muted);
+}
