@@ -1,19 +1,33 @@
 <%
 var categories = post.categories ? post.categories.toArray() : [];
+var tags = post.tags ? post.tags.toArray() : [];
 var summary = strip_html(post.excerpt || post.content || '').replace(/\s+/g, ' ').trim();
 var max = theme.excerpt_length || 96;
 if (summary.length > max) summary = summary.slice(0, max) + '...';
 %>
-<a class="post-card" href="<%- url_for(post.path) %>" data-title="<%= post.title %>" aria-label="<%= post.title %>">
-  <span class="post-thumb-link" aria-hidden="true">
+<article class="post-card" data-title="<%= post.title %>">
+  <a class="post-thumb-link" href="<%- url_for(post.path) %>" aria-label="<%= post.title %>">
     <%- partial('_partial/thumbnail', { index: index, post: post }) %>
-  </span>
+  </a>
   <div class="post-card-copy">
-    <h3><%= post.title %></h3>
+    <h3><a href="<%- url_for(post.path) %>"><%= post.title %></a></h3>
     <p><%= summary %></p>
-    <div class="meta-line">
+    <% if (tags.length) { %>
+      <div class="meta-line meta-line--tags">
+        <span class="meta-tags">
+          <%- partial('_partial/icons', { icon: 'tag' }) %>
+          <% tags.forEach(function(tag) { %><a class="meta-tag-link" href="<%- url_for(tag.path) %>">#<%= tag.name %></a><% }) %>
+        </span>
+      </div>
+    <% } %>
+    <div class="meta-line meta-line--tax">
       <span class="meta-date"><%- partial('_partial/icons', { icon: 'calendar' }) %><%= date(post.date, 'YYYY-MM-DD') %></span>
-      <% if (categories.length) { %><span class="meta-cat"><%- partial('_partial/icons', { icon: 'folder' }) %><%= categories[0].name %></span><% } %>
+      <% if (categories.length) { %>
+        <span class="meta-cat">
+          <%- partial('_partial/icons', { icon: 'folder' }) %>
+          <a class="meta-cat-link" href="<%- url_for(categories[0].path) %>"><%= categories[0].name %></a>
+        </span>
+      <% } %>
     </div>
   </div>
-</a>
+</article>
