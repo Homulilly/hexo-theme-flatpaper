@@ -9,12 +9,13 @@
   display: flex;
   flex-direction: column;
   padding: 14px;
-  border-radius: 14px;
   color: inherit;
-  background: var(--paper);
   text-decoration: none;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-  overflow: hidden;
+  transition: transform 0.22s ease;
+}
+
+.post-card::before {
+  transition: filter 0.22s ease;
 }
 
 .post-card a {
@@ -24,7 +25,10 @@
 
 .post-card:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow);
+}
+
+.post-card:hover::before {
+  filter: url(#paper-edge) drop-shadow(var(--shadow));
 }
 
 .post-thumb-link {
