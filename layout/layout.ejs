@@ -34,6 +34,14 @@ var noteIcons = !(theme.note && theme.note.icons === false);
   data-note-icons="<%= noteIcons ? 'on' : 'off' %>"
 >
   <div class="page-grain"></div>
+  <svg width="0" height="0" style="position:absolute;z-index:-1;" aria-hidden="true">
+    <defs>
+      <filter id="paper-edge" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
   <%- partial('_partial/header') %>
 
   <%

@@ -41,11 +41,17 @@ body.no-scroll {
   z-index: 1;
   width: unquote('min(620px, 100%)');
   padding: 26px 28px 22px;
-  border: 2px dashed var(--dash);
-  border-radius: 16px;
-  background: var(--paper);
-  box-shadow: 0 26px 60px rgba(60, 44, 22, 0.22);
   animation: search-pop 0.22s cubic-bezier(0.2, 0.8, 0.3, 1.1);
+}
+
+.search-dialog::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--paper);
+  z-index: -1;
+  border-radius: 4px;
+  filter: url(#paper-edge) drop-shadow(0 26px 60px rgba(60, 44, 22, 0.22));
 }
 
 @keyframes search-pop {

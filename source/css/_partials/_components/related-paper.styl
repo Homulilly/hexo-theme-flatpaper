@@ -1,10 +1,18 @@
 /* ============== RELATED PAPER (independent card under article) ============== */
 .related-paper {
+  position: relative;
   padding: 26px 28px 28px;
-  border: 2px dashed var(--dash);
-  border-radius: 14px;
+  z-index: 1;
+}
+
+.related-paper::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: var(--paper);
-  box-shadow: var(--small-shadow);
+  z-index: -1;
+  border-radius: 4px;
+  filter: url(#paper-edge) drop-shadow(0 2px 6px rgba(0,0,0,0.06));
 }
 
 .related-paper__head {

@@ -71,10 +71,24 @@
 .taxonomy-paper,
 .empty-paper {
   position: relative;
-  border: 2px dashed var(--dash);
-  border-radius: 14px;
+  z-index: 1;
+}
+
+.side-card::before,
+.welcome-card::before,
+.featured-paper::before,
+.post-card::before,
+.article-paper::before,
+.archive-paper::before,
+.taxonomy-paper::before,
+.empty-paper::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: var(--paper);
-  box-shadow: var(--small-shadow);
+  z-index: -1;
+  border-radius: 4px;
+  filter: url(#paper-edge) drop-shadow(0 2px 6px rgba(0,0,0,0.06));
 }
 
 .side-card {

@@ -72,12 +72,13 @@
 
 .reaction--reward:hover {
   color: var(--color-accent-strong);
-  border-color: var(--color-accent);
 }
 
 .reaction--reward[aria-expanded="true"] {
   color: var(--color-accent-strong);
-  border-color: var(--color-accent);
+}
+
+.reaction--reward[aria-expanded="true"]::before {
   background: var(--paper);
 }
 
@@ -85,8 +86,6 @@
   position: absolute;
   bottom: calc(100% + 12px);
   left: var(--reaction-anchor-x);
-  /* Above the sticky header (z 20): an open popover scrolling under the
-     header should stay readable rather than half-painted. */
   z-index: 30;
   width: 180px;
   padding: 12px;
@@ -94,11 +93,17 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  border: 1px dashed var(--dash);
-  border-radius: 14px;
-  background: var(--paper-warm);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   transform: translateX(-50%);
+}
+
+.reaction-bubble::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--paper-warm);
+  z-index: -1;
+  border-radius: 8px;
+  filter: url(#paper-edge) drop-shadow(0 10px 30px rgba(0,0,0,0.12));
 }
 
 .reaction-bubble[hidden] {
@@ -114,9 +119,6 @@
   width: 12px;
   height: 12px;
   margin-top: -7px;
-  border: 1px dashed var(--dash);
-  border-top: 0;
-  border-left: 0;
   background: var(--paper-warm);
   transform: translateX(-50%) rotate(45deg);
 }

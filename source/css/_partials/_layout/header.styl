@@ -26,11 +26,16 @@ body::before {
   min-height: 72px;
   margin-top: 28px;
   padding: 12px 24px;
-  border: 2px dashed var(--dash);
-  border-radius: 14px;
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: var(--paper);
-  box-shadow: var(--small-shadow);
-  backdrop-filter: blur(14px);
+  z-index: -1;
+  border-radius: 4px;
+  filter: url(#paper-edge) drop-shadow(0 10px 22px rgba(82, 64, 38, 0.1));
 }
 
 .brand {
@@ -106,15 +111,21 @@ body::before {
   gap: 16px;
   min-width: max-content;
   padding: 16px;
-  border: 1px dashed var(--dash);
-  border-radius: 12px;
-  background: var(--paper);
-  box-shadow: var(--small-shadow);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-4px);
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0.16s;
+}
+
+.brand-nav-menu::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--paper);
+  z-index: -1;
+  border-radius: 6px;
+  filter: url(#paper-edge) drop-shadow(0 10px 22px rgba(82, 64, 38, 0.1));
 }
 
 .brand-nav-menu::before {
@@ -347,16 +358,21 @@ body::before {
   gap: 4px;
   min-width: 132px;
   padding: 18px 8px 8px;
-  border: 1px dashed var(--dash);
-  border-radius: 10px;
-  background: var(--paper);
-  background-clip: padding-box;
-  box-shadow: 0 10px 0 -8px transparent, var(--small-shadow);
   opacity: 0;
   visibility: hidden;
   transform: translate(-50%, -4px);
   pointer-events: none;
   transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0.16s;
+}
+
+.site-nav-menu::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--paper);
+  z-index: -1;
+  border-radius: 6px;
+  filter: url(#paper-edge) drop-shadow(0 10px 22px rgba(82, 64, 38, 0.1));
 }
 
 .site-nav-item:hover .site-nav-menu {
@@ -403,7 +419,6 @@ body::before {
 }
 
 .icon-button {
-  position: relative;
   display: inline-grid;
   place-items: center;
   width: 40px;
@@ -435,10 +450,16 @@ body::before {
   z-index: 30;
   display: none;
   padding: 8px;
-  border: 1px dashed var(--dash);
-  border-radius: 10px;
+}
+
+.accent-menu::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
   background: var(--paper);
-  box-shadow: var(--small-shadow);
+  z-index: -1;
+  border-radius: 4px;
+  filter: url(#paper-edge) drop-shadow(0 10px 22px rgba(82, 64, 38, 0.1));
 }
 
 .accent-picker.is-open .accent-menu {
@@ -517,7 +538,6 @@ body::before {
 }
 
 .theme-toggle {
-  position: relative;
   display: inline-grid;
   place-items: center;
   width: 40px;
