@@ -414,8 +414,24 @@
   /* In narrow article paddings, keep the marker tight to the heading so it does not clip. */
   .article-content h2 { padding-left: 24px; }
   .article-content h3 { padding-left: 20px; }
-  .article-content h2 .heading-anchor { left: 0; }
-  .article-content h3 .heading-anchor { left: 0; }
+  .article-content h2 .heading-anchor { top: 3px; left: 0; }
+  .article-content h3 .heading-anchor { top: 3px; left: 0; }
+  .article-content h2 .heading-anchor,
+  .article-content h3 .heading-anchor {
+    opacity: 1;
+    background-color: unquote('color-mix(in srgb, var(--color-accent) 34%, var(--paper-solid))');
+    transform: none;
+  }
+  .dark-mode .article-content h2 .heading-anchor,
+  .dark-mode .article-content h3 .heading-anchor {
+    background-color: unquote('color-mix(in srgb, var(--color-accent-muted) 55%, #ffffff)');
+  }
+  .article-content h2:hover .heading-anchor,
+  .article-content h3:hover .heading-anchor,
+  .article-content .heading-anchor:hover {
+    background-color: var(--color-accent-strong);
+    transform: translateX(-2px);
+  }
 
   .site-header {
     gap: 12px;
