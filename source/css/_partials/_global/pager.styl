@@ -28,7 +28,7 @@
   z-index: -1;
   border-radius: 4px;
   filter: url(#paper-edge) drop-shadow(0 2px 4px rgba(0,0,0,0.05));
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .pager-link .lucide {
@@ -39,9 +39,12 @@
 
 a.pager-link:hover {
   color: var(--color-accent-strong);
-  background: var(--color-accent-soft);
-  border-color: var(--color-accent);
   transform: translateY(-1px);
+}
+
+a.pager-link:hover::before {
+  background: var(--color-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
 }
 
 a.pager-link--prev:hover .lucide { transform: translateX(-2px); }
