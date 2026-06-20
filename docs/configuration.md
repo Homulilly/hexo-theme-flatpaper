@@ -210,6 +210,7 @@ tape:
 ```
 
 - `tags.style`: `tape` or `pill`
+- `links.style`: `default` or `paper`
 - `color`: `green`, `pink`, `blue`, `orange`, `sakura`, or `black`
 - On desktop the palette button opens the color menu; on mobile color swatches appear directly in the sidebar drawer.
 - The chosen accent is stored in the `flatpaper-accent` cookie.
@@ -232,7 +233,7 @@ Placeholders:
 
 ```yaml
 note:
-  style: flat
+  style: paper
   icons: true
 ```
 
@@ -241,6 +242,8 @@ note:
 - `flat`: left accent strip and soft tinted background
 - `simple`: left accent strip and thin border
 - `modern`: filled rounded box without left strip
+- `sticky`: sticky-note style with square corners and top tape
+- `paper`: scrapbook collage with hand-drawn dashed borders and dynamic tape
 - `disabled`: removes decorative chrome but keeps semantic structure
 
 `icons: false` removes the circular icon badge.

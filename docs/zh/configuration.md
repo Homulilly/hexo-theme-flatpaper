@@ -207,6 +207,7 @@ tape:
 ```
 
 - `tags.style`：`tape` 或 `pill`
+- `links.style`：`default` 或 `paper`
 - `color`：`green`、`pink`、`blue`、`orange`、`sakura`、`black`
 - 桌面端通过 Header 调色盘选择主题色；移动端在侧栏顶部直接显示色点。
 - 用户选择会写入 `flatpaper-accent` cookie。
@@ -229,7 +230,7 @@ footer:
 
 ```yaml
 note:
-  style: flat
+  style: paper
   icons: true
 ```
 
@@ -238,6 +239,8 @@ note:
 - `flat`：左侧色条 + 淡背景
 - `simple`：左侧色条 + 细边框
 - `modern`：填充式圆角盒，无左侧色条
+- `sticky`：便签贴纸，直角、右上微阴影加顶部胶带
+- `paper`：手帐拼贴，手绘虚线边框、倾斜效果及彩色胶带
 - `disabled`：去掉装饰，仅保留语义结构
 
 `icons: false` 会隐藏圆形图标徽章。
