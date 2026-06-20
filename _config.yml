@@ -183,11 +183,10 @@ footer:
 #   simple    无背景，仅左侧实色条 + 细边框 — 干净低调
 #   modern    完全填充的圆角盒，无左侧条
 #   sticky    便签贴纸：直角、右下微阴影，顶部中间条纹胶带
-#   paper     手帐拼贴：手绘虚线边框、随机倾斜，以及动态的主题色胶带
 #   disabled  去掉所有装饰，保留语义结构
 # icons：是否在正文/标题前显示圆形图标徽章（true | false）
 note:
-  style: paper
+  style: sticky
   icons: true
 
 # 代码块外观主题： simple | dark | sand | light

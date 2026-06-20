@@ -225,53 +225,6 @@ body[data-note-style="sticky"] details.flatpaper-note > .flatpaper-note__body {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
 }
 
-/* ===== Style: paper — hand-drawn torn edges, dashed border, custom tape ===== */
-body[data-note-style="paper"] .flatpaper-note {
-  margin: 32px 0 26px;
-  padding: 18px 20px 18px 16px;
-  border: 2px dashed var(--note-border);
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-  background: var(--note-bg);
-  box-shadow: var(--soft-shadow);
-  transform: rotate(0.5deg);
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-
-body[data-note-style="paper"] .flatpaper-note:hover {
-  transform: rotate(0deg) translateY(-2px);
-  box-shadow: 0 8px 20px rgba(82, 64, 38, 0.12);
-}
-
-body[data-note-style="paper"] .flatpaper-note::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  z-index: 1;
-  width: 70px;
-  height: 20px;
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-  background-color: var(--note-accent);
-  background-image: var(--tape-stripes);
-  opacity: 0.8;
-  box-shadow: 0 2px 6px rgba(82, 64, 38, 0.14);
-  transform: translateX(-50%) rotate(-1.5deg);
-  pointer-events: none;
-}
-
-body[data-note-style="paper"] details.flatpaper-note { padding: 0; }
-body[data-note-style="paper"] details.flatpaper-note > .flatpaper-note__title {
-  padding: 14px 16px 12px;
-}
-body[data-note-style="paper"] details.flatpaper-note > .flatpaper-note__body {
-  padding: 12px 18px 14px 46px;
-  border-top: 1px dashed var(--note-border);
-}
-
-.dark-mode body[data-note-style="paper"] .flatpaper-note:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
 /* ===== Style: disabled — strip decoration, keep semantics ===== */
 body[data-note-style="disabled"] .flatpaper-note {
   display: block;

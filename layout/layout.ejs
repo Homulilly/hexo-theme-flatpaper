@@ -23,7 +23,7 @@ if (['green', 'pink', 'blue', 'orange', 'sakura', 'black'].indexOf(accentColor) 
 var codeTheme = theme.code && theme.code.theme ? String(theme.code.theme).toLowerCase() : 'dark';
 if (['dark', 'sand', 'light', 'simple'].indexOf(codeTheme) === -1) codeTheme = 'dark';
 var noteStyle = theme.note && theme.note.style ? String(theme.note.style).toLowerCase() : 'flat';
-if (['flat', 'simple', 'modern', 'sticky', 'paper', 'disabled'].indexOf(noteStyle) === -1) noteStyle = 'flat';
+if (['flat', 'simple', 'modern', 'sticky', 'disabled'].indexOf(noteStyle) === -1) noteStyle = 'flat';
 var noteIcons = !(theme.note && theme.note.icons === false);
 var buttonStyle = theme.buttons && theme.buttons.style ? String(theme.buttons.style).toLowerCase() : 'circle';
 if (['circle', 'tape'].indexOf(buttonStyle) === -1) buttonStyle = 'circle';
