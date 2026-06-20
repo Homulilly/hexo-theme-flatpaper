@@ -11,10 +11,26 @@
 .featured-track {
   position: relative;
   display: grid;
+  grid-template-columns: 1fr;
+}
+
+/* Slides, arrows and dots all live on row 1 (the card row).
+   Any ad injected by Google (.google-auto-placed) auto-flows to row 2,
+   so it never inflates the card row or shifts the arrows. */
+.featured-track > .featured-paper,
+.featured-track > .carousel-arrow,
+.featured-track > .carousel-dots {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.featured-track > .google-auto-placed {
+  grid-row: 2;
+  grid-column: 1;
+  margin-top: 16px;
 }
 
 .featured-track > .featured-paper {
-  grid-area: 1 / 1;
   opacity: 0;
   visibility: hidden;
   transform: translateX(20px);
@@ -30,10 +46,10 @@
   pointer-events: auto;
 }
 
-/* Carousel arrows */
+/* Carousel arrows — grid items centered on the card row, pulled out
+   over the carousel edges with negative margins. */
 .featured-carousel .carousel-arrow {
-  position: absolute;
-  top: 50%;
+  align-self: center;
   z-index: 5;
   display: inline-grid;
   place-items: center;
@@ -46,7 +62,6 @@
   color: var(--ink-soft);
   background: var(--paper);
   cursor: pointer;
-  transform: translateY(-50%);
   transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   box-shadow: var(--soft-shadow);
 }
@@ -55,23 +70,23 @@
   color: var(--color-accent-strong);
   border-color: var(--color-accent);
   background: var(--color-accent-soft);
-  transform: translateY(-50%) scale(1.05);
+  transform: scale(1.05);
 }
 
-.featured-carousel .carousel-prev { left: -16px; }
-.featured-carousel .carousel-next { right: -16px; }
+.featured-carousel .carousel-prev { justify-self: start; margin-left: -16px; }
+.featured-carousel .carousel-next { justify-self: end; margin-right: -16px; }
 
 .featured-carousel .carousel-arrow .lucide {
   width: 16px;
   height: 16px;
 }
 
-/* Dots */
+/* Dots — grid item on the card row, anchored to its bottom edge and
+   pushed just below it so the ad on row 2 never moves them. */
 .featured-carousel .carousel-dots {
-  position: absolute;
-  left: 50%;
-  bottom: -22px;
-  transform: translateX(-50%);
+  align-self: end;
+  justify-self: center;
+  margin-bottom: -22px;
   display: inline-flex;
   gap: 8px;
   z-index: 4;

@@ -58,21 +58,21 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
           </div>
         </article>
       <% }) %>
-    </div>
 
-    <% if (featured.length > 1) { %>
-      <button type="button" class="carousel-arrow carousel-prev" aria-label="<%= flatpaper_i18n('index.previous_slide') %>">
-        <%- partial('_partial/icons', { icon: 'chevron-left' }) %>
-      </button>
-      <button type="button" class="carousel-arrow carousel-next" aria-label="<%= flatpaper_i18n('index.next_slide') %>">
-        <%- partial('_partial/icons', { icon: 'chevron-right' }) %>
-      </button>
-      <div class="carousel-dots" role="group" aria-label="<%= flatpaper_i18n('index.carousel_pagination') %>">
-        <% featured.forEach(function (_, idx) { %>
-          <button type="button" class="carousel-dot<%= idx === 0 ? ' is-active' : '' %>" data-index="<%= idx %>" aria-label="<%= flatpaper_i18n('index.carousel_slide', idx + 1) %>"></button>
-        <% }) %>
-      </div>
-    <% } %>
+      <% if (featured.length > 1) { %>
+        <button type="button" class="carousel-arrow carousel-prev" aria-label="<%= flatpaper_i18n('index.previous_slide') %>">
+          <%- partial('_partial/icons', { icon: 'chevron-left' }) %>
+        </button>
+        <button type="button" class="carousel-arrow carousel-next" aria-label="<%= flatpaper_i18n('index.next_slide') %>">
+          <%- partial('_partial/icons', { icon: 'chevron-right' }) %>
+        </button>
+        <div class="carousel-dots" role="group" aria-label="<%= flatpaper_i18n('index.carousel_pagination') %>">
+          <% featured.forEach(function (_, idx) { %>
+            <button type="button" class="carousel-dot<%= idx === 0 ? ' is-active' : '' %>" data-index="<%= idx %>" aria-label="<%= flatpaper_i18n('index.carousel_slide', idx + 1) %>"></button>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
   </section>
 <% } %>
 
