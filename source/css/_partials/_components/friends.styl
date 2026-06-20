@@ -226,19 +226,19 @@ img.friend-card__avatar {
 }
 
 .friend-card--paper .friend-card__link {
-  border: 2px dashed var(--dash);
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  border: 1px dashed var(--dash);
+  border-radius: 2px;
   background: var(--paper-warm);
   box-shadow: var(--soft-shadow);
   transform-origin: center top;
 }
 
 .friend-card--paper:nth-child(even) .friend-card__link {
-  transform: rotate(1.5deg);
+  transform: rotate(0.6deg);
 }
 
 .friend-card--paper:nth-child(odd) .friend-card__link {
-  transform: rotate(-1.5deg);
+  transform: rotate(-0.6deg);
 }
 
 .friend-card--paper .friend-card__link:hover {
@@ -269,6 +269,12 @@ img.friend-card__avatar {
   opacity: 0.92;
   z-index: 1;
   pointer-events: none;
+  transition: transform 0.22s ease;
+}
+
+/* Lift the tape in step with the card on hover. */
+.friend-card--paper:hover::after {
+  transform: translateY(-4px) rotate(var(--friend-tape-rotate));
 }
 
 .friend-card--paper:nth-child(even)::after {
