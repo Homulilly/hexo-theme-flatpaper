@@ -91,6 +91,35 @@
   filter: url(#paper-edge) drop-shadow(0 2px 6px rgba(0,0,0,0.06));
 }
 
+/* Light theme: layered warm shadow lifts the sidebar cards off the page.
+   Contact shadow grounds the edge; the soft ambient layer adds depth.
+   Dark mode keeps the flatter shared shadow (re-pinned below). */
+.side-card {
+  transition: transform 0.25s ease;
+}
+
+.side-card::after {
+  filter: url(#paper-edge)
+    drop-shadow(0 2px 4px rgba(82, 64, 38, 0.08))
+    drop-shadow(0 14px 30px rgba(82, 64, 38, 0.15));
+  transition: filter 0.25s ease;
+}
+
+.side-card:hover {
+  transform: translateY(-3px);
+}
+
+.side-card:hover::after {
+  filter: url(#paper-edge)
+    drop-shadow(0 4px 8px rgba(82, 64, 38, 0.10))
+    drop-shadow(0 22px 42px rgba(82, 64, 38, 0.18));
+}
+
+.dark-mode .side-card::after,
+.dark-mode .side-card:hover::after {
+  filter: url(#paper-edge) drop-shadow(0 2px 6px rgba(0,0,0,0.06));
+}
+
 .side-card {
   padding: 20px 22px;
 }
