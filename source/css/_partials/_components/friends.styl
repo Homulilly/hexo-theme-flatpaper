@@ -212,6 +212,13 @@ img.friend-card__avatar {
 /* --- Paper Style Friend Cards --- */
 .friend-card--paper {
   z-index: 1;
+  --friend-tape-top: -8px;
+  --friend-tape-left: 25%;
+  --friend-tape-right: auto;
+  --friend-tape-width: 38px;
+  --friend-tape-height: 15px;
+  --friend-tape-rotate: -6deg;
+  --friend-tape-color: var(--tape-yellow);
 }
 
 .friend-card--paper:hover {
@@ -248,30 +255,50 @@ img.friend-card__avatar {
 .friend-card--paper::after {
   content: "";
   position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%) rotate(-2deg);
-  width: 66px;
-  height: 20px;
-  background-color: var(--tape-yellow);
+  top: var(--friend-tape-top);
+  left: var(--friend-tape-left);
+  right: var(--friend-tape-right);
+  transform: rotate(var(--friend-tape-rotate));
+  transform-origin: center;
+  width: var(--friend-tape-width);
+  height: var(--friend-tape-height);
+  background-color: var(--friend-tape-color);
   background-image: var(--tape-stripes);
-  z-index: 12;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(82, 64, 38, 0.10);
+  opacity: 0.92;
+  z-index: 1;
   pointer-events: none;
 }
 
-.friend-card--paper:nth-child(2n)::after {
-  background-color: var(--tape-blue);
-  transform: translateX(-50%) rotate(3deg);
+.friend-card--paper:nth-child(even)::after {
+  --friend-tape-top: -8px;
+  --friend-tape-left: auto;
+  --friend-tape-right: 25%;
+  --friend-tape-rotate: 6deg;
+  --friend-tape-color: var(--tape-blue);
 }
 
-.friend-card--paper:nth-child(3n)::after {
-  background-color: var(--tape-pink);
-  transform: translateX(-50%) rotate(-1deg);
+.friend-card--paper:nth-child(4n+1)::after {
+  --friend-tape-color: var(--tape-yellow);
+}
+
+.friend-card--paper:nth-child(4n+2)::after {
+  --friend-tape-color: var(--tape-blue);
+}
+
+.friend-card--paper:nth-child(4n+3)::after {
+  --friend-tape-top: -7px;
+  --friend-tape-width: 34px;
+  --friend-tape-rotate: -4deg;
+  --friend-tape-color: var(--tape-pink);
 }
 
 .friend-card--paper:nth-child(4n)::after {
-  background-color: var(--tape-green);
-  transform: translateX(-50%) rotate(2deg);
+  --friend-tape-top: -7px;
+  --friend-tape-width: 36px;
+  --friend-tape-rotate: 4deg;
+  --friend-tape-color: var(--tape-green);
 }
 
 .tape-disabled .friend-card--paper::after {
