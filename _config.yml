@@ -143,6 +143,10 @@ search:
 tags:
   style: tape
 
+# 友链样式： default | paper
+links:
+  style: paper
+
 # 首页轮播置顶（最多 4 项；按文章 slug / 路径 / 标题任一匹配）
 featured:
   # - hello-world

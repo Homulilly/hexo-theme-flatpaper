@@ -208,3 +208,72 @@ img.friend-card__avatar {
   color: var(--muted);
   font-size: 13px;
 }
+
+/* --- Paper Style Friend Cards --- */
+.friend-card--paper {
+  z-index: 1;
+}
+
+.friend-card--paper:hover {
+  z-index: 10;
+}
+
+.friend-card--paper .friend-card__link {
+  border: 2px dashed var(--dash);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  background: var(--paper-warm);
+  box-shadow: var(--soft-shadow);
+  transform-origin: center top;
+}
+
+.friend-card--paper:nth-child(even) .friend-card__link {
+  transform: rotate(1.5deg);
+}
+
+.friend-card--paper:nth-child(odd) .friend-card__link {
+  transform: rotate(-1.5deg);
+}
+
+.friend-card--paper .friend-card__link:hover {
+  transform: translateY(-4px) scale(1.02) rotate(0deg);
+  border-color: var(--color-accent);
+  box-shadow: 0 10px 22px rgba(82, 64, 38, 0.15);
+}
+
+.dark-mode .friend-card--paper .friend-card__link:hover {
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.4);
+}
+
+/* Scrapbook tape for paper cards */
+.friend-card--paper::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 66px;
+  height: 20px;
+  background-color: var(--tape-yellow);
+  background-image: var(--tape-stripes);
+  z-index: 12;
+  pointer-events: none;
+}
+
+.friend-card--paper:nth-child(2n)::after {
+  background-color: var(--tape-blue);
+  transform: translateX(-50%) rotate(3deg);
+}
+
+.friend-card--paper:nth-child(3n)::after {
+  background-color: var(--tape-pink);
+  transform: translateX(-50%) rotate(-1deg);
+}
+
+.friend-card--paper:nth-child(4n)::after {
+  background-color: var(--tape-green);
+  transform: translateX(-50%) rotate(2deg);
+}
+
+.tape-disabled .friend-card--paper::after {
+  display: none;
+}
