@@ -12,7 +12,15 @@
 .tape--top-left {
   top: -10px;
   left: 24px;
+  background-color: var(--tape-pink);
   transform: rotate(-6deg);
+}
+
+.tape--top-center {
+  top: -10px;
+  left: 50%;
+  background-color: var(--tape-pink);
+  transform: translateX(-50%) rotate(-2deg);
 }
 
 .tape--top-right {
@@ -25,8 +33,23 @@
 }
 
 .tape-disabled .tape,
-.tape-disabled .categories-card::before,
-.tape-disabled .tag-card::before,
-.tape-disabled .toc-card::before {
+.tape-disabled .side-card::before,
+.tape-disabled .comments-section::after,
+.tape-disabled .related-paper::after,
+.tape-disabled .site-header::after {
   display: none;
+}
+
+.side-card::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 18px;
+  z-index: 2;
+  width: 70px;
+  height: 20px;
+  background-color: var(--tape-yellow);
+  background-image: var(--tape-stripes);
+  filter: saturate(0.9);
+  transform: rotate(6deg);
 }

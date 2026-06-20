@@ -1,4 +1,11 @@
 /* ============== PROFILE CARD ============== */
+.profile-card::before {
+  right: auto;
+  left: 20px;
+  background-color: var(--tape-blue);
+  transform: rotate(-4deg);
+}
+
 .profile-card {
   text-align: center;
   padding: 24px 20px 22px;
@@ -199,6 +206,14 @@ a.site-info__item:focus-visible {
 a.site-info__item:hover strong,
 a.site-info__item:focus-visible strong {
   color: var(--color-accent-strong);
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 14px;
+  max-width: 216px;
 }
 
 .socials {

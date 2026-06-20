@@ -15,6 +15,19 @@
   filter: url(#paper-edge) drop-shadow(0 2px 6px rgba(0,0,0,0.06));
 }
 
+.related-paper::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 30px;
+  z-index: 2;
+  width: 70px;
+  height: 20px;
+  background-color: var(--tape-blue);
+  background-image: var(--tape-stripes);
+  transform: rotate(6deg);
+}
+
 .related-paper__head {
   display: flex;
   align-items: baseline;
@@ -89,6 +102,7 @@
   filter: url(#paper-edge) drop-shadow(0 2px 6px rgba(0,0,0,0.06));
   transition: filter 0.22s ease;
 }
+
 
 .related-card:hover {
   transform: translateY(-3px);

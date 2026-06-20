@@ -34,7 +34,7 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
         var featuredCats = post.categories ? post.categories.toArray() : [];
       %>
         <article class="featured-paper<%= idx === 0 ? ' is-active' : '' %>" data-index="<%= idx %>">
-          <span class="tape tape--top-left" aria-hidden="true"></span>
+          <span class="tape tape--top-center" aria-hidden="true"></span>
           <div class="featured-copy">
             <span class="label-pill"><%= flatpaper_i18n('index.pinned') %></span>
             <h1><a href="<%- url_for(post.path) %>"><%= post.title %></a></h1>
