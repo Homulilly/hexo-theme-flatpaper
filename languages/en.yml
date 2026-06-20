@@ -54,6 +54,13 @@ post:
   related_posts: Related posts
   view_more: View more
 
+not_found:
+  label: Page missing
+  title: Page not found
+  text: This address may have moved, been deleted, or never existed.
+  home: Back home
+  search: Search posts
+
 search:
   placeholder: Type keywords, press Esc to close
   empty: Type keywords to search matching posts

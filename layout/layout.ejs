@@ -1,6 +1,9 @@
 <!doctype html>
 <%
-var fbEnabled = theme.fancybox && theme.fancybox.enable && (is_post() || page.layout === 'page');
+var pageTypeKey = String(page.type || '').toLowerCase();
+var isNotFoundPage = page.layout === '404' || pageTypeKey === '404';
+var isStandalonePage = page.layout === 'page' || isNotFoundPage;
+var fbEnabled = theme.fancybox && theme.fancybox.enable && (is_post() || (page.layout === 'page' && !isNotFoundPage));
 var htmlLang = flatpaper_i18n_language();
 %>
 <html lang="<%= htmlLang %>"<% if (fbEnabled) { %> data-fancybox-enabled="1"<% } %>>
@@ -29,7 +32,7 @@ var buttonStyle = theme.buttons && theme.buttons.style ? String(theme.buttons.st
 if (['circle', 'tape'].indexOf(buttonStyle) === -1) buttonStyle = 'circle';
 %>
 <body
-  class="<%= is_post() ? 'is-post' : (is_home() ? 'is-home' : 'is-list') %><%= tapeDisabled ? ' tape-disabled' : '' %> tag-style-<%= tagStyle %>"
+  class="<%= is_post() ? 'is-post' : (isNotFoundPage ? 'is-404' : (is_home() ? 'is-home' : 'is-list')) %><%= tapeDisabled ? ' tape-disabled' : '' %> tag-style-<%= tagStyle %>"
   data-default-accent="<%= accentColor %>"
   data-code-theme="<%= codeTheme %>"
   data-note-style="<%= noteStyle %>"
@@ -49,7 +52,7 @@ if (['circle', 'tape'].indexOf(buttonStyle) === -1) buttonStyle = 'circle';
 
   <%
   // Two-column layout: posts and standalone pages (about / friends / etc.) drop the random-posts rail.
-  var isTwoColumn = is_post() || page.layout === 'page';
+  var isTwoColumn = is_post() || isStandalonePage;
   %>
   <main class="paper-shell <%= isTwoColumn ? 'paper-shell--article' : '' %>">
     <%- partial('_partial/sidebar-right') %>

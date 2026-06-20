@@ -73,11 +73,25 @@ type: links
 
 Recognized values:
 
+- `404`
 - `links`
 - `tags`
 - `categories`
 
 Anything else falls back to the default page layout.
+
+For a static 404 page, create `source/404.md` in the Hexo site:
+
+```yaml
+---
+title: Page not found
+layout: 404
+permalink: /404.html
+comments: false
+---
+```
+
+On production hosts, keep `404.html` at the site root and configure the host to use it as the not-found page when required.
 
 ## Friends Page Data
 

@@ -6,7 +6,9 @@
 //   3. the page itself didn't opt out via front-matter `comments: false`.
 // The SDK <script>/<link> tags are loaded once globally by _partial/comments-sdk.ejs.
 var sys = theme.comments ? String(theme.comments).toLowerCase() : '';
-var isContentPage = is_post() || page.layout === 'page';
+var pageTypeKey = String(page.type || '').toLowerCase();
+var isNotFoundPage = page.layout === '404' || pageTypeKey === '404';
+var isContentPage = (is_post() || page.layout === 'page') && !isNotFoundPage;
 var canRender = isContentPage && page.comments !== false;
 
 var tk = theme.twikoo || {};
