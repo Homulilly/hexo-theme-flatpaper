@@ -171,8 +171,14 @@
   background: var(--paper-warm);
   z-index: -1;
   border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--dash);
   filter: url(#paper-edge) drop-shadow(var(--paper-shadow));
   transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark-mode .welcome-cta::before,
+.dark-mode .read-more::before {
+  box-shadow: none;
 }
 
 .welcome-cta:hover,
