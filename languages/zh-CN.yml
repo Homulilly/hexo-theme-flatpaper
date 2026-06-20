@@ -54,6 +54,13 @@ post:
   related_posts: 相关文章
   view_more: 查看更多
 
+not_found:
+  label: 页面走丢了
+  title: 找不到这个页面
+  text: 这个地址可能已经移动、删除，或者从未存在。
+  home: 返回首页
+  search: 搜索文章
+
 search:
   placeholder: 输入关键词，按 Esc 关闭
   empty: 输入关键词后显示匹配的文章

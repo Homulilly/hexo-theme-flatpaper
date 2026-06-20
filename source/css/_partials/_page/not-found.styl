@@ -1,0 +1,94 @@
+/* ============== 404 PAGE ============== */
+.not-found-paper {
+  padding-bottom: 44px;
+  text-align: center;
+}
+
+.not-found-header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 24px;
+}
+
+.not-found-code {
+  margin: 6px 0 0;
+  color: var(--color-accent-strong);
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.not-found-lead {
+  max-width: 520px;
+  margin: 12px auto 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.not-found-content {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.not-found-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.not-found-action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 128px;
+  padding: 8px 18px;
+  border: 0;
+  color: var(--ink-soft);
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 1;
+}
+
+.not-found-action::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--paper-warm);
+  z-index: -1;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--dash);
+  filter: url(#paper-edge) drop-shadow(var(--paper-shadow));
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark-mode .not-found-action::before {
+  box-shadow: none;
+}
+
+.not-found-action:hover {
+  color: var(--color-accent-strong);
+  transform: translateY(-1px);
+}
+
+.not-found-action:hover::before {
+  background: var(--color-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+.not-found-action .lucide {
+  width: 14px;
+  height: 14px;
+}

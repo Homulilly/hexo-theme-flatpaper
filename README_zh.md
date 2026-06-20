@@ -102,6 +102,17 @@ type: links
 ---
 ```
 
+创建 `source/404.md` 以启用自定义 404 页面：
+
+```yaml
+---
+title: 页面不存在
+layout: 404
+permalink: /404.html
+comments: false
+---
+```
+
 切换界面语言（在站点 `_config.yml` 中）：
 
 ```yaml

@@ -1,0 +1,26 @@
+<div class="article-tape-wrap not-found-wrap">
+<span class="tape tape--top-right" aria-hidden="true"></span>
+<article class="article-paper not-found-paper">
+  <header class="article-header not-found-header">
+    <span class="label-pill"><%= flatpaper_i18n('not_found.label') %></span>
+    <p class="not-found-code" aria-hidden="true">404</p>
+    <h1><%= page.title || flatpaper_i18n('not_found.title') %></h1>
+    <p class="not-found-lead"><%= page.description || flatpaper_i18n('not_found.text') %></p>
+  </header>
+  <% if (page.content) { %>
+    <div class="article-content not-found-content">
+      <%- page.content %>
+    </div>
+  <% } %>
+  <div class="not-found-actions">
+    <a class="not-found-action" href="<%- url_for('/') %>">
+      <%- partial('_partial/icons', { icon: 'home' }) %>
+      <span><%= flatpaper_i18n('not_found.home') %></span>
+    </a>
+    <button type="button" class="not-found-action js-search-open">
+      <%- partial('_partial/icons', { icon: 'search' }) %>
+      <span><%= flatpaper_i18n('not_found.search') %></span>
+    </button>
+  </div>
+</article>
+</div>

@@ -1,7 +1,7 @@
 <%
-// Allow `type: categories | tags | link` in front-matter to route to a custom layout,
+// Allow `type: 404 | categories | tags | link` in front-matter to route to a custom layout,
 // keeping compatibility with the NexT-style convention.
-var routableTypes = ['link', 'links', 'tags', 'categories'];
+var routableTypes = ['404', 'link', 'links', 'tags', 'categories'];
 var typeKey = String(page.type || '').toLowerCase();
 var typeMap = { links: 'link' };
 if (typeMap[typeKey]) typeKey = typeMap[typeKey];

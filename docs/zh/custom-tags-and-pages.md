@@ -73,11 +73,25 @@ type: links
 
 识别值：
 
+- `404`
 - `links`
 - `tags`
 - `categories`
 
 其他值会回退到默认页面布局。
+
+要生成静态 404 页面，可在 Hexo 站点中创建 `source/404.md`：
+
+```yaml
+---
+title: 页面不存在
+layout: 404
+permalink: /404.html
+comments: false
+---
+```
+
+线上托管时请确保站点根目录保留 `404.html`，必要时在托管平台配置为自定义 404 页面。
 
 ## 友链页数据
 

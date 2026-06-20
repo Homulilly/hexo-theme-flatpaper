@@ -102,6 +102,17 @@ type: links
 ---
 ```
 
+Create `source/404.md` for a custom not-found page:
+
+```yaml
+---
+title: Page not found
+layout: 404
+permalink: /404.html
+comments: false
+---
+```
+
 Switch the interface language (in the site `_config.yml`):
 
 ```yaml
