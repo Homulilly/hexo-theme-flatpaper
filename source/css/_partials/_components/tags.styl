@@ -66,11 +66,12 @@
   justify-content: center;
   min-height: 26px;
   padding: 0 13px;
-  border-radius: 3px;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
   font-size: 12px;
   font-weight: 600;
   color: var(--ink-soft);
-  background: var(--tape-green);
+  background-color: var(--tape-green);
+  background-image: var(--tape-stripes);
   box-shadow: 0 2px 5px rgba(82, 64, 38, 0.08);
   transition:
     transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -103,44 +104,25 @@
     0 4px 10px -2px rgba(0, 0, 0, 0.3);
 }
 
-.tag-chip-0 { background: var(--tape-green); color: #4f8862; transform: rotate(-1deg); }
-.tag-chip-1 { background: var(--tape-blue); color: #4d7eb0; transform: rotate(1.2deg); }
-.tag-chip-2 { background: var(--tape-yellow); color: #9a6f24; transform: rotate(-0.6deg); }
-.tag-chip-3 { background: var(--tape-green); color: #5b8a5f; transform: rotate(0.8deg); }
-.tag-chip-4 { background: rgba(156, 143, 235, 0.45); color: #6e5cb6; transform: rotate(-1.2deg); }
-.tag-chip-5 { background: var(--tape-pink); color: #b16454; transform: rotate(1deg); }
+.tag-chip-0 { background-color: var(--tape-green); color: #2f6649; transform: rotate(-1deg); }
+.tag-chip-1 { background-color: var(--tape-blue); color: #1f4e83; transform: rotate(1.2deg); }
+.tag-chip-2 { background-color: var(--tape-yellow); color: #6f4d0e; transform: rotate(-0.6deg); }
+.tag-chip-3 { background-color: var(--tape-green); color: #2e5e3a; transform: rotate(0.8deg); }
+.tag-chip-4 { background-color: rgba(156, 143, 235, 0.45); color: #443289; transform: rotate(-1.2deg); }
+.tag-chip-5 { background-color: var(--tape-pink); color: #893f30; transform: rotate(1deg); }
 
-.dark-mode .tag-chip { color: #c8d8c5; }
-.dark-mode .tag-chip-1 { color: #aabfd8; }
-.dark-mode .tag-chip-2 { color: #e6c993; }
-.dark-mode .tag-chip-3 { color: #c2d4bf; }
-.dark-mode .tag-chip-4 { background: rgba(156, 143, 235, 0.32); color: #c8bee0; }
-.dark-mode .tag-chip-5 { color: #e0b8a8; }
+.dark-mode .tag-chip-0 { color: #d9e8d5; }
+.dark-mode .tag-chip-1 { color: #c2d4ec; }
+.dark-mode .tag-chip-2 { color: #f1d9a8; }
+.dark-mode .tag-chip-3 { color: #d4e1cf; }
+.dark-mode .tag-chip-4 { background-color: rgba(156, 143, 235, 0.32); color: #dad2f0; }
+.dark-mode .tag-chip-5 { color: #f0cabb; }
 
-/* 4 size tiers driven by post count on /tags. Tier 1 matches the default
-   .tag-chip metrics, so the sidebar's tag-cloud (no size class) stays in line
-   with the smallest tier visually. */
+/* 4 size tiers driven by post count on /tags. */
 .tag-size-1 { min-height: 24px; padding: 0 11px; font-size: 12px; }
 .tag-size-2 { min-height: 28px; padding: 0 13px; font-size: 14px; }
 .tag-size-3 { min-height: 32px; padding: 0 15px; font-size: 16px; }
 .tag-size-4 { min-height: 36px; padding: 0 18px; font-size: 18px; font-weight: 700; }
-
-/* Darker ink for /tags-page chips only. The sidebar tag-cloud (no .tag-size-N
-   class) stays on the lighter palette defined above. Targets `.tag-chip-N` on
-   tags-page chips so each tape color keeps its own hue, just darker. */
-.tag-chip[class*='tag-size-'].tag-chip-0 { color: #2f6649; }
-.tag-chip[class*='tag-size-'].tag-chip-1 { color: #1f4e83; }
-.tag-chip[class*='tag-size-'].tag-chip-2 { color: #6f4d0e; }
-.tag-chip[class*='tag-size-'].tag-chip-3 { color: #2e5e3a; }
-.tag-chip[class*='tag-size-'].tag-chip-4 { color: #443289; }
-.tag-chip[class*='tag-size-'].tag-chip-5 { color: #893f30; }
-
-.dark-mode .tag-chip[class*='tag-size-'].tag-chip-0 { color: #d9e8d5; }
-.dark-mode .tag-chip[class*='tag-size-'].tag-chip-1 { color: #c2d4ec; }
-.dark-mode .tag-chip[class*='tag-size-'].tag-chip-2 { color: #f1d9a8; }
-.dark-mode .tag-chip[class*='tag-size-'].tag-chip-3 { color: #d4e1cf; }
-.dark-mode .tag-chip[class*='tag-size-'].tag-chip-4 { color: #dad2f0; }
-.dark-mode .tag-chip[class*='tag-size-'].tag-chip-5 { color: #f0cabb; }
 
 .tag-style-pill .tag-chip {
   min-height: 28px;
