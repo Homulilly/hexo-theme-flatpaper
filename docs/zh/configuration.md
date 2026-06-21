@@ -128,7 +128,9 @@ home_hero:
   bio: 写给路过此处的你。
   avatar: /images/avatar.jpg
   avatar_shape: circle
-  image: /images/hero.jpg
+  image:
+    - /images/hero-1.jpg
+    - /images/hero-2.jpg
   cta_link: "#flatpaper-home-content"
   stickers:
     enable: true
@@ -145,7 +147,7 @@ home_hero:
 
 - 默认 `enable: false`，不会影响已有首页；只在首页分页第 1 页渲染。
 - 未配置 `title`、`subtitle`、`bio`、`avatar` 或社交链接时，会复用站点标题与 `profile` 配置。
-- `image` 留空时使用内置手账纸张背景；设置后图片会铺满整个开屏。
+- `image` 留空时使用内置手账纸张背景；设置为字符串时固定使用该图片，设置为数组时浏览器每次载入会随机使用一张，图片会铺满整个开屏。
 - 开屏中的社交链接复用 profile 的 `.socials` 样式，也会跟随 `buttons.style` 的配置变化。
 - `stickers.draggable` 为 `true` 时，开屏里的贴纸和胶带可以在页面内随机摆放并拖动，位置会保存在浏览器本地。
 - `stickers.note_text` 可修改内置便签贴纸的文字。

@@ -128,7 +128,9 @@ home_hero:
   bio: A short note for readers landing here.
   avatar: /images/avatar.jpg
   avatar_shape: circle
-  image: /images/hero.jpg
+  image:
+    - /images/hero-1.jpg
+    - /images/hero-2.jpg
   cta_link: "#flatpaper-home-content"
   stickers:
     enable: true
@@ -145,7 +147,7 @@ home_hero:
 
 - Default is `enable: false`, so existing home pages are unchanged. It renders only on page 1 of the home pagination.
 - When `title`, `subtitle`, `bio`, `avatar`, or social links are omitted, the hero reuses the site title and `profile` config.
-- Leave `image` empty to use the built-in scrapbook paper background. Set it to make the image fill the opening screen.
+- Leave `image` empty to use the built-in scrapbook paper background. Set it to a string for one fixed image, or to an array so the browser randomly picks one on each page load. Images fill the opening screen.
 - Social links in the hero reuse the profile `.socials` styling and follow the `buttons.style` option.
 - With `stickers.draggable: true`, the hero stickers and tape pieces get randomized and can be dragged around the page. Positions are saved in the visitor's browser.
 - `stickers.note_text` changes the text on the built-in note sticker.

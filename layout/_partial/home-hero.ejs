@@ -8,7 +8,6 @@ var heroSubtitle = hero.subtitle || profile.role || '';
 var heroBio = hero.bio || profile.bio || flatpaper_i18n('profile.default_bio');
 var heroAvatar = hero.avatar || profile.avatar;
 var avatarShape = hero.avatar_shape || profile.avatar_shape || 'square';
-var heroImage = hero.image ? flatpaper_safe_url(url_for(hero.image), 'image') : '';
 var stickers = hero.stickers;
 var stickersEnabled = stickers !== false && !(stickers && stickers.enable === false);
 var stickersDraggable = !(stickers && stickers.draggable === false);
@@ -26,6 +25,18 @@ function heroHref(value) {
   return flatpaper_safe_url(url_for(raw), 'href');
 }
 
+function heroImageUrl(value) {
+  var rawValue = value && typeof value === 'object'
+    ? (value.image || value.src || value.url || value.path || '')
+    : value;
+  var raw = String(rawValue || '').trim();
+  if (!raw) return '';
+  return flatpaper_safe_url(url_for(raw), 'image');
+}
+
+var configuredHeroImages = Array.isArray(hero.image) ? hero.image : (hero.image ? [hero.image] : []);
+var heroImages = configuredHeroImages.map(heroImageUrl).filter(Boolean);
+var heroImage = heroImages[0] || '';
 var ctaHref = heroHref(hero.cta_link || '#flatpaper-home-content');
 var enterLabel = flatpaper_i18n('home_hero.enter');
 var stickerItems = [
@@ -70,6 +81,7 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
   class="home-hero<%= heroImage ? ' home-hero--image' : '' %><%= stickersDraggable ? ' has-draggable-stickers' : '' %>"
   aria-label="<%= flatpaper_i18n('home_hero.label') %>"
   <% if (heroImage) { %>style="--hero-bg-image: url(&quot;<%= heroImage %>&quot;);"<% } %>
+  <% if (heroImages.length > 1) { %>data-hero-images="<%= JSON.stringify(heroImages) %>"<% } %>
 >
   <div class="home-hero__grain" aria-hidden="true"></div>
   <div class="home-hero__tools" aria-label="<%= flatpaper_i18n('home_hero.tools') %>">

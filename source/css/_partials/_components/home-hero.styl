@@ -537,6 +537,13 @@ body.has-home-hero.is-hero-active::before {
   transform: rotate(0deg) translateY(-2px);
 }
 
+.hero-sticker-confirm button.hero-sticker-confirm__cancel:hover,
+.hero-sticker-confirm button.hero-sticker-confirm__cancel:focus-visible {
+  color: #6b3f4c;
+  border-color: rgba(154, 86, 101, 0.46);
+  background-color: var(--tape-pink);
+}
+
 .dark-mode .home-hero:not(.home-hero--image) {
   color: var(--ink);
   background:
@@ -590,6 +597,13 @@ body.has-home-hero.is-hero-active::before {
 
 .dark-mode .hero-sticker--custom {
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.34));
+}
+
+.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__cancel:hover,
+.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__cancel:focus-visible {
+  color: #f1c9d0;
+  border-color: rgba(232, 168, 158, 0.42);
+  background-color: var(--tape-pink);
 }
 
 @media (max-width: 960px) {

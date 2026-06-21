@@ -109,7 +109,11 @@ home_hero:
   # avatar: /images/avatar.jpg
   # avatar_shape: circle
   # 背景图。留空时使用主题内置的手账纸张背景；设置后图片会铺满开屏。
+  # 也可配置为数组，浏览器每次载入随机使用一张。
   # image: /images/hero.jpg
+  # image:
+  #   - /images/hero-1.jpg
+  #   - /images/hero-2.jpg
   # 底部跳动箭头的目标锚点；默认进入首页内容区。
   # cta_link: "#flatpaper-home-content"
   stickers:

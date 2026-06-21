@@ -110,7 +110,11 @@ home_hero:
   # avatar_shape: circle
   # Background image. Leave empty to use the built-in scrapbook paper background.
   # When set, the image fills the opening screen.
+  # It can also be an array; the browser randomly picks one on each page load.
   # image: /images/hero.jpg
+  # image:
+  #   - /images/hero-1.jpg
+  #   - /images/hero-2.jpg
   # Target for the bouncing bottom arrow. Defaults to the home content.
   # cta_link: "#flatpaper-home-content"
   stickers:
