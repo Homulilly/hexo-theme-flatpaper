@@ -396,6 +396,18 @@
 .article-content img {
   display: block;
   margin: 22px auto;
-  border-radius: 8px;
-  box-shadow: var(--small-shadow);
+  border-radius: 0;
+  box-shadow: none;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.article-content img:hover,
+.article-content img:focus-visible {
+  box-shadow: 5px 5px 0 rgba(82, 64, 38, 0.1);
+  transform: translate(-5px, -5px);
+}
+
+.dark-mode .article-content img:hover,
+.dark-mode .article-content img:focus-visible {
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.26);
 }
