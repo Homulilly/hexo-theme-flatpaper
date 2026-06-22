@@ -149,7 +149,7 @@ home_hero:
 - When `title`, `subtitle`, `bio`, `avatar`, or social links are omitted, the hero reuses the site title and `profile` config.
 - Leave `image` empty to use the built-in scrapbook paper background. Set it to a string for one fixed image, or to an array so the browser randomly picks one on each page load. Images fill the opening screen on wider viewports; narrow screens fall back to the paper background so stickers stay readable.
 - Social links in the hero reuse the profile `.socials` styling and follow the `buttons.style` option.
-- With `stickers.draggable: true`, the hero stickers get randomized and can be dragged around the page. Positions are saved in the visitor's browser.
+- With `stickers.draggable: true`, the hero stickers get randomized and can be dragged around the page for the current view. Positions are not persisted.
 - `stickers.note_text` changes the text on the built-in note sticker.
 - `stickers.items` adds image stickers. The hero renders up to 5 custom stickers, plus the built-in note. `image` is required, while `link` is optional. `size` is optional and clamped to 48-180 pixels. Stickers with `link` show a visit confirmation bubble first and use `alt` in the prompt, such as "Visit GitHub?".
 - The bouncing bottom arrow scrolls into the home content. `cta_link` can point to another anchor and offsets for the sticky header. The hero does not auto-enter the home content based on scroll distance.

@@ -387,20 +387,7 @@
 
     if (!stickers.length || !hero.classList.contains('has-draggable-stickers')) return;
 
-    function stickerStorageKey(sticker, index) {
-      return 'flatpaper-hero-sticker-' + (sticker.getAttribute('data-hero-sticker') || index);
-    }
-
-    function persistStickerPosition(sticker, key, rotate) {
-      var heroRect = hero.getBoundingClientRect();
-      var rect = sticker.getBoundingClientRect();
-      var x = clamp(rect.left - heroRect.left, 0, Math.max(0, hero.clientWidth - sticker.offsetWidth));
-      var y = clamp(rect.top - heroRect.top, 0, Math.max(0, hero.clientHeight - sticker.offsetHeight));
-      safeStorage.set(key, JSON.stringify({ x: x, y: y, rotate: rotate }));
-    }
-
-    function randomizeSticker(sticker, key, force) {
-      if (!force && safeStorage.get(key)) return;
+    function randomizeSticker(sticker) {
       var zones = [
         { leftMin: 4, leftMax: 19, topMin: 8, topMax: 78 },
         { leftMin: 78, leftMax: 90, topMin: 8, topMax: 78 },
@@ -416,36 +403,14 @@
       sticker.style.right = 'auto';
       sticker.style.bottom = 'auto';
       sticker.style.transform = 'rotate(' + rotate.toFixed(1) + 'deg)';
-      if (force) persistStickerPosition(sticker, key, rotate);
     }
 
     function clamp(value, min, max) {
       return Math.max(min, Math.min(max, value));
     }
 
-    stickers.forEach(function (sticker, index) {
-      var key = stickerStorageKey(sticker, index);
-      var saved = safeStorage.get(key);
-      if (saved) {
-        try {
-          var pos = JSON.parse(saved);
-          if (typeof pos.x === 'number' && typeof pos.y === 'number') {
-            var savedX = clamp(pos.x, 0, Math.max(0, hero.clientWidth - sticker.offsetWidth));
-            var savedY = clamp(pos.y, 0, Math.max(0, hero.clientHeight - sticker.offsetHeight));
-            sticker.style.left = savedX + 'px';
-            sticker.style.top = savedY + 'px';
-            sticker.style.right = 'auto';
-            sticker.style.bottom = 'auto';
-            if (typeof pos.rotate === 'number') {
-              sticker.style.transform = 'rotate(' + pos.rotate + 'deg)';
-            }
-          }
-        } catch (e) {
-          randomizeSticker(sticker, key);
-        }
-      } else {
-        randomizeSticker(sticker, key);
-      }
+    stickers.forEach(function (sticker) {
+      randomizeSticker(sticker);
 
       var state = null;
       sticker.addEventListener('click', function (event) {
@@ -501,11 +466,8 @@
 
       function endDrag(event) {
         if (!state) return;
-        var x = parseFloat(sticker.style.left) || 0;
-        var y = parseFloat(sticker.style.top) || 0;
         sticker.style.zIndex = '';
         sticker.classList.remove('is-dragging');
-        safeStorage.set(key, JSON.stringify({ x: x, y: y, rotate: state.rotate }));
         if (state.moved) sticker.dataset.heroDragged = '1';
         if (sticker.releasePointerCapture && event && event.pointerId != null) {
           try { sticker.releasePointerCapture(event.pointerId); } catch (e) {}
@@ -525,7 +487,7 @@
           delete sticker.dataset.heroDragged;
           sticker.style.zIndex = '';
           sticker.classList.remove('is-dragging');
-          randomizeSticker(sticker, stickerStorageKey(sticker, index), true);
+          randomizeSticker(sticker);
         });
       });
     }
