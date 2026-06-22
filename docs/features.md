@@ -19,6 +19,25 @@ The brandmark link groups move into the sidebar below the author card, and accen
 
 Horizontal overflow from fixed full-screen layers is clipped at the root level to avoid mobile horizontal scrollbars.
 
+## Home Opening Hero
+
+`home_hero` adds an optional first-screen introduction on the first home page.
+
+It can show:
+
+- site title or a custom hero title
+- profile role, bio, avatar, social links, and RSS link
+- a built-in scrapbook paper background
+- one fixed image, or a random image from an array
+- a configurable image overlay
+- a bouncing arrow that scrolls into the home content
+- draggable scrapbook stickers
+- up to five custom image stickers, with optional visit confirmation links
+
+The hero is disabled by default, so existing sites keep the normal home layout until `home_hero.enable` is set to `true`.
+
+See [Configuration → Home Opening Hero](configuration.md#home-opening-hero) for the available options.
+
 ## Cover Images
 
 Post card and featured images are resolved in this order:

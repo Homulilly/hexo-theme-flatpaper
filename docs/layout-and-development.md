@@ -19,6 +19,7 @@
 - `head.ejs`: meta and stylesheet
 - `header.ejs`: brand, desktop navigation, search, accent picker, theme toggle, mobile drawer toggle
 - `footer.ejs`: footer template tokens
+- `home-hero.ejs`: optional first-screen home hero, profile links, image stickers, and scroll affordance
 - `sidebar-right.ejs`: visual-left sidebar and mobile drawer
 - `sidebar-left.ejs`: visual-right sidebar on home/list pages
 - `random-posts.ejs`: random posts card
@@ -43,7 +44,7 @@ Post pages skip `sidebar-left` and keep one sidebar.
 ```text
 themes/flatpaper/
 |-- _config.yml
-|-- _config.en.yaml
+|-- _config.en.yml
 |-- docs/
 |-- languages/
 |   |-- zh-CN.yml
@@ -82,6 +83,7 @@ themes/flatpaper/
 - search dialog
 - heading anchors
 - TOC scrollspy and bottom lock
+- home hero random image, scroll arrow, sticker shuffle, sticker drag, and visit confirmation
 - featured carousel
 - mobile sidebar drawer
 - desktop and drawer submenus
@@ -99,7 +101,7 @@ Built-in interface text is localized through `scripts/i18n.js`, which registers 
 - `flatpaper_i18n('key.path', ...args)` returns a translated string, with `%s` / `%d` substitution. Falls back to `zh-CN`, then to the key itself.
 - `flatpaper_i18n_language()` returns the resolved language (`zh-CN` or `en`).
 - `flatpaper_i18n_json()` serializes the flattened table for the page; `layout/layout.ejs` injects it as `window.FLATPAPER_I18N` so `main.js` can resolve the same keys at runtime via its `t()` helper.
-- Translation keys are grouped by page/component (`common`, `pagination`, `index`, `post`, `search`, `code`, `head`, `navigation`, `colors`, ...). Keep `zh-CN.yml` and `en.yml` in sync; the helper flattens nested keys to dotted paths (e.g. `search.empty`).
+- Translation keys are grouped by page/component (`common`, `pagination`, `index`, `post`, `search`, `code`, `head`, `navigation`, `colors`, `home_hero`, ...). Keep `zh-CN.yml` and `en.yml` in sync; the helper flattens nested keys to dotted paths (e.g. `search.empty`).
 
 Code comments, the slug-cleaning regex, and Chinese documentation/config samples are intentionally not extracted.
 

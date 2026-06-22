@@ -1,34 +1,34 @@
 # FlatPaper
 
-FlatPaper is a Hexo theme for quiet personal publishing: soft paper surfaces, flat illustration details, dashed outlines, sticky notes, tape strips, and a reading interface that stays calm on both desktop and mobile.
+FlatPaper 是一个面向个人写作的 Hexo 主题：柔和纸面、扁平插画、便签、胶带条，以及在桌面和移动端都尽量安静的阅读界面。
 
-- [Live demo](https://flatpaper.nep.me/)
-- [Author's blog](https://homulilly.com/)
-- 中文文档：[README_zh.md](README_zh.md)
+- [Demo 站点](https://flatpaper.nep.me/)
+- [作者博客](https://homulilly.com/)
+- English: [README_en.md](README_en.md)
 
-## Screenshots
+## 截图
 
-| Light mode | Dark mode |
+| 浅色模式 | 深色模式 |
 | --- | --- |
 | ![home light](preview/home.webp) | ![home dark](preview/home-dark.webp) |
 
-## Installation
+## 安装
 
 ```bash
-# inside your Hexo site
+# 在你的 Hexo 站点内
 git clone https://github.com/Homulilly/hexo-theme-flatpaper.git themes/flatpaper
 
-# copy and edit the theme config
+# 复制并编辑主题配置
 cp themes/flatpaper/_config.yml _config.flatpaper.yml
 ```
 
-Enable the theme in your site `_config.yml`:
+在站点 `_config.yml` 中启用主题：
 
 ```yaml
 theme: flatpaper
 ```
 
-Run Hexo:
+运行 Hexo：
 
 ```bash
 hexo cl
@@ -36,9 +36,9 @@ hexo g
 hexo s
 ```
 
-Open <http://localhost:4000>.
+打开 <http://localhost:4000>。
 
-To enable RSS, install `hexo-generator-feed` and configure it in the site `_config.yml`:
+如需启用 RSS，安装 `hexo-generator-feed` 并在站点 `_config.yml` 中配置：
 
 ```bash
 pnpm add hexo-generator-feed
@@ -53,7 +53,7 @@ feed:
   content: true
 ```
 
-To generate a sitemap, install `hexo-generator-sitemap` and add the sitemap config to site `_config.yml`:
+如需生成站点地图，安装 `hexo-generator-sitemap` 并在站点 `_config.yml` 中补充 sitemap 配置：
 
 ```bash
 pnpm add hexo-generator-sitemap
@@ -64,19 +64,19 @@ sitemap:
   path: sitemap.xml
 ```
 
-## Quick Examples
+## 快速示例
 
-Add a post cover:
+给文章添加封面：
 
 ```yaml
 ---
-title: Weekend Walk
+title: 周末散步
 date: 2026-05-16
 cover: /images/walk.jpg
 ---
 ```
 
-Pin featured posts on the home page:
+在首页置顶精选文章：
 
 ```yaml
 featured:
@@ -85,64 +85,64 @@ featured:
 featured_autoplay: 5000
 ```
 
-Add a foldable note:
+添加可折叠提示块：
 
 ```markdown
-{% note warning Notice %}
-When a title is provided, the note renders as a foldable disclosure.
+{% note warning 注意事项 %}
+提供标题时，note 会渲染为可折叠 disclosure。
 {% endnote %}
 ```
 
-Create a custom links page:
+创建友链页：
 
 ```yaml
 ---
-title: Links
+title: 友情链接
 type: links
 ---
 ```
 
-Create `source/404.md` for a custom not-found page:
+创建 `source/404.md` 以启用自定义 404 页面：
 
 ```yaml
 ---
-title: Page not found
+title: 页面不存在
 layout: 404
 permalink: /404.html
 comments: false
 ---
 ```
 
-Switch the interface language (in the site `_config.yml`):
+切换界面语言（在站点 `_config.yml` 中）：
 
 ```yaml
 language: en
 ```
 
-## Highlights
+## 亮点
 
-- **Paper-first visual system**: soft cards, dashed borders, tape decoration, CSS illustration fallbacks, and readable low-contrast surfaces.
-- **Responsive shell**: three columns on home/list pages, two columns on posts, and a drawer sidebar on mobile.
-- **Recent mobile polish**: mobile header keeps only menu, site title, search, and dark-mode toggle; brand links move into the sidebar; accent colors are directly selectable in the mobile drawer.
-- **Accent and dark modes**: seven accent colors, cookie-persisted accent selection, `localStorage` dark mode, and pre-paint mode restoration.
-- **Featured carousel**: pin up to four posts with arrows, indicators, keyboard support, autoplay, and hover/focus pause.
-- **Cover image resolution**: `cover` -> `thumbnail` -> `image` -> `banner` -> first inline image, with CSS scene fallbacks.
-- **Article workflow**: sticky post TOC, previous/next navigation, related posts, comment jump/share actions, and optional custom reaction buttons.
-- **Code block UI**: language badge, copy/collapse controls, multiple code themes, and line-number click/double-click interactions.
-- **Custom writing blocks**: NexT-compatible `{% note %}` and `{% tabs %}`, plus VitePress-style `:::` note containers.
-- **Built-in pages**: archives, categories, tags, and grouped friend links from `source/_data/links.yml`.
-- **Multi-language UI**: built-in interface text in Simplified Chinese and English, selected from the Hexo `language` setting with a `zh-CN` fallback; ships both `_config.yml` and `_config.en.yaml`.
-- **Optional integrations**: Twikoo, Artalk, Fancybox, Umami, AdSense, custom HTML injection, and RSS profile links.
+- **纸面视觉系统**：柔和卡片、虚线边框、胶带装饰、CSS 插画回退，以及低对比度阅读界面。
+- **响应式骨架**：首页 / 列表页三栏，文章页两栏，移动端切换为侧栏抽屉。
+- **近期移动端优化**：移动端顶部只保留菜单、站点标题、搜索、明暗切换；brand links 移到侧栏作者卡片下方；主题色可在移动端侧栏顶部直接选择。
+- **主题色与深色模式**：七种主题色、cookie 持久化主题色、`localStorage` 持久化深色模式，并在绘制前恢复状态。
+- **精选轮播**：最多置顶四篇文章，支持箭头、圆点、键盘操作、自动播放与悬停 / 聚焦暂停。
+- **封面解析**：按 `cover` -> `thumbnail` -> `image` -> `banner` -> 正文第一张图片解析，缺失时使用 CSS 场景回退。
+- **文章体验**：粘性 TOC、上一篇 / 下一篇、相关文章、评论跳转 / 分享按钮、自定义 reaction 按钮。
+- **代码块 UI**：语言徽标、复制 / 折叠、多套代码主题、行号单击高亮与双击复制。
+- **写作标签**：兼容 NexT 的 `{% note %}` 与 `{% tabs %}`，并支持 VitePress 风格 `:::` note 容器。
+- **内置页面**：归档、分类、标签，以及读取 `source/_data/links.yml` 的分组友链页。
+- **多语言界面**：内置简体中文与英文界面文案，根据 Hexo `language` 配置选择并回退到 `zh-CN`；附带 `_config.yml` 与 `_config.en.yml` 两份配置。
+- **可选集成**：Twikoo、Artalk、Fancybox、Umami、AdSense、自定义 HTML 注入与 RSS 资料链接。
 
-## Documentation
+## 文档
 
-Detailed configuration and implementation notes live in `docs/`:
+详细配置与实现说明位于 `docs/zh/`：
 
-- [Configuration](docs/configuration.md)
-- [Features](docs/features.md)
-- [Custom tags and pages](docs/custom-tags-and-pages.md)
-- [Layout and development](docs/layout-and-development.md)
+- [配置说明](docs/zh/configuration.md)
+- [功能说明](docs/zh/features.md)
+- [自定义标签与页面](docs/zh/custom-tags-and-pages.md)
+- [布局与开发](docs/zh/layout-and-development.md)
 
-## License
+## 许可证
 
 MIT

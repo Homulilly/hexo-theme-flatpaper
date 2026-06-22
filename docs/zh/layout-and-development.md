@@ -19,6 +19,7 @@
 - `head.ejs`：meta 与 stylesheet
 - `header.ejs`：品牌、桌面导航、搜索、调色盘、明暗切换、移动端抽屉按钮
 - `footer.ejs`：页脚模板 token
+- `home-hero.ejs`：可选首页开屏、profile 链接、图片贴纸与滚动入口
 - `sidebar-right.ejs`：视觉左侧栏与移动端抽屉
 - `sidebar-left.ejs`：首页 / 列表页视觉右侧栏
 - `random-posts.ejs`：随机文章卡片
@@ -43,7 +44,7 @@ DOM 中视觉左列由 `sidebar-right.ejs` 渲染，包含 profile、文章页 T
 ```text
 themes/flatpaper/
 |-- _config.yml
-|-- _config.en.yaml
+|-- _config.en.yml
 |-- docs/
 |-- languages/
 |   |-- zh-CN.yml
@@ -82,6 +83,7 @@ themes/flatpaper/
 - 搜索弹窗
 - 标题锚点
 - TOC scrollspy 与 bottom lock
+- 首页开屏随机背景、滚动箭头、贴纸重排、贴纸拖拽与访问确认
 - 精选轮播
 - 移动端侧栏抽屉
 - 桌面与抽屉二级菜单
@@ -99,7 +101,7 @@ themes/flatpaper/
 - `flatpaper_i18n('key.path', ...args)` 返回翻译后的字符串，支持 `%s` / `%d` 占位替换；缺失时回退到 `zh-CN`，再回退到键名本身。
 - `flatpaper_i18n_language()` 返回解析出的语言（`zh-CN` 或 `en`）。
 - `flatpaper_i18n_json()` 把扁平化的翻译表序列化进页面；`layout/layout.ejs` 将其注入为 `window.FLATPAPER_I18N`，供 `main.js` 通过 `t()` helper 在运行时解析相同的键。
-- 翻译键按页面 / 组件分组（`common`、`pagination`、`index`、`post`、`search`、`code`、`head`、`navigation`、`colors` 等）。请保持 `zh-CN.yml` 与 `en.yml` 同步；helper 会把嵌套键扁平化为点号路径（如 `search.empty`）。
+- 翻译键按页面 / 组件分组（`common`、`pagination`、`index`、`post`、`search`、`code`、`head`、`navigation`、`colors`、`home_hero` 等）。请保持 `zh-CN.yml` 与 `en.yml` 同步；helper 会把嵌套键扁平化为点号路径（如 `search.empty`）。
 
 代码注释、slug 清洗正则，以及中文文档 / 配置示例有意不纳入抽取。
 

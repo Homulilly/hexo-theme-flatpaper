@@ -22,7 +22,7 @@ language:
 
 Only the theme's own interface strings are translated. Post content, site data, and your own configuration values are left as written.
 
-The theme ships two example configs: `_config.yml` (Chinese comments and defaults) and `_config.en.yaml` (the same keys with English comments and defaults). They share an identical key structure — pick whichever matches your site language as the base for `_config.flatpaper.yml`.
+The theme ships two example configs: `_config.yml` (Chinese comments and defaults) and `_config.en.yml` (the same keys with English comments and defaults). They share an identical key structure — pick whichever matches your site language as the base for `_config.flatpaper.yml`.
 
 ## Menu
 
