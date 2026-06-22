@@ -2,6 +2,8 @@
 
 FlatPaper is a Hexo theme for quiet personal publishing: soft paper surfaces, flat illustration details, dashed outlines, sticky notes, tape strips, and a reading interface that stays calm on both desktop and mobile.
 
+This `style/dashed` branch is kept as the dashed-outline variant of FlatPaper. The main theme later moved away from dashed borders, so this branch is treated as a forked style line and will not receive future feature merges. Use the `main` branch if you want the actively updated theme.
+
 - [Live demo](https://flatpaper.nep.me/)
 - [Author's blog](https://homulilly.com/)
 - 中文文档：[README_zh.md](README_zh.md)
@@ -16,7 +18,7 @@ FlatPaper is a Hexo theme for quiet personal publishing: soft paper surfaces, fl
 
 ```bash
 # inside your Hexo site
-git clone https://github.com/Homulilly/hexo-theme-flatpaper.git themes/flatpaper
+git clone -b style/dashed --single-branch https://github.com/Homulilly/hexo-theme-flatpaper.git themes/flatpaper
 
 # copy and edit the theme config
 cp themes/flatpaper/_config.yml _config.flatpaper.yml
