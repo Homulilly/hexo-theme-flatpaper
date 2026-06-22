@@ -141,6 +141,7 @@ FlatPaper includes optional wiring for:
 - Artalk
 - Fancybox
 - Umami
+- Google Analytics 4
 - Google AdSense
 - RSS profile link
 - custom HTML injection

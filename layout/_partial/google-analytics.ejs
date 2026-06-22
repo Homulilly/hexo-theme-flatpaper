@@ -1,0 +1,26 @@
+<%
+// Google Analytics 4 / Google tag (gtag.js).
+// Renders nothing unless enable + measurement_id are set and the id matches
+// the expected GA4 `G-...` shape. The id is interpolated into both the script
+// src and inline config, so keep the accepted charset intentionally small.
+var ga = theme.google_analytics;
+if (ga && ga.enable && (ga.measurement_id || ga.id)) {
+  var measurementId = String(ga.measurement_id || ga.id).trim().toUpperCase();
+  if (/^G-[A-Z0-9]{6,20}$/.test(measurementId)) {
+    var src = flatpaper_safe_url(
+      'https://www.googletagmanager.com/gtag/js?id=' + measurementId,
+      'href'
+    );
+    if (src && src !== '#') {
+%>
+<script async src="<%= src %>"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '<%= measurementId %>');
+</script>
+<% }
+  }
+} %>

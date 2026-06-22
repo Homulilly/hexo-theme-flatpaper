@@ -324,6 +324,29 @@ umami:
 
 `host` 只接受纯域名或 `domain:port`。`domains` 可省略，支持逗号字符串或 YAML 列表。
 
+## Google Analytics 4
+
+```yaml
+google_analytics:
+  enable: true
+  measurement_id: G-12345678
+```
+
+启用后会在每个页面的 `<head>` 开头注入 Google tag：
+
+```html
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-12345678"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-12345678');
+</script>
+```
+
+`measurement_id` 只接受 `G-...` 形式的 GA4 衡量 ID。每个站点只配置一次，避免重复加载 Google tag。
+
 ## AdSense
 
 ```yaml

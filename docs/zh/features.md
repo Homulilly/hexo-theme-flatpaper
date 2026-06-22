@@ -137,6 +137,7 @@ FlatPaper 内置可选接入：
 - Artalk
 - Fancybox
 - Umami
+- Google Analytics 4
 - Google AdSense
 - RSS 资料链接
 - 自定义 HTML 注入

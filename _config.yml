@@ -242,6 +242,14 @@ umami:
   website_id:                           # 例如：xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   # domains: example.com,www.example.com
 
+# Google Analytics 4 / Google tag (gtag.js)
+# enable 为 true 且 measurement_id 合法时，会在每个页面 <head> 开头注入：
+#   <script async src="https://www.googletagmanager.com/gtag/js?id=<measurement_id>"></script>
+# measurement_id GA4 衡量 ID，形如 G-12345678
+google_analytics:
+  enable: false
+  measurement_id:                       # 例如：G-12345678
+
 # Google AdSense
 # enable 为 true 且 client 合法时，会在每个页面 <head> 中注入 AdSense loader：
 #   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<client>" crossorigin="anonymous"></script>

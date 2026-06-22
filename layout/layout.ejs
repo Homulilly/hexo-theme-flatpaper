@@ -8,6 +8,7 @@ var htmlLang = flatpaper_i18n_language();
 %>
 <html lang="<%= htmlLang %>"<% if (fbEnabled) { %> data-fancybox-enabled="1"<% } %>>
 <head>
+  <%- partial('_partial/google-analytics') %>
   <%- partial('_partial/head') %>
   <%- partial('_partial/umami') %>
   <%- partial('_partial/adsense') %>

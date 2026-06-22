@@ -327,6 +327,29 @@ When enabled, FlatPaper injects:
 
 `host` accepts plain `domain` or `domain:port`. A leading `https://` is stripped automatically. `domains` is optional and accepts a comma-separated string or YAML list.
 
+## Google Analytics 4
+
+```yaml
+google_analytics:
+  enable: true
+  measurement_id: G-12345678
+```
+
+When enabled, FlatPaper injects the Google tag at the start of `<head>` on every page:
+
+```html
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-12345678"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-12345678');
+</script>
+```
+
+`measurement_id` accepts only GA4 measurement IDs in the `G-...` shape. Configure it once per site to avoid loading duplicate Google tags.
+
 ## AdSense
 
 ```yaml

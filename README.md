@@ -138,7 +138,7 @@ language: en
 - **写作标签**：兼容 NexT 的 `{% note %}` 与 `{% tabs %}`，并支持 VitePress 风格 `:::` note 容器。
 - **内置页面**：归档、分类、标签，以及读取 `source/_data/links.yml` 的分组友链页。
 - **多语言界面**：内置简体中文与英文界面文案，根据 Hexo `language` 配置选择并回退到 `zh-CN`；附带 `_config.yml` 与 `_config.en.yml` 两份配置。
-- **可选集成**：Twikoo、Artalk、Fancybox、Umami、AdSense、自定义 HTML 注入与 RSS 资料链接。
+- **可选集成**：Twikoo、Artalk、Fancybox、Umami、Google Analytics 4、AdSense、自定义 HTML 注入与 RSS 资料链接。
 
 ## 文档
 

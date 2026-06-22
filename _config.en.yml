@@ -246,6 +246,14 @@ umami:
   website_id:                           # Example: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   # domains: example.com,www.example.com
 
+# Google Analytics 4 / Google tag (gtag.js)
+# When enable is true and measurement_id is valid, the Google tag is injected at the start of <head> on every page:
+#   <script async src="https://www.googletagmanager.com/gtag/js?id=<measurement_id>"></script>
+# measurement_id GA4 measurement ID, such as G-12345678
+google_analytics:
+  enable: false
+  measurement_id:                       # Example: G-12345678
+
 # Google AdSense
 # When enable is true and client is valid, the AdSense loader is injected into <head> on every page:
 #   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<client>" crossorigin="anonymous"></script>
