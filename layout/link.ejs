@@ -35,7 +35,7 @@ groups = groups.filter(function (g) { return g && (g.link_list || g.class_name);
           var styleClass = (theme.links && theme.links.style === 'tape') ? ' friend-card--tape' : '';
         %>
           <li class="friend-card<%= styleClass %>">
-            <a class="friend-card__link" href="<%= flatpaper_safe_url(item.link, 'href') %>" target="_blank" rel="noopener noreferrer" title="<%= item.name %>">
+            <a class="friend-card__link" href="<%= flatpaper_safe_url(item.link, 'href') %>" target="_blank" rel="noopener noreferrer" title="<%= item.name %><%= item.descr ? ' · ' + item.descr : '' %>">
               <% if (avatar) { %>
                 <img class="friend-card__avatar" src="<%= avatar %>" alt="<%= item.name %>" loading="lazy" referrerpolicy="no-referrer">
               <% } else { %>
