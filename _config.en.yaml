@@ -205,7 +205,7 @@ featured_autoplay: 5000
 # Zigzag edge effect on the left side of featured images.
 featured_image_zigzag: true
 
-# Default theme color: green | pink | blue | orange | sakura | black
+# Default theme color: orange | purple | sakura | blue | pink | green | black
 color: green
 
 # Master switch for tape decorations.

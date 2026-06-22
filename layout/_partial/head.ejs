@@ -164,11 +164,11 @@ var faviconMime = faviconType(favicon);
 <%
 var accentColor = theme.color || theme.accent_color || theme.theme_color || 'green';
 accentColor = String(accentColor).toLowerCase();
-if (['green', 'pink', 'blue', 'orange', 'sakura', 'black'].indexOf(accentColor) === -1) accentColor = 'green';
+if (['orange', 'purple', 'sakura', 'blue', 'pink', 'green', 'black'].indexOf(accentColor) === -1) accentColor = 'green';
 %>
 <script>
   (function () {
-    var accents = { green: 1, pink: 1, blue: 1, orange: 1, sakura: 1, black: 1 };
+    var accents = { orange: 1, purple: 1, sakura: 1, blue: 1, pink: 1, green: 1, black: 1 };
     var match = document.cookie.match(/(?:^|;\s*)flatpaper-accent=([^;]+)/);
     var accent = '<%= accentColor %>';
     if (match) {

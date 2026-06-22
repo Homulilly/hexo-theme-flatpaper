@@ -253,7 +253,7 @@ tape:
 - `tags.style`: `tape` or `pill`
 - `links.style`: `default` or `tape`
 - `buttons.style`: `circle` (default) or `tape` — applies the scrapbook style (ink-blob corners, hand-placed tilt, washi-tape hover) to every icon button: header logo/menu/search/palette/theme toggle, social links, reaction buttons, TOC toggle, search close, and the narrow-screen drawer close
-- `color`: `green`, `pink`, `blue`, `orange`, `sakura`, or `black`
+- `color`: `orange`, `purple`, `sakura`, `blue`, `pink`, `green`, or `black`
 - On desktop the palette button opens the color menu; on mobile color swatches appear directly in the sidebar drawer.
 - The chosen accent is stored in the `flatpaper-accent` cookie.
 

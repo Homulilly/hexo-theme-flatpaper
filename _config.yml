@@ -201,7 +201,7 @@ featured_autoplay: 5000
 # 首页 featured 图片左侧折线特效
 featured_image_zigzag: true
 
-# 默认主题色：green | pink | blue | orange | sakura | black
+# 默认主题色：orange | purple | sakura | blue | pink | green | black
 color: green
 
 # 胶带装饰总开关

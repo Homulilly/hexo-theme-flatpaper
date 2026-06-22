@@ -250,7 +250,7 @@ tape:
 - `tags.style`：`tape` 或 `pill`
 - `links.style`：`default` 或 `tape`
 - `buttons.style`：`circle`（默认圆形）或 `tape` — 将手帐贴纸样式（墨团圆角、手贴歪斜、悬停胶带斜纹）应用到所有图标按钮：顶栏 logo/汉堡/搜索/调色盘/明暗切换、社交链接、文章反应按钮、TOC 折叠、搜索关闭、窄屏抽屉关闭
-- `color`：`green`、`pink`、`blue`、`orange`、`sakura`、`black`
+- `color`：`orange`、`purple`、`sakura`、`blue`、`pink`、`green`、`black`
 - 桌面端通过 Header 调色盘选择主题色；移动端在侧栏顶部直接显示色点。
 - 用户选择会写入 `flatpaper-accent` cookie。
 

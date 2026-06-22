@@ -85,14 +85,25 @@
 
   .drawer-accent-options {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
     min-width: 0;
-    padding: 4px;
+    padding: 2px;
     border: 1px dashed var(--dash);
     border-radius: 10px;
     background: var(--paper);
+  }
+
+  .drawer-accent-options .accent-option {
+    width: 26px;
+    height: 26px;
+    flex: 0 0 26px;
+  }
+
+  .drawer-accent-options .accent-swatch {
+    width: 12px;
+    height: 12px;
   }
 
   .icon-button.drawer-close {

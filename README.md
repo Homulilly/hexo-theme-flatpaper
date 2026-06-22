@@ -124,7 +124,7 @@ language: en
 - **Paper-first visual system**: soft cards, dashed borders, tape decoration, CSS illustration fallbacks, and readable low-contrast surfaces.
 - **Responsive shell**: three columns on home/list pages, two columns on posts, and a drawer sidebar on mobile.
 - **Recent mobile polish**: mobile header keeps only menu, site title, search, and dark-mode toggle; brand links move into the sidebar; accent colors are directly selectable in the mobile drawer.
-- **Accent and dark modes**: six accent colors, cookie-persisted accent selection, `localStorage` dark mode, and pre-paint mode restoration.
+- **Accent and dark modes**: seven accent colors, cookie-persisted accent selection, `localStorage` dark mode, and pre-paint mode restoration.
 - **Featured carousel**: pin up to four posts with arrows, indicators, keyboard support, autoplay, and hover/focus pause.
 - **Cover image resolution**: `cover` -> `thumbnail` -> `image` -> `banner` -> first inline image, with CSS scene fallbacks.
 - **Article workflow**: sticky post TOC, previous/next navigation, related posts, comment jump/share actions, and optional custom reaction buttons.

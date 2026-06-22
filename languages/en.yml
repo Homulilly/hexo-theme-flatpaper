@@ -101,6 +101,7 @@ colors:
   theme_color: Theme color
   toggle_color_mode: Toggle color mode
   green: Green
+  purple: Purple
   pink: Pink
   sakura: Sakura pink
   blue: Blue
