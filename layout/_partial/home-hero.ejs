@@ -179,11 +179,25 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
       <p class="home-hero__eyebrow"><span class="green-dot"></span><%= heroSubtitle || flatpaper_i18n('home_hero.default_subtitle') %></p>
       <h1><%= heroTitle %></h1>
       <p class="home-hero__bio"><%= heroBio %></p>
-      <div class="home-hero__divider" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="12" viewBox="0 0 56 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 6c3.5-3.5 6.5-3.5 10 0s6.5 3.5 10 0 6.5-3.5 10 0 6.5 3.5 10 0 6.5-3.5 10 0" />
-        </svg>
-      </div>
+      <% var heroLinks = hero.hero_links; %>
+      <% if (heroLinks && Array.isArray(heroLinks) && heroLinks.length > 0) { %>
+        <nav class="home-hero__nav" aria-label="<%= flatpaper_i18n('home_hero.nav_links') || 'Hero Navigation' %>">
+          <% heroLinks.forEach(function(link) { 
+               var isExternal = /^(?:https?:)?\/\//i.test(link.link);
+               var linkAlt = link.alt || link.name;
+          %>
+            <a href="<%= flatpaper_safe_url(url_for(link.link), 'href') %>" class="home-hero__nav-link" title="<%= linkAlt %>" aria-label="<%= linkAlt %>" <%- isExternal ? 'target="_blank" rel="noopener"' : '' %>>
+              <span><%= link.name %></span>
+            </a>
+          <% }) %>
+        </nav>
+      <% } else { %>
+        <div class="home-hero__divider" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="56" height="12" viewBox="0 0 56 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6c3.5-3.5 6.5-3.5 10 0s6.5 3.5 10 0 6.5-3.5 10 0 6.5 3.5 10 0 6.5-3.5 10 0" />
+          </svg>
+        </div>
+      <% } %>
       <div class="socials home-hero__links" aria-label="<%= flatpaper_i18n('home_hero.profile_links') %>">
         <% Object.keys(socials).forEach(function(name) {
           var raw = socials[name];

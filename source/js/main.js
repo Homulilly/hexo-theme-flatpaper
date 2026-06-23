@@ -403,6 +403,15 @@
       });
     });
 
+    var externalNavLinks = hero.querySelectorAll('.home-hero__nav-link[target="_blank"]');
+    externalNavLinks.forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        openStickerConfirm(link);
+      });
+    });
+
     var stickers = Array.prototype.slice.call(hero.querySelectorAll('[data-hero-sticker]'));
     // setHeroActive() reads offsetTop/offsetHeight (forced layout). rAF-throttle
     // so we touch layout at most once per frame instead of once per scroll event.

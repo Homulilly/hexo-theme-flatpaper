@@ -223,6 +223,46 @@ body.has-home-hero.is-hero-active::before {
   color: rgba(255, 248, 236, 0.45);
 }
 
+.home-hero__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin: 16px auto 0;
+}
+
+.home-hero__nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--dash);
+  text-underline-offset: 4px;
+  transition: all 0.2s ease;
+}
+
+.home-hero__nav-link:hover,
+.home-hero__nav-link:focus-visible {
+  color: var(--color-accent-strong);
+  text-decoration-color: var(--color-accent);
+  outline: none;
+}
+
+.home-hero--image .home-hero__nav-link {
+  color: rgba(255, 253, 246, 0.6);
+  text-decoration-color: rgba(255, 253, 246, 0.25);
+}
+
+.home-hero--image .home-hero__nav-link:hover,
+.home-hero--image .home-hero__nav-link:focus-visible {
+  color: #fff;
+  text-decoration-color: #fff;
+}
+
 body .home-hero .home-hero__profile .home-hero__links {
   position: absolute;
   top: calc(100% - 1px);
@@ -665,6 +705,17 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   color: var(--ink-soft);
 }
 
+.dark-mode .home-hero__nav-link {
+  color: var(--muted);
+  text-decoration-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark-mode .home-hero__nav-link:hover,
+.dark-mode .home-hero__nav-link:focus-visible {
+  color: var(--color-accent-muted);
+  text-decoration-color: var(--color-accent);
+}
+
 .dark-mode .home-hero .home-hero__profile .home-hero__links a {
   border-color: rgba(255, 255, 255, 0.15) !important;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2) !important;
@@ -678,6 +729,12 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
 .dark-mode .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+2) { background-color: rgba(138, 98, 42, 0.85) !important; color: #fff !important; }
 .dark-mode .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+3) { background-color: rgba(56, 102, 65, 0.85) !important; color: #fff !important; }
 .dark-mode .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+4) { background-color: rgba(50, 85, 115, 0.85) !important; color: #fff !important; }
+
+/* Brighter variations for image mode so they stand out against photos */
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+1) { background-color: rgba(190, 80, 110, 0.95) !important; }
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+2) { background-color: rgba(195, 140, 60, 0.95) !important; }
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+3) { background-color: rgba(80, 145, 95, 0.95) !important; }
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+4) { background-color: rgba(75, 125, 165, 0.95) !important; }
 
 .dark-mode .home-hero--image .home-hero__profile .home-hero__links a:hover,
 .dark-mode .home-hero--image .home-hero__profile .home-hero__links a:focus-visible {
