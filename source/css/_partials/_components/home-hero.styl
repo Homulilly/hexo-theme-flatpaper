@@ -426,34 +426,42 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
 .home-hero__arrow {
   position: absolute;
   left: 50%;
-  bottom: 45px;
+  bottom: 0;
   z-index: 4;
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10px;
+  width: 90px;
+  height: 40px;
   color: var(--ink-soft);
-  background: rgba(255, 253, 246, 0.68);
-  border: 1px dashed transparent;
-  border-radius: 50%;
-  box-shadow: var(--paper-shadow);
+  background: rgba(255, 253, 246, 0.72);
+  border: 1px dashed rgba(221, 208, 181, 0.8);
+  border-bottom: none;
+  border-radius: 45px 45px 0 0;
+  box-shadow: 0 -4px 16px rgba(82, 64, 38, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transform: translateX(-50%);
-  animation: home-hero-arrow-bounce 1.35s ease-in-out infinite;
-  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  animation: pull-tab-breathe 2.5s ease-in-out infinite;
 }
 
 .home-hero__arrow:hover,
 .home-hero__arrow:focus-visible {
+  height: 52px;
+  padding-top: 14px;
   color: var(--color-accent-strong);
-  background: var(--color-accent-soft);
+  background: rgba(255, 253, 246, 0.95);
   border-color: var(--color-accent);
+  box-shadow: 0 -8px 24px rgba(82, 64, 38, 0.12);
   outline: none;
 }
 
 .home-hero--image .home-hero__arrow {
   color: #2c3531;
   background: rgba(255, 253, 246, 0.94);
-  border-color: transparent;
+  border-color: rgba(44, 53, 49, 0.2);
 }
 
 .home-hero--image .home-hero__arrow:hover,
@@ -464,17 +472,24 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
 }
 
 .home-hero__arrow .lucide {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+  transition: transform 0.3s ease;
+  animation: pull-tab-icon-bounce 2.5s ease-in-out infinite;
 }
 
-@keyframes home-hero-arrow-bounce {
-  0%, 100% {
-    transform: translate(-50%, 0);
-  }
-  50% {
-    transform: translate(-50%, 8px);
-  }
+.home-hero__arrow:hover .lucide {
+  animation: pull-tab-icon-bounce 1s ease-in-out infinite;
+}
+
+@keyframes pull-tab-breathe {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(3px); }
+}
+
+@keyframes pull-tab-icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
 }
 
 .hero-sticker-confirm {
@@ -608,17 +623,15 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
 
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow {
   color: #fffdf6;
-  background: rgba(255, 255, 255, 0.12);
-  border-color: transparent;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow:hover,
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow:focus-visible {
   color: var(--color-accent-muted);
-  background: var(--color-accent-soft);
+  background: rgba(255, 255, 255, 0.12);
   border-color: var(--color-accent);
 }
 
@@ -632,10 +645,11 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   -webkit-backdrop-filter: blur(6px);
 }
 
-/* Arrow specifically loses border on non-hover and gets light frosted glass */
+/* Arrow specifically gets light frosted glass */
 .dark-mode .home-hero--image .home-hero__arrow {
-  border-color: transparent;
-  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .dark-mode .home-hero--image .home-hero__tools .home-hero__tool:hover,
