@@ -362,6 +362,7 @@
       visit.textContent = t('home_hero.visit');
       visit.addEventListener('click', function () {
         var target = trigger.getAttribute('target');
+        closeVisitConfirm();
         if (target === '_blank') window.open(href, '_blank', 'noopener');
         else window.location.href = href;
       });
