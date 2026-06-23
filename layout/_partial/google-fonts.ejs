@@ -36,14 +36,20 @@ function encodeFamily(value) {
 
 function cleanFontName(value) {
   var raw = String(value || '').trim();
-  if (!raw || /[<>{};:@]/.test(raw)) return '';
+  if (!raw || /[<>{}]/.test(raw)) return '';
   return raw;
+}
+
+function fontStackName(family) {
+  return String(family || '').split(':')[0].trim();
 }
 
 function quoteFontStack(families, fallback) {
   return families.map(function (family) {
-    return '"' + family.replace(/"/g, '') + '"';
-  }).join(', ') + ', ' + fallback;
+    var name = fontStackName(family);
+    if (!name) return '';
+    return '"' + name.replace(/"/g, '') + '"';
+  }).filter(Boolean).join(', ') + ', ' + fallback;
 }
 
 function uniqueFonts(families) {
@@ -79,6 +85,9 @@ if (fontsEnabled && monoFamilies.length) {
 <% if (fontsEnabled && fontHref) { %>
 <% if (googleFonts.preconnect !== false && fontOrigin) { %>
 <link rel="preconnect" href="<%= fontOrigin %>">
+<% if (fontOrigin === 'https://fonts.googleapis.com') { %>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<% } %>
 <% } %>
 <link rel="stylesheet" href="<%= flatpaper_safe_url(fontHref, 'href') %>">
 <% } %>

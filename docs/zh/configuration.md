@@ -41,6 +41,7 @@ google_fonts:
 - `google_fonts.enable` 控制是否注入 Google Fonts 样式表。
 - `fonts` 按顺序填写字体名称即可。FlatPaper 会从 Google Fonts 加载这些字体，并按相同顺序优先用于正文。
 - `mono` 按顺序填写等宽字体名称，用于代码块。也可以只配置 `mono`，不改变正文字体。
+- 有特殊字重需求时，可以使用 Google Fonts 语法，例如 `Noto Sans SC:wght@400;700`。FlatPaper 会用完整值请求 Google Fonts，并在本地 CSS 字体栈中自动只保留 `:` 前的字体名。
 - `cdn` 会替代默认的 `https://fonts.googleapis.com` 样式表域名。可以填写完整 URL 或纯域名，例如 `https://fonts.loli.net` 或 `fonts.example.com`。
 - 字体加载固定使用 `display=swap`。
 

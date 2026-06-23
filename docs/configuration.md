@@ -41,6 +41,7 @@ google_fonts:
 - `google_fonts.enable` controls whether FlatPaper injects a Google Fonts stylesheet.
 - `fonts` is an ordered list of font names. FlatPaper loads them from Google Fonts and prefers them in the same order for body text.
 - `mono` is an ordered list of monospace font names for code blocks. You can configure only `mono` if you want to keep the default body font.
+- If you need specific weights, use Google Fonts syntax such as `Noto Sans SC:wght@400;700`. FlatPaper uses the full value for the Google Fonts request and automatically keeps only the font name before `:` in the local CSS font stack.
 - `cdn` replaces the default `https://fonts.googleapis.com` stylesheet origin. Use a full URL or a plain domain, for example `https://fonts.loli.net` or `fonts.example.com`.
 - Font loading uses `display=swap` automatically.
 

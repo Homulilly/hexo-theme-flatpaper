@@ -316,6 +316,7 @@ google_fonts:
   enable: false
   cdn: https://fonts.googleapis.com
   # 按顺序填写字体名称即可；第一个字体会优先用于正文。
+  # 有特殊字重需求时，可使用 Google Fonts 语法，如 Noto Sans SC:wght@400;700。
   fonts:
     # - Noto Sans SC
   # 等宽字体单独配置；也可以只填写 mono，不改变正文字体。

@@ -317,6 +317,7 @@ google_fonts:
   enable: false
   cdn: https://fonts.googleapis.com
   # List font names in order. The first font is preferred for body text.
+  # Use Google Fonts syntax only when you need specific weights, for example Noto Sans SC:wght@400;700.
   fonts:
     # - Noto Sans SC
   # Configure monospace fonts separately. You can set only mono without changing body text.
