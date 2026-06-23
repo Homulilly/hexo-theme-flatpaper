@@ -366,15 +366,15 @@ body.has-home-hero.is-hero-active::before {
 .home-hero__arrow {
   position: absolute;
   left: 50%;
-  bottom: 22px;
+  bottom: 45px;
   z-index: 4;
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 52px;
+  height: 52px;
   color: var(--ink-soft);
   background: rgba(255, 253, 246, 0.68);
-  border: 1px dashed var(--dash);
+  border: 1px dashed rgba(177, 157, 117, 0.58);
   border-radius: 50%;
   box-shadow: var(--paper-shadow);
   transform: translateX(-50%);
@@ -393,7 +393,7 @@ body.has-home-hero.is-hero-active::before {
 .home-hero--image .home-hero__arrow {
   color: #2c3531;
   background: rgba(255, 253, 246, 0.94);
-  border-color: rgba(255, 253, 246, 0.94);
+  border-color: rgba(44, 53, 49, 0.28);
 }
 
 .home-hero--image .home-hero__arrow:hover,
@@ -548,6 +548,25 @@ body.has-home-hero.is-hero-active::before {
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow:focus-visible {
   color: var(--color-accent-muted);
   background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+}
+
+.dark-mode .home-hero--image .home-hero__tools .home-hero__tool,
+.dark-mode .home-hero--image .home-hero__arrow {
+  color: #fffdf6;
+  background: rgba(22, 25, 32, 0.68);
+  border-color: rgba(255, 248, 236, 0.36);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.dark-mode .home-hero--image .home-hero__tools .home-hero__tool:hover,
+.dark-mode .home-hero--image .home-hero__tools .home-hero__tool:focus-visible,
+.dark-mode .home-hero--image .home-hero__arrow:hover,
+.dark-mode .home-hero--image .home-hero__arrow:focus-visible {
+  color: var(--color-accent-muted);
+  background: rgba(35, 39, 50, 0.86);
   border-color: var(--color-accent);
 }
 
