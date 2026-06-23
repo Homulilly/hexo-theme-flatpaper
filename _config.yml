@@ -108,16 +108,29 @@ home_hero:
   # bio: 写给路过此处的你。
   # avatar: /images/avatar.jpg
   # avatar_shape: circle
+  #
   # 背景图。留空时使用主题内置的手账纸张背景；设置后图片会铺满开屏。
   # 也可配置为数组，浏览器每次载入随机使用一张。
   # image: /images/hero.jpg
   # image:
   #   - /images/hero-1.jpg
   #   - /images/hero-2.jpg
+  #
   # 背景图暗色遮罩透明度：[顶部, 底部]，范围 0-1。
   # image_overlay: [0.2, 0.2]
   # 底部跳动箭头的目标锚点；默认进入首页内容区。
   # cta_link: "#flatpaper-home-content"
+  #
+  # Hero 区域的快速导航链接。配置后将替代默认的波浪线分隔符。
+  # hero_links:
+  #   - name: 归档
+  #     link: /archives/
+  #   - name: 分类
+  #     link: /categories/
+  #   - name: Folio
+  #     link: https://folio.nep.me/
+  #     alt: Folio 看图
+  # 一些贴纸装饰
   stickers:
     enable: true
     draggable: true

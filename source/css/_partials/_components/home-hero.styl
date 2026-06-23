@@ -140,7 +140,7 @@ body.has-home-hero.is-hero-active::before {
   border-radius: 8px 5px 10px 6px;
   background: rgba(255, 253, 246, 0.86);
   border: 1px dashed rgba(221, 208, 181, 0.9);
-  box-shadow: 0 24px 70px rgba(82, 64, 38, 0.2);
+  box-shadow: 0 12px 28px rgba(82, 64, 38, 0.12);
   filter: url(#paper-edge);
   transform: rotate(-0.6deg);
 }
@@ -148,7 +148,7 @@ body.has-home-hero.is-hero-active::before {
 .home-hero--image .home-hero__profile::before {
   background: rgba(43, 37, 30, 0.42);
   border-color: rgba(255, 248, 236, 0.45);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 }
@@ -206,33 +206,137 @@ body.has-home-hero.is-hero-active::before {
   line-height: 1.8;
 }
 
+.home-hero__divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 22px auto 0;
+  color: var(--dash);
+  opacity: 0.8;
+}
+
 .home-hero--image .home-hero__bio {
   color: rgba(255, 253, 246, 0.88);
 }
 
-.home-hero .home-hero__links {
-  flex-wrap: wrap;
-  gap: 10px 14px;
-  width: 100%;
-  max-width: 100%;
-  margin: 16px auto -6px;
-  padding: 6px 8px;
+.home-hero--image .home-hero__divider {
+  color: rgba(255, 248, 236, 0.45);
 }
 
-.home-hero .home-hero__links a {
+.home-hero__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin: 16px auto 0;
+}
+
+.home-hero__nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--dash);
+  text-underline-offset: 4px;
+  transition: all 0.2s ease;
+}
+
+.home-hero__nav-link:hover,
+.home-hero__nav-link:focus-visible {
+  color: var(--color-accent-strong);
+  text-decoration-color: var(--color-accent);
+  outline: none;
+}
+
+.home-hero--image .home-hero__nav-link {
+  color: rgba(255, 253, 246, 0.6);
+  text-decoration-color: rgba(255, 253, 246, 0.25);
+}
+
+.home-hero--image .home-hero__nav-link:hover,
+.home-hero--image .home-hero__nav-link:focus-visible {
+  color: #fff;
+  text-decoration-color: #fff;
+}
+
+body .home-hero .home-hero__profile .home-hero__links {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 8px;
+  right: 8px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap !important;
+  gap: 12px;
+  margin: 0;
+  padding: 0 0 0 var(--hero-links-offset, 0px);
+  z-index: -2;
+  width: auto;
+  max-width: none !important;
+}
+
+body .home-hero .home-hero__profile .home-hero__links a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 36px;
+  height: 49px;
+  padding-bottom: 8px;
+  border: 1px dashed rgba(106, 84, 48, 0.4) !important;
+  border-top: none !important;
+  border-radius: 0 0 4px 4px !important;
+  box-shadow: 2px 4px 10px rgba(82, 64, 38, 0.15) !important;
+  transition: height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s, transform 0.3s, box-shadow 0.3s !important;
+  background-image: var(--tape-stripes) !important;
   flex: 0 0 auto;
 }
 
-.home-hero--image .home-hero__links a {
-  color: #fffdf6;
-  background: rgba(255, 253, 246, 0.14);
-  border-color: rgba(255, 248, 236, 0.45);
+body .home-hero .home-hero__profile .home-hero__links a:nth-child(-n+5) {
+  margin-top: 1px;
 }
 
-.home-hero--image .home-hero__links a:hover,
-.home-hero--image .home-hero__links a:focus-visible {
-  color: #2c3531;
-  background: rgba(255, 253, 246, 0.92);
+body .home-hero .home-hero__profile .home-hero__links a:nth-child(even) {
+  transform: rotate(-2deg) !important;
+  transform-origin: top center;
+}
+body .home-hero .home-hero__profile .home-hero__links a:nth-child(odd) {
+  transform: rotate(2deg) !important;
+  transform-origin: top center;
+}
+
+body .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+1) { background-color: rgba(255, 190, 200, 0.95) !important; color: #210b10 !important; }
+body .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+2) { background-color: rgba(255, 230, 150, 0.95) !important; color: #261a02 !important; }
+body .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+3) { background-color: rgba(180, 230, 190, 0.95) !important; color: #0a1c0d !important; }
+body .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+4) { background-color: rgba(180, 220, 255, 0.95) !important; color: #0b1824 !important; }
+
+body .home-hero .home-hero__profile .home-hero__links a:hover,
+body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
+  height: 65px;
+  transform: rotate(0deg) !important;
+  outline: none;
+  box-shadow: 2px 6px 14px rgba(82, 64, 38, 0.2) !important;
+  background-image: var(--tape-stripes) !important;
+}
+
+.home-hero--image .home-hero__profile .home-hero__links a {
+  border-color: rgba(255, 248, 236, 0.45);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+1) { background-color: rgba(232, 168, 158, 0.85); color: #5a2e3b; }
+.home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+2) { background-color: rgba(238, 201, 110, 0.9); color: #473619; }
+.home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+3) { background-color: rgba(143, 192, 152, 0.85); color: #284127; }
+.home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+4) { background-color: rgba(111, 169, 217, 0.85); color: #243d5a; }
+
+.home-hero--image .home-hero__profile .home-hero__links a:hover,
+.home-hero--image .home-hero__profile .home-hero__links a:focus-visible {
+  background-color: rgba(255, 253, 246, 0.92);
+  color: var(--color-accent-strong);
 }
 
 .home-hero__stickers {
@@ -366,34 +470,42 @@ body.has-home-hero.is-hero-active::before {
 .home-hero__arrow {
   position: absolute;
   left: 50%;
-  bottom: 22px;
+  bottom: 0;
   z-index: 4;
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10px;
+  width: 90px;
+  height: 40px;
   color: var(--ink-soft);
-  background: rgba(255, 253, 246, 0.68);
-  border: 1px dashed var(--dash);
-  border-radius: 50%;
-  box-shadow: var(--paper-shadow);
+  background: rgba(255, 253, 246, 0.72);
+  border: 1px dashed rgba(221, 208, 181, 0.8);
+  border-bottom: none;
+  border-radius: 45px 45px 0 0;
+  box-shadow: 0 -4px 16px rgba(82, 64, 38, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transform: translateX(-50%);
-  animation: home-hero-arrow-bounce 1.35s ease-in-out infinite;
-  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  animation: pull-tab-breathe 2.5s ease-in-out infinite;
 }
 
 .home-hero__arrow:hover,
 .home-hero__arrow:focus-visible {
+  height: 52px;
+  padding-top: 14px;
   color: var(--color-accent-strong);
-  background: var(--color-accent-soft);
+  background: rgba(255, 253, 246, 0.95);
   border-color: var(--color-accent);
+  box-shadow: 0 -8px 24px rgba(82, 64, 38, 0.12);
   outline: none;
 }
 
 .home-hero--image .home-hero__arrow {
   color: #2c3531;
   background: rgba(255, 253, 246, 0.94);
-  border-color: rgba(255, 253, 246, 0.94);
+  border-color: rgba(44, 53, 49, 0.2);
 }
 
 .home-hero--image .home-hero__arrow:hover,
@@ -404,20 +516,27 @@ body.has-home-hero.is-hero-active::before {
 }
 
 .home-hero__arrow .lucide {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+  transition: transform 0.3s ease;
+  animation: pull-tab-icon-bounce 2.5s ease-in-out infinite;
 }
 
-@keyframes home-hero-arrow-bounce {
-  0%, 100% {
-    transform: translate(-50%, 0);
-  }
-  50% {
-    transform: translate(-50%, 8px);
-  }
+.home-hero__arrow:hover .lucide {
+  animation: pull-tab-icon-bounce 1s ease-in-out infinite;
 }
 
-.hero-sticker-confirm {
+@keyframes pull-tab-breathe {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(3px); }
+}
+
+@keyframes pull-tab-icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.hero-visit-confirm {
   position: absolute;
   z-index: 8;
   width: 190px;
@@ -430,7 +549,7 @@ body.has-home-hero.is-hero-active::before {
   filter: url(#paper-edge);
 }
 
-.hero-sticker-confirm::before {
+.hero-visit-confirm::before {
   content: "";
   position: absolute;
   top: -8px;
@@ -443,7 +562,7 @@ body.has-home-hero.is-hero-active::before {
   transform: translateX(-50%) rotate(-4deg);
 }
 
-.hero-sticker-confirm p {
+.hero-visit-confirm p {
   margin: 0 0 10px;
   color: var(--ink-soft);
   font-size: 13px;
@@ -452,13 +571,13 @@ body.has-home-hero.is-hero-active::before {
   text-align: center;
 }
 
-.hero-sticker-confirm__actions {
+.hero-visit-confirm__actions {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-.hero-sticker-confirm button {
+.hero-visit-confirm button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -479,19 +598,19 @@ body.has-home-hero.is-hero-active::before {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.hero-sticker-confirm button.hero-sticker-confirm__visit {
+.hero-visit-confirm button.hero-visit-confirm__visit {
   color: #395238;
   background-color: var(--tape-green);
 }
 
-.hero-sticker-confirm button.hero-sticker-confirm__cancel {
+.hero-visit-confirm button.hero-visit-confirm__cancel {
   color: #6b3f4c;
   background-color: var(--tape-pink);
   transform: rotate(2deg);
 }
 
-.hero-sticker-confirm button:hover,
-.hero-sticker-confirm button:focus-visible {
+.hero-visit-confirm button:hover,
+.hero-visit-confirm button:focus-visible {
   color: var(--ink);
   border-color: var(--color-accent);
   background-color: var(--color-accent-soft);
@@ -500,8 +619,8 @@ body.has-home-hero.is-hero-active::before {
   transform: rotate(0deg) translateY(-2px);
 }
 
-.hero-sticker-confirm button.hero-sticker-confirm__cancel:hover,
-.hero-sticker-confirm button.hero-sticker-confirm__cancel:focus-visible {
+.hero-visit-confirm button.hero-visit-confirm__cancel:hover,
+.hero-visit-confirm button.hero-visit-confirm__cancel:focus-visible {
   color: #6b3f4c;
   border-color: rgba(154, 86, 101, 0.46);
   background-color: var(--tape-pink);
@@ -511,16 +630,25 @@ body.has-home-hero.is-hero-active::before {
   // Swap the paper backdrop for the dark palette; .home-hero (and the mobile
   // image-reset) already paint via var(--hero-paper). In --image mode the photo
   // overrides background-image, so this var simply goes unused there.
-  --hero-paper:
-    radial-gradient(circle at 16% 18%, rgba(70, 63, 45, 0.9) 0 11%, transparent 12%),
-    radial-gradient(circle at 82% 16%, rgba(45, 68, 55, 0.86) 0 12%, transparent 13%),
-    radial-gradient(circle at 78% 82%, rgba(74, 44, 53, 0.72) 0 13%, transparent 14%),
-    linear-gradient(135deg, #22262b 0%, #1d2027 48%, #243027 100%);
+  --hero-paper: #22262b;
+}
+
+.dark-mode .home-hero::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+.dark-mode .home-hero__grain {
+  background-image:
+    repeating-radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(95deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 8px);
 }
 
 .dark-mode .home-hero__profile::before {
   background: rgba(35, 39, 50, 0.9);
   border-color: var(--dash);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
 
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__tools .home-hero__tool {
@@ -538,22 +666,84 @@ body.has-home-hero.is-hero-active::before {
 }
 
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow {
-  color: var(--ink-soft);
-  background: rgba(35, 39, 50, 0.78);
-  border-color: var(--dash);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+  color: #fffdf6;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow:hover,
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow:focus-visible {
   color: var(--color-accent-muted);
-  background: var(--color-accent-soft);
+  background: rgba(255, 255, 255, 0.12);
   border-color: var(--color-accent);
 }
 
-.dark-mode .home-hero__bio,
-.dark-mode .home-hero__links a {
+.dark-mode .home-hero--image .home-hero__tools .home-hero__tool,
+.dark-mode .home-hero--image .home-hero__arrow {
+  color: #fffdf6;
+  background: rgba(22, 25, 32, 0.68);
+  border-color: rgba(255, 248, 236, 0.36);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Arrow specifically gets light frosted glass */
+.dark-mode .home-hero--image .home-hero__arrow {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .home-hero--image .home-hero__tools .home-hero__tool:hover,
+.dark-mode .home-hero--image .home-hero__tools .home-hero__tool:focus-visible,
+.dark-mode .home-hero--image .home-hero__arrow:hover,
+.dark-mode .home-hero--image .home-hero__arrow:focus-visible {
+  color: var(--color-accent-muted);
+  background: rgba(35, 39, 50, 0.86);
+  border-color: var(--color-accent);
+}
+
+.dark-mode .home-hero__bio {
   color: var(--ink-soft);
+}
+
+.dark-mode .home-hero__nav-link {
+  color: var(--muted);
+  text-decoration-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark-mode .home-hero__nav-link:hover,
+.dark-mode .home-hero__nav-link:focus-visible {
+  color: var(--color-accent-muted);
+  text-decoration-color: var(--color-accent);
+}
+
+.dark-mode .home-hero .home-hero__profile .home-hero__links a {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.dark-mode .home-hero .home-hero__profile .home-hero__links a:hover,
+.dark-mode .home-hero .home-hero__profile .home-hero__links a:focus-visible {
+  box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.28) !important;
+}
+.dark-mode .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+1) { background-color: rgba(138, 62, 83, 0.85) !important; color: #fff !important; }
+.dark-mode .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+2) { background-color: rgba(138, 98, 42, 0.85) !important; color: #fff !important; }
+.dark-mode .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+3) { background-color: rgba(56, 102, 65, 0.85) !important; color: #fff !important; }
+.dark-mode .home-hero .home-hero__profile .home-hero__links a:nth-child(4n+4) { background-color: rgba(50, 85, 115, 0.85) !important; color: #fff !important; }
+
+/* Brighter variations for image mode so they stand out against photos */
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+1) { background-color: rgba(190, 80, 110, 0.95) !important; }
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+2) { background-color: rgba(195, 140, 60, 0.95) !important; }
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+3) { background-color: rgba(80, 145, 95, 0.95) !important; }
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+4) { background-color: rgba(75, 125, 165, 0.95) !important; }
+
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:hover,
+.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:focus-visible {
+  background-color: rgba(35, 39, 50, 0.86);
+  color: var(--color-accent-muted);
 }
 
 .dark-mode .hero-sticker--note {
@@ -564,20 +754,20 @@ body.has-home-hero.is-hero-active::before {
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.34));
 }
 
-.dark-mode .hero-sticker-confirm button {
+.dark-mode .hero-visit-confirm button {
   color: #cbbba5;
 }
 
-.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__visit {
+.dark-mode .hero-visit-confirm button.hero-visit-confirm__visit {
   color: #add0af;
 }
 
-.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__cancel {
+.dark-mode .hero-visit-confirm button.hero-visit-confirm__cancel {
   color: #df9eaf;
 }
 
-.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__cancel:hover,
-.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__cancel:focus-visible {
+.dark-mode .hero-visit-confirm button.hero-visit-confirm__cancel:hover,
+.dark-mode .hero-visit-confirm button.hero-visit-confirm__cancel:focus-visible {
   color: #f1c9d0;
   border-color: rgba(232, 168, 158, 0.42);
   background-color: var(--tape-pink);
@@ -649,19 +839,6 @@ body.has-home-hero.is-hero-active::before {
 
   .home-hero--image .home-hero__bio {
     color: var(--ink-soft);
-  }
-
-  .home-hero--image .home-hero__links a {
-    color: var(--muted);
-    background: transparent;
-    border-color: var(--line);
-  }
-
-  .home-hero--image .home-hero__links a:hover,
-  .home-hero--image .home-hero__links a:focus-visible {
-    color: var(--color-accent-strong);
-    background: var(--color-accent-soft);
-    border-color: var(--color-accent);
   }
 
   .home-hero--image .home-hero__tools .home-hero__tool,

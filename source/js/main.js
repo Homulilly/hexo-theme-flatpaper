@@ -325,27 +325,27 @@
 
     function scrollToHome() {
       if (!homeTarget) return;
-      closeStickerConfirm();
+      closeVisitConfirm();
       window.scrollTo({ top: homeTop(), behavior: 'smooth' });
       window.setTimeout(function () {
         setHeroActive();
       }, 520);
     }
 
-    function closeStickerConfirm() {
+    function closeVisitConfirm() {
       if (!confirmBubble) return;
       confirmBubble.remove();
       confirmBubble = null;
     }
 
-    function openStickerConfirm(sticker) {
-      var href = sticker.getAttribute('href');
+    function openVisitConfirm(trigger) {
+      var href = trigger.getAttribute('href');
       if (!href) return;
-      var label = sticker.getAttribute('aria-label') || t('home_hero.sticker_image');
-      closeStickerConfirm();
+      var label = trigger.getAttribute('aria-label') || trigger.getAttribute('title') || trigger.textContent || t('home_hero.link');
+      closeVisitConfirm();
 
       confirmBubble = document.createElement('div');
-      confirmBubble.className = 'hero-sticker-confirm';
+      confirmBubble.className = 'hero-visit-confirm';
       confirmBubble.setAttribute('role', 'group');
       confirmBubble.setAttribute('aria-label', t('home_hero.visit_confirm', label));
 
@@ -354,23 +354,23 @@
       confirmBubble.appendChild(message);
 
       var actions = document.createElement('div');
-      actions.className = 'hero-sticker-confirm__actions';
+      actions.className = 'hero-visit-confirm__actions';
 
       var visit = document.createElement('button');
       visit.type = 'button';
-      visit.className = 'hero-sticker-confirm__visit';
+      visit.className = 'hero-visit-confirm__visit';
       visit.textContent = t('home_hero.visit');
       visit.addEventListener('click', function () {
-        var target = sticker.getAttribute('target');
+        var target = trigger.getAttribute('target');
         if (target === '_blank') window.open(href, '_blank', 'noopener');
         else window.location.href = href;
       });
 
       var cancel = document.createElement('button');
       cancel.type = 'button';
-      cancel.className = 'hero-sticker-confirm__cancel';
+      cancel.className = 'hero-visit-confirm__cancel';
       cancel.textContent = t('home_hero.cancel');
-      cancel.addEventListener('click', closeStickerConfirm);
+      cancel.addEventListener('click', closeVisitConfirm);
 
       actions.appendChild(visit);
       actions.appendChild(cancel);
@@ -378,12 +378,12 @@
       hero.appendChild(confirmBubble);
 
       var heroRect = hero.getBoundingClientRect();
-      var stickerRect = sticker.getBoundingClientRect();
+      var triggerRect = trigger.getBoundingClientRect();
       var bubbleRect = confirmBubble.getBoundingClientRect();
-      var left = stickerRect.left - heroRect.left + (stickerRect.width / 2) - (bubbleRect.width / 2);
-      var top = stickerRect.top - heroRect.top - bubbleRect.height - 12;
+      var left = triggerRect.left - heroRect.left + (triggerRect.width / 2) - (bubbleRect.width / 2);
+      var top = triggerRect.top - heroRect.top - bubbleRect.height - 12;
       left = clamp(left, 12, hero.clientWidth - bubbleRect.width - 12);
-      if (top < 12) top = stickerRect.bottom - heroRect.top + 12;
+      if (top < 12) top = triggerRect.bottom - heroRect.top + 12;
       top = clamp(top, 12, hero.clientHeight - bubbleRect.height - 12);
       confirmBubble.style.left = left + 'px';
       confirmBubble.style.top = top + 'px';
@@ -392,6 +392,41 @@
 
     var scrollLinks = hero.querySelectorAll('[data-hero-scroll]');
     applyRandomHeroImage();
+    var heroSocialLinks = hero.querySelector('.home-hero__links');
+    function syncClippedHeroLinks() {
+      if (!heroSocialLinks) return;
+      heroSocialLinks.style.setProperty('--hero-links-offset', '0px');
+      Array.prototype.forEach.call(heroSocialLinks.querySelectorAll('a'), function (link) {
+        link.style.visibility = '';
+        link.style.pointerEvents = '';
+        link.removeAttribute('aria-hidden');
+        link.removeAttribute('tabindex');
+      });
+      var containerWidth = heroSocialLinks.clientWidth;
+      var visibleRight = 0;
+      Array.prototype.forEach.call(heroSocialLinks.querySelectorAll('a'), function (link) {
+        var clipped = link.offsetLeft + link.offsetWidth > containerWidth + 1;
+        if (clipped) {
+          link.style.visibility = 'hidden';
+          link.style.pointerEvents = 'none';
+          link.setAttribute('aria-hidden', 'true');
+          link.setAttribute('tabindex', '-1');
+        } else {
+          visibleRight = Math.max(visibleRight, link.offsetLeft + link.offsetWidth);
+        }
+      });
+      var offset = Math.max(0, Math.floor((containerWidth - visibleRight) / 2));
+      heroSocialLinks.style.setProperty('--hero-links-offset', offset + 'px');
+    }
+    window.requestAnimationFrame(syncClippedHeroLinks);
+    window.addEventListener('resize', function () {
+      window.requestAnimationFrame(syncClippedHeroLinks);
+    }, { passive: true });
+    if (window.ResizeObserver && heroSocialLinks) {
+      new ResizeObserver(function () {
+        window.requestAnimationFrame(syncClippedHeroLinks);
+      }).observe(heroSocialLinks);
+    }
     scrollLinks.forEach(function (link) {
       link.addEventListener('click', function (event) {
         var href = link.getAttribute('href') || '';
@@ -400,6 +435,15 @@
         if (!target) return;
         event.preventDefault();
         scrollToHome();
+      });
+    });
+
+    var externalNavLinks = hero.querySelectorAll('.home-hero__nav-link[target="_blank"]');
+    externalNavLinks.forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        openVisitConfirm(link);
       });
     });
 
@@ -444,7 +488,7 @@
         if (sticker.matches && sticker.matches('a.hero-sticker--custom[href]')) {
           event.preventDefault();
           event.stopPropagation();
-          openStickerConfirm(sticker);
+          openVisitConfirm(sticker);
         }
       });
 
@@ -515,7 +559,7 @@
     var shuffleButton = hero.querySelector('.js-hero-shuffle');
     if (shuffleButton) {
       shuffleButton.addEventListener('click', function () {
-        closeStickerConfirm();
+        closeVisitConfirm();
         stickers.forEach(function (sticker, index) {
           delete sticker.dataset.heroDragged;
           sticker.style.zIndex = '';
@@ -528,11 +572,11 @@
     document.addEventListener('click', function (event) {
       if (!confirmBubble) return;
       if (confirmBubble.contains(event.target)) return;
-      if (event.target.closest && event.target.closest('a.hero-sticker--custom[href]')) return;
-      closeStickerConfirm();
+      if (event.target.closest && event.target.closest('a.hero-sticker--custom[href], .home-hero__nav-link[target="_blank"]')) return;
+      closeVisitConfirm();
     });
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') closeStickerConfirm();
+      if (event.key === 'Escape') closeVisitConfirm();
     });
   })();
 

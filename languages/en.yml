@@ -121,9 +121,11 @@ home_hero:
   enter: Go to content
   note: Today
   default_subtitle: Daily notes
+  nav_links: Hero navigation
   profile_links: Profile links
   tools: Hero tools
   shuffle_stickers: Shuffle stickers
+  link: Link
   sticker_image: Sticker image
   visit_confirm: Visit %s?
   visit: Visit
