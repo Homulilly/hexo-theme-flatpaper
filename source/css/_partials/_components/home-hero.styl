@@ -434,7 +434,7 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   height: 52px;
   color: var(--ink-soft);
   background: rgba(255, 253, 246, 0.68);
-  border: 1px dashed rgba(177, 157, 117, 0.58);
+  border: 1px dashed transparent;
   border-radius: 50%;
   box-shadow: var(--paper-shadow);
   transform: translateX(-50%);
@@ -453,7 +453,7 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
 .home-hero--image .home-hero__arrow {
   color: #2c3531;
   background: rgba(255, 253, 246, 0.94);
-  border-color: rgba(44, 53, 49, 0.28);
+  border-color: transparent;
 }
 
 .home-hero--image .home-hero__arrow:hover,
@@ -598,10 +598,12 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
 }
 
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow {
-  color: var(--ink-soft);
-  background: rgba(35, 39, 50, 0.78);
-  border-color: var(--dash);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+  color: #fffdf6;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: transparent;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow:hover,
@@ -619,6 +621,12 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+}
+
+/* Arrow specifically loses border on non-hover and gets light frosted glass */
+.dark-mode .home-hero--image .home-hero__arrow {
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .dark-mode .home-hero--image .home-hero__tools .home-hero__tool:hover,
