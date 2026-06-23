@@ -121,9 +121,11 @@ home_hero:
   enter: 进入首页
   note: 今日
   default_subtitle: 日常记录
+  nav_links: 开屏导航
   profile_links: 个人链接
   tools: 开屏工具
   shuffle_stickers: 打乱贴纸位置
+  link: 链接
   sticker_image: 贴纸图片
   visit_confirm: 要访问 %s 吗？
   visit: 访问

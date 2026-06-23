@@ -181,7 +181,7 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
       <p class="home-hero__bio"><%= heroBio %></p>
       <% var heroLinks = hero.hero_links; %>
       <% if (heroLinks && Array.isArray(heroLinks) && heroLinks.length > 0) { %>
-        <nav class="home-hero__nav" aria-label="<%= flatpaper_i18n('home_hero.nav_links') || 'Hero Navigation' %>">
+        <nav class="home-hero__nav" aria-label="<%= flatpaper_i18n('home_hero.nav_links') %>">
           <% heroLinks.forEach(function(link) { 
                var isExternal = /^(?:https?:)?\/\//i.test(link.link);
                var linkAlt = link.alt || link.name;

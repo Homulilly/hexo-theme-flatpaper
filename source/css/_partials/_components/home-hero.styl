@@ -269,14 +269,16 @@ body .home-hero .home-hero__profile .home-hero__links {
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: nowrap !important;
   gap: 12px;
   margin: 0;
   padding: 0;
   z-index: -2;
   width: max-content;
-  max-width: none !important;
+  max-width: unquote('min(100%, calc(100vw - 32px), 640px)') !important;
+  overflow: hidden;
+  clip-path: inset(0 0 -24px 0);
 }
 
 body .home-hero .home-hero__profile .home-hero__links a {
@@ -532,7 +534,7 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   50% { transform: translateY(4px); }
 }
 
-.hero-sticker-confirm {
+.hero-visit-confirm {
   position: absolute;
   z-index: 8;
   width: 190px;
@@ -545,7 +547,7 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   filter: url(#paper-edge);
 }
 
-.hero-sticker-confirm::before {
+.hero-visit-confirm::before {
   content: "";
   position: absolute;
   top: -8px;
@@ -558,7 +560,7 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   transform: translateX(-50%) rotate(-4deg);
 }
 
-.hero-sticker-confirm p {
+.hero-visit-confirm p {
   margin: 0 0 10px;
   color: var(--ink-soft);
   font-size: 13px;
@@ -567,13 +569,13 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   text-align: center;
 }
 
-.hero-sticker-confirm__actions {
+.hero-visit-confirm__actions {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-.hero-sticker-confirm button {
+.hero-visit-confirm button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -594,19 +596,19 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.hero-sticker-confirm button.hero-sticker-confirm__visit {
+.hero-visit-confirm button.hero-visit-confirm__visit {
   color: #395238;
   background-color: var(--tape-green);
 }
 
-.hero-sticker-confirm button.hero-sticker-confirm__cancel {
+.hero-visit-confirm button.hero-visit-confirm__cancel {
   color: #6b3f4c;
   background-color: var(--tape-pink);
   transform: rotate(2deg);
 }
 
-.hero-sticker-confirm button:hover,
-.hero-sticker-confirm button:focus-visible {
+.hero-visit-confirm button:hover,
+.hero-visit-confirm button:focus-visible {
   color: var(--ink);
   border-color: var(--color-accent);
   background-color: var(--color-accent-soft);
@@ -615,8 +617,8 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   transform: rotate(0deg) translateY(-2px);
 }
 
-.hero-sticker-confirm button.hero-sticker-confirm__cancel:hover,
-.hero-sticker-confirm button.hero-sticker-confirm__cancel:focus-visible {
+.hero-visit-confirm button.hero-visit-confirm__cancel:hover,
+.hero-visit-confirm button.hero-visit-confirm__cancel:focus-visible {
   color: #6b3f4c;
   border-color: rgba(154, 86, 101, 0.46);
   background-color: var(--tape-pink);
@@ -750,20 +752,20 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.34));
 }
 
-.dark-mode .hero-sticker-confirm button {
+.dark-mode .hero-visit-confirm button {
   color: #cbbba5;
 }
 
-.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__visit {
+.dark-mode .hero-visit-confirm button.hero-visit-confirm__visit {
   color: #add0af;
 }
 
-.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__cancel {
+.dark-mode .hero-visit-confirm button.hero-visit-confirm__cancel {
   color: #df9eaf;
 }
 
-.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__cancel:hover,
-.dark-mode .hero-sticker-confirm button.hero-sticker-confirm__cancel:focus-visible {
+.dark-mode .hero-visit-confirm button.hero-visit-confirm__cancel:hover,
+.dark-mode .hero-visit-confirm button.hero-visit-confirm__cancel:focus-visible {
   color: #f1c9d0;
   border-color: rgba(232, 168, 158, 0.42);
   background-color: var(--tape-pink);
