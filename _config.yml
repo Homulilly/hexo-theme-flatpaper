@@ -315,9 +315,9 @@ fancybox:
 google_fonts:
   enable: false
   cdn: https://fonts.googleapis.com
-  # 可选：仅为 fonts 请求指定字符子集，适合 logo、标题、按钮等固定文本。
-  # mono 会单独完整加载，避免代码字符缺失。
-  # 动态正文不建议使用，未包含的字符会回退到后续字体。
+  # 可选：为固定文本单独加载一个裁剪字体，会自动排在 fonts 前面。
+  # text_font 可使用字重语法；text 是要保留的字符集。动态正文不建议使用。
+  # text_font: Noto Sans JP:wght@400;700
   # text: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
   # 按顺序填写字体名称即可；第一个字体会优先用于正文。
   # 有特殊字重需求时，可使用 Google Fonts 语法，如 Noto Sans SC:wght@400;700。

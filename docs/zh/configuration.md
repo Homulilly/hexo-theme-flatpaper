@@ -32,6 +32,7 @@ language:
 google_fonts:
   enable: true
   cdn: https://fonts.googleapis.com
+  # text_font: Noto Sans JP:wght@400;700
   # text: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
   fonts:
     - Noto Sans SC
@@ -43,8 +44,8 @@ google_fonts:
 - `fonts` 按顺序填写字体名称即可。FlatPaper 会从 Google Fonts 加载这些字体，并按相同顺序优先用于正文。
 - `mono` 按顺序填写等宽字体名称，用于代码块。也可以只配置 `mono`，不改变正文字体。
 - 有特殊字重需求时，可以使用 Google Fonts 语法，例如 `Noto Sans SC:wght@400;700`。FlatPaper 会用完整值请求 Google Fonts，并在本地 CSS 字体栈中自动只保留 `:` 前的字体名。
-- `text` 是可选项，对应 `fonts` 的 Google Fonts `text=` 参数。仅建议在能确定字符范围时使用，例如 logo、标题、按钮等固定文本；未包含的字符会回退到后续字体。
-- `mono` 会单独请求完整字体，不受 `text` 限制，避免代码字符缺失。
+- `text_font` 与 `text` 是配套的可选项。FlatPaper 会用 Google Fonts `text=` 请求 `text_font`，再把它排在 `fonts` 前面。
+- `fonts` 与 `mono` 会单独请求完整字体，不受 `text` 限制，避免正文和代码字符缺失。
 - `cdn` 会替代默认的 `https://fonts.googleapis.com` 样式表域名。可以填写完整 URL 或纯域名，例如 `https://fonts.loli.net` 或 `fonts.example.com`。
 - 字体加载固定使用 `display=swap`。
 
@@ -52,6 +53,7 @@ google_fonts:
 
 ```yaml
 google_fonts:
+  text_font: Noto Sans JP:wght@400;700
   text: |-
     ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
 ```

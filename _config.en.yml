@@ -316,9 +316,9 @@ fancybox:
 google_fonts:
   enable: false
   cdn: https://fonts.googleapis.com
-  # Optional: request only these glyphs for fonts with Google Fonts text=.
-  # mono is loaded separately without text= so code glyphs stay complete.
-  # Best for fixed text such as logos, headings, and buttons. Avoid it for dynamic body content.
+  # Optional: load a subset font for fixed text and place it before fonts.
+  # text_font may use weight syntax; text is the glyph set to keep. Avoid it for dynamic body content.
+  # text_font: Noto Sans JP:wght@400;700
   # text: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
   # List font names in order. The first font is preferred for body text.
   # Use Google Fonts syntax only when you need specific weights, for example Noto Sans SC:wght@400;700.

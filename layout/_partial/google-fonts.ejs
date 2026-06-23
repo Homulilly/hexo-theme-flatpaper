@@ -94,16 +94,21 @@ function uniqueFonts(families) {
 
 var fontBase = normalizeFontBase(googleFonts.cdn || googleFonts.host || googleFonts.domain);
 var fontOrigin = normalizeFontOrigin(fontBase);
+var textFamilies = normalizeFontList(googleFonts.text_font || googleFonts.textFont || googleFonts.text_fonts);
 var sansFamilies = normalizeFontList(googleFonts.fonts);
 var monoFamilies = normalizeFontList(googleFonts.mono || googleFonts.monospace);
+var fontText = normalizeFontText(googleFonts.text);
+var hasTextSubset = fontText && textFamilies.length;
 var fontHrefs = uniqueValues([
-  buildFontHref(sansFamilies, googleFonts.text),
+  hasTextSubset ? buildFontHref(textFamilies, fontText) : '',
+  buildFontHref(sansFamilies),
   buildFontHref(monoFamilies)
 ]);
+var sansStackFamilies = hasTextSubset ? textFamilies.concat(sansFamilies) : sansFamilies;
 
 var fontVars = [];
-if (fontsEnabled && sansFamilies.length) {
-  fontVars.push('--font-sans: ' + quoteFontStack(sansFamilies, '"Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif') + ';');
+if (fontsEnabled && sansStackFamilies.length) {
+  fontVars.push('--font-sans: ' + quoteFontStack(sansStackFamilies, '"Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif') + ';');
 }
 if (fontsEnabled && monoFamilies.length) {
   fontVars.push('--font-mono: ' + quoteFontStack(monoFamilies, '"JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", "Cascadia Code", monospace') + ';');
