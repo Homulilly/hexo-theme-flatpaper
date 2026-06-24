@@ -44,6 +44,21 @@ links:
   empty_data: 暂未加载到友链数据。请确认 source/_data/links.yml 存在并已 hexo clean。
   rss_label: "%s 的 RSS"
 
+friends_feed:
+  label: 朋友圈
+  title: 友链朋友圈
+  loading: 正在加载友链动态…
+  missing_url: 暂未配置 all.json 地址。
+  load_failed: 友链动态加载失败，请稍后再试。
+  empty: 暂时没有抓取到友链文章。
+  load_more: 加载更多
+  updated_at: 更新于 %s
+  friend_count: "%d 位友邻"
+  active_count: "%d 位活跃"
+  article_count: "%d 篇文章"
+  unknown_author: 未知站点
+  date_unknown: 时间未知
+
 post:
   scroll_to_comments: 跳转到评论区
   previous: 上一篇

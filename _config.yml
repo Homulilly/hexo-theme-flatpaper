@@ -197,6 +197,16 @@ tags:
 links:
   style: tape
 
+# Friend-Circle-Lite 兼容数据
+# https://github.com/willow-god/Friend-Circle-Lite
+# 构建时会读取 source/_data/links.yml，并在站点根目录输出 /friend.json
+# 只有配置了非空 rss 字段的友链会写入 friend.json。
+# 将该 URL 填入 Friend-Circle-Lite 的 spider_settings.json_url 即可复用友链数据。
+fcl:
+  friend_json:
+    enable: true
+    path: friend.json
+
 # 图标按钮样式： circle（默认圆形，1px 虚线）| tape（手帐贴纸：墨团圆角、手贴歪斜、悬停胶带斜纹）
 # 作用于：顶栏 logo/汉堡/搜索/调色盘/明暗切换、社交链接、文章反应按钮、TOC 折叠、搜索关闭、窄屏抽屉关闭
 buttons:

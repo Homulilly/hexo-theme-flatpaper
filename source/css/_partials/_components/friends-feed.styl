@@ -1,0 +1,223 @@
+/* ============== FRIEND-CIRCLE-LITE FEED ============== */
+.friends-feed-page {
+  padding-bottom: 32px;
+}
+
+.friends-feed {
+  padding-top: 22px;
+}
+
+.friends-feed__summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.friends-feed__stat,
+.friends-feed__updated,
+.friends-feed__source {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px dashed var(--dash);
+  border-radius: 999px;
+  background: var(--paper-warm);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.friends-feed__source {
+  color: var(--color-accent-strong);
+  transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.friends-feed__source:hover {
+  color: var(--color-accent-strong);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.dark-mode .friends-feed__source {
+  color: var(--color-accent-muted);
+}
+
+.friends-feed__state {
+  margin: 18px 0 8px;
+  padding: 14px 16px;
+  border: 1px dashed var(--dash);
+  border-radius: 8px;
+  background: var(--paper-warm);
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.friends-feed__state.is-error {
+  color: #b35a4a;
+  border-color: rgba(179, 90, 74, 0.34);
+}
+
+.dark-mode .friends-feed__state.is-error {
+  color: #e39a8b;
+  border-color: rgba(227, 154, 139, 0.32);
+}
+
+.friends-feed__list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.friends-feed-card {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border: 1px dashed var(--dash);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: var(--soft-shadow);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.friends-feed-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-accent);
+  box-shadow: var(--small-shadow);
+}
+
+.friends-feed-card__avatar-link {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.friends-feed-card__avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+img.friends-feed-card__avatar {
+  background: transparent;
+}
+
+.dark-mode .friends-feed-card__avatar--text {
+  color: var(--color-accent-muted);
+}
+
+.friends-feed-card__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.friends-feed-card__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.friends-feed-card__author {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-accent-strong);
+  font-weight: 700;
+}
+
+.dark-mode .friends-feed-card__author {
+  color: var(--color-accent-muted);
+}
+
+.friends-feed-card__date {
+  white-space: nowrap;
+}
+
+.friends-feed-card__title {
+  display: block;
+  min-width: 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  transition: color 0.18s ease;
+}
+
+.friends-feed-card__title:hover {
+  color: var(--color-accent-strong);
+}
+
+.dark-mode .friends-feed-card__title:hover {
+  color: var(--color-accent-muted);
+}
+
+.friends-feed__more {
+  display: block;
+  min-width: 132px;
+  min-height: 38px;
+  margin: 22px auto 0;
+  padding: 8px 18px;
+  border: 1px dashed var(--dash);
+  border-radius: 999px;
+  background: var(--paper-warm);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.18s ease, color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.friends-feed__more:hover,
+.friends-feed__more:focus-visible {
+  color: var(--color-accent-strong);
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  transform: translateY(-1px);
+}
+
+.dark-mode .friends-feed__more:hover,
+.dark-mode .friends-feed__more:focus-visible {
+  color: var(--color-accent-muted);
+}
+
+@media (max-width: 640px) {
+  .friends-feed-card {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .friends-feed-card__avatar-link,
+  .friends-feed-card__avatar {
+    width: 42px;
+    height: 42px;
+  }
+
+  .friends-feed-card__author {
+    max-width: 140px;
+  }
+}

@@ -104,6 +104,19 @@ type: links
 ---
 ```
 
+During generation, FlatPaper also emits `/friend.json` from friend links in `source/_data/links.yml` that have `rss` configured. Use that URL as Friend-Circle-Lite's `spider_settings.json_url`.
+
+Create a built-in friend-circle page and point the page front matter directly to the Friend-Circle-Lite `all.json` file:
+
+```yaml
+---
+title: Friend Circle
+type: friends-feed
+comments: false
+fcl_all_json: https://raw.githubusercontent.com/OWNER/REPO/page/all.json
+---
+```
+
 Create `source/404.md` for a custom not-found page:
 
 ```yaml

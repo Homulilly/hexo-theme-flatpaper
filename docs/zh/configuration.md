@@ -262,6 +262,22 @@ search:
 
 索引在构建时生成为站点根目录下的独立文件 `flatpaper-search.json`，首次打开搜索面板时才按需加载，不再内联进每个页面。
 
+## Friend-Circle-Lite
+
+```yaml
+fcl:
+  friend_json:
+    enable: true
+    path: friend.json
+```
+
+- `enable`：是否生成 Friend-Circle-Lite 兼容的友链 JSON，默认开启。
+- `path`：输出路径，默认生成在站点根目录 `/friend.json`。
+
+生成器会读取 `source/_data/links.yml` 中每个 `link_list` 的 `rss`、`name`、`link`、`avatar`。只有 `rss` 非空的友链会被去重输出为 Friend-Circle-Lite 的 `friends` 数组；`rss` 字段本身不会写入数组。可选的 `linkpage` / `link_page` / `linkPage` 会作为友链页地址输出。
+
+内置朋友圈页面的数据源在页面 front-matter 中设置，见“友链朋友圈页面”文档。
+
 ## 精选文章
 
 ```yaml

@@ -1,0 +1,47 @@
+<%
+var allJson = page.fcl_all_json || page.all_json || '';
+allJson = String(allJson || '').trim();
+var safeAllJson = allJson ? flatpaper_safe_url(allJson, 'href') : '';
+if (safeAllJson === '#') safeAllJson = '';
+var pageSize = parseInt(page.page_size || 20, 10);
+if (!pageSize || pageSize < 1) pageSize = 20;
+if (pageSize > 100) pageSize = 100;
+var sourceLabel = page.source_label || '';
+%>
+
+<article class="article-paper friends-feed-page">
+  <header class="article-header">
+    <span class="label-pill"><%= flatpaper_i18n('friends_feed.label') %></span>
+    <h1><%= page.title || flatpaper_i18n('friends_feed.title') %></h1>
+    <% if (page.subtitle) { %>
+      <p class="friends-subtitle"><%= page.subtitle %></p>
+    <% } %>
+  </header>
+
+  <section
+    class="friends-feed"
+    data-fcl-all-json="<%= safeAllJson %>"
+    data-page-size="<%= pageSize %>"
+    aria-live="polite"
+  >
+    <div class="friends-feed__summary" hidden>
+      <span class="friends-feed__stat" data-feed-stat="friends"></span>
+      <span class="friends-feed__stat" data-feed-stat="active"></span>
+      <span class="friends-feed__stat" data-feed-stat="articles"></span>
+      <span class="friends-feed__updated" data-feed-updated></span>
+      <% if (sourceLabel && safeAllJson) { %>
+        <a class="friends-feed__source" href="<%= safeAllJson %>" target="_blank" rel="noopener noreferrer"><%= sourceLabel %></a>
+      <% } %>
+    </div>
+
+    <p class="friends-feed__state" data-feed-state><%= safeAllJson ? flatpaper_i18n('friends_feed.loading') : flatpaper_i18n('friends_feed.missing_url') %></p>
+    <ul class="friends-feed__list" data-feed-list></ul>
+    <button class="friends-feed__more" type="button" data-feed-more hidden><%= flatpaper_i18n('friends_feed.load_more') %></button>
+  </section>
+
+  <% if (page.content && page.content.trim()) { %>
+    <div class="article-content friends-intro">
+      <%- page.content %>
+    </div>
+  <% } %>
+</article>

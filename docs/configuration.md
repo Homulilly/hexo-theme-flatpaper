@@ -264,6 +264,22 @@ The index is generated at build time as a standalone `flatpaper-search.json` at 
 
 Users can open search from the header or with `Ctrl+K` / `Cmd+K`.
 
+## Friend-Circle-Lite
+
+```yaml
+fcl:
+  friend_json:
+    enable: true
+    path: friend.json
+```
+
+- `enable`: generates a Friend-Circle-Lite compatible friend JSON file. Enabled by default.
+- `path`: output path. The default produces `/friend.json` at the site root.
+
+The generator reads `rss`, `name`, `link`, and `avatar` from every `link_list` item in `source/_data/links.yml`. Only entries with a non-empty `rss` value are deduplicated by homepage URL and written to Friend-Circle-Lite's `friends` array; `rss` itself is not written to the array. Optional `linkpage` / `link_page` / `linkPage` values are emitted as friend-links page URLs.
+
+The built-in friend-circle page data source is set in page front matter. See the “Friend Circle Page” docs.
+
 ## Featured Posts
 
 ```yaml

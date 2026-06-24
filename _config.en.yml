@@ -196,6 +196,16 @@ tags:
 links:
   style: tape
 
+# Friend-Circle-Lite compatible data.
+# https://github.com/willow-god/Friend-Circle-Lite
+# During generation, FlatPaper reads source/_data/links.yml and emits /friend.json.
+# Only friend links with a non-empty rss field are written to friend.json.
+# Use that URL as Friend-Circle-Lite's spider_settings.json_url.
+fcl:
+  friend_json:
+    enable: true
+    path: friend.json
+
 # Icon button style: circle (default round, 1px dashed) | tape (scrapbook: ink-blob
 # corners, hand-placed tilt, washi-tape stripes on hover)
 # Applies to: header logo/menu/search/palette/theme toggle, social links, post

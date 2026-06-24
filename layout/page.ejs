@@ -1,9 +1,9 @@
 <%
-// Allow `type: 404 | categories | tags | link` in front-matter to route to a custom layout,
+// Allow `type: 404 | categories | tags | link | friends-feed` in front-matter to route to a custom layout,
 // keeping compatibility with the NexT-style convention.
-var routableTypes = ['404', 'link', 'links', 'tags', 'categories'];
+var routableTypes = ['404', 'link', 'links', 'tags', 'categories', 'friends-feed', 'friend-feed', 'fcircle'];
 var typeKey = String(page.type || '').toLowerCase();
-var typeMap = { links: 'link' };
+var typeMap = { links: 'link', 'friend-feed': 'friends-feed', fcircle: 'friends-feed' };
 if (typeMap[typeKey]) typeKey = typeMap[typeKey];
 %>
 <% if (typeKey && routableTypes.indexOf(typeKey) > -1) { %>

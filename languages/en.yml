@@ -44,6 +44,21 @@ links:
   empty_data: Could not load friend link data. Make sure source/_data/links.yml exists and run hexo clean.
   rss_label: "%s's RSS"
 
+friends_feed:
+  label: Circle
+  title: Friend circle
+  loading: Loading friend updates...
+  missing_url: No all.json URL configured.
+  load_failed: Failed to load friend updates. Try again later.
+  empty: No friend articles have been fetched yet.
+  load_more: Load more
+  updated_at: Updated at %s
+  friend_count: "%d friends"
+  active_count: "%d active"
+  article_count: "%d articles"
+  unknown_author: Unknown site
+  date_unknown: Unknown time
+
 post:
   scroll_to_comments: Jump to comments
   previous: Previous

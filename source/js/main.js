@@ -266,6 +266,189 @@
 
   renderRandomPosts();
 
+  // ---- Friend-Circle-Lite all.json renderer ----
+  function safeRemoteUrl(value, kind) {
+    var raw = String(value || '').trim();
+    if (!raw || /[\u0000-\u001f\u007f\\]/.test(raw)) return '';
+    try {
+      var parsed = new URL(raw, window.location.href);
+      if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return parsed.href;
+      if (kind !== 'image' && parsed.protocol === 'mailto:') return parsed.href;
+    } catch (e) {
+      return '';
+    }
+    return '';
+  }
+
+  function parseFclDate(value) {
+    var text = String(value || '').trim();
+    if (!text) return { label: t('friends_feed.date_unknown'), time: 0 };
+    var normalized = text.replace(/\//g, '-').replace(' ', 'T');
+    var timestamp = Date.parse(normalized);
+    return { label: text, time: isNaN(timestamp) ? 0 : timestamp };
+  }
+
+  function normalizeFclArticles(payload) {
+    var raw = payload && Array.isArray(payload.article_data) ? payload.article_data : [];
+    var seen = {};
+    return raw.map(function (item) {
+      var link = safeRemoteUrl(item && item.link);
+      var title = String((item && item.title) || '').trim();
+      if (!link || !title) return null;
+      var key = link.replace(/\/+$/, '').toLowerCase();
+      if (seen[key]) return null;
+      seen[key] = true;
+      var date = parseFclDate(item.created || item.published || item.updated);
+      return {
+        title: title,
+        link: link,
+        author: String(item.author || '').trim(),
+        avatar: safeRemoteUrl(item.avatar, 'image'),
+        dateLabel: date.label,
+        dateTime: date.time
+      };
+    }).filter(Boolean).sort(function (a, b) {
+      return b.dateTime - a.dateTime;
+    });
+  }
+
+  function renderFriendsFeed() {
+    document.querySelectorAll('.friends-feed[data-fcl-all-json]').forEach(function (feed) {
+      var endpoint = safeRemoteUrl(feed.dataset.fclAllJson);
+      var state = feed.querySelector('[data-feed-state]');
+      var list = feed.querySelector('[data-feed-list]');
+      var more = feed.querySelector('[data-feed-more]');
+      var summary = feed.querySelector('.friends-feed__summary');
+      if (!state || !list || !more) return;
+      if (!endpoint) {
+        state.textContent = t('friends_feed.missing_url');
+        return;
+      }
+
+      var pageSize = parseInt(feed.dataset.pageSize, 10);
+      if (!pageSize || pageSize < 1) pageSize = 20;
+      var shown = 0;
+      var articles = [];
+
+      function setState(message, isError) {
+        state.textContent = message || '';
+        state.hidden = !message;
+        state.classList.toggle('is-error', !!isError);
+      }
+
+      function renderStats(payload) {
+        var stats = (payload && payload.statistical_data) || {};
+        var friends = feed.querySelector('[data-feed-stat="friends"]');
+        var active = feed.querySelector('[data-feed-stat="active"]');
+        var articleCount = feed.querySelector('[data-feed-stat="articles"]');
+        var updated = feed.querySelector('[data-feed-updated]');
+        if (friends && typeof stats.friends_num === 'number') friends.textContent = t('friends_feed.friend_count', stats.friends_num);
+        if (active && typeof stats.active_num === 'number') active.textContent = t('friends_feed.active_count', stats.active_num);
+        if (articleCount) articleCount.textContent = t('friends_feed.article_count', articles.length || stats.article_num || 0);
+        if (updated && stats.last_updated_time) updated.textContent = t('friends_feed.updated_at', stats.last_updated_time);
+        if (summary) summary.hidden = false;
+      }
+
+      function fallbackAvatar(author) {
+        var span = document.createElement('span');
+        span.className = 'friends-feed-card__avatar friends-feed-card__avatar--text';
+        span.textContent = (author || '?').charAt(0);
+        return span;
+      }
+
+      function createArticleCard(article) {
+        var item = document.createElement('li');
+        item.className = 'friends-feed-card';
+
+        var avatarWrap = document.createElement('a');
+        avatarWrap.className = 'friends-feed-card__avatar-link';
+        avatarWrap.href = article.link;
+        avatarWrap.target = '_blank';
+        avatarWrap.rel = 'noopener noreferrer';
+        avatarWrap.setAttribute('aria-label', article.author || article.title);
+
+        if (article.avatar) {
+          var img = document.createElement('img');
+          img.className = 'friends-feed-card__avatar';
+          img.src = article.avatar;
+          img.alt = article.author || '';
+          img.loading = 'lazy';
+          img.referrerPolicy = 'no-referrer';
+          img.addEventListener('error', function () {
+            while (avatarWrap.firstChild) avatarWrap.removeChild(avatarWrap.firstChild);
+            avatarWrap.appendChild(fallbackAvatar(article.author));
+          }, { once: true });
+          avatarWrap.appendChild(img);
+        } else {
+          avatarWrap.appendChild(fallbackAvatar(article.author));
+        }
+
+        var body = document.createElement('div');
+        body.className = 'friends-feed-card__body';
+
+        var meta = document.createElement('div');
+        meta.className = 'friends-feed-card__meta';
+        var author = document.createElement('span');
+        author.className = 'friends-feed-card__author';
+        author.textContent = article.author || t('friends_feed.unknown_author');
+        meta.appendChild(author);
+        var time = document.createElement('time');
+        time.className = 'friends-feed-card__date';
+        time.textContent = article.dateLabel;
+        if (article.dateTime) time.dateTime = new Date(article.dateTime).toISOString();
+        meta.appendChild(time);
+
+        var title = document.createElement('a');
+        title.className = 'friends-feed-card__title';
+        title.href = article.link;
+        title.target = '_blank';
+        title.rel = 'noopener noreferrer';
+        title.textContent = article.title;
+
+        body.appendChild(meta);
+        body.appendChild(title);
+        item.appendChild(avatarWrap);
+        item.appendChild(body);
+        return item;
+      }
+
+      function renderNext() {
+        var next = articles.slice(shown, shown + pageSize);
+        next.forEach(function (article) {
+          list.appendChild(createArticleCard(article));
+        });
+        shown += next.length;
+        more.hidden = shown >= articles.length;
+      }
+
+      more.addEventListener('click', renderNext);
+      setState(t('friends_feed.loading'));
+
+      fetch(endpoint, { headers: { Accept: 'application/json,text/plain,*/*' } })
+        .then(function (response) {
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.json();
+        })
+        .then(function (payload) {
+          articles = normalizeFclArticles(payload);
+          list.innerHTML = '';
+          shown = 0;
+          renderStats(payload);
+          if (!articles.length) {
+            setState(t('friends_feed.empty'));
+            return;
+          }
+          setState('');
+          renderNext();
+        })
+        .catch(function () {
+          setState(t('friends_feed.load_failed'), true);
+        });
+    });
+  }
+
+  renderFriendsFeed();
+
   // ---- Home hero: scroll affordance and draggable scrapbook stickers ----
   (function () {
     var hero = document.querySelector('.home-hero');

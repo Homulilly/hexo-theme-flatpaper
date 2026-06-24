@@ -102,6 +102,19 @@ type: links
 ---
 ```
 
+构建时会同时根据 `source/_data/links.yml` 中配置了 `rss` 的友链生成 Friend-Circle-Lite 可读取的 `/friend.json`，可在 Friend-Circle-Lite 的 `spider_settings.json_url` 中填写该地址。
+
+创建内置朋友圈页，直接在页面 front-matter 中引用 Friend-Circle-Lite 生成的 `all.json`：
+
+```yaml
+---
+title: 朋友圈
+type: friends-feed
+comments: false
+fcl_all_json: https://raw.githubusercontent.com/OWNER/REPO/page/all.json
+---
+```
+
 创建 `source/404.md` 以启用自定义 404 页面：
 
 ```yaml
