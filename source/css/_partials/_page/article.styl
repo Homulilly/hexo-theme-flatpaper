@@ -118,9 +118,14 @@
   color: var(--muted);
 }
 
-.article-content {
+/* 仅在有顶部图时把正文抬到图片渐变层（::after z-index 2）之上；
+   无顶部图的文章保持默认堆叠，不引入多余的层叠上下文。 */
+.article-paper--with-top-img .article-content {
   position: relative;
   z-index: 3;
+}
+
+.article-content {
   padding: 8px 0 28px;
   font-size: 15px;
   line-height: 1.85;

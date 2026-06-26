@@ -89,12 +89,12 @@ hexo.extend.helper.register('flatpaper_post_top_img_info', function (post, mode)
   }
 
   if (typeof topImg === 'string' && topImg.trim()) {
-    return {
-      src: safeUrl(this.url_for(topImg), 'image'),
-      raw: topImg,
-      source: 'top_img',
-      disabled: false
-    };
+    const src = safeUrl(this.url_for(topImg), 'image');
+    // fallback 模式下，若 top_img 被 safeUrl 拒绝（src 为空），继续向下回退到 cover；
+    // top_img 模式没有回退，直接返回（src 为空即不渲染）。
+    if (src || normalizedMode !== 'fallback') {
+      return { src, raw: topImg, source: 'top_img', disabled: false };
+    }
   }
 
   if (normalizedMode !== 'fallback') return { src: '', raw: '', source: '', disabled: false };
