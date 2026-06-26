@@ -36,9 +36,9 @@ nav:
     #       icon: https://homulilly.com/images/avatar.jpg
     # - title: Project
     #   item:
-    #     - name: Simple Tools
-    #       link: https://tools.ooo.run
-    #       icon: https://tools.ooo.run/favicon.ico
+    #     - name: Flatpaper Tools
+    #       link: https://hexotag.nep.me
+    #       icon: https://hexotag.nep.me/icon.svg
 
 # Favicon: uses the bundled /images/favicon.png by default.
 # Set false to omit <link rel="icon"> and let browsers request /favicon.ico.
@@ -131,9 +131,9 @@ home_hero:
   #     link: /archives/
   #   - name: Categories
   #     link: /categories/
-  #   - name: Simple Tools
-  #     link: https://tools.ooo.run
-  #     alt: Simple Tools
+  #   - name: Flatpaper Tools
+  #     link: https://hexotag.nep.me
+  #     alt: Flatpaper Tools
   stickers:
     enable: true
     draggable: true
@@ -261,8 +261,8 @@ footer:
     #   - name: Privacy
     #     link: /privacy
     # -
-    #   - name: Tools
-    #     link: https://tools.ooo.run/
+    #   - name: Flatpaper Tools
+    #     link: https://hexotag.nep.me/
 
 # {% note %} block appearance:
 #   flat      Solid left bar + pale background fill (default)

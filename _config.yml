@@ -36,9 +36,9 @@ nav:
     #       icon: https://homulilly.com/images/avatar.jpg
     # - title: Project
     #   item:
-    #     - name: 简易工具
-    #       link: https://tools.ooo.run
-    #       icon: https://tools.ooo.run/favicon.ico
+    #     - name: Flatpaper Tools
+    #       link: https://hexotag.nep.me
+    #       icon: https://hexotag.nep.me/icon.svg
 
 # Favicon：默认使用主题内置 /images/favicon.png。
 # 设为 false 时不输出 <link rel="icon">，交给浏览器请求站点根目录 /favicon.ico。
@@ -132,9 +132,9 @@ home_hero:
   #     link: /archives/
   #   - name: 分类
   #     link: /categories/
-  #   - name: 简易工具
-  #     link: https://tools.ooo.run
-  #     alt: 建议工具
+  #   - name: Flatpaper Tools
+  #     link: https://hexotag.nep.me
+  #     alt: Flatpaper Tools
   # 一些贴纸装饰
   stickers:
     enable: true
@@ -260,8 +260,8 @@ footer:
     #   - name: 隐私政策
     #     link: /privacy
     # -
-    #   - name: 简易工具
-    #     link: https://tools.ooo.run/
+    #   - name: Flatpaper Tools
+    #     link: https://hexotag.nep.me/
 
 # {% note %} 提示块外观风格：
 #   flat      左侧实色条 + 淡背景填充（默认）

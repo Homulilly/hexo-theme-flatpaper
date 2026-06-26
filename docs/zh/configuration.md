@@ -307,7 +307,20 @@ fcl:
 
 生成器会读取 `source/_data/links.yml` 中每个 `link_list` 的 `rss`、`name`、`link`、`avatar`。只有 `rss` 非空的友链会被去重输出为 Friend-Circle-Lite 的 `friends` 数组；`rss` 字段本身不会写入数组。可选的 `linkpage` / `link_page` / `linkPage` 会作为友链页地址输出。
 
-内置朋友圈页面的数据源在页面 front-matter 中设置，见“友链朋友圈页面”文档。
+内置朋友圈页面的数据源在页面 front-matter 中设置，创建页面文件 `fcircle/index.md` 填入下面的内容设置 `fcl_all_json` 链接：
+```yaml
+---
+title: 朋友圈
+type: friends-feed
+comments: false
+# 你的友链朋友圈 all.json 地址
+fcl_all_json: https://raw.githubusercontent.com/<YourName>/<Repo>/refs/heads/page/all.json
+page_size: 20       # 每页加载的动态数量
+source_label:       # 可选来源标签
+# 顶部图片（可选）
+top_img: https://img.nep.me/p/flatpaper/fcircle-top.webp
+---
+```
 
 ## 精选文章
 
@@ -361,8 +374,8 @@ footer:
       - name: 隐私政策
         link: /privacy
     -
-      - name: 简易工具
-        link: https://tools.ooo.run/
+      - name: Flatpaper Tools
+        link: https://hexotag.nep.me/
 ```
 
 `footer.right` 已不再解析。页脚右侧由 `powered` 与 `links` 生成。

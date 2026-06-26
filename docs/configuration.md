@@ -364,8 +364,8 @@ footer:
       - name: Privacy
         link: /privacy
     -
-      - name: Tools
-        link: https://tools.ooo.run/
+      - name: Flatpaper Tools
+        link: https://hexotag.nep.me/
 ```
 
 `footer.right` is no longer parsed. The right side of the footer is generated from `powered` and `links`.
