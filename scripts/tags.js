@@ -74,8 +74,13 @@ hexo.extend.helper.register('flatpaper_cover_info', function (post, fallback) {
   };
 });
 
-hexo.extend.helper.register('flatpaper_post_top_img_info', function (post, globallyEnabled) {
+hexo.extend.helper.register('flatpaper_post_top_img_info', function (post, mode) {
   if (!post) return { src: '', raw: '', source: '', disabled: false };
+
+  const normalizedMode = String(mode || '').toLowerCase();
+  if (normalizedMode !== 'top_img' && normalizedMode !== 'fallback') {
+    return { src: '', raw: '', source: '', disabled: false };
+  }
 
   const hasTopImg = Object.prototype.hasOwnProperty.call(post, 'top_img');
   const topImg = post.top_img;
@@ -92,7 +97,7 @@ hexo.extend.helper.register('flatpaper_post_top_img_info', function (post, globa
     };
   }
 
-  if (!globallyEnabled) return { src: '', raw: '', source: '', disabled: false };
+  if (normalizedMode !== 'fallback') return { src: '', raw: '', source: '', disabled: false };
 
   const rawCover = resolvePostCover(post);
   return {

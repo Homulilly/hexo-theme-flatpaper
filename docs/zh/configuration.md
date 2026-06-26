@@ -221,7 +221,7 @@ latest_posts:
   limit: 5
 related_posts: 4
 post_top_img:
-  enable: false
+  mode:
 article:
   strong_accent: true
 ```
@@ -231,8 +231,10 @@ article:
 - `random_posts_pool`：从最新 N 篇文章中抽取候选，`0` 或留空表示不限。
 - `latest_posts`：文章页侧栏 TOC 下方的最新文章组件，默认关闭；`limit` 默认 `5`。
 - `related_posts`：相关文章数量，`0` 禁用整块。
-- `post_top_img.enable`：在文章页顶部渲染顶部图，标题直接叠加在图片上，图片在下方渐变回纸面。默认关闭。
-- 单篇文章的 `top_img` 优先级最高：可填写图片路径 / URL，也可设为 `false` 禁用该文章顶部图。
+- `post_top_img.mode`：控制文章顶部图；留空禁用。
+- `mode: top_img`：只在文章 front-matter 提供 `top_img` 时渲染。
+- `mode: fallback`：优先使用文章 front-matter 的 `top_img`，缺省时回退到 `cover`、`thumbnail`、`image`、`banner` 或正文第一张图。
+- 当 mode 为 `top_img` 或 `fallback` 时，单篇文章可用 `top_img: false` 关闭顶部图。
 - `article.strong_accent`：文章正文中的加粗文本使用主题色；设为 `false` 时只保留默认加粗。
 
 相关文章评分：

@@ -2,8 +2,8 @@
 var categories = page.categories ? page.categories.toArray() : [];
 var tags = page.tags ? page.tags.toArray() : [];
 var postTopImgCfg = theme.post_top_img || {};
-var postTopImgEnabled = postTopImgCfg === true || (postTopImgCfg && postTopImgCfg.enable === true);
-var postTopImg = flatpaper_post_top_img_info(page, postTopImgEnabled);
+var postTopImgMode = postTopImgCfg && postTopImgCfg.mode ? String(postTopImgCfg.mode).toLowerCase() : '';
+var postTopImg = flatpaper_post_top_img_info(page, postTopImgMode);
 // related_posts 显式设为 0 表示禁用；未配置则使用 3
 var relatedCount = (theme.related_posts != null ? theme.related_posts : 3);
 
