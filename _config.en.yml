@@ -124,8 +124,11 @@ home_hero:
   #   - /images/hero-2.jpg
   # Dark overlay opacity for hero images: [top, bottom], range 0-1.
   # image_overlay: [0.2, 0.2]
-  # Target for the bouncing bottom arrow. Defaults to the home content.
+  # Text and target for the bottom sticker CTA. Defaults to the home content.
+  # cta_text: Start reading
   # cta_link: "#flatpaper-home-content"
+  # Sticker CTA background: 01-09, random, or a custom image path.
+  # cta_background: 01
   #
   # Quick navigation links in the hero. When configured, they replace the default wavy divider.
   # hero_links:

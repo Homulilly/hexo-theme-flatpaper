@@ -462,70 +462,68 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
 .home-hero__arrow {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  bottom: 13px;
   z-index: 4;
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: flex-start;
-  padding-top: 10px;
-  width: 90px;
-  height: 40px;
-  color: var(--ink-soft);
-  background: rgba(255, 253, 246, 0.72);
-  border: 1px dashed rgba(221, 208, 181, 0.8);
-  border-bottom: none;
-  border-radius: 45px 45px 0 0;
-  box-shadow: 0 -4px 16px rgba(82, 64, 38, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transform: translateX(-50%);
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  animation: pull-tab-breathe 2.5s ease-in-out infinite;
+  width: 180px;
+  height: 60px;
+  padding: 15px 42px 15px 28px;
+  color: #684029;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  text-decoration: none;
+  background-image: var(--hero-cta-bg, url('/images/home/cta/webp/cta-bg-01.webp'));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: drop-shadow(0 8px 14px rgba(82, 64, 38, 0.14));
+  transform: translateX(-50%) rotate(-0.6deg);
+  transition: transform 0.24s ease, filter 0.24s ease;
+  animation: pull-tab-breathe 2.8s ease-in-out infinite;
 }
 
 .home-hero__arrow:hover,
 .home-hero__arrow:focus-visible {
-  height: 52px;
-  padding-top: 14px;
-  color: var(--color-accent-strong);
-  background: rgba(255, 253, 246, 0.95);
-  border-color: var(--color-accent);
-  box-shadow: 0 -8px 24px rgba(82, 64, 38, 0.12);
+  color: #54311f;
+  filter: drop-shadow(0 12px 18px rgba(82, 64, 38, 0.18));
+  transform: translateX(-50%) translateY(4px) rotate(0.4deg);
+  animation: pull-tab-hover-press 1.2s ease-in-out infinite;
   outline: none;
 }
 
+.home-hero__arrow-text {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(255, 253, 246, 0.72);
+  transform: translate(3px, -1px);
+}
+
 .home-hero--image .home-hero__arrow {
-  color: #2c3531;
-  background: rgba(255, 253, 246, 0.94);
-  border-color: rgba(44, 53, 49, 0.2);
+  color: #684029;
+  filter: drop-shadow(0 9px 16px rgba(20, 16, 12, 0.28));
 }
 
 .home-hero--image .home-hero__arrow:hover,
 .home-hero--image .home-hero__arrow:focus-visible {
-  color: var(--color-accent-strong);
-  background: var(--color-accent-soft);
-  border-color: var(--color-accent);
-}
-
-.home-hero__arrow .lucide {
-  width: 22px;
-  height: 22px;
-  transition: transform 0.3s ease;
-  animation: pull-tab-icon-bounce 2.5s ease-in-out infinite;
-}
-
-.home-hero__arrow:hover .lucide {
-  animation: pull-tab-icon-bounce 1s ease-in-out infinite;
+  color: #54311f;
 }
 
 @keyframes pull-tab-breathe {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(3px); }
+  0%, 100% { transform: translateX(-50%) translateY(0) rotate(-0.6deg); }
+  50% { transform: translateX(-50%) translateY(3px) rotate(0.4deg); }
 }
 
-@keyframes pull-tab-icon-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(4px); }
+@keyframes pull-tab-hover-press {
+  0%, 100% { transform: translateX(-50%) translateY(4px) rotate(0.4deg); }
+  50% { transform: translateX(-50%) translateY(7px) rotate(-0.4deg); }
 }
 
 .hero-visit-confirm {
@@ -664,21 +662,16 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
 }
 
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow {
-  color: #fffdf6;
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
+  color: #684029;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.24));
 }
 
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow:hover,
 .dark-mode .home-hero:not(.home-hero--image) .home-hero__arrow:focus-visible {
-  color: var(--color-accent-muted);
-  background: rgba(255, 255, 255, 0.12);
-  border-color: var(--color-accent);
+  color: #54311f;
 }
 
-.dark-mode .home-hero--image .home-hero__tools .home-hero__tool,
-.dark-mode .home-hero--image .home-hero__arrow {
+.dark-mode .home-hero--image .home-hero__tools .home-hero__tool {
   color: #fffdf6;
   background: rgba(22, 25, 32, 0.68);
   border-color: rgba(255, 248, 236, 0.36);
@@ -687,20 +680,21 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   -webkit-backdrop-filter: blur(6px);
 }
 
-/* Arrow specifically gets light frosted glass */
 .dark-mode .home-hero--image .home-hero__arrow {
-  background-color: rgba(16, 18, 24, 0.45);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
+  color: #684029;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
 }
 
 .dark-mode .home-hero--image .home-hero__tools .home-hero__tool:hover,
-.dark-mode .home-hero--image .home-hero__tools .home-hero__tool:focus-visible,
-.dark-mode .home-hero--image .home-hero__arrow:hover,
-.dark-mode .home-hero--image .home-hero__arrow:focus-visible {
+.dark-mode .home-hero--image .home-hero__tools .home-hero__tool:focus-visible {
   color: var(--color-accent-muted);
   background: rgba(35, 39, 50, 0.86);
   border-color: var(--color-accent);
+}
+
+.dark-mode .home-hero--image .home-hero__arrow:hover,
+.dark-mode .home-hero--image .home-hero__arrow:focus-visible {
+  color: #54311f;
 }
 
 .dark-mode .home-hero__bio {
@@ -849,8 +843,7 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
     color: var(--ink-soft);
   }
 
-  .home-hero--image .home-hero__tools .home-hero__tool,
-  .home-hero--image .home-hero__arrow {
+  .home-hero--image .home-hero__tools .home-hero__tool {
     color: var(--ink-soft);
     background: rgba(255, 253, 246, 0.72);
     border-color: rgba(177, 157, 117, 0.72);
@@ -858,12 +851,18 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   }
 
   .home-hero--image .home-hero__tools .home-hero__tool:hover,
-  .home-hero--image .home-hero__tools .home-hero__tool:focus-visible,
-  .home-hero--image .home-hero__arrow:hover,
-  .home-hero--image .home-hero__arrow:focus-visible {
+  .home-hero--image .home-hero__tools .home-hero__tool:focus-visible {
     color: var(--color-accent-strong);
     background: var(--color-accent-soft);
     border-color: var(--color-accent);
+  }
+
+  .home-hero__arrow {
+    bottom: 11px;
+    width: 150px;
+    height: 50px;
+    padding: 13px 34px 12px 24px;
+    font-size: 13px;
   }
 
   .hero-sticker--note {
@@ -895,8 +894,7 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
     border-color: var(--dash);
   }
 
-  .dark-mode .home-hero--image .home-hero__tools .home-hero__tool,
-  .dark-mode .home-hero--image .home-hero__arrow {
+  .dark-mode .home-hero--image .home-hero__tools .home-hero__tool {
     color: var(--ink-soft);
     background: rgba(35, 39, 50, 0.78);
     border-color: var(--dash);
@@ -904,9 +902,7 @@ body .home-hero .home-hero__profile .home-hero__links a:focus-visible {
   }
 
   .dark-mode .home-hero--image .home-hero__tools .home-hero__tool:hover,
-  .dark-mode .home-hero--image .home-hero__tools .home-hero__tool:focus-visible,
-  .dark-mode .home-hero--image .home-hero__arrow:hover,
-  .dark-mode .home-hero--image .home-hero__arrow:focus-visible {
+  .dark-mode .home-hero--image .home-hero__tools .home-hero__tool:focus-visible {
     color: var(--color-accent-muted);
     background: var(--color-accent-soft);
     border-color: var(--color-accent);

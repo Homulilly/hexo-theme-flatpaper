@@ -192,7 +192,9 @@ home_hero:
     - /images/hero-1.jpg
     - /images/hero-2.jpg
   image_overlay: [0.2, 0.2]
+  cta_text: 开始阅读
   cta_link: "#flatpaper-home-content"
+  cta_background: 01
   hero_links:
     - name: 归档
       link: /archives/
@@ -223,7 +225,7 @@ home_hero:
 - `stickers.draggable` 为 `true` 时，开屏里的贴纸可以在当前页面内随机摆放并拖动，位置不会写入本地存储。
 - `stickers.note_text` 可修改内置便签贴纸的文字。
 - `stickers.items` 可添加图片贴纸；自定义贴纸最多渲染 5 张，加上内置便签后开屏最多 6 个 sticker。`image` 必填，`link` 可选，`size` 可选并限制在 48 到 180 像素。带 `link` 的贴纸会先弹出访问确认气泡，文案使用 `alt`，例如“要访问 GitHub 吗？”。
-- 底部跳动箭头会滚入首页内容；`cta_link` 可改成其它锚点，并会避开顶部导航遮挡。开屏不会根据滚动距离自动进入首页。
+- 底部贴纸按钮会滚入首页内容；`cta_text` 可修改可见文字，`cta_link` 可改成其它锚点，并会避开顶部导航遮挡。`cta_background` 默认使用中性的内置 `01`，也可设置为 `01`-`09`、`random`，或 `/images/my-cta.webp` 这样的自定义图片路径。
 
 ## 文章相关
 

@@ -192,7 +192,9 @@ home_hero:
     - /images/hero-1.jpg
     - /images/hero-2.jpg
   image_overlay: [0.2, 0.2]
+  cta_text: Start reading
   cta_link: "#flatpaper-home-content"
+  cta_background: 01
   hero_links:
     - name: Archives
       link: /archives/
@@ -223,7 +225,7 @@ home_hero:
 - With `stickers.draggable: true`, the hero stickers get randomized and can be dragged around the page for the current view. Positions are not persisted.
 - `stickers.note_text` changes the text on the built-in note sticker.
 - `stickers.items` adds image stickers. The hero renders up to 5 custom stickers, plus the built-in note. `image` is required, while `link` is optional. `size` is optional and clamped to 48-180 pixels. Stickers with `link` show a visit confirmation bubble first and use `alt` in the prompt, such as "Visit GitHub?".
-- The bouncing bottom arrow scrolls into the home content. `cta_link` can point to another anchor and offsets for the sticky header. The hero does not auto-enter the home content based on scroll distance.
+- The bottom sticker CTA scrolls into the home content. `cta_text` changes the visible label; `cta_link` can point to another anchor and offsets for the sticky header. `cta_background` defaults to the neutral built-in `01`; set it to `01`-`09`, `random`, or a custom image path such as `/images/my-cta.webp`.
 
 ## Posts
 

@@ -83,7 +83,7 @@ themes/flatpaper/
 - search dialog
 - heading anchors
 - TOC scrollspy and bottom lock
-- home hero random image, scroll arrow, sticker shuffle, sticker drag, and visit confirmation
+- home hero random image, sticker CTA, sticker shuffle, sticker drag, and visit confirmation
 - featured carousel
 - mobile sidebar drawer
 - desktop and drawer submenus

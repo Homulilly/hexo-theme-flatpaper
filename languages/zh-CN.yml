@@ -133,7 +133,7 @@ welcome:
 
 home_hero:
   label: 首页开屏
-  enter: 进入首页
+  enter: 开始阅读
   note: 今日
   default_subtitle: 日常记录
   nav_links: 开屏导航

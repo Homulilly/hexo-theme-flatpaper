@@ -124,8 +124,11 @@ home_hero:
   #
   # 背景图暗色遮罩透明度：[顶部, 底部]，范围 0-1。
   # image_overlay: [0.2, 0.2]
-  # 底部跳动箭头的目标锚点；默认进入首页内容区。
+  # 底部贴纸按钮的文字与目标锚点；默认进入首页内容区。
+  # cta_text: 开始阅读
   # cta_link: "#flatpaper-home-content"
+  # 贴纸按钮背景：01-09、random，或自定义图片路径。
+  # cta_background: 01
   #
   # Hero 区域的快速导航链接。配置后将替代默认的波浪线分隔符。
   # hero_links:

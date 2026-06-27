@@ -500,6 +500,23 @@
       hero.style.setProperty('--hero-bg-image', next);
     }
 
+    function applyRandomHeroCtaBackground() {
+      var trigger = hero.querySelector('[data-hero-cta-backgrounds]');
+      if (!trigger) return;
+      var rawImages = trigger.getAttribute('data-hero-cta-backgrounds');
+      if (!rawImages) return;
+      var images = [];
+      try { images = JSON.parse(rawImages); } catch (e) { images = []; }
+      images = images.filter(function (image) {
+        return typeof image === 'string' && image;
+      });
+      if (images.length < 2) return;
+      var selected = images[Math.floor(Math.random() * images.length)];
+      var next = 'url("' + selected.replace(/"/g, '\\"') + '")';
+      if (trigger.style.getPropertyValue('--hero-cta-bg').trim() === next) return;
+      trigger.style.setProperty('--hero-cta-bg', next);
+    }
+
     function homeTop() {
       if (!homeTarget) return hero.offsetTop + hero.offsetHeight;
       var headerHeight = header ? header.getBoundingClientRect().height : 0;
@@ -582,6 +599,7 @@
 
     var scrollLinks = hero.querySelectorAll('[data-hero-scroll]');
     applyRandomHeroImage();
+    applyRandomHeroCtaBackground();
     var heroSocialLinks = hero.querySelector('.home-hero__links');
     function syncClippedHeroLinks() {
       if (!heroSocialLinks) return;

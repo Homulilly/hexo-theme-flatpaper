@@ -133,7 +133,7 @@ welcome:
 
 home_hero:
   label: Home opening
-  enter: Go to content
+  enter: Start reading
   note: Today
   default_subtitle: Daily notes
   nav_links: Hero navigation
