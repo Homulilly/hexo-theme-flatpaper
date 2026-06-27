@@ -63,7 +63,8 @@ profile:
     # categories: /categories/
     # tags: /tags/
   social:
-    # 内置图标（按键名自动匹配，大小写不敏感）：
+    # 内置图标（按键名自动匹配，大小写不敏感）。未加前缀时优先匹配 Lucide；
+    # Font Awesome Free 6 可写 fa-solid:trash-can / fa-regular:heart / fa-brands:github。
     #   github, twitter, x, mail/email, rss,
     #   steam, bilibili, youtube, facebook, instagram, telegram, weibo
     # 写法 1：键 -> URL（按键名自动匹配图标）

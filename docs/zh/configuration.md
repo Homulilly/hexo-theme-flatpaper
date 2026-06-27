@@ -90,7 +90,21 @@ menu:
         icon: tag
 ```
 
-`icon` 会通过 `layout/_partial/icons.ejs` 解析。
+`icon` 会通过内置图标 registry 解析。未加前缀的名称优先匹配 Lucide，因此 `icon: archive` 这类旧写法继续可用。需要 Font Awesome Free 6 时加前缀：
+
+```yaml
+menu:
+  GitHub:
+    link: https://github.com/
+    icon: fa-brands:github
+  删除:
+    link: /trash/
+    icon: fa-solid:trash-can
+```
+
+FlatPaper 会在主题内置 Lucide 与 Font Awesome Free 6 图标定义，生成时只输出模板与配置实际用到的 symbol，不加载外部图标 CDN。
+
+Font Awesome Free 6 图标来自 Fonticons, Inc.，SVG 图标使用 CC BY 4.0；Lucide 图标使用 ISC License。版权说明见 `source/_data/icons/NOTICE.md`。
 
 ## Brand Links
 
@@ -134,6 +148,7 @@ profile:
 - `avatar_shape` 支持 `square` 或 `circle`。
 - `site_info` 中空值 / `false` 隐藏，`true` 显示纯文本，其他非空值渲染为链接。
 - `social` 键名会自动匹配内置图标：`github`、`twitter`、`x`、`mail/email`、`rss`、`steam`、`bilibili`、`youtube`、`facebook`、`instagram`、`telegram`、`weibo`。
+- 对象写法可以使用任意 registry 名称，例如 `icon: send`、`icon: fa-brands:mastodon` 或 `icon: fa-solid:globe`。
 
 对象写法可覆盖图标或提供内联 SVG：
 

@@ -63,7 +63,9 @@ profile:
     # categories: /categories/
     # tags: /tags/
   social:
-    # Built-in icons are matched by key name, case-insensitively:
+    # Built-in icons are matched by key name, case-insensitively. Unprefixed
+    # names prefer Lucide; Font Awesome Free 6 can use fa-solid:trash-can /
+    # fa-regular:heart / fa-brands:github.
     #   github, twitter, x, mail/email, rss,
     #   steam, bilibili, youtube, facebook, instagram, telegram, weibo
     # Form 1: key -> URL. The icon is matched by key name.

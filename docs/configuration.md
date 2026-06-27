@@ -90,7 +90,21 @@ menu:
         icon: tag
 ```
 
-`icon` values are resolved through `layout/_partial/icons.ejs`.
+`icon` values are resolved by the built-in icon registry. Unprefixed names prefer Lucide, so `icon: archive` keeps working. Use a prefix for Font Awesome Free 6:
+
+```yaml
+menu:
+  GitHub:
+    link: https://github.com/
+    icon: fa-brands:github
+  Trash:
+    link: /trash/
+    icon: fa-solid:trash-can
+```
+
+FlatPaper bundles Lucide and Font Awesome Free 6 icon definitions locally. During generation it emits only the symbols used by templates and your config, so generated pages do not load an external icon CDN.
+
+Font Awesome Free 6 icons are by Fonticons, Inc.; SVG icons are licensed under CC BY 4.0. Lucide icons are licensed under ISC. See `source/_data/icons/NOTICE.md`.
 
 ## Brand Links
 
@@ -134,6 +148,7 @@ profile:
 - `avatar_shape` accepts `square` or `circle`.
 - `site_info`: empty/`false` hides an item, `true` shows plain text, and any other non-empty value renders as a link.
 - `social` keys auto-match built-in icons: `github`, `twitter`, `x`, `mail/email`, `rss`, `steam`, `bilibili`, `youtube`, `facebook`, `instagram`, `telegram`, `weibo`.
+- Object social entries can use any registry name, for example `icon: send`, `icon: fa-brands:mastodon`, or `icon: fa-solid:globe`.
 - Object social entries may override the icon or provide inline SVG:
 
 ```yaml
