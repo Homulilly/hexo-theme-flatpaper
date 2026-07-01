@@ -289,18 +289,18 @@ Custom reaction buttons are useful for reward/donation QR codes. Image popovers 
 reactions:
   custom:
     - type: image
-      name: WeChat
-      icon: wechat
+      name: Weixin
+      icon: weixin
       align: right
-      image: /images/reward-wechat.jpg
-      title: WeChat reward
+      image: /images/reward-weixin.jpg
+      title: Weixin reward
 ```
 
 Fields:
 
 - `type`: currently `image`
 - `name`: button label
-- `icon`: built-in icon name, such as `gift`, `wechat`, `alipay`, `paypal`, `heart`
+- `icon`: built-in icon name, such as `gift`, `weixin`, `alipay`, `paypal`, `heart`
 - `align`: `left` or `right`
 - `image`: site path or absolute URL
 - `title`: optional popover title

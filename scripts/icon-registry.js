@@ -26,7 +26,7 @@ const BUILTIN_ICONS = [
   'folder', 'tag', 'eye', 'arrow-right', 'arrow-left', 'arrow-up',
   'chevron-right', 'chevron-left', 'chevron-down', 'chevron-up', 'send',
   'menu', 'panel-left', 'leaf', 'aperture', 'compass', 'users', 'radio',
-  'hash', 'gift', 'alipay', 'wechat', 'paypal', 'x-twitter', 'steam',
+  'hash', 'gift', 'alipay', 'weixin', 'paypal', 'x-twitter', 'steam',
   'bilibili', 'youtube', 'facebook', 'instagram', 'telegram', 'weibo'
 ];
 
@@ -44,7 +44,7 @@ const SOCIAL_ICON_ALIASES = {
   bilibili: 'bilibili',
   weibo: 'weibo',
   alipay: 'alipay',
-  wechat: 'wechat',
+  weixin: 'weixin',
   paypal: 'paypal'
 };
 

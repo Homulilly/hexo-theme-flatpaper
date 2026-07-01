@@ -184,8 +184,8 @@ article:
 # Hovering or clicking the button opens a bubble with an image, usually a payment QR code. Multiple items are supported.
 # Fields:
 #   type   Currently only image is supported.
-#   name   Text next to the button, such as Reward / WeChat / Alipay. Defaults to Reward.
-#   icon   Icon name: gift (default) | alipay | wechat | paypal | heart or any built-in icon.
+#   name   Text next to the button, such as Reward / Weixin / Alipay. Defaults to Reward.
+#   icon   Icon name: gift (default) | alipay | weixin | paypal | heart or any built-in icon.
 #   align  left (beside Comments) | right (beside Share, default).
 #   image  Image path under the site's source/ directory, such as /images/reward.jpg, or an absolute URL.
 #   title  Optional bubble title. Defaults to name.
@@ -193,10 +193,10 @@ reactions:
   custom:
     # - type: image
     #   name: Reward
-    #   icon: wechat
+    #   icon: weixin
     #   align: right
-    #   image: /images/reward-wechat.jpg
-    #   title: WeChat reward
+    #   image: /images/reward-weixin.jpg
+    #   title: Weixin reward
     # - type: image
     #   name: Alipay
     #   icon: alipay

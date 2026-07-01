@@ -290,9 +290,9 @@ reactions:
   custom:
     - type: image
       name: 微信
-      icon: wechat
+      icon: weixin
       align: right
-      image: /images/reward-wechat.jpg
+      image: /images/reward-weixin.jpg
       title: 微信赞赏
 ```
 
@@ -300,7 +300,7 @@ reactions:
 
 - `type`：目前支持 `image`
 - `name`：按钮文字
-- `icon`：内置图标名，如 `gift`、`wechat`、`alipay`、`paypal`、`heart`
+- `icon`：内置图标名，如 `gift`、`weixin`、`alipay`、`paypal`、`heart`
 - `align`：`left` 或 `right`
 - `image`：站内路径或绝对 URL
 - `title`：可选弹层标题
