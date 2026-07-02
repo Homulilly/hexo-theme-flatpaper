@@ -151,7 +151,7 @@
   width: 30px;
   pointer-events: none;
   background: var(--paper);
-  filter: drop-shadow(1px 0 0 rgba(255, 248, 236, 0.72)) drop-shadow(3px 1px 4px rgba(82, 64, 38, 0.22));
+  filter: drop-shadow(1px 0 0 rgba(255, 248, 236, 0.72)) drop-shadow(3px 1px 4px unquote('rgba(var(--paper-shadow-rgb), 0.22)'));
   clip-path: polygon(
     0 0,
     72% 0,

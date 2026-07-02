@@ -48,7 +48,7 @@ body::before {
   background: var(--paper);
   z-index: -1;
   border-radius: 4px;
-  filter: url(#paper-edge) drop-shadow(0 10px 22px rgba(82, 64, 38, 0.1));
+  filter: url(#paper-edge) drop-shadow(0 10px 22px unquote('rgba(var(--paper-shadow-rgb), 0.1)'));
 }
 
 .brand {
@@ -138,7 +138,7 @@ body::before {
   background: var(--paper);
   z-index: -1;
   border-radius: 6px;
-  filter: url(#paper-edge) drop-shadow(0 10px 22px rgba(82, 64, 38, 0.1));
+  filter: url(#paper-edge) drop-shadow(0 10px 22px unquote('rgba(var(--paper-shadow-rgb), 0.1)'));
 }
 
 .brand-nav-menu::before {
@@ -191,7 +191,7 @@ body::before {
   color: var(--color-accent-strong);
   background-color: var(--color-accent-soft);
   background-image: var(--nav-tape-stripes);
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  border-radius: var(--radius-handdrawn);
   transform: scale(1.02) rotate(-1deg);
 }
 
@@ -253,7 +253,7 @@ body::before {
   right: 8px;
   bottom: 8px;
   height: 14px;
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  border-radius: var(--radius-handdrawn);
   background-color: var(--color-accent-soft);
   background-image: var(--nav-tape-stripes);
   opacity: 0;
@@ -332,7 +332,7 @@ body::before {
   color: var(--color-accent-strong);
   background-color: var(--color-accent-soft);
   background-image: var(--nav-tape-stripes);
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  border-radius: var(--radius-handdrawn);
   transform: scale(1.02) rotate(-1deg);
 }
 
@@ -377,7 +377,7 @@ body::before {
   background: var(--paper);
   z-index: -1;
   border-radius: 6px;
-  filter: url(#paper-edge) drop-shadow(0 10px 22px rgba(82, 64, 38, 0.1));
+  filter: url(#paper-edge) drop-shadow(0 10px 22px unquote('rgba(var(--paper-shadow-rgb), 0.1)'));
 }
 
 .site-nav-item:hover .site-nav-menu {
@@ -464,7 +464,7 @@ body::before {
   background: var(--paper);
   z-index: -1;
   border-radius: 4px;
-  filter: url(#paper-edge) drop-shadow(0 10px 22px rgba(82, 64, 38, 0.1));
+  filter: url(#paper-edge) drop-shadow(0 10px 22px unquote('rgba(var(--paper-shadow-rgb), 0.1)'));
 }
 
 .accent-picker.is-open .accent-menu {

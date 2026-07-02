@@ -21,7 +21,7 @@
   background: #ffffff;
   margin: -16px -8px 6px -6px;
   border-radius: 2px;
-  box-shadow: 2px 4px 16px rgba(82, 64, 38, 0.15);
+  box-shadow: 2px 4px 16px unquote('rgba(var(--paper-shadow-rgb), 0.15)');
   transform: rotate(7deg);
   overflow: visible;
   filter: none;
@@ -50,8 +50,8 @@
   height: 14px;
   background-image: var(--tape-stripes);
   opacity: 0.85;
-  box-shadow: 0 2px 4px rgba(82, 64, 38, 0.15);
-  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  box-shadow: 0 2px 4px unquote('rgba(var(--paper-shadow-rgb), 0.15)');
+  border-radius: var(--radius-handdrawn);
   pointer-events: none;
 }
 

@@ -95,7 +95,7 @@
     linear-gradient(90deg, transparent 0, transparent 54px, rgba(221, 208, 181, 0.42) 54px, rgba(221, 208, 181, 0.42) 55px, transparent 55px),
     repeating-linear-gradient(180deg, transparent 0 27px, rgba(221, 208, 181, 0.18) 27px 28px),
     var(--paper);
-  box-shadow: 4px 5px 0 rgba(82, 64, 38, 0.08), var(--soft-shadow);
+  box-shadow: 4px 5px 0 unquote('rgba(var(--paper-shadow-rgb), 0.08)'), var(--soft-shadow);
   isolation: isolate;
   transform: rotate(var(--feed-tilt));
   transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
@@ -137,7 +137,7 @@
   height: 15px;
   background-color: var(--feed-tape);
   background-image: var(--tape-stripes);
-  box-shadow: 0 3px 8px rgba(82, 64, 38, 0.12);
+  box-shadow: 0 3px 8px unquote('rgba(var(--paper-shadow-rgb), 0.12)');
   filter: saturate(0.92);
   transform: rotate(-3deg);
 }
@@ -148,18 +148,18 @@
   z-index: -1;
   width: 6px;
   height: 48px;
-  border: 1px dashed rgba(82, 64, 38, 0.12);
+  border: 1px dashed unquote('rgba(var(--paper-shadow-rgb), 0.12)');
   border-left: 0;
   border-radius: 0 6px 6px 0;
   background: var(--feed-tab);
-  box-shadow: 2px 3px 0 rgba(82, 64, 38, 0.08);
+  box-shadow: 2px 3px 0 unquote('rgba(var(--paper-shadow-rgb), 0.08)');
   transition: width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), right 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .friends-feed-card:hover {
   transform: translateY(-3px) rotate(0deg);
   border-color: var(--color-accent);
-  box-shadow: 6px 8px 0 rgba(82, 64, 38, 0.1), var(--small-shadow);
+  box-shadow: 6px 8px 0 unquote('rgba(var(--paper-shadow-rgb), 0.1)'), var(--small-shadow);
 }
 
 .friends-feed-card:hover::after {
@@ -190,17 +190,17 @@
   width: 58px;
   height: 58px;
   margin-top: 2px;
-  border: 1px solid rgba(82, 64, 38, 0.12);
+  border: 1px solid unquote('rgba(var(--paper-shadow-rgb), 0.12)');
   border-radius: 8px;
   background: var(--paper-solid);
-  box-shadow: 2px 3px 0 rgba(82, 64, 38, 0.08);
+  box-shadow: 2px 3px 0 unquote('rgba(var(--paper-shadow-rgb), 0.08)');
   transform: rotate(-2deg);
   transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
 .friends-feed-card:hover .friends-feed-card__avatar-link {
   border-color: var(--color-accent);
-  box-shadow: 3px 5px 0 rgba(82, 64, 38, 0.1);
+  box-shadow: 3px 5px 0 unquote('rgba(var(--paper-shadow-rgb), 0.1)');
   transform: rotate(0deg) translateY(-1px);
 }
 
@@ -259,7 +259,7 @@ img.friends-feed-card__avatar {
   min-width: 0;
   min-height: 24px;
   padding: 3px 9px;
-  border-radius: 255px 18px 225px 18px/18px 225px 18px 255px;
+  border-radius: var(--radius-handdrawn-wide);
   background: var(--feed-tab);
   overflow: hidden;
   text-overflow: ellipsis;

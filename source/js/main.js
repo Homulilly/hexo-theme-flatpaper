@@ -52,6 +52,12 @@
   root.setAttribute('data-accent', activeAccent);
   var stored = safeStorage.get('flatpaper-mode');
   if (stored === 'dark') root.classList.add('dark-mode');
+  var themeColorMeta = document.querySelector('meta[name="theme-color"][data-flatpaper-theme-color]');
+
+  function syncThemeColor() {
+    if (!themeColorMeta) return;
+    themeColorMeta.setAttribute('content', root.classList.contains('dark-mode') ? '#15171c' : '#f7f3e9');
+  }
 
   function setAccent(value) {
     if (accents.indexOf(value) === -1) value = defaultAccent;
@@ -63,6 +69,7 @@
   }
 
   setAccent(activeAccent);
+  syncThemeColor();
 
   function bindGlobalOnce() {
     var brandNavWrapper = document.querySelector('.brand-mark-wrapper');
@@ -174,6 +181,7 @@
       toggle.addEventListener('click', function () {
         root.classList.toggle('dark-mode');
         safeStorage.set('flatpaper-mode', root.classList.contains('dark-mode') ? 'dark' : 'light');
+        syncThemeColor();
       });
     });
 
