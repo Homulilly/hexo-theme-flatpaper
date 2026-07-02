@@ -1,0 +1,118 @@
+/* ============== COMPATIBILITY FALLBACKS ============== */
+/* Keep modern declarations in their feature files. These fallbacks only apply
+   where older engines would otherwise drop color-mix() or dvh-based values. */
+
+@supports not (color: color-mix(in srgb, #000, #fff)) {
+  :root {
+    --nav-tape-stripes: var(--tape-stripes);
+  }
+
+  .article-content :not(pre) > code {
+    background: var(--color-accent-soft);
+    border: 1px solid var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent-soft);
+  }
+
+  .dark-mode .article-content :not(pre) > code {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-muted);
+    box-shadow: 0 0 0 2px var(--color-accent-soft);
+  }
+
+  .article-content .highlight .code-copy.is-copied {
+    border-color: var(--color-accent-muted);
+    background: var(--color-accent-soft);
+  }
+
+  body[data-code-theme="sand"] .article-content .highlight .code-copy.is-copied {
+    border-color: var(--color-accent-strong);
+    background: var(--color-accent-soft);
+  }
+
+  body[data-code-theme="simple"] {
+    --code-gutter-hover-bg: rgba(44, 53, 49, 0.07);
+    --code-gutter-hl-bg: rgba(240, 189, 77, 0.26);
+    --code-line-hl-bg: rgba(240, 189, 77, 0.14);
+  }
+
+  .dark-mode body[data-code-theme="simple"] {
+    --code-gutter-hover-bg: rgba(255, 255, 255, 0.07);
+    --code-gutter-hl-bg: rgba(232, 192, 101, 0.22);
+    --code-line-hl-bg: rgba(232, 192, 101, 0.12);
+  }
+
+  .article-content .highlight td.gutter .line.is-copied {
+    background: var(--color-accent-muted);
+  }
+
+  .article-content th {
+    background: var(--paper-warm);
+  }
+
+  .article-paper--with-top-img .article-header {
+    border-bottom-color: var(--line);
+  }
+
+  .article-content a:not(.heading-anchor) {
+    text-decoration-color: var(--color-accent);
+  }
+
+  .dark-mode .article-content a:not(.heading-anchor) {
+    text-decoration-color: var(--color-accent-muted);
+  }
+
+  .article-content mark,
+  .dark-mode .article-content mark {
+    background: var(--color-accent-soft);
+  }
+
+  .article-content blockquote {
+    border: 1px solid var(--line);
+    background: var(--paper-warm);
+  }
+
+  .dark-mode .article-content blockquote {
+    border-color: var(--line);
+  }
+
+  .toc-toggle-all {
+    background: var(--paper);
+  }
+
+  .toc-toggle-all:hover {
+    background: var(--color-accent-soft);
+  }
+
+  body[data-note-style="sticky"] .flatpaper-note {
+    border: 1px solid var(--note-border);
+    background: var(--note-bg);
+  }
+
+  body[data-note-style="sticky"] .flatpaper-note::before {
+    background:
+      repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px 7px),
+      var(--note-accent);
+  }
+
+  .flatpaper-tabs__nav-item:hover:not(.is-active) {
+    background-color: var(--dash);
+  }
+
+  @media (max-width: 600px) {
+    .article-content h2 .heading-anchor,
+    .article-content h3 .heading-anchor {
+      background-color: var(--color-accent-soft);
+    }
+
+    .dark-mode .article-content h2 .heading-anchor,
+    .dark-mode .article-content h3 .heading-anchor {
+      background-color: var(--color-accent-muted);
+    }
+  }
+}
+
+@supports not (height: 100dvh) {
+  .paper-shell--article .paper-sidebar .post-sticky-stack {
+    max-height: calc(100vh - 130px);
+  }
+}
