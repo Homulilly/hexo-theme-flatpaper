@@ -3,9 +3,9 @@
   --note-accent-rgb: var(--muted-rgb);
   --note-bg-opacity: 0.08;
   --note-border-opacity: 0.35;
-  --note-accent: rgb(var(--note-accent-rgb));
-  --note-bg: rgba(var(--note-accent-rgb), var(--note-bg-opacity));
-  --note-border: rgba(var(--note-accent-rgb), var(--note-border-opacity));
+  --note-accent: unquote('rgb(var(--note-accent-rgb))');
+  --note-bg: unquote('rgba(var(--note-accent-rgb), var(--note-bg-opacity))');
+  --note-border: unquote('rgba(var(--note-accent-rgb), var(--note-border-opacity))');
 
   position: relative;
   display: grid;
