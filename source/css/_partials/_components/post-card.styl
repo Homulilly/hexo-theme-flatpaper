@@ -14,8 +14,16 @@
   transition: transform 0.22s ease;
 }
 
-.post-card::before {
-  transition: filter 0.22s ease;
+.post-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -2;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
 }
 
 .post-card a {
@@ -27,8 +35,8 @@
   transform: translateY(-3px);
 }
 
-.post-card:hover::before {
-  filter: url(#paper-edge) drop-shadow(var(--shadow));
+.post-card:hover::after {
+  opacity: 1;
 }
 
 .post-thumb-link {

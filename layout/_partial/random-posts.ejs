@@ -9,12 +9,9 @@ if (randomPoolLimit > 0) {
   randomPool = randomPool.slice(0, randomPoolLimit);
 }
 var randomPosts = randomLimit > 0 ? randomPool.slice(0, randomLimit) : [];
-function jsonForScript(value) {
-  return JSON.stringify(value).replace(/<\//g, '<\\/');
-}
 %>
 <% if (randomPosts.length) { %>
-  <section class="side-card recent-card" data-random-posts-limit="<%= randomLimit %>">
+  <section class="side-card recent-card" data-random-posts-limit="<%= randomLimit %>" data-random-posts-url="<%- url_for('flatpaper-random-posts.json') %>" data-random-posts-current="<%- page.path ? url_for(page.path) : '' %>">
     <h2><%- partial('_partial/icons', { icon: 'shuffle' }) %><%= flatpaper_i18n('common.random_posts') %></h2>
     <ul class="recent-list js-random-posts">
       <% randomPosts.forEach(function (post) { %>
@@ -26,16 +23,5 @@ function jsonForScript(value) {
         </li>
       <% }) %>
     </ul>
-    <script type="application/json" class="js-random-posts-data">
-    [
-    <% randomPool.forEach(function (post, index, arr) { %>
-      {
-        "title": <%- jsonForScript(post.title || 'Untitled') %>,
-        "url": <%- jsonForScript(url_for(post.path)) %>,
-        "date": <%- jsonForScript(date(post.date, 'YYYY-MM-DD')) %>
-      }<%= index < arr.length - 1 ? ',' : '' %>
-    <% }) %>
-    ]
-    </script>
   </section>
 <% } %>

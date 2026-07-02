@@ -72,6 +72,7 @@
 .empty-paper {
   position: relative;
   z-index: 1;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
 .side-card::after,
@@ -88,7 +89,7 @@
   background: var(--paper);
   z-index: -1;
   border-radius: 4px;
-  filter: url(#paper-edge) drop-shadow(0 2px 6px rgba(0,0,0,0.06));
+  filter: url(#paper-edge);
 }
 
 /* Sidebar cards follow the post-card lift treatment for a consistent paper stack. */
@@ -97,9 +98,20 @@
   transition: transform 0.22s ease;
 }
 
-.side-card::after,
-.welcome-card::before {
-  transition: filter 0.22s ease;
+.side-card {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.welcome-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -2;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
 }
 
 .side-card:hover,
@@ -107,9 +119,12 @@
   transform: translateY(-3px);
 }
 
-.side-card:hover::after,
-.welcome-card:hover::before {
-  filter: url(#paper-edge) drop-shadow(var(--shadow));
+.side-card:hover {
+  box-shadow: var(--shadow);
+}
+
+.welcome-card:hover::after {
+  opacity: 1;
 }
 
 .side-card {

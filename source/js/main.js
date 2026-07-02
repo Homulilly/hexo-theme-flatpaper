@@ -228,38 +228,98 @@
     return copy;
   }
 
+  var randomPostsCache = {};
+  var randomPostsLoading = {};
+
+  function renderRandomPostsCard(card, pool) {
+    var list = card.querySelector('.js-random-posts');
+    if (!list || !pool || !pool.length) return;
+
+    var currentUrl = card.getAttribute('data-random-posts-current') || '';
+    if (currentUrl) {
+      pool = pool.filter(function (post) {
+        return post && post.url !== currentUrl;
+      });
+    }
+    if (!pool.length) return;
+
+    var limit = parseInt(card.dataset.randomPostsLimit, 10);
+    if (!limit || limit < 1) limit = 5;
+    var selected = shufflePosts(pool).slice(0, limit);
+    if (!selected.length) return;
+
+    list.innerHTML = '';
+    selected.forEach(function (post) {
+      var item = document.createElement('li');
+      var link = document.createElement('a');
+      link.className = 'recent-item';
+      link.href = post.url || '#';
+
+      var title = document.createElement('strong');
+      title.textContent = post.title || 'Untitled';
+      link.appendChild(title);
+
+      var date = document.createElement('em');
+      date.textContent = post.date || '';
+      link.appendChild(date);
+
+      item.appendChild(link);
+      list.appendChild(item);
+    });
+  }
+
+  function loadRandomPosts(url, done) {
+    if (Object.prototype.hasOwnProperty.call(randomPostsCache, url)) {
+      done(randomPostsCache[url]);
+      return;
+    }
+
+    if (randomPostsLoading[url]) {
+      randomPostsLoading[url].push(done);
+      return;
+    }
+
+    randomPostsLoading[url] = [done];
+    fetch(url, { headers: { Accept: 'application/json,text/plain,*/*' } }).then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }).then(function (data) {
+      randomPostsCache[url] = Array.isArray(data) ? data : [];
+    }).catch(function () {
+      randomPostsCache[url] = [];
+    }).then(function () {
+      var callbacks = randomPostsLoading[url] || [];
+      delete randomPostsLoading[url];
+      callbacks.forEach(function (callback) {
+        callback(randomPostsCache[url]);
+      });
+    });
+  }
+
+  function inlineRandomPosts(card) {
+    var data = card.querySelector('.js-random-posts-data');
+    if (!data) return null;
+
+    try {
+      var parsed = JSON.parse(data.textContent.trim() || '[]');
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
   function renderRandomPosts() {
     document.querySelectorAll('.recent-card[data-random-posts-limit]').forEach(function (card) {
-      var list = card.querySelector('.js-random-posts');
-      var data = card.querySelector('.js-random-posts-data');
-      if (!list || !data) return;
+      var inlinePool = inlineRandomPosts(card);
+      if (inlinePool) {
+        renderRandomPostsCard(card, inlinePool);
+        return;
+      }
 
-      var pool = [];
-      try { pool = JSON.parse(data.textContent.trim() || '[]'); } catch (e) { pool = []; }
-      if (!pool.length) return;
-
-      var limit = parseInt(card.dataset.randomPostsLimit, 10);
-      if (!limit || limit < 1) limit = 5;
-      var selected = shufflePosts(pool).slice(0, limit);
-      if (!selected.length) return;
-
-      list.innerHTML = '';
-      selected.forEach(function (post) {
-        var item = document.createElement('li');
-        var link = document.createElement('a');
-        link.className = 'recent-item';
-        link.href = post.url || '#';
-
-        var title = document.createElement('strong');
-        title.textContent = post.title || 'Untitled';
-        link.appendChild(title);
-
-        var date = document.createElement('em');
-        date.textContent = post.date || '';
-        link.appendChild(date);
-
-        item.appendChild(link);
-        list.appendChild(item);
+      var url = card.getAttribute('data-random-posts-url');
+      if (!url || typeof fetch !== 'function') return;
+      loadRandomPosts(url, function (pool) {
+        renderRandomPostsCard(card, pool);
       });
     });
   }
@@ -1156,24 +1216,66 @@
     if (!gutterLines.length || gutterLines.length !== codeLines.length) return;
 
     Array.prototype.forEach.call(gutterLines, function (gLine, idx) {
-      var cLine = codeLines[idx];
-      var clickTimer = null;
+      gLine.setAttribute('data-code-line-index', String(idx));
+    });
 
-      gLine.addEventListener('click', function () {
-        if (clickTimer) return;
-        clickTimer = setTimeout(function () {
-          clickTimer = null;
-          gLine.classList.toggle('is-highlight');
-          cLine.classList.toggle('is-highlight');
-        }, 220);
-      });
+    var pendingClick = null;
 
-      gLine.addEventListener('dblclick', function () {
-        if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; }
-        copyText(cLine.innerText, function () {
-          gLine.classList.add('is-copied');
-          setTimeout(function () { gLine.classList.remove('is-copied'); }, 500);
-        });
+    function lineFromEvent(event) {
+      var line = event.target.closest && event.target.closest('.line');
+      if (!line || !gutterPre.contains(line)) return null;
+      var idx = Number(line.getAttribute('data-code-line-index'));
+      if (!isFinite(idx) || idx < 0 || !codeLines[idx]) return null;
+      return {
+        gutter: line,
+        code: codeLines[idx]
+      };
+    }
+
+    function clearPendingClick() {
+      if (!pendingClick) return;
+      clearTimeout(pendingClick.timer);
+      pendingClick = null;
+    }
+
+    function applyPendingClick() {
+      if (!pendingClick) return;
+      var target = pendingClick;
+      clearTimeout(target.timer);
+      pendingClick = null;
+      target.gutter.classList.toggle('is-highlight');
+      target.code.classList.toggle('is-highlight');
+    }
+
+    gutterPre.addEventListener('click', function (event) {
+      var target = lineFromEvent(event);
+      if (!target) return;
+
+      if (pendingClick) {
+        if (pendingClick.gutter === target.gutter) return;
+        applyPendingClick();
+      }
+
+      pendingClick = {
+        gutter: target.gutter,
+        code: target.code,
+        timer: setTimeout(applyPendingClick, 220)
+      };
+    });
+
+    gutterPre.addEventListener('dblclick', function (event) {
+      var target = lineFromEvent(event);
+      if (!target) return;
+
+      if (pendingClick && pendingClick.gutter === target.gutter) {
+        clearPendingClick();
+      } else {
+        applyPendingClick();
+      }
+
+      copyText(target.code.innerText, function () {
+        target.gutter.classList.add('is-copied');
+        setTimeout(function () { target.gutter.classList.remove('is-copied'); }, 500);
       });
     });
   }
