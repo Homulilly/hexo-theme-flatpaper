@@ -1,8 +1,11 @@
 /* ============== NOTE BLOCKS ============== */
 .flatpaper-note {
-  --note-accent: #8a8678;
-  --note-bg: rgba(138, 134, 120, 0.08);
-  --note-border: rgba(138, 134, 120, 0.35);
+  --note-accent-rgb: var(--muted-rgb);
+  --note-bg-opacity: 0.08;
+  --note-border-opacity: 0.35;
+  --note-accent: rgb(var(--note-accent-rgb));
+  --note-bg: rgba(var(--note-accent-rgb), var(--note-bg-opacity));
+  --note-border: rgba(var(--note-accent-rgb), var(--note-border-opacity));
 
   position: relative;
   display: grid;
@@ -41,12 +44,12 @@
   line-height: 1;
 }
 
-.flatpaper-note--default { --note-accent: #8a8678; --note-bg: rgba(138, 134, 120, 0.1);  --note-border: rgba(138, 134, 120, 0.4); }
-.flatpaper-note--primary { --note-accent: #9c8feb; --note-bg: rgba(156, 143, 235, 0.1);  --note-border: rgba(156, 143, 235, 0.45); }
-.flatpaper-note--success { --note-accent: #6fa67c; --note-bg: rgba(111, 166, 124, 0.12); --note-border: rgba(111, 166, 124, 0.45); }
-.flatpaper-note--info    { --note-accent: #6fa9d9; --note-bg: rgba(111, 169, 217, 0.12); --note-border: rgba(111, 169, 217, 0.45); }
-.flatpaper-note--warning { --note-accent: #f0bd4d; --note-bg: rgba(240, 189, 77, 0.14);  --note-border: rgba(240, 189, 77, 0.5);  }
-.flatpaper-note--danger  { --note-accent: #d4716c; --note-bg: rgba(212, 113, 108, 0.13); --note-border: rgba(212, 113, 108, 0.5);  }
+.flatpaper-note--default { --note-accent-rgb: var(--muted-rgb);  --note-bg-opacity: 0.1;  --note-border-opacity: 0.4;  }
+.flatpaper-note--primary { --note-accent-rgb: var(--violet-rgb); --note-bg-opacity: 0.1;  --note-border-opacity: 0.45; }
+.flatpaper-note--success { --note-accent-rgb: var(--green-rgb);  --note-bg-opacity: 0.12; --note-border-opacity: 0.45; }
+.flatpaper-note--info    { --note-accent-rgb: var(--blue-rgb);   --note-bg-opacity: 0.12; --note-border-opacity: 0.45; }
+.flatpaper-note--warning { --note-accent-rgb: var(--yellow-rgb); --note-bg-opacity: 0.14; --note-border-opacity: 0.5;  }
+.flatpaper-note--danger  { --note-accent-rgb: var(--red-rgb);    --note-bg-opacity: 0.13; --note-border-opacity: 0.5;  }
 
 .flatpaper-note--success .flatpaper-note__icon::before { content: "✓"; font-family: inherit; font-style: normal; font-size: 13px; }
 .flatpaper-note--warning .flatpaper-note__icon::before { content: "!"; font-family: inherit; font-style: normal; font-size: 14px; }
@@ -257,4 +260,3 @@ body[data-note-style="disabled"] details.flatpaper-note > .flatpaper-note__body 
   padding: 4px 0 0;
   border-top: 0;
 }
-
