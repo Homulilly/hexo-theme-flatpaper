@@ -2,7 +2,7 @@
 /* Keep modern declarations in their feature files. These fallbacks only apply
    where older engines would otherwise drop color-mix() or dvh-based values. */
 
-@supports not (color: color-mix(in srgb, #000, #fff)) {
+@supports not (color: unquote('color-mix(in srgb, #000, #fff)')) {
   :root {
     --nav-tape-stripes: var(--tape-stripes);
   }
