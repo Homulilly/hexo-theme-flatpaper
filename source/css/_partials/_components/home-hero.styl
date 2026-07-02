@@ -275,6 +275,8 @@ body.has-home-hero.is-hero-active::before {
 }
 
 .home-hero .home-hero__profile .home-hero__links a {
+  --hero-bookmark-border: rgba(106, 84, 48, 0.4);
+
   position: relative;
   display: flex;
   justify-content: center;
@@ -282,7 +284,7 @@ body.has-home-hero.is-hero-active::before {
   width: 36px;
   height: 49px;
   padding-bottom: 8px;
-  border: 1px dashed rgba(106, 84, 48, 0.4);
+  border: 1px dashed var(--hero-bookmark-border);
   border-top: none;
   border-radius: 0 0 4px 4px;
   box-shadow: 2px 4px 10px unquote('rgba(var(--paper-shadow-rgb), 0.15)');
@@ -314,12 +316,14 @@ body.has-home-hero.is-hero-active::before {
   height: 65px;
   transform: rotate(0deg);
   outline: none;
+  border-color: var(--hero-bookmark-border);
   box-shadow: 2px 6px 14px unquote('rgba(var(--paper-shadow-rgb), 0.2)');
   background-image: var(--tape-stripes);
 }
 
 .home-hero--image .home-hero__profile .home-hero__links a {
-  border-color: rgba(255, 248, 236, 0.45);
+  --hero-bookmark-border: rgba(255, 248, 236, 0.45);
+
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
@@ -721,7 +725,8 @@ body.has-home-hero.is-hero-active::before {
 }
 
 .dark-mode .home-hero .home-hero__profile .home-hero__links a {
-  border-color: rgba(255, 255, 255, 0.15);
+  --hero-bookmark-border: rgba(255, 255, 255, 0.15);
+
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
