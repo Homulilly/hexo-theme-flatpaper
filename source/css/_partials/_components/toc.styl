@@ -104,7 +104,7 @@
   color: var(--muted);
   line-height: 1.5;
   text-decoration: none;
-  transition: color 0.18s ease, padding-left 0.25s cubic-bezier(0.34, 1.6, 0.64, 1);
+  transition: color 0.18s ease, transform 0.25s cubic-bezier(0.34, 1.6, 0.64, 1);
 }
 
 /* left accent bar: hidden by default, slides in with a slight bounce
@@ -129,7 +129,7 @@
 
 .toc-content a:hover {
   color: var(--color-accent-strong);
-  padding-left: 16px;
+  transform: translateX(6px);
 }
 
 .dark-mode .toc-content a:hover {

@@ -299,7 +299,6 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
 
 .article-content a:not(.heading-anchor) {
   position: relative;
-  top: 0;
   color: var(--color-accent-strong);
   font-weight: 600;
   text-decoration-line: underline;
@@ -308,11 +307,10 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
   text-decoration-thickness: 1.5px;
   text-underline-offset: 4px;
   overflow-wrap: anywhere;
-  transition: color 0.18s ease, text-decoration-color 0.18s ease, top 0.18s ease;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease;
 }
 
 .article-content a:not(.heading-anchor):hover {
-  top: -1px;
   color: var(--color-accent-strong);
   text-decoration-color: var(--color-accent-strong);
 }
@@ -323,7 +321,6 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
 }
 
 .dark-mode .article-content a:not(.heading-anchor):hover {
-  top: -1px;
   color: var(--color-accent-muted);
   text-decoration-color: var(--color-accent-muted);
 }
