@@ -47,14 +47,35 @@ function safeUrl(value, kind) {
 
 hexo.extend.helper.register('flatpaper_safe_url', safeUrl);
 
+function postCacheKey(post) {
+  if (!post) return '';
+  return String(post._id || post.path || post.permalink || post.slug || post.title || '');
+}
+
+function relationItemId(item) {
+  if (!item) return '';
+  return String(item._id || item.path || item.slug || item.name || '');
+}
+
+function relationIds(relation) {
+  if (!relation || typeof relation.toArray !== 'function') return [];
+  return relation.toArray().map(relationItemId).filter(Boolean);
+}
+
 function resolvePostCover(post) {
   if (!post) return '';
+  const key = postCacheKey(post);
+  if (key && _postCoverCache.has(key)) return _postCoverCache.get(key);
+
   let cover = post.cover || post.thumbnail || post.image || post.banner || '';
   if (!cover && post.content) {
     const m = String(post.content).match(/<img[^>]+src=["']([^"'>]+)["']/i);
     if (m) cover = m[1];
   }
-  return cover || '';
+
+  const resolved = cover || '';
+  if (key) _postCoverCache.set(key, resolved);
+  return resolved;
 }
 
 hexo.extend.helper.register('flatpaper_cover_info', function (post, fallback) {
@@ -133,13 +154,28 @@ hexo.extend.helper.register('flatpaper_page_top_img_info', function (page) {
 });
 
 // Posts sorted newest-first, cached for the current generate pass.
-// Several partials (random-posts, sidebar-right, post.ejs related list,
-// index.ejs featured resolver) all call site.posts.sort('date', -1).toArray()
-// independently — on big sites that adds up. The cache is dropped at the
+// Several partials need the same newest-first post list, and repeating that
+// sort in every template adds up on big sites. The cache is dropped at the
 // start of every generate pass (below), so watch/server rebuilds pick up ANY
 // post change — including edits to existing posts, which a count-based check
 // would miss.
 let _sortedPostsCache = null;
+let _postCoverCache = new Map();
+let _postTaxonomyCache = null;
+
+function buildPostTaxonomyCache(posts) {
+  const cache = new Map();
+  posts.forEach((post) => {
+    const key = postCacheKey(post);
+    if (!key) return;
+    cache.set(key, {
+      catIds: relationIds(post.categories),
+      tagIds: relationIds(post.tags)
+    });
+  });
+  return cache;
+}
+
 hexo.extend.helper.register('flatpaper_sorted_posts', function () {
   const posts = this.site.posts;
   if (!posts) return [];
@@ -148,8 +184,30 @@ hexo.extend.helper.register('flatpaper_sorted_posts', function () {
   return _sortedPostsCache;
 });
 
+hexo.extend.helper.register('flatpaper_post_taxonomy_meta', function (post) {
+  if (!post) return { catIds: [], tagIds: [] };
+  if (!_postTaxonomyCache) {
+    const posts = this.site && this.site.posts && typeof this.site.posts.toArray === 'function'
+      ? this.site.posts.toArray()
+      : [];
+    _postTaxonomyCache = buildPostTaxonomyCache(posts);
+  }
+
+  const key = postCacheKey(post);
+  if (key && _postTaxonomyCache.has(key)) return _postTaxonomyCache.get(key);
+
+  const meta = {
+    catIds: relationIds(post.categories),
+    tagIds: relationIds(post.tags)
+  };
+  if (key) _postTaxonomyCache.set(key, meta);
+  return meta;
+});
+
 hexo.extend.filter.register('before_generate', function () {
   _sortedPostsCache = null;
+  _postCoverCache = new Map();
+  _postTaxonomyCache = null;
 });
 
 // ---------------- NOTE ----------------

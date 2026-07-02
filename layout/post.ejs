@@ -22,25 +22,25 @@ customReactions.forEach(function (item) {
   (String(item.align || 'right').toLowerCase() === 'left' ? leftReactions : rightReactions).push(item);
 });
 var allPosts = relatedCount > 0 ? flatpaper_sorted_posts() : [];
+var pageTaxonomy = relatedCount > 0 ? flatpaper_post_taxonomy_meta(page) : { catIds: [], tagIds: [] };
 
 // Build id sets for fast match
 var curCatIds = {};
-categories.forEach(function (c) { curCatIds[c._id || c.path || c.name] = true; });
+pageTaxonomy.catIds.forEach(function (id) { curCatIds[id] = true; });
 var curTagIds = {};
-tags.forEach(function (t) { curTagIds[t._id || t.path || t.name] = true; });
+pageTaxonomy.tagIds.forEach(function (id) { curTagIds[id] = true; });
 
 var CAT_WEIGHT = 3;
 var TAG_WEIGHT = 2;
 
 function score(post) {
   var s = 0;
-  var cats = post.categories ? post.categories.toArray() : [];
-  cats.forEach(function (c) {
-    if (curCatIds[c._id || c.path || c.name]) s += CAT_WEIGHT;
+  var meta = flatpaper_post_taxonomy_meta(post);
+  meta.catIds.forEach(function (id) {
+    if (curCatIds[id]) s += CAT_WEIGHT;
   });
-  var ts = post.tags ? post.tags.toArray() : [];
-  ts.forEach(function (t) {
-    if (curTagIds[t._id || t.path || t.name]) s += TAG_WEIGHT;
+  meta.tagIds.forEach(function (id) {
+    if (curTagIds[id]) s += TAG_WEIGHT;
   });
   return s;
 }

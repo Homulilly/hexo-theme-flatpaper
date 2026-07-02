@@ -33,17 +33,11 @@ function truncateText(value, max) {
 function collectionPosts() {
   if (page.posts && typeof page.posts.toArray === 'function') return page.posts.toArray();
   if (typeof flatpaper_sorted_posts === 'function') return flatpaper_sorted_posts();
-  if (typeof site !== 'undefined' && site.posts && typeof site.posts.sort === 'function') {
-    return site.posts.sort('date', -1).toArray();
-  }
   return [];
 }
 
 function allPosts() {
   if (typeof flatpaper_sorted_posts === 'function') return flatpaper_sorted_posts();
-  if (typeof site !== 'undefined' && site.posts && typeof site.posts.sort === 'function') {
-    return site.posts.sort('date', -1).toArray();
-  }
   return [];
 }
 

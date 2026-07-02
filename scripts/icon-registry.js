@@ -64,7 +64,6 @@ const FA_CLASS_STYLES = {
   'fa-brands': 'fa-brands'
 };
 
-const usedIcons = new Map();
 let registries;
 
 function loadJson(file) {
@@ -162,11 +161,6 @@ function sanitizeClass(value) {
   return String(value || '').replace(/[^a-z0-9_ -]/gi, '').trim();
 }
 
-function rememberIcon(icon) {
-  if (!icon) return;
-  usedIcons.set(iconKey(icon.library, icon.name), icon);
-}
-
 function addIconName(value, target) {
   const icon = resolveIcon(value);
   if (!icon) return;
@@ -207,7 +201,6 @@ function collectConfiguredIcons() {
   collectSocialKeys(theme.profile && theme.profile.social, target);
   collectSocialKeys(theme.home_hero && theme.home_hero.social, target);
 
-  usedIcons.forEach((icon, key) => target.set(key, icon));
   return Array.from(target.values());
 }
 
@@ -224,7 +217,6 @@ function renderIcon(value, options) {
   const icon = resolveIcon(value);
 
   if (!icon) return renderFallbackIcon(value, size, cls);
-  rememberIcon(icon);
 
   const isLucide = icon.library === 'lucide';
   const id = symbolId(icon.library, icon.name);
