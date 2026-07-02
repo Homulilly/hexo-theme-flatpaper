@@ -4,7 +4,9 @@
 // comments section (posts and standalone `page` layouts, when front-matter
 // hasn't opted out via `comments: false`).
 var sys = theme.comments ? String(theme.comments).toLowerCase() : '';
-var isContentPage = is_post() || page.layout === 'page';
+var pageTypeKey = String(page.type || '').toLowerCase();
+var isNotFoundPage = page.layout === '404' || pageTypeKey === '404';
+var isContentPage = (is_post() || page.layout === 'page') && !isNotFoundPage;
 if (!isContentPage || page.comments === false) { sys = ''; }
 
 if (sys === 'twikoo' && theme.twikoo && theme.twikoo.envId) {

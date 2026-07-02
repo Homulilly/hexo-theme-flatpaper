@@ -32,10 +32,105 @@ function truncateText(value, max) {
 
 function collectionPosts() {
   if (page.posts && typeof page.posts.toArray === 'function') return page.posts.toArray();
+  if (typeof flatpaper_sorted_posts === 'function') return flatpaper_sorted_posts();
   if (typeof site !== 'undefined' && site.posts && typeof site.posts.sort === 'function') {
     return site.posts.sort('date', -1).toArray();
   }
   return [];
+}
+
+function allPosts() {
+  if (typeof flatpaper_sorted_posts === 'function') return flatpaper_sorted_posts();
+  if (typeof site !== 'undefined' && site.posts && typeof site.posts.sort === 'function') {
+    return site.posts.sort('date', -1).toArray();
+  }
+  return [];
+}
+
+function toArray(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  if (typeof value.toArray === 'function') return value.toArray();
+  return [];
+}
+
+function collectionLength(value) {
+  if (!value) return null;
+  if (typeof value.length === 'number') return value.length;
+  if (typeof value.count === 'function') return value.count();
+  if (typeof value.toArray === 'function') return value.toArray().length;
+  return null;
+}
+
+function normalizedPath(value) {
+  return String(value || '')
+    .split(/[?#]/)[0]
+    .replace(/^\/+/, '')
+    .replace(/\/+$/, '')
+    .replace(/(^|\/)index\.html$/i, '')
+    .replace(/\/+$/, '')
+    .toLowerCase();
+}
+
+function taxonomyName(value) {
+  if (value && typeof value === 'object') return value.name || value.slug || value.path || value._id || '';
+  return value;
+}
+
+function taxonomyPostCount(collection, name) {
+  var target = String(taxonomyName(name) || '').toLowerCase();
+  var targetPath = normalizedPath(taxonomyName(name));
+  var items = toArray(collection);
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var names = [item.name, item.slug, item._id].map(function (v) { return String(v || '').toLowerCase(); });
+    var paths = [item.path, item.permalink].map(normalizedPath);
+    if (names.indexOf(target) > -1 || paths.indexOf(targetPath) > -1) {
+      var count = collectionLength(item.posts);
+      return count == null ? collectionLength(item) : count;
+    }
+  }
+  return null;
+}
+
+function postYear(post) {
+  var date = post.date;
+  if (!date) return null;
+  if (typeof date.year === 'function') return date.year();
+  var parsed = new Date(date);
+  return isNaN(parsed.getTime()) ? null : parsed.getFullYear();
+}
+
+function postMonth(post) {
+  var date = post.date;
+  if (!date) return null;
+  if (typeof date.month === 'function') return date.month() + 1;
+  var parsed = new Date(date);
+  return isNaN(parsed.getTime()) ? null : parsed.getMonth() + 1;
+}
+
+function archivePostCount() {
+  var posts = allPosts();
+  if (!page.year) return posts.length;
+  var year = Number(page.year);
+  var month = page.month ? Number(page.month) : null;
+  return posts.filter(function (post) {
+    return postYear(post) === year && (!month || postMonth(post) === month);
+  }).length;
+}
+
+function listPostCount(posts) {
+  if (is_tag()) {
+    var tagCount = taxonomyPostCount(site.tags, page.tag);
+    return tagCount == null ? posts.length : tagCount;
+  }
+  if (is_category()) {
+    var categoryCount = taxonomyPostCount(site.categories, page.category);
+    return categoryCount == null ? posts.length : categoryCount;
+  }
+  if (is_archive()) return archivePostCount();
+  if (is_home()) return allPosts().length;
+  return posts.length;
 }
 
 function postTitles(posts, limit) {
@@ -54,9 +149,9 @@ function pageNumberSuffix() {
   return page.current && page.current > 1 ? (htmlLang === 'en' ? ' Page ' + page.current + '.' : ' 第 ' + page.current + ' 页。') : '';
 }
 
-function listDescription(label, posts) {
+function listDescription(label, posts, totalCount) {
   var titles = postTitles(posts, 3);
-  var count = countText(posts.length);
+  var count = countText(typeof totalCount === 'number' ? totalCount : posts.length);
   if (htmlLang === 'en') {
     return titles.length
       ? label + ' includes ' + count + ', including ' + joinTitles(titles) + '.' + pageNumberSuffix()
@@ -72,17 +167,17 @@ function resolveDescription() {
   if (is_post()) return truncateText(page.excerpt || page.content || siteDescription, 180);
   var posts = collectionPosts();
   if (is_tag()) {
-    return truncateText(listDescription(htmlLang === 'en' ? 'Tag "' + page.tag + '"' : '标签「' + page.tag + '」', posts), 180);
+    return truncateText(listDescription(htmlLang === 'en' ? 'Tag "' + page.tag + '"' : '标签「' + page.tag + '」', posts, listPostCount(posts)), 180);
   }
   if (is_category()) {
-    return truncateText(listDescription(htmlLang === 'en' ? 'Category "' + page.category + '"' : '分类「' + page.category + '」', posts), 180);
+    return truncateText(listDescription(htmlLang === 'en' ? 'Category "' + page.category + '"' : '分类「' + page.category + '」', posts, listPostCount(posts)), 180);
   }
   if (is_archive()) {
     var archiveLabel = titleParts.length ? titleParts[0] : flatpaper_i18n('head.archive');
-    return truncateText(listDescription(archiveLabel, posts), 180);
+    return truncateText(listDescription(archiveLabel, posts, listPostCount(posts)), 180);
   }
   if (is_home()) {
-    return truncateText(posts.length ? listDescription(siteTitle, posts) : siteDescription, 180);
+    return truncateText(posts.length ? listDescription(siteTitle, posts, listPostCount(posts)) : siteDescription, 180);
   }
   return truncateText(page.excerpt || page.content || siteDescription, 180);
 }

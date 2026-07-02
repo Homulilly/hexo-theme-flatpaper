@@ -51,9 +51,21 @@ hexo.extend.helper.register('flatpaper_menu_helpers', function () {
   }
 
   function active(hrefValue) {
-    var hrefPath = String(hrefValue || '');
-    if (!hrefPath) return false;
-    return (hrefPath === '/' && ctx.is_home()) || (hrefPath !== '/' && ctx.page.path && ctx.page.path.indexOf(hrefPath.replace(/^\//, '')) === 0);
+    var rawHref = String(hrefValue || '').trim();
+    if (!rawHref || rawHref.charAt(0) === '#' || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(rawHref)) return false;
+    var hrefPath = normalizePath(rawHref);
+    if (!hrefPath) return ctx.is_home();
+    var pagePath = normalizePath(ctx.page && ctx.page.path);
+    return pagePath === hrefPath || pagePath.indexOf(hrefPath + '/') === 0;
+  }
+
+  function normalizePath(value) {
+    return String(value || '')
+      .split(/[?#]/)[0]
+      .replace(/^\/+/, '')
+      .replace(/\/+$/, '')
+      .replace(/(^|\/)index\.html$/i, '')
+      .replace(/\/+$/, '');
   }
 
   return { children: children, href: href, icon: icon, text: text, active: active };
