@@ -286,7 +286,7 @@ body.has-home-hero.is-hero-active::before {
   border-top: none;
   border-radius: 0 0 4px 4px;
   box-shadow: 2px 4px 10px rgba(82, 64, 38, 0.15);
-  transition: height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  transition: height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.3s, box-shadow 0.3s;
   background-image: var(--tape-stripes);
   flex: 0 0 auto;
 }
@@ -321,14 +321,6 @@ body.has-home-hero.is-hero-active::before {
 .home-hero--image .home-hero__profile .home-hero__links a {
   border-color: rgba(255, 248, 236, 0.45);
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
-}
-
-
-
-.home-hero--image .home-hero__profile .home-hero__links a:hover,
-.home-hero--image .home-hero__profile .home-hero__links a:focus-visible {
-  background-color: rgba(255, 253, 246, 0.92);
-  color: var(--color-accent-strong);
 }
 
 .home-hero__stickers {
@@ -747,13 +739,6 @@ body.has-home-hero.is-hero-active::before {
 .dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+2) { background-color: rgba(195, 140, 60, 0.95); }
 .dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+3) { background-color: rgba(80, 145, 95, 0.95); }
 .dark-mode .home-hero--image .home-hero__profile .home-hero__links a:nth-child(4n+4) { background-color: rgba(75, 125, 165, 0.95); }
-
-.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:hover,
-.dark-mode .home-hero--image .home-hero__profile .home-hero__links a:focus-visible {
-  background-color: rgba(35, 39, 50, 0.86);
-  color: var(--color-accent-muted);
-}
-
 .dark-mode .hero-sticker--note {
   color: #42331e;
 }
