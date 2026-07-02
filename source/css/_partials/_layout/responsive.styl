@@ -21,8 +21,8 @@
   inset: 0;
   z-index: 60;
   background: rgba(46, 36, 22, 0.36);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s ease, visibility 0s linear 0.25s;
@@ -307,7 +307,7 @@
     padding: 14px 18px 26px;
     background: var(--bg);
     border-right: 2px dashed var(--dash);
-    box-shadow: 12px 0 28px rgba(60, 44, 22, 0.18);
+    box-shadow: none;
     transform: translateX(-100%);
     transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
     overflow-y: auto;
@@ -316,6 +316,7 @@
 
   .paper-shell > .paper-sidebar--right.is-open,
   .paper-shell:not(.paper-shell--article) > .paper-sidebar--right.is-open {
+    box-shadow: 12px 0 28px rgba(60, 44, 22, 0.18);
     transform: translateX(0);
   }
 
