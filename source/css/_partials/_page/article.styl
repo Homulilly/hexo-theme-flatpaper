@@ -306,13 +306,20 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
   text-decoration-color: unquote('color-mix(in srgb, var(--color-accent) 52%, transparent)');
   text-decoration-thickness: 1.5px;
   text-underline-offset: 4px;
+  text-decoration-skip-ink: none;
   overflow-wrap: anywhere;
-  transition: color 0.18s ease, text-decoration-color 0.18s ease;
+  transition:
+    color 0.18s ease,
+    text-decoration-color 0.18s ease,
+    text-decoration-thickness 0.18s ease;
 }
 
-.article-content a:not(.heading-anchor):hover {
+.article-content a:not(.heading-anchor):hover,
+.article-content a:not(.heading-anchor):focus-visible {
   color: var(--color-accent-strong);
   text-decoration-color: var(--color-accent-strong);
+  animation: flatpaper-link-wave 0.32s ease-out 1;
+  outline: none;
 }
 
 .dark-mode .article-content a:not(.heading-anchor) {
@@ -320,9 +327,32 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
   text-decoration-color: unquote('color-mix(in srgb, var(--color-accent-muted) 38%, transparent)');
 }
 
-.dark-mode .article-content a:not(.heading-anchor):hover {
+.dark-mode .article-content a:not(.heading-anchor):hover,
+.dark-mode .article-content a:not(.heading-anchor):focus-visible {
   color: var(--color-accent-muted);
   text-decoration-color: var(--color-accent-muted);
+}
+
+@keyframes flatpaper-link-wave {
+  0% {
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1.5px;
+  }
+  60% {
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1.75px;
+  }
+  100% {
+    text-underline-offset: 4.5px;
+    text-decoration-thickness: 1.65px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-content a:not(.heading-anchor):hover,
+  .article-content a:not(.heading-anchor):focus-visible {
+    animation: none;
+  }
 }
 
 /* highlighter marker: solid accent fill + uneven radius mimic a felt-tip
