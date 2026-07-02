@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ICON_DIR = path.join(hexo.theme_dir, 'source', '_data', 'icons');
+const ICON_SPRITE_PATH = 'icons.svg';
 const ICON_PREFIXES = {
   lucide: 'lucide',
   fa: 'fa-solid',
@@ -117,6 +118,18 @@ function symbolId(library, name) {
   return 'flatpaper-icon-' + library + '-' + name;
 }
 
+function iconViewBox(icon) {
+  const icons = loadRegistries();
+  const data = icons[icon.library][icon.name];
+  return icon.library === 'lucide' ? '0 0 24 24' : data.viewBox;
+}
+
+function iconPaintAttrs(icon) {
+  return icon.library === 'lucide'
+    ? 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'
+    : 'fill="currentColor"';
+}
+
 function resolveIcon(value) {
   const icons = loadRegistries();
   const raw = normalizeIconName(value);
@@ -218,8 +231,11 @@ function renderIcon(value, options) {
 
   if (!icon) return renderFallbackIcon(value, size, cls);
 
-  const isLucide = icon.library === 'lucide';
   const id = symbolId(icon.library, icon.name);
+  const spriteUrl = this && typeof this.url_for === 'function'
+    ? this.url_for(ICON_SPRITE_PATH)
+    : '/' + ICON_SPRITE_PATH;
+  const href = spriteUrl + '#' + id;
   const className = [
     'lucide',
     'lucide-' + icon.name,
@@ -227,29 +243,34 @@ function renderIcon(value, options) {
     'flatpaper-icon--' + icon.library,
     cls
   ].filter(Boolean).join(' ');
-  const attrs = isLucide
-    ? 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"'
-    : 'fill="currentColor"';
+  const attrs = iconPaintAttrs(icon);
 
-  return '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '" ' + attrs + ' class="' + escapeAttr(className) + '" aria-hidden="true"><use href="#' + escapeAttr(id) + '"></use></svg>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '" viewBox="' + escapeAttr(iconViewBox(icon)) + '" ' + attrs + ' class="' + escapeAttr(className) + '" aria-hidden="true"><use href="' + escapeAttr(href) + '"></use></svg>';
 }
 
 function renderSymbol(icon) {
   const icons = loadRegistries();
   const data = icons[icon.library][icon.name];
   const id = symbolId(icon.library, icon.name);
-  const viewBox = icon.library === 'lucide' ? '0 0 24 24' : data.viewBox;
+  const viewBox = iconViewBox(icon);
   const body = icon.library === 'lucide' ? data : data.body;
 
-  return '<symbol id="' + escapeAttr(id) + '" viewBox="' + escapeAttr(viewBox) + '">' + body + '</symbol>';
+  return '<symbol id="' + escapeAttr(id) + '" viewBox="' + escapeAttr(viewBox) + '" ' + iconPaintAttrs(icon) + '>' + body + '</symbol>';
 }
 
-function renderSprite() {
+function renderSpriteDocument() {
   const symbols = collectConfiguredIcons().map(renderSymbol).join('');
   if (!symbols) return '';
 
-  return '<svg class="flatpaper-icon-sprite" xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true" focusable="false"><defs>' + symbols + '</defs></svg>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>' + symbols + '</defs></svg>';
 }
 
 hexo.extend.helper.register('flatpaper_icon', renderIcon);
-hexo.extend.helper.register('flatpaper_icon_sprite', renderSprite);
+hexo.extend.helper.register('flatpaper_icon_sprite', function () { return ''; });
+
+hexo.extend.generator.register('flatpaper_icon_sprite', function () {
+  return {
+    path: ICON_SPRITE_PATH,
+    data: renderSpriteDocument()
+  };
+});
