@@ -59,7 +59,6 @@ var pageTopImg = flatpaper_page_top_img_info(page);
     data-page-size="<%= pageSize %>"
     data-avatar-fallback="<%= avatarFallback %>"
     aria-label="<%= flatpaper_i18n('guestbook.title') %>"
-    aria-live="polite"
   >
     <div class="guestbook-wall__summary" hidden>
       <span class="guestbook-wall__stat" data-guestbook-stat="total"></span>
@@ -68,7 +67,7 @@ var pageTopImg = flatpaper_page_top_img_info(page);
       <a class="guestbook-wall__write" href="#<%= commentAnchor %>"><%= flatpaper_i18n('guestbook.write_hint') %></a>
     </div>
 
-    <p class="guestbook-wall__state" data-guestbook-state><%= wallEnabled ? flatpaper_i18n('guestbook.loading') : flatpaper_i18n('guestbook.missing_config') %></p>
+    <p class="guestbook-wall__state" data-guestbook-state aria-live="polite"><%= wallEnabled ? flatpaper_i18n('guestbook.loading') : flatpaper_i18n('guestbook.missing_config') %></p>
     <ul class="guestbook-wall__list" data-guestbook-list></ul>
     <button class="guestbook-wall__more" type="button" data-guestbook-more hidden><%= flatpaper_i18n('guestbook.load_more') %></button>
   </section>

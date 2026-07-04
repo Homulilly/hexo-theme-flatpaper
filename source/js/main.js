@@ -646,13 +646,16 @@
         }
       }
 
-      function createCard(message, index) {
+      function createCard(message) {
         var seed = hashSeed(message.anchorId || message.nick + message.created);
         var item = document.createElement('li');
         item.className = 'guestbook-card-wrap';
 
         var card = document.createElement('div');
-        var rotationIndex = (seed + index * 3) % ROTATION_COUNT;
+        // Tilt is derived purely from the comment's seed so a card keeps the
+        // same angle across reloads/re-sorts (no layout jumps); paper color
+        // and translation below are likewise seed-only.
+        var rotationIndex = seed % ROTATION_COUNT;
         card.className = 'guestbook-card guestbook-card--p' + (seed % PAPER_COUNT) + ' guestbook-card--r' + rotationIndex;
 
         // Add random small translation to make it look slightly imperfect but avoid heavy overlaps
@@ -722,6 +725,7 @@
             img.src = src;
             img.alt = '';
             img.loading = 'lazy';
+            img.referrerPolicy = 'no-referrer';
             img.className = isEmotion ? 'guestbook-card__image guestbook-card__image--emotion' : 'guestbook-card__image';
             if (hasFancybox && !isEmotion) {
               var a = document.createElement('a');
@@ -770,8 +774,8 @@
 
       function renderNext() {
         var next = messages.slice(shown, shown + pageSize);
-        next.forEach(function (message, index) {
-          list.appendChild(createCard(message, shown + index));
+        next.forEach(function (message) {
+          list.appendChild(createCard(message));
         });
         shown += next.length;
         more.hidden = shown >= messages.length;
@@ -825,16 +829,20 @@
             }).then(function (raw) {
               var items = Array.isArray(raw) ? raw : [];
               var normalized = items.map(function (item) {
-                var div = document.createElement('div');
-                div.innerHTML = String(item.comment || '').trim();
+                // Parse the comment HTML with DOMParser rather than assigning
+                // to a live element's innerHTML: the resulting document has no
+                // browsing context, so <img src=x onerror=…> and other inline
+                // handlers never fire while we extract text/images.
+                var doc = new DOMParser().parseFromString(String(item.comment || ''), 'text/html');
                 var images = [];
-                Array.from(div.querySelectorAll('img')).forEach(function (img) {
+                Array.from(doc.querySelectorAll('img')).forEach(function (img) {
                   var cls = img.className || '';
-                  var isEmotion = cls.indexOf('emotion') !== -1 || cls.indexOf('sticker') !== -1 || img.src.indexOf('bilibili') !== -1 || img.src.indexOf('tieba') !== -1;
-                  var image = normalizeCommentImage(img.src, isEmotion);
+                  var src = img.getAttribute('src') || '';
+                  var isEmotion = cls.indexOf('emotion') !== -1 || cls.indexOf('sticker') !== -1 || src.indexOf('bilibili') !== -1 || src.indexOf('tieba') !== -1;
+                  var image = normalizeCommentImage(src, isEmotion);
                   if (image) images.push(image);
                 });
-                var text = div.textContent.trim();
+                var text = (doc.body.textContent || '').trim();
                 if (!text && !images.length) return null;
                 var created = item.created;
                 if (typeof created !== 'number') created = parseInt(created, 10) || 0;
@@ -882,23 +890,27 @@
               var contentStr = String(item.content || '').trim();
               var images = [];
 
+              // Markdown images: pure string matching, no DOM/resource load.
               var mdRegex = /!\[.*?\]\((.*?)\)/g;
               var match;
               while ((match = mdRegex.exec(contentStr)) !== null) {
                 var mdImage = normalizeCommentImage(match[1], false);
                 if (mdImage) images.push(mdImage);
               }
-              var htmlRegex = /<img[^>]+src=["'](.*?)["']/gi;
-              while ((match = htmlRegex.exec(contentStr)) !== null) {
-                var isEmotion = match[0].indexOf('emotion') !== -1 || match[0].indexOf('sticker') !== -1 || match[1].indexOf('bilibili') !== -1;
-                var htmlImage = normalizeCommentImage(match[1], isEmotion);
-                if (htmlImage) images.push(htmlImage);
-              }
 
-              var cleanText = contentStr.replace(/!\[.*?\]\(.*?\)/g, '').replace(/<img[^>]*>/gi, '');
-              var textDiv = document.createElement('div');
-              textDiv.innerHTML = cleanText;
-              var text = textDiv.textContent.trim();
+              // HTML images + text: parse via DOMParser so inline event
+              // handlers on any embedded HTML can't fire (see Twikoo adapter).
+              var doc = new DOMParser().parseFromString(contentStr, 'text/html');
+              Array.from(doc.querySelectorAll('img')).forEach(function (imgEl) {
+                var cls = imgEl.className || '';
+                var src = imgEl.getAttribute('src') || '';
+                var isEmotion = cls.indexOf('emotion') !== -1 || cls.indexOf('sticker') !== -1 || src.indexOf('bilibili') !== -1;
+                var htmlImage = normalizeCommentImage(src, isEmotion);
+                if (htmlImage) images.push(htmlImage);
+              });
+
+              // textContent still holds literal markdown image syntax; drop it.
+              var text = (doc.body.textContent || '').replace(/!\[.*?\]\(.*?\)/g, '').trim();
 
               if (!text && !images.length) return null;
               var created = Date.parse(String(item.date || '').replace(/\//g, '-').replace(' ', 'T')) || 0;
