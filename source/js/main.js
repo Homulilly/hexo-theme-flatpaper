@@ -820,13 +820,7 @@
                 div.innerHTML = String(item.comment || '').trim();
                 var images = [];
                 Array.from(div.querySelectorAll('img')).forEach(function (img) {
-                  var cls = img.className || '';
-                  if (cls.indexOf('emotion') !== -1 || cls.indexOf('sticker') !== -1) {
-                    var altText = img.alt || '';
-                    if (altText) img.parentNode.replaceChild(document.createTextNode(altText), img);
-                  } else {
-                    images.push(img.src);
-                  }
+                  images.push(img.src);
                 });
                 var text = div.textContent.trim();
                 if (!text && !images.length) return null;
