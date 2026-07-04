@@ -708,13 +708,15 @@
           var imgContainer = document.createElement('div');
           imgContainer.className = 'guestbook-card__images';
           var hasFancybox = document.documentElement.getAttribute('data-fancybox-enabled') === '1';
-          message.images.forEach(function (src) {
+          message.images.forEach(function (imgData) {
+            var src = typeof imgData === 'string' ? imgData : imgData.src;
+            var isEmotion = typeof imgData === 'object' && imgData.isEmotion;
             var img = document.createElement('img');
             img.src = src;
             img.alt = '';
             img.loading = 'lazy';
-            img.className = 'guestbook-card__image';
-            if (hasFancybox) {
+            img.className = isEmotion ? 'guestbook-card__image guestbook-card__image--emotion' : 'guestbook-card__image';
+            if (hasFancybox && !isEmotion) {
               var a = document.createElement('a');
               a.href = src;
               a.setAttribute('data-fancybox', 'guestbook-wall');
@@ -820,7 +822,9 @@
                 div.innerHTML = String(item.comment || '').trim();
                 var images = [];
                 Array.from(div.querySelectorAll('img')).forEach(function (img) {
-                  images.push(img.src);
+                  var cls = img.className || '';
+                  var isEmotion = cls.indexOf('emotion') !== -1 || cls.indexOf('sticker') !== -1 || img.src.indexOf('bilibili') !== -1 || img.src.indexOf('tieba') !== -1;
+                  images.push({ src: img.src, isEmotion: isEmotion });
                 });
                 var text = div.textContent.trim();
                 if (!text && !images.length) return null;
@@ -873,11 +877,12 @@
               var mdRegex = /!\[.*?\]\((.*?)\)/g;
               var match;
               while ((match = mdRegex.exec(contentStr)) !== null) {
-                images.push(match[1]);
+                images.push({ src: match[1], isEmotion: false });
               }
               var htmlRegex = /<img[^>]+src=["'](.*?)["']/gi;
               while ((match = htmlRegex.exec(contentStr)) !== null) {
-                images.push(match[1]);
+                var isEmotion = match[0].indexOf('emotion') !== -1 || match[0].indexOf('sticker') !== -1 || match[1].indexOf('bilibili') !== -1;
+                images.push({ src: match[1], isEmotion: isEmotion });
               }
               
               var cleanText = contentStr.replace(/!\[.*?\]\(.*?\)/g, '').replace(/<img[^>]*>/gi, '');

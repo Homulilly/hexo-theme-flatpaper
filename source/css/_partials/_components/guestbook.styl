@@ -324,21 +324,37 @@
 
 .guestbook-card__images {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 8px;
   margin-bottom: 16px;
 }
 
+.guestbook-card__images > a {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+
 .guestbook-card__image {
+  flex: 0 0 auto;
   display: block;
   max-width: 100%;
   height: auto;
   border-radius: 4px;
   border: 1px solid unquote('rgba(var(--paper-shadow-rgb), 0.1)');
-  background: var(--paper-warm);
+  background: transparent;
   box-shadow: 0 1px 3px unquote('rgba(var(--paper-shadow-rgb), 0.12)');
   object-fit: contain;
   cursor: zoom-in;
+}
+
+.guestbook-card__image--emotion {
+  max-width: 45px;
+  max-height: 45px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
 }
 
 .guestbook-card__jump {
