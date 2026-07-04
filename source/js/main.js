@@ -694,6 +694,8 @@
           who.appendChild(time);
         }
         meta.appendChild(who);
+        
+        card.appendChild(meta);
 
         if (message.text) {
           var text = document.createElement('p');
@@ -711,7 +713,6 @@
             img.alt = '';
             img.loading = 'lazy';
             img.className = 'guestbook-card__image';
-            // Allow clicking to preview using Fancybox if enabled globally
             img.setAttribute('data-fancybox', 'guestbook-wall');
             imgContainer.appendChild(img);
           });
