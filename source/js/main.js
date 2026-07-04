@@ -542,12 +542,12 @@
       // Where the real comment section below mounts; fallback jump target.
       var mountId = system === 'artalk' ? 'artalk-comments' : 'tcomment';
 
-      // Card look (sticky-note color + tilt) is derived from a hash of the
+      // Card look (envelope color + tilt) is derived from a hash of the
       // comment id: stable across reloads (no layout jumps), still "random"
       // across the wall. Paper palettes live in guestbook.styl (--p0..--p4).
       var PAPER_COUNT = 5;
       var TAPE_COLORS = ['var(--tape-yellow)', 'var(--tape-pink)', 'var(--tape-green)', 'var(--tape-blue)', 'var(--tape-brown)'];
-      var ROTATIONS = [-4.5, -3, -1.5, 1.5, 3, 4.5];
+      var ROTATION_MAGNITUDES = [2, 3.5, 5, 6.5, 8];
 
       function setState(message, isError) {
         state.textContent = message || '';
@@ -597,11 +597,13 @@
         }
       }
 
-      function createCard(message) {
+      function createCard(message, index) {
         var seed = hashSeed(message.anchorId || message.nick + message.created);
         var item = document.createElement('li');
+        var rotation = ROTATION_MAGNITUDES[(seed >> 4) % ROTATION_MAGNITUDES.length];
+        if (index % 2 === 0) rotation *= -1;
         item.className = 'guestbook-card guestbook-card--p' + (seed % PAPER_COUNT);
-        item.style.setProperty('--gb-rotate', ROTATIONS[(seed >> 4) % ROTATIONS.length] + 'deg');
+        item.style.setProperty('--gb-rotate', rotation + 'deg');
         item.style.setProperty('--gb-tape', TAPE_COLORS[(seed >> 2) % TAPE_COLORS.length]);
 
         var tape = document.createElement('span');
@@ -670,8 +672,8 @@
 
       function renderNext() {
         var next = messages.slice(shown, shown + pageSize);
-        next.forEach(function (message) {
-          list.appendChild(createCard(message));
+        next.forEach(function (message, index) {
+          list.appendChild(createCard(message, shown + index));
         });
         shown += next.length;
         more.hidden = shown >= messages.length;
