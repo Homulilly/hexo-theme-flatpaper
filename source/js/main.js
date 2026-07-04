@@ -612,6 +612,12 @@
         var rotationIndex = (seed + index * 3) % ROTATION_COUNT;
         item.className = 'guestbook-card guestbook-card--p' + (seed % PAPER_COUNT) + ' guestbook-card--r' + rotationIndex;
 
+        // Add random small translation to make it look manually placed
+        var tx = (seed % 9) - 4; // -4 to 4
+        var ty = ((seed * 7) % 9) - 4; // -4 to 4
+        item.style.setProperty('--gb-tx', tx + 'px');
+        item.style.setProperty('--gb-ty', ty + 'px');
+
         var meta = document.createElement('div');
         meta.className = 'guestbook-card__meta';
 

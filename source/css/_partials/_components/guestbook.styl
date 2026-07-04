@@ -110,16 +110,33 @@
   margin: 4px;
   padding: 18px 18px 38px;
   border: 1px dashed var(--gb-edge);
-  border-radius: 0;
+  border-radius: 2px 4px 3px 2px / 4px 2px 3px 4px; /* irregular edge */
   color: var(--gb-ink);
   background: var(--gb-paper);
   box-shadow: 5px 7px 0 unquote('rgba(var(--paper-shadow-rgb), 0.1)'), 0 10px 18px -14px unquote('rgba(var(--paper-shadow-rgb), 0.28)');
-  transform: rotate(var(--gb-rotate));
+  transform: translate(var(--gb-tx, 0), var(--gb-ty, 0)) rotate(var(--gb-rotate));
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Washi tape at the top of the card */
+.guestbook-card::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 48px;
+  height: 20px;
+  margin-left: -24px;
+  background: var(--tape-yellow);
+  background-image: var(--tape-stripes);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px unquote('rgba(var(--paper-shadow-rgb), 0.1)');
+  transform: rotate(-3deg);
+  z-index: 3;
+}
+
 .guestbook-card:hover {
-  transform: rotate(0deg) translateY(-2px);
+  transform: translate(var(--gb-tx, 0), calc(var(--gb-ty, 0) - 2px)) rotate(0deg);
   box-shadow: 6px 9px 0 unquote('rgba(var(--paper-shadow-rgb), 0.13)'), 0 14px 22px -15px unquote('rgba(var(--paper-shadow-rgb), 0.32)');
   z-index: 2;
 }
@@ -127,18 +144,22 @@
 .guestbook-card--p1 {
   --gb-hue: var(--red);
 }
+.guestbook-card--p1::before { background-color: var(--tape-pink); transform: rotate(2deg); }
 
 .guestbook-card--p2 {
   --gb-hue: var(--blue);
 }
+.guestbook-card--p2::before { background-color: var(--tape-blue); transform: rotate(-4deg); }
 
 .guestbook-card--p3 {
   --gb-hue: var(--violet);
 }
+.guestbook-card--p3::before { background-color: var(--tape-green); transform: rotate(1deg); }
 
 .guestbook-card--p4 {
   --gb-hue: var(--orange);
 }
+.guestbook-card--p4::before { background-color: var(--tape-brown); transform: rotate(4deg); }
 
 .dark-mode .guestbook-card {
   --gb-paper: unquote('color-mix(in srgb, var(--gb-hue) 26%, var(--paper-solid) 74%)');
@@ -184,6 +205,7 @@
 
 /* Avatar as a pasted postage stamp: paper padding outside the image/glyph. */
 .guestbook-card__stamp {
+  position: relative;
   flex: none;
   order: 2;
   display: inline-flex;
@@ -201,12 +223,35 @@
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
+/* Postmark stamp effect overlaying the avatar */
+.guestbook-card__stamp::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--gb-stamp-outline);
+  border-radius: 50%;
+  opacity: 0.18;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 40%, var(--gb-stamp-outline) 42%, transparent 44%, transparent 56%, var(--gb-stamp-outline) 58%, transparent 60%);
+  transform: rotate(-15deg);
+  z-index: 2;
+  mix-blend-mode: multiply;
+}
+.dark-mode .guestbook-card__stamp::after {
+  mix-blend-mode: screen;
+}
+
 .guestbook-card:hover .guestbook-card__stamp {
   box-shadow: 3px 3px 0 var(--gb-stamp-lift-shadow), 0 4px 8px unquote('rgba(var(--paper-shadow-rgb), 0.16)');
   transform: translateY(-1px) rotate(var(--gb-stamp-hover-rotate));
 }
 
 .guestbook-card__avatar {
+  position: relative;
+  z-index: 3;
   display: block;
   width: 100%;
   height: 100%;
@@ -235,7 +280,8 @@
 
 .guestbook-card__nick {
   color: inherit;
-  font-size: 14px;
+  font-family: 'Caveat', 'Patrick Hand', 'Comic Sans MS', cursive, var(--font-sans);
+  font-size: 16px;
   font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -252,7 +298,8 @@
   border: 0;
   color: inherit;
   opacity: 0.58;
-  font-size: 11px;
+  font-family: 'Caveat', 'Patrick Hand', 'Comic Sans MS', cursive, var(--font-sans);
+  font-size: 13px;
   font-style: normal;
   line-height: 1.35;
   letter-spacing: 0;
@@ -398,7 +445,7 @@
   }
 
   .guestbook-card:hover {
-    transform: rotate(var(--gb-rotate));
+    transform: translate(var(--gb-tx, 0), var(--gb-ty, 0)) rotate(var(--gb-rotate));
   }
 
   .guestbook-card:hover .guestbook-card__stamp {
