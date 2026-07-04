@@ -1,14 +1,24 @@
 <%
 // Guestbook wall (`type: guestbook` front-matter). The article body becomes a
-// wall of sticker/letter cards re-rendered from the page's own Twikoo
-// comments; the regular comments section below (layout.ejs) stays the place
-// to actually write and reply. Client JS fetches via the already-loaded
-// Twikoo SDK (`getRecentComments`), so the wall only renders when the theme
-// is configured for Twikoo. Artalk support can plug into the same markup by
-// adding an adapter in main.js and another `data-guestbook-system` value.
+// wall of sticker/letter cards re-rendered from the page's own comments; the
+// regular comments section below (layout.ejs) stays the place to actually
+// write and reply. Client JS (main.js) picks the adapter by
+// `data-guestbook-system`: Twikoo goes through the already-loaded SDK's
+// getRecentComments, Artalk through its public REST API — its pageKey must
+// match what comments.ejs passes to Artalk.init (the page permalink).
 var sys = theme.comments ? String(theme.comments).toLowerCase() : '';
 var tk = theme.twikoo || {};
-var wallEnabled = sys === 'twikoo' && tk.envId && page.comments !== false;
+var ak = theme.artalk || {};
+var wallSystem = '';
+if (page.comments !== false) {
+  if (sys === 'twikoo' && tk.envId) wallSystem = 'twikoo';
+  else if (sys === 'artalk' && ak.server) wallSystem = 'artalk';
+}
+var akServer = wallSystem === 'artalk' ? flatpaper_safe_url(ak.server, 'href') : '';
+if (akServer === '#') akServer = '';
+if (wallSystem === 'artalk' && !akServer) wallSystem = '';
+var akPageKey = page.permalink || url_for(page.path || '');
+var wallEnabled = !!wallSystem;
 var pageSize = parseInt(page.page_size || 12, 10);
 if (!pageSize || pageSize < 1) pageSize = 12;
 if (pageSize > 50) pageSize = 50;
@@ -36,9 +46,14 @@ var pageTopImg = flatpaper_page_top_img_info(page);
 
   <section
     class="guestbook-wall"
-    <% if (wallEnabled) { %>
+    <% if (wallSystem === 'twikoo') { %>
     data-guestbook-system="twikoo"
     data-guestbook-env="<%= tk.envId %>"
+    <% } else if (wallSystem === 'artalk') { %>
+    data-guestbook-system="artalk"
+    data-guestbook-server="<%= akServer %>"
+    data-guestbook-site="<%= ak.site || '' %>"
+    data-guestbook-key="<%= akPageKey %>"
     <% } %>
     data-page-size="<%= pageSize %>"
     data-avatar-fallback="<%= avatarFallback %>"

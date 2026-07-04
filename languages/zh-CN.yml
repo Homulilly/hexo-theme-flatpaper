@@ -63,7 +63,7 @@ guestbook:
   label: 留言板
   title: 留言板
   loading: 正在铺开留言墙…
-  missing_config: "留言墙需要 Twikoo：请在主题配置中设置 comments: twikoo 并填写 envId。"
+  missing_config: "留言墙需要评论系统：请在主题配置中设置 comments: twikoo（并填写 envId）或 comments: artalk（并填写 server）。"
   load_failed: 留言加载失败，请稍后再试。
   empty: 墙上还空着，来贴第一张留言吧！
   load_more: 展开更多留言

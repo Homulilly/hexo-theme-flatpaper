@@ -175,7 +175,7 @@ With a GitHub raw URL, you do not need to bind GitHub Pages or a custom domain t
 
 ## Guestbook Page
 
-`type: guestbook` re-renders the page's own Twikoo comments as a "message wall": each message becomes a journal-style scrap of paper (sticky note, ruled paper, grid paper, or an airmail letter with stamp and postmark; the look is derived deterministically from the comment id, so it never shuffles between reloads). The regular Twikoo comment section stays at the bottom of the page — visitors write there, and the message lands on the wall after a refresh:
+`type: guestbook` re-renders the page's own comments as a "message wall": each message becomes a journal-style scrap of paper (sticky note, ruled paper, grid paper, or an airmail letter with stamp and postmark; the look is derived deterministically from the comment id, so it never shuffles between reloads). The regular comment section stays at the bottom of the page — visitors write there, and the message lands on the wall after a refresh:
 
 ```yaml
 ---
@@ -185,11 +185,12 @@ page_size: 12
 ---
 ```
 
-Prerequisite: the theme must have `comments: twikoo` with a `twikoo.envId` configured (the wall does not support Artalk yet; without Twikoo it shows a hint and the bottom comment section is unaffected).
+Prerequisite: the theme must have Twikoo (`comments: twikoo` + `twikoo.envId`) or Artalk (`comments: artalk` + `artalk.server`) enabled. Without either, the wall shows a hint and the bottom comment section is unaffected.
 
 Behavior notes:
 
 - The wall shows top-level messages only (up to the latest 100). Threaded replies live in the comment section below; every card has a "view original comment" link that jumps there.
-- Wall cards use Twikoo's plain-text field, so image emotes do not appear on cards (they still show normally in the comment section).
+- Wall cards are text-only (Twikoo's `commentText`, Artalk's raw markdown source), so image emotes and rich content do not appear on cards (they still show normally in the comment section).
+- Twikoo avatars show on the cards; Artalk's public API returns no avatar URL, so its cards use initial-letter avatars.
 - `page_size` controls how many cards render per batch (default 12, max 50); the rest load via the "show more" button.
 - The page's markdown body renders above the wall and works as an intro.

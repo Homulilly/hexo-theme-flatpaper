@@ -523,15 +523,15 @@
 
   renderFriendsFeed();
 
-  // ---- Guestbook wall: re-render this page's Twikoo comments as paper stickers ----
+  // ---- Guestbook wall: re-render this page's comments as paper stickers ----
   function renderGuestbookWall() {
-    document.querySelectorAll('.guestbook-wall[data-guestbook-system="twikoo"]').forEach(function (wall) {
-      var envId = wall.dataset.guestbookEnv;
+    document.querySelectorAll('.guestbook-wall[data-guestbook-system]').forEach(function (wall) {
+      var system = String(wall.dataset.guestbookSystem || '').toLowerCase();
       var state = wall.querySelector('[data-guestbook-state]');
       var list = wall.querySelector('[data-guestbook-list]');
       var more = wall.querySelector('[data-guestbook-more]');
       var summary = wall.querySelector('.guestbook-wall__summary');
-      if (!envId || !state || !list || !more) return;
+      if (!state || !list || !more) return;
 
       var avatarFallback = safeRemoteUrl(wall.dataset.avatarFallback, 'image');
       var pageSize = parseInt(wall.dataset.pageSize, 10);
@@ -539,10 +539,8 @@
       var shown = 0;
       var messages = [];
       var truncated = false;
-      // Twikoo keys comments by location.pathname (its default pageKey), so the
-      // live pathname is what keeps the wall and the comment box below reading
-      // the same bucket — not the permalink Hexo would print server-side.
-      var pageKey = window.location.pathname || '/';
+      // Where the real comment section below mounts; fallback jump target.
+      var mountId = system === 'artalk' ? 'artalk-comments' : 'tcomment';
 
       // Card look is derived from a hash of the comment id: stable across
       // reloads (no layout jumps), still "random" across the wall.
@@ -565,26 +563,6 @@
         return hash;
       }
 
-      function normalizeMessages(raw) {
-        return (Array.isArray(raw) ? raw : []).map(function (item) {
-          // Text-only on purpose: commentText is server-rendered plain text,
-          // so the wall never re-parses visitor HTML. Image/emote-only
-          // comments have no text and stay in the comment list below.
-          var text = String((item && item.commentText) || '').trim();
-          if (!text) return null;
-          var created = item.created;
-          if (typeof created !== 'number') created = parseInt(created, 10) || 0;
-          return {
-            id: String(item.id || ''),
-            nick: String(item.nick || '').trim() || t('guestbook.anonymous'),
-            avatar: safeRemoteUrl(item.avatar, 'image'),
-            text: text,
-            created: created,
-            relativeTime: String(item.relativeTime || '')
-          };
-        }).filter(Boolean);
-      }
-
       function formatDate(created) {
         if (!created) return '';
         var date = new Date(created);
@@ -603,10 +581,10 @@
         return span;
       }
 
-      function jumpToComment(id) {
-        var target = id ? document.getElementById(id) : null;
+      function jumpToComment(anchorId) {
+        var target = anchorId ? document.getElementById(anchorId) : null;
         var precise = !!target;
-        if (!target) target = document.getElementById('tcomment');
+        if (!target) target = document.getElementById(mountId);
         if (!target) return;
         var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
@@ -619,7 +597,7 @@
       }
 
       function createCard(message) {
-        var seed = hashSeed(message.id || message.nick + message.created);
+        var seed = hashSeed(message.anchorId || message.nick + message.created);
         var variant = CARD_VARIANTS[seed % CARD_VARIANTS.length];
         var item = document.createElement('li');
         item.className = 'guestbook-card guestbook-card--' + variant;
@@ -684,11 +662,11 @@
 
         var jump = document.createElement('a');
         jump.className = 'guestbook-card__jump';
-        jump.href = '#tcomment';
+        jump.href = '#' + mountId;
         jump.textContent = t('guestbook.jump_to_comment');
         jump.addEventListener('click', function (event) {
           event.preventDefault();
-          jumpToComment(message.id);
+          jumpToComment(message.anchorId);
         });
 
         item.appendChild(meta);
@@ -717,60 +695,129 @@
         if (summary) summary.hidden = false;
       }
 
-      // The Twikoo SDK loads with `defer` from a CDN while main.js runs at the
-      // end of <body>, so the global may not exist yet — poll instead of
-      // assuming script order.
-      function whenTwikooReady(onReady, onTimeout) {
-        var waited = 0;
-        (function poll() {
-          if (window.twikoo && typeof window.twikoo.getRecentComments === 'function') {
-            onReady();
-            return;
-          }
-          waited += 250;
-          if (waited >= 15000) {
-            onTimeout();
-            return;
-          }
-          window.setTimeout(poll, 250);
-        })();
-      }
+      // Each adapter resolves to { messages, total, truncated }: normalized
+      // top-level comments (newest first, text-only so the wall never
+      // re-parses visitor HTML) plus a reply-inclusive total for the summary.
+      var adapters = {
+        twikoo: function () {
+          var envId = wall.dataset.guestbookEnv;
+          if (!envId) return Promise.reject(new Error('twikoo: missing envId'));
+          // The Twikoo SDK loads with `defer` from a CDN while main.js runs at
+          // the end of <body>, so the global may not exist yet — poll instead
+          // of assuming script order.
+          return new Promise(function (resolve, reject) {
+            var waited = 0;
+            (function poll() {
+              if (window.twikoo && typeof window.twikoo.getRecentComments === 'function') {
+                resolve();
+                return;
+              }
+              waited += 250;
+              if (waited >= 15000) {
+                reject(new Error('twikoo: sdk timeout'));
+                return;
+              }
+              window.setTimeout(poll, 250);
+            })();
+          }).then(function () {
+            // Twikoo keys comments by location.pathname (its default pageKey),
+            // so the live pathname keeps the wall and the comment box below
+            // reading the same bucket.
+            var pageKey = window.location.pathname || '/';
+            return window.twikoo.getRecentComments({
+              envId: envId,
+              urls: [pageKey],
+              pageSize: 100,
+              includeReply: false
+            }).then(function (raw) {
+              var items = Array.isArray(raw) ? raw : [];
+              var normalized = items.map(function (item) {
+                var text = String((item && item.commentText) || '').trim();
+                if (!text) return null;
+                var created = item.created;
+                if (typeof created !== 'number') created = parseInt(created, 10) || 0;
+                return {
+                  anchorId: String(item.id || ''),
+                  nick: String(item.nick || '').trim() || t('guestbook.anonymous'),
+                  avatar: safeRemoteUrl(item.avatar, 'image'),
+                  text: text,
+                  created: created,
+                  relativeTime: String(item.relativeTime || '')
+                };
+              }).filter(Boolean);
+              var result = { messages: normalized, total: normalized.length, truncated: items.length >= 100 };
+              if (typeof window.twikoo.getCommentsCount !== 'function') return result;
+              return window.twikoo.getCommentsCount({ envId: envId, urls: [pageKey], includeReply: true })
+                .then(function (counts) {
+                  var entry = Array.isArray(counts) ? counts[0] : null;
+                  if (entry && typeof entry.count === 'number') result.total = entry.count;
+                  return result;
+                })
+                .catch(function () { return result; });
+            });
+          });
+        },
+        artalk: function () {
+          var server = safeRemoteUrl(wall.dataset.guestbookServer);
+          if (!server) return Promise.reject(new Error('artalk: missing server'));
+          // Artalk buckets comments by the pageKey passed at init — the theme
+          // inits it with the page permalink, echoed here via data attribute.
+          var pageKey = wall.dataset.guestbookKey || window.location.pathname || '/';
+          var site = wall.dataset.guestbookSite || '';
+          var query = 'page_key=' + encodeURIComponent(pageKey)
+            + (site ? '&site_name=' + encodeURIComponent(site) : '')
+            + '&limit=100&offset=0&flat_mode=0&sort_by=date_desc';
+          return fetch(server.replace(/\/+$/, '') + '/api/v2/comments?' + query, {
+            headers: { Accept: 'application/json' }
+          }).then(function (response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            return response.json();
+          }).then(function (payload) {
+            var items = payload && Array.isArray(payload.comments) ? payload.comments : [];
+            var normalized = items.map(function (item) {
+              if (!item || item.rid || item.is_pending) return null;
+              // `content` is the raw markdown source — plain text on the wall.
+              var text = String(item.content || '').trim();
+              if (!text) return null;
+              var created = Date.parse(String(item.date || '').replace(/\//g, '-').replace(' ', 'T')) || 0;
+              return {
+                // Artalk renders each comment as #atk-comment-<id>.
+                anchorId: 'atk-comment-' + item.id,
+                nick: String(item.nick || '').trim() || t('guestbook.anonymous'),
+                // The v2 comments API exposes no avatar URL; cards fall back
+                // to the initial-letter avatar.
+                avatar: '',
+                text: text,
+                created: created,
+                relativeTime: ''
+              };
+            }).filter(Boolean);
+            return {
+              messages: normalized,
+              total: typeof payload.count === 'number' ? payload.count : normalized.length,
+              truncated: typeof payload.roots_count === 'number' && payload.roots_count > normalized.length
+            };
+          });
+        }
+      };
+      if (!adapters[system]) return;
 
       more.addEventListener('click', renderNext);
       setState(t('guestbook.loading'));
 
-      whenTwikooReady(function () {
-        window.twikoo.getRecentComments({
-          envId: envId,
-          urls: [pageKey],
-          pageSize: 100,
-          includeReply: false
-        }).then(function (raw) {
-          truncated = Array.isArray(raw) && raw.length >= 100;
-          messages = normalizeMessages(raw);
-          list.innerHTML = '';
-          shown = 0;
-          if (!messages.length) {
-            setState(t('guestbook.empty'));
-            return;
-          }
-          setState('');
-          renderNext();
-          updateSummary(messages.length);
-          // Replies live only in the comment section below; the wall shows
-          // top-level messages, so fetch the reply-inclusive total separately.
-          if (typeof window.twikoo.getCommentsCount === 'function') {
-            window.twikoo.getCommentsCount({ envId: envId, urls: [pageKey], includeReply: true })
-              .then(function (counts) {
-                var entry = Array.isArray(counts) ? counts[0] : null;
-                if (entry && typeof entry.count === 'number') updateSummary(entry.count);
-              })
-              .catch(function () { /* keep the top-level count */ });
-          }
-        }).catch(function () {
-          setState(t('guestbook.load_failed'), true);
-        });
-      }, function () {
+      adapters[system]().then(function (result) {
+        messages = result.messages;
+        truncated = !!result.truncated;
+        list.innerHTML = '';
+        shown = 0;
+        if (!messages.length) {
+          setState(t('guestbook.empty'));
+          return;
+        }
+        setState('');
+        renderNext();
+        updateSummary(result.total);
+      }).catch(function () {
         setState(t('guestbook.load_failed'), true);
       });
     });

@@ -63,7 +63,7 @@ guestbook:
   label: Guestbook
   title: Guestbook
   loading: Unrolling the message wall...
-  missing_config: "The wall needs Twikoo: set comments: twikoo and an envId in the theme config."
+  missing_config: "The wall needs a comment system: set comments: twikoo (with envId) or comments: artalk (with server) in the theme config."
   load_failed: Failed to load messages. Try again later.
   empty: The wall is still empty — stick the first note!
   load_more: Show more messages
