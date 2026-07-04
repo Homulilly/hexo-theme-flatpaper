@@ -609,14 +609,17 @@
       function createCard(message, index) {
         var seed = hashSeed(message.anchorId || message.nick + message.created);
         var item = document.createElement('li');
-        var rotationIndex = (seed + index * 3) % ROTATION_COUNT;
-        item.className = 'guestbook-card guestbook-card--p' + (seed % PAPER_COUNT) + ' guestbook-card--r' + rotationIndex;
+        item.className = 'guestbook-card-wrap';
 
-        // Add random small translation to make it look manually placed
-        var tx = (seed % 9) - 4; // -4 to 4
-        var ty = ((seed * 7) % 9) - 4; // -4 to 4
-        item.style.setProperty('--gb-tx', tx + 'px');
-        item.style.setProperty('--gb-ty', ty + 'px');
+        var card = document.createElement('div');
+        var rotationIndex = (seed + index * 3) % ROTATION_COUNT;
+        card.className = 'guestbook-card guestbook-card--p' + (seed % PAPER_COUNT) + ' guestbook-card--r' + rotationIndex;
+
+        // Add random small translation to make it look slightly imperfect but avoid heavy overlaps
+        var tx = (seed % 7) - 3; // -3 to 3
+        var ty = ((seed * 7) % 7) - 3; // -3 to 3
+        card.style.setProperty('--gb-tx', tx + 'px');
+        card.style.setProperty('--gb-ty', ty + 'px');
 
         var meta = document.createElement('div');
         meta.className = 'guestbook-card__meta';
@@ -671,9 +674,9 @@
           jumpToComment(message.anchorId);
         });
 
-        item.appendChild(meta);
-        item.appendChild(text);
-        item.appendChild(jump);
+        card.appendChild(meta);
+        card.appendChild(text);
+        card.appendChild(jump);
 
         // Add a hand-drawn doodle to roughly 50% of the cards based on hash seed
         if (seed % 2 === 0) {
@@ -689,9 +692,10 @@
           doodleWrapper.className = 'guestbook-card__doodle guestbook-card__doodle--pos' + posIndex;
           doodleWrapper.setAttribute('aria-hidden', 'true');
           doodleWrapper.innerHTML = doodles[doodleIndex];
-          item.appendChild(doodleWrapper);
+          card.appendChild(doodleWrapper);
         }
 
+        item.appendChild(card);
         return item;
       }
 

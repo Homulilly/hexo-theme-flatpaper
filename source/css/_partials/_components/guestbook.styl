@@ -81,9 +81,8 @@
 }
 
 .guestbook-wall__list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
-  gap: 26px 22px;
+  column-width: 232px;
+  column-gap: 16px;
   margin: 0;
   padding: 12px 0 0;
   list-style: none;
@@ -102,12 +101,21 @@
   --gb-stamp-lift-shadow: unquote('rgba(var(--paper-shadow-rgb), 0.08)');
   --gb-stamp-rotate: -1.5deg;
   --gb-stamp-hover-rotate: 1deg;
+}
+
+.guestbook-card-wrap {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  padding-top: 14px; /* Top padding provides safe space for the ::before tape */
+  margin: 0 4px 28px 4px;
+}
+
+.guestbook-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  break-inside: avoid;
   min-height: 150px;
-  margin: 4px;
+  margin: 0;
   padding: 18px 18px 38px;
   border: none;
   border-radius: 0;
@@ -176,14 +184,14 @@
   box-shadow: 6px 9px 0 unquote('rgba(var(--paper-shadow-rgb), 0.28)'), 0 16px 26px -15px unquote('rgba(var(--paper-shadow-rgb), 0.62)');
 }
 
-.guestbook-card--r0 { --gb-rotate: -4deg; }
-.guestbook-card--r1 { --gb-rotate: 2.8deg; }
-.guestbook-card--r2 { --gb-rotate: -2.2deg; }
-.guestbook-card--r3 { --gb-rotate: 3.6deg; }
-.guestbook-card--r4 { --gb-rotate: -3.2deg; }
-.guestbook-card--r5 { --gb-rotate: 1.6deg; }
-.guestbook-card--r6 { --gb-rotate: -1.2deg; }
-.guestbook-card--r7 { --gb-rotate: 4.2deg; }
+.guestbook-card--r0 { --gb-rotate: -3deg; }
+.guestbook-card--r1 { --gb-rotate: 2.1deg; }
+.guestbook-card--r2 { --gb-rotate: -1.8deg; }
+.guestbook-card--r3 { --gb-rotate: 2.8deg; }
+.guestbook-card--r4 { --gb-rotate: -2.5deg; }
+.guestbook-card--r5 { --gb-rotate: 1.2deg; }
+.guestbook-card--r6 { --gb-rotate: -0.9deg; }
+.guestbook-card--r7 { --gb-rotate: 3deg; }
 
 .guestbook-card__meta {
   display: grid;
@@ -410,13 +418,18 @@
 
 @media (max-width: 640px) {
   .guestbook-wall__list {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
+    column-count: 1;
+    column-gap: 0;
+  }
+
+  .guestbook-card-wrap {
+    padding-top: 14px;
+    margin: 0 3px 22px 3px;
   }
 
   .guestbook-card {
     min-height: 142px;
-    margin: 3px;
+    margin: 0;
     padding: 16px 14px 36px;
   }
 
