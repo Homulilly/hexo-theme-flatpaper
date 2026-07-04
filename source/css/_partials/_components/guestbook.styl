@@ -109,8 +109,8 @@
   min-height: 150px;
   margin: 4px;
   padding: 18px 18px 38px;
-  border: 1px dashed var(--gb-edge);
-  border-radius: 2px 4px 3px 2px / 4px 2px 3px 4px; /* irregular edge */
+  border: none;
+  border-radius: 0;
   color: var(--gb-ink);
   background: var(--gb-paper);
   box-shadow: 5px 7px 0 unquote('rgba(var(--paper-shadow-rgb), 0.1)'), 0 10px 18px -14px unquote('rgba(var(--paper-shadow-rgb), 0.28)');
@@ -394,6 +394,20 @@
 .dark-mode .guestbook-wall__more::before {
   box-shadow: none;
 }
+
+.guestbook-card__doodle {
+  position: absolute;
+  color: var(--gb-stamp-outline);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.guestbook-card__doodle--pos0 { bottom: 12px; left: 45%; transform: rotate(-10deg); }
+.guestbook-card__doodle--pos1 { top: 18px; right: 75px; transform: rotate(18deg); }
+.guestbook-card__doodle--pos2 { bottom: 48px; right: 22px; transform: rotate(-8deg); }
+.guestbook-card__doodle--pos3 { top: 68px; right: 20px; transform: rotate(15deg); }
+.guestbook-card__doodle--pos4 { bottom: 20px; left: 85px; transform: rotate(-12deg); }
 
 @media (max-width: 640px) {
   .guestbook-wall__list {

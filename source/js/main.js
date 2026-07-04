@@ -674,6 +674,24 @@
         item.appendChild(meta);
         item.appendChild(text);
         item.appendChild(jump);
+
+        // Add a hand-drawn doodle to roughly 50% of the cards based on hash seed
+        if (seed % 2 === 0) {
+          var doodles = [
+            '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5c-4.5-4-9-8-9-12.5 0-2.5 2-4.5 4.5-4.5 2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 2.5 0 4.5 2 4.5 4.5 0 4.5-4.5 8.5-9 12.5z"/></svg>', // heart
+            '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 7h7l-5.5 4.5 2 7.5-6-5-6 5 2-7.5-5.5-4.5h7z"/></svg>', // star
+            '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>', // smiley
+            '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>' // arrow
+          ];
+          var doodleIndex = (seed % 11) % doodles.length;
+          var posIndex = (seed % 17) % 5;
+          var doodleWrapper = document.createElement('div');
+          doodleWrapper.className = 'guestbook-card__doodle guestbook-card__doodle--pos' + posIndex;
+          doodleWrapper.setAttribute('aria-hidden', 'true');
+          doodleWrapper.innerHTML = doodles[doodleIndex];
+          item.appendChild(doodleWrapper);
+        }
+
         return item;
       }
 
