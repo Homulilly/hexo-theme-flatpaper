@@ -717,6 +717,8 @@
           });
           card.appendChild(imgContainer);
         }
+
+        var jump = document.createElement('a');
         jump.className = 'guestbook-card__jump';
         jump.href = '#' + mountId;
         jump.textContent = t('guestbook.jump_to_comment');
