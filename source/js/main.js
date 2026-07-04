@@ -707,14 +707,22 @@
         if (message.images && message.images.length > 0) {
           var imgContainer = document.createElement('div');
           imgContainer.className = 'guestbook-card__images';
+          var hasFancybox = document.documentElement.getAttribute('data-fancybox-enabled') === '1';
           message.images.forEach(function (src) {
             var img = document.createElement('img');
             img.src = src;
             img.alt = '';
             img.loading = 'lazy';
             img.className = 'guestbook-card__image';
-            img.setAttribute('data-fancybox', 'guestbook-wall');
-            imgContainer.appendChild(img);
+            if (hasFancybox) {
+              var a = document.createElement('a');
+              a.href = src;
+              a.setAttribute('data-fancybox', 'guestbook-wall');
+              a.appendChild(img);
+              imgContainer.appendChild(a);
+            } else {
+              imgContainer.appendChild(img);
+            }
           });
           card.appendChild(imgContainer);
         }
@@ -2116,6 +2124,7 @@
     window.addEventListener('load', function () {
       if (typeof window.Fancybox !== 'undefined') {
         window.Fancybox.bind('[data-fancybox="gallery"]');
+        window.Fancybox.bind('[data-fancybox="guestbook-wall"]');
       }
     });
   }
