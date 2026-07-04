@@ -19,6 +19,7 @@ if (akServer === '#') akServer = '';
 if (wallSystem === 'artalk' && !akServer) wallSystem = '';
 var akPageKey = page.permalink || url_for(page.path || '');
 var wallEnabled = !!wallSystem;
+var commentAnchor = wallSystem === 'artalk' ? 'artalk-comments' : 'tcomment';
 var pageSize = parseInt(page.page_size || 12, 10);
 if (!pageSize || pageSize < 1) pageSize = 12;
 if (pageSize > 50) pageSize = 50;
@@ -64,7 +65,7 @@ var pageTopImg = flatpaper_page_top_img_info(page);
       <span class="guestbook-wall__stat" data-guestbook-stat="total"></span>
       <span class="guestbook-wall__stat" data-guestbook-stat="shown" hidden></span>
       <button class="guestbook-wall__sort" type="button" data-guestbook-sort hidden></button>
-      <a class="guestbook-wall__write" href="#tcomment"><%= flatpaper_i18n('guestbook.write_hint') %></a>
+      <a class="guestbook-wall__write" href="#<%= commentAnchor %>"><%= flatpaper_i18n('guestbook.write_hint') %></a>
     </div>
 
     <p class="guestbook-wall__state" data-guestbook-state><%= wallEnabled ? flatpaper_i18n('guestbook.loading') : flatpaper_i18n('guestbook.missing_config') %></p>

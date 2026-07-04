@@ -175,7 +175,7 @@ With a GitHub raw URL, you do not need to bind GitHub Pages or a custom domain t
 
 ## Guestbook Page
 
-`type: guestbook` re-renders the page's own comments as a "message wall": each message becomes a colored sticky note taped to the wall (paper tint, tape color and tilt are derived deterministically from the comment id, so the wall never shuffles between reloads). The regular comment section stays at the bottom of the page — visitors write there, and the message lands on the wall after a refresh:
+`type: guestbook` re-renders the page's own comments as a "message wall": each message becomes a colored sticky note taped to the wall. Paper tint, tape color and tilt are derived deterministically from the comment id, while the wall opens in random order by default and can be switched to latest-first order. The regular comment section stays at the bottom of the page — visitors write there, and the message lands on the wall after a refresh:
 
 ```yaml
 ---
@@ -190,7 +190,8 @@ Prerequisite: the theme must have Twikoo (`comments: twikoo` + `twikoo.envId`) o
 Behavior notes:
 
 - The wall shows top-level messages only (up to the latest 100). Threaded replies live in the comment section below; every card has a "view original comment" link that jumps there.
-- Wall cards are text-only (Twikoo's `commentText`, Artalk's raw markdown source), so image emotes and rich content do not appear on cards (they still show normally in the comment section).
+- The sort control toggles between the default random order and latest-first order. Latest-first mode uses a grid layout so cards read left to right.
+- Wall cards render plain text plus image and emote thumbnails extracted from Twikoo HTML or Artalk markdown/HTML. Rich formatting is not re-rendered on cards, and unsafe image URLs are ignored; the original comment section still shows the full comment UI.
 - Twikoo avatars show on the cards; Artalk's public API returns no avatar URL, so its cards use initial-letter avatars.
 - `page_size` controls how many cards render per batch (default 12, max 50); the rest load via the "show more" button.
 - The page's markdown body renders above the wall and works as an intro.

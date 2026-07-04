@@ -608,6 +608,12 @@
         }
       }
 
+      function normalizeCommentImage(src, isEmotion) {
+        var safeSrc = safeRemoteUrl(src, 'image');
+        if (!safeSrc) return null;
+        return { src: safeSrc, isEmotion: !!isEmotion };
+      }
+
       function fallbackAvatar(nick) {
         var span = document.createElement('span');
         span.className = 'guestbook-card__avatar guestbook-card__avatar--text';
@@ -694,7 +700,7 @@
           who.appendChild(time);
         }
         meta.appendChild(who);
-        
+
         card.appendChild(meta);
 
         if (message.text) {
@@ -709,7 +715,8 @@
           imgContainer.className = 'guestbook-card__images';
           var hasFancybox = document.documentElement.getAttribute('data-fancybox-enabled') === '1';
           message.images.forEach(function (imgData) {
-            var src = typeof imgData === 'string' ? imgData : imgData.src;
+            var src = safeRemoteUrl(typeof imgData === 'string' ? imgData : imgData.src, 'image');
+            if (!src) return;
             var isEmotion = typeof imgData === 'object' && imgData.isEmotion;
             var img = document.createElement('img');
             img.src = src;
@@ -824,7 +831,8 @@
                 Array.from(div.querySelectorAll('img')).forEach(function (img) {
                   var cls = img.className || '';
                   var isEmotion = cls.indexOf('emotion') !== -1 || cls.indexOf('sticker') !== -1 || img.src.indexOf('bilibili') !== -1 || img.src.indexOf('tieba') !== -1;
-                  images.push({ src: img.src, isEmotion: isEmotion });
+                  var image = normalizeCommentImage(img.src, isEmotion);
+                  if (image) images.push(image);
                 });
                 var text = div.textContent.trim();
                 if (!text && !images.length) return null;
@@ -873,23 +881,25 @@
               if (!item || item.rid || item.is_pending) return null;
               var contentStr = String(item.content || '').trim();
               var images = [];
-              
+
               var mdRegex = /!\[.*?\]\((.*?)\)/g;
               var match;
               while ((match = mdRegex.exec(contentStr)) !== null) {
-                images.push({ src: match[1], isEmotion: false });
+                var mdImage = normalizeCommentImage(match[1], false);
+                if (mdImage) images.push(mdImage);
               }
               var htmlRegex = /<img[^>]+src=["'](.*?)["']/gi;
               while ((match = htmlRegex.exec(contentStr)) !== null) {
                 var isEmotion = match[0].indexOf('emotion') !== -1 || match[0].indexOf('sticker') !== -1 || match[1].indexOf('bilibili') !== -1;
-                images.push({ src: match[1], isEmotion: isEmotion });
+                var htmlImage = normalizeCommentImage(match[1], isEmotion);
+                if (htmlImage) images.push(htmlImage);
               }
-              
+
               var cleanText = contentStr.replace(/!\[.*?\]\(.*?\)/g, '').replace(/<img[^>]*>/gi, '');
               var textDiv = document.createElement('div');
               textDiv.innerHTML = cleanText;
               var text = textDiv.textContent.trim();
-              
+
               if (!text && !images.length) return null;
               var created = Date.parse(String(item.date || '').replace(/\//g, '-').replace(' ', 'T')) || 0;
               return {
