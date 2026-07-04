@@ -695,11 +695,28 @@
         }
         meta.appendChild(who);
 
-        var text = document.createElement('p');
-        text.className = 'guestbook-card__text';
-        text.textContent = message.text;
+        if (message.text) {
+          var text = document.createElement('p');
+          text.className = 'guestbook-card__text';
+          text.textContent = message.text;
+          card.appendChild(text);
+        }
 
-        var jump = document.createElement('a');
+        if (message.images && message.images.length > 0) {
+          var imgContainer = document.createElement('div');
+          imgContainer.className = 'guestbook-card__images';
+          message.images.forEach(function (src) {
+            var img = document.createElement('img');
+            img.src = src;
+            img.alt = '';
+            img.loading = 'lazy';
+            img.className = 'guestbook-card__image';
+            // Allow clicking to preview using Fancybox if enabled globally
+            img.setAttribute('data-fancybox', 'guestbook-wall');
+            imgContainer.appendChild(img);
+          });
+          card.appendChild(imgContainer);
+        }
         jump.className = 'guestbook-card__jump';
         jump.href = '#' + mountId;
         jump.textContent = t('guestbook.jump_to_comment');
@@ -708,8 +725,6 @@
           jumpToComment(message.anchorId);
         });
 
-        card.appendChild(meta);
-        card.appendChild(text);
         card.appendChild(jump);
 
         // Add a hand-drawn doodle to roughly 50% of the cards based on hash seed
@@ -790,8 +805,20 @@
             }).then(function (raw) {
               var items = Array.isArray(raw) ? raw : [];
               var normalized = items.map(function (item) {
-                var text = String((item && item.commentText) || '').trim();
-                if (!text) return null;
+                var div = document.createElement('div');
+                div.innerHTML = String(item.comment || '').trim();
+                var images = [];
+                Array.from(div.querySelectorAll('img')).forEach(function (img) {
+                  var cls = img.className || '';
+                  if (cls.indexOf('emotion') !== -1 || cls.indexOf('sticker') !== -1) {
+                    var altText = img.alt || '';
+                    if (altText) img.parentNode.replaceChild(document.createTextNode(altText), img);
+                  } else {
+                    images.push(img.src);
+                  }
+                });
+                var text = div.textContent.trim();
+                if (!text && !images.length) return null;
                 var created = item.created;
                 if (typeof created !== 'number') created = parseInt(created, 10) || 0;
                 return {
@@ -799,6 +826,7 @@
                   nick: String(item.nick || '').trim() || t('guestbook.anonymous'),
                   avatar: safeRemoteUrl(item.avatar, 'image'),
                   text: text,
+                  images: images,
                   created: created,
                   relativeTime: String(item.relativeTime || '')
                 };
@@ -834,18 +862,32 @@
             var items = payload && Array.isArray(payload.comments) ? payload.comments : [];
             var normalized = items.map(function (item) {
               if (!item || item.rid || item.is_pending) return null;
-              // `content` is the raw markdown source — plain text on the wall.
-              var text = String(item.content || '').trim();
-              if (!text) return null;
+              var contentStr = String(item.content || '').trim();
+              var images = [];
+              
+              var mdRegex = /!\[.*?\]\((.*?)\)/g;
+              var match;
+              while ((match = mdRegex.exec(contentStr)) !== null) {
+                images.push(match[1]);
+              }
+              var htmlRegex = /<img[^>]+src=["'](.*?)["']/gi;
+              while ((match = htmlRegex.exec(contentStr)) !== null) {
+                images.push(match[1]);
+              }
+              
+              var cleanText = contentStr.replace(/!\[.*?\]\(.*?\)/g, '').replace(/<img[^>]*>/gi, '');
+              var textDiv = document.createElement('div');
+              textDiv.innerHTML = cleanText;
+              var text = textDiv.textContent.trim();
+              
+              if (!text && !images.length) return null;
               var created = Date.parse(String(item.date || '').replace(/\//g, '-').replace(' ', 'T')) || 0;
               return {
-                // Artalk renders each comment as #atk-comment-<id>.
                 anchorId: 'atk-comment-' + item.id,
                 nick: String(item.nick || '').trim() || t('guestbook.anonymous'),
-                // The v2 comments API exposes no avatar URL; cards fall back
-                // to the initial-letter avatar.
                 avatar: '',
                 text: text,
+                images: images,
                 created: created,
                 relativeTime: ''
               };
