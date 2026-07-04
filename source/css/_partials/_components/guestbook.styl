@@ -31,6 +31,7 @@
 }
 
 .guestbook-wall__stat,
+.guestbook-wall__sort,
 .guestbook-wall__write {
   display: inline-flex;
   align-items: center;
@@ -44,17 +45,21 @@
   line-height: 1.4;
 }
 
+.guestbook-wall__sort,
 .guestbook-wall__write {
   color: var(--color-accent-strong);
   text-decoration: none;
+  cursor: pointer;
   transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 }
 
+.guestbook-wall__sort:hover,
 .guestbook-wall__write:hover {
   border-color: var(--color-accent);
   transform: translateY(-1px);
 }
 
+.dark-mode .guestbook-wall__sort,
 .dark-mode .guestbook-wall__write {
   color: var(--color-accent-muted);
 }
@@ -86,6 +91,18 @@
   margin: 0;
   padding: 12px 0 0;
   list-style: none;
+}
+
+/* Grid layout for chronological sorting (reads left-to-right) */
+.guestbook-wall__list--grid {
+  display: grid;
+  column-count: auto;
+  column-width: auto;
+  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  gap: 22px 16px;
+}
+.guestbook-wall__list--grid .guestbook-card-wrap {
+  margin-bottom: 0;
 }
 
 .guestbook-card {
@@ -420,6 +437,11 @@
   .guestbook-wall__list {
     column-count: 1;
     column-gap: 0;
+  }
+  
+  .guestbook-wall__list--grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
   }
 
   .guestbook-card-wrap {

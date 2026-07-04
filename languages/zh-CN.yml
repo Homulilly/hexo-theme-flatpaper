@@ -70,6 +70,8 @@ guestbook:
   total_count: "共 %d 条留言"
   latest_note: 墙上展示最新 %d 条
   jump_to_comment: 查看留言
+  sort_time: 查看最新
+  sort_random: 随机排序
   anonymous: 匿名访客
   write_hint: 在下方留言，刷新后就会贴到墙上
 

@@ -70,6 +70,8 @@ guestbook:
   total_count: "%d messages in total"
   latest_note: Showing the latest %d on the wall
   jump_to_comment: View original comment
+  sort_time: View latest
+  sort_random: Random order
   anonymous: Anonymous
   write_hint: Leave a message below; it lands on the wall after a refresh
 

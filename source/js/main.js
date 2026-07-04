@@ -531,6 +531,7 @@
       var list = wall.querySelector('[data-guestbook-list]');
       var more = wall.querySelector('[data-guestbook-more]');
       var summary = wall.querySelector('.guestbook-wall__summary');
+      var sortBtn = wall.querySelector('[data-guestbook-sort]');
       if (!state || !list || !more) return;
 
       var avatarFallback = safeRemoteUrl(wall.dataset.avatarFallback, 'image');
@@ -538,7 +539,40 @@
       if (!pageSize || pageSize < 1) pageSize = 12;
       var shown = 0;
       var messages = [];
+      var originalMessages = [];
+      var isRandom = true;
       var truncated = false;
+
+      function shuffleArray(array) {
+        var a = array.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = a[i];
+          a[i] = a[j];
+          a[j] = temp;
+        }
+        return a;
+      }
+
+      function updateSortButton() {
+        if (!sortBtn) return;
+        sortBtn.hidden = false;
+        var iconTime = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+        var iconShuffle = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: middle;"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>';
+        sortBtn.innerHTML = (isRandom ? iconTime : iconShuffle) + '<span>' + (isRandom ? t('guestbook.sort_time') : t('guestbook.sort_random')) + '</span>';
+      }
+
+      if (sortBtn) {
+        sortBtn.addEventListener('click', function () {
+          isRandom = !isRandom;
+          messages = isRandom ? shuffleArray(originalMessages) : originalMessages.slice();
+          list.classList.toggle('guestbook-wall__list--grid', !isRandom);
+          list.innerHTML = '';
+          shown = 0;
+          updateSortButton();
+          renderNext();
+        });
+      }
       // Where the real comment section below mounts; fallback jump target.
       var mountId = system === 'artalk' ? 'artalk-comments' : 'tcomment';
 
@@ -830,7 +864,8 @@
       setState(t('guestbook.loading'));
 
       adapters[system]().then(function (result) {
-        messages = result.messages;
+        originalMessages = result.messages || [];
+        messages = isRandom ? shuffleArray(originalMessages) : originalMessages.slice();
         truncated = !!result.truncated;
         list.innerHTML = '';
         shown = 0;
@@ -839,6 +874,8 @@
           return;
         }
         setState('');
+        list.classList.toggle('guestbook-wall__list--grid', !isRandom);
+        updateSortButton();
         renderNext();
         updateSummary(result.total);
       }).catch(function () {
