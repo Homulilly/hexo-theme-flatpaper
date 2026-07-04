@@ -546,8 +546,7 @@
       // comment id: stable across reloads (no layout jumps), still "random"
       // across the wall. Paper palettes live in guestbook.styl (--p0..--p4).
       var PAPER_COUNT = 5;
-      var TAPE_COLORS = ['var(--tape-yellow)', 'var(--tape-pink)', 'var(--tape-green)', 'var(--tape-blue)', 'var(--tape-brown)'];
-      var ROTATION_MAGNITUDES = [2, 3.5, 5, 6.5, 8];
+      var ROTATION_COUNT = 8;
 
       function setState(message, isError) {
         state.textContent = message || '';
@@ -578,8 +577,18 @@
       function fallbackAvatar(nick) {
         var span = document.createElement('span');
         span.className = 'guestbook-card__avatar guestbook-card__avatar--text';
-        span.textContent = (nick || '?').charAt(0);
+        span.setAttribute('aria-hidden', 'true');
+        var glyph = Array.from(String(nick || '').trim())[0] || '✿';
+        span.textContent = glyph.toLocaleUpperCase ? glyph.toLocaleUpperCase() : glyph;
         return span;
+      }
+
+      function stampAvatar(avatar) {
+        var stamp = document.createElement('span');
+        stamp.className = 'guestbook-card__stamp';
+        stamp.setAttribute('aria-hidden', 'true');
+        stamp.appendChild(avatar);
+        return stamp;
       }
 
       function jumpToComment(anchorId) {
@@ -600,16 +609,8 @@
       function createCard(message, index) {
         var seed = hashSeed(message.anchorId || message.nick + message.created);
         var item = document.createElement('li');
-        var rotation = ROTATION_MAGNITUDES[(seed >> 4) % ROTATION_MAGNITUDES.length];
-        if (index % 2 === 0) rotation *= -1;
-        item.className = 'guestbook-card guestbook-card--p' + (seed % PAPER_COUNT);
-        item.style.setProperty('--gb-rotate', rotation + 'deg');
-        item.style.setProperty('--gb-tape', TAPE_COLORS[(seed >> 2) % TAPE_COLORS.length]);
-
-        var tape = document.createElement('span');
-        tape.className = 'guestbook-card__tape';
-        tape.setAttribute('aria-hidden', 'true');
-        item.appendChild(tape);
+        var rotationIndex = (seed + index * 3) % ROTATION_COUNT;
+        item.className = 'guestbook-card guestbook-card--p' + (seed % PAPER_COUNT) + ' guestbook-card--r' + rotationIndex;
 
         var meta = document.createElement('div');
         meta.className = 'guestbook-card__meta';
@@ -629,9 +630,9 @@
             }
             if (img.parentNode) img.parentNode.replaceChild(fallbackAvatar(message.nick), img);
           });
-          meta.appendChild(img);
+          meta.appendChild(stampAvatar(img));
         } else {
-          meta.appendChild(fallbackAvatar(message.nick));
+          meta.appendChild(stampAvatar(fallbackAvatar(message.nick)));
         }
 
         var who = document.createElement('div');
