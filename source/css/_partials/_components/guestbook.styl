@@ -1,0 +1,365 @@
+/* ============== GUESTBOOK WALL ============== */
+/* Messages re-rendered as paper artifacts. Four variants, picked per comment
+   by a stable hash in main.js: sticky note / ruled paper / grid paper /
+   airmail letter (the signature one — striped edge, stamp, postmark).
+   Rotation and tape color arrive as inline custom props (--gb-rotate,
+   --gb-tape). */
+
+.article-paper.guestbook-page {
+  padding-bottom: 64px;
+}
+
+.guestbook-subtitle {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.guestbook-intro {
+  margin-bottom: 8px;
+}
+
+.guestbook-wall {
+  padding-top: 22px;
+}
+
+.guestbook-wall__summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.guestbook-wall__stat,
+.guestbook-wall__write {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px dashed var(--dash);
+  border-radius: 999px;
+  background: var(--paper-warm);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.guestbook-wall__write {
+  color: var(--color-accent-strong);
+  text-decoration: none;
+  transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.guestbook-wall__write:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.dark-mode .guestbook-wall__write {
+  color: var(--color-accent-muted);
+}
+
+.guestbook-wall__state {
+  margin: 18px 0 8px;
+  padding: 14px 16px;
+  border: 1px dashed var(--dash);
+  border-radius: 8px;
+  background: var(--paper-warm);
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.guestbook-wall__state.is-error {
+  color: #b35a4a;
+  border-color: rgba(179, 90, 74, 0.34);
+}
+
+.dark-mode .guestbook-wall__state.is-error {
+  color: #e39a8b;
+  border-color: rgba(227, 154, 139, 0.32);
+}
+
+.guestbook-wall__list {
+  columns: 2;
+  column-gap: 20px;
+  margin: 0;
+  padding: 10px 0 0;
+  list-style: none;
+}
+
+.guestbook-card {
+  --gb-rotate: 0deg;
+  --gb-tape: var(--tape-yellow);
+  position: relative;
+  display: block;
+  break-inside: avoid;
+  margin: 0 0 20px;
+  padding: 18px 18px 14px;
+  background: var(--paper-solid);
+  border-radius: 4px;
+  box-shadow: var(--paper-shadow);
+  transform: rotate(var(--gb-rotate));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.guestbook-card:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: var(--small-shadow);
+  z-index: 2;
+}
+
+.guestbook-card__tape {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 76px;
+  height: 20px;
+  background-color: var(--gb-tape);
+  background-image: var(--tape-stripes);
+  filter: saturate(0.88);
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+/* -- sticky note: paper tinted from its own tape color -- */
+.guestbook-card--note {
+  background: var(--paper-warm);
+  /* Stylus cannot parse `in` inside color-mix(); keep it as a raw string. */
+  background: unquote("color-mix(in srgb, var(--gb-tape) 16%, var(--paper-solid))");
+}
+
+/* -- ruled letter paper -- */
+.guestbook-card--ruled {
+  background-color: var(--paper-solid);
+  background-image: repeating-linear-gradient(transparent 0 25px, rgba(111, 169, 217, 0.22) 25px 26px);
+}
+
+.dark-mode .guestbook-card--ruled {
+  background-image: repeating-linear-gradient(transparent 0 25px, rgba(111, 169, 217, 0.16) 25px 26px);
+}
+
+/* -- grid / squared journal paper -- */
+.guestbook-card--grid {
+  background-color: var(--paper-solid);
+  background-image:
+    repeating-linear-gradient(rgba(143, 192, 152, 0.2) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(90deg, rgba(143, 192, 152, 0.2) 0 1px, transparent 1px 18px);
+}
+
+.dark-mode .guestbook-card--grid {
+  background-image:
+    repeating-linear-gradient(rgba(143, 192, 152, 0.14) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(90deg, rgba(143, 192, 152, 0.14) 0 1px, transparent 1px 18px);
+}
+
+/* -- airmail letter: striped edge + stamp + postmark -- */
+.guestbook-card--letter {
+  padding-top: 24px;
+  background: var(--paper);
+  box-shadow: var(--paper-shadow), inset 0 0 0 1px var(--dash);
+}
+
+.guestbook-card--letter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 4px 4px 0 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--tape-pink) 0 12px,
+    transparent 12px 24px,
+    var(--tape-blue) 24px 36px,
+    transparent 36px 48px
+  );
+}
+
+.guestbook-card--letter .guestbook-card__meta {
+  padding-right: 52px;
+}
+
+.guestbook-card__stamp {
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  width: 34px;
+  height: 40px;
+  border: 1px dashed var(--color-accent);
+  border-radius: 2px;
+  background: var(--color-accent-soft);
+  background-image: var(--tape-stripes);
+  opacity: 0.85;
+}
+
+.guestbook-card__stamp::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: -16px;
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid var(--muted);
+  border-radius: 50%;
+  opacity: 0.55;
+  transform: rotate(-12deg);
+}
+
+.guestbook-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.guestbook-card__avatar {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--paper-warm);
+  box-shadow: var(--paper-shadow);
+}
+
+.guestbook-card__avatar--text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-soft);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.guestbook-card__who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.guestbook-card__nick {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.guestbook-card__date {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+.guestbook-card__text {
+  display: -webkit-box;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.85;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 10;
+  overflow: hidden;
+}
+
+.guestbook-card__jump {
+  display: inline-flex;
+  margin-top: 10px;
+  border-bottom: 1px dashed var(--dash);
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.guestbook-card__jump:hover {
+  color: var(--color-accent-strong);
+  border-color: var(--color-accent);
+}
+
+.dark-mode .guestbook-card__jump:hover {
+  color: var(--color-accent-muted);
+}
+
+/* Brief highlight on the original Twikoo comment after a wall jump. */
+.guestbook-jump-target {
+  outline: 2px dashed var(--color-accent);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.guestbook-wall__more {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 132px;
+  margin: 28px auto 0;
+  padding: 8px 18px;
+  border: none;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 1;
+}
+
+.guestbook-wall__more::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--paper-warm);
+  z-index: -1;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--dash);
+  filter: url(#paper-edge) drop-shadow(var(--paper-shadow));
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.guestbook-wall__more:hover,
+.guestbook-wall__more:focus-visible {
+  color: var(--color-accent-strong);
+  transform: translateY(-1px);
+}
+
+.guestbook-wall__more:hover::before,
+.guestbook-wall__more:focus-visible::before {
+  background: var(--color-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+.dark-mode .guestbook-wall__more::before {
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .guestbook-wall__list {
+    columns: 1;
+  }
+
+  .guestbook-card {
+    padding: 16px 14px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guestbook-card,
+  .guestbook-wall__write,
+  .guestbook-wall__more,
+  .guestbook-card__jump {
+    transition: none;
+  }
+
+  .guestbook-card:hover {
+    transform: rotate(var(--gb-rotate));
+  }
+}

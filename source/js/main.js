@@ -523,6 +523,261 @@
 
   renderFriendsFeed();
 
+  // ---- Guestbook wall: re-render this page's Twikoo comments as paper stickers ----
+  function renderGuestbookWall() {
+    document.querySelectorAll('.guestbook-wall[data-guestbook-system="twikoo"]').forEach(function (wall) {
+      var envId = wall.dataset.guestbookEnv;
+      var state = wall.querySelector('[data-guestbook-state]');
+      var list = wall.querySelector('[data-guestbook-list]');
+      var more = wall.querySelector('[data-guestbook-more]');
+      var summary = wall.querySelector('.guestbook-wall__summary');
+      if (!envId || !state || !list || !more) return;
+
+      var avatarFallback = safeRemoteUrl(wall.dataset.avatarFallback, 'image');
+      var pageSize = parseInt(wall.dataset.pageSize, 10);
+      if (!pageSize || pageSize < 1) pageSize = 12;
+      var shown = 0;
+      var messages = [];
+      var truncated = false;
+      // Twikoo keys comments by location.pathname (its default pageKey), so the
+      // live pathname is what keeps the wall and the comment box below reading
+      // the same bucket — not the permalink Hexo would print server-side.
+      var pageKey = window.location.pathname || '/';
+
+      // Card look is derived from a hash of the comment id: stable across
+      // reloads (no layout jumps), still "random" across the wall.
+      var CARD_VARIANTS = ['note', 'ruled', 'grid', 'letter'];
+      var TAPE_COLORS = ['var(--tape-yellow)', 'var(--tape-pink)', 'var(--tape-green)', 'var(--tape-blue)', 'var(--tape-brown)'];
+      var ROTATIONS = [-2.2, -1.4, -0.6, 0.7, 1.5, 2.3];
+
+      function setState(message, isError) {
+        state.textContent = message || '';
+        state.hidden = !message;
+        state.classList.toggle('is-error', !!isError);
+      }
+
+      function hashSeed(text) {
+        var hash = 5381;
+        var source = String(text || '');
+        for (var i = 0; i < source.length; i++) {
+          hash = ((hash << 5) + hash + source.charCodeAt(i)) >>> 0;
+        }
+        return hash;
+      }
+
+      function normalizeMessages(raw) {
+        return (Array.isArray(raw) ? raw : []).map(function (item) {
+          // Text-only on purpose: commentText is server-rendered plain text,
+          // so the wall never re-parses visitor HTML. Image/emote-only
+          // comments have no text and stay in the comment list below.
+          var text = String((item && item.commentText) || '').trim();
+          if (!text) return null;
+          var created = item.created;
+          if (typeof created !== 'number') created = parseInt(created, 10) || 0;
+          return {
+            id: String(item.id || ''),
+            nick: String(item.nick || '').trim() || t('guestbook.anonymous'),
+            avatar: safeRemoteUrl(item.avatar, 'image'),
+            text: text,
+            created: created,
+            relativeTime: String(item.relativeTime || '')
+          };
+        }).filter(Boolean);
+      }
+
+      function formatDate(created) {
+        if (!created) return '';
+        var date = new Date(created);
+        if (isNaN(date.getTime())) return '';
+        try {
+          return date.toLocaleDateString(document.documentElement.lang || undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+        } catch (e) {
+          return date.toISOString().slice(0, 10);
+        }
+      }
+
+      function fallbackAvatar(nick) {
+        var span = document.createElement('span');
+        span.className = 'guestbook-card__avatar guestbook-card__avatar--text';
+        span.textContent = (nick || '?').charAt(0);
+        return span;
+      }
+
+      function jumpToComment(id) {
+        var target = id ? document.getElementById(id) : null;
+        var precise = !!target;
+        if (!target) target = document.getElementById('tcomment');
+        if (!target) return;
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+        if (precise) {
+          target.classList.add('guestbook-jump-target');
+          window.setTimeout(function () {
+            target.classList.remove('guestbook-jump-target');
+          }, 1600);
+        }
+      }
+
+      function createCard(message) {
+        var seed = hashSeed(message.id || message.nick + message.created);
+        var variant = CARD_VARIANTS[seed % CARD_VARIANTS.length];
+        var item = document.createElement('li');
+        item.className = 'guestbook-card guestbook-card--' + variant;
+        item.style.setProperty('--gb-rotate', ROTATIONS[(seed >> 4) % ROTATIONS.length] + 'deg');
+
+        if (variant === 'letter') {
+          var stamp = document.createElement('span');
+          stamp.className = 'guestbook-card__stamp';
+          stamp.setAttribute('aria-hidden', 'true');
+          item.appendChild(stamp);
+        } else {
+          item.style.setProperty('--gb-tape', TAPE_COLORS[(seed >> 2) % TAPE_COLORS.length]);
+          var tape = document.createElement('span');
+          tape.className = 'guestbook-card__tape';
+          tape.setAttribute('aria-hidden', 'true');
+          item.appendChild(tape);
+        }
+
+        var meta = document.createElement('div');
+        meta.className = 'guestbook-card__meta';
+
+        if (message.avatar) {
+          var img = document.createElement('img');
+          img.className = 'guestbook-card__avatar';
+          img.src = message.avatar;
+          img.alt = '';
+          img.loading = 'lazy';
+          img.referrerPolicy = 'no-referrer';
+          img.addEventListener('error', function () {
+            if (avatarFallback && img.dataset.flatpaperAvatarFallback !== '1' && img.src !== avatarFallback) {
+              img.dataset.flatpaperAvatarFallback = '1';
+              img.src = avatarFallback;
+              return;
+            }
+            if (img.parentNode) img.parentNode.replaceChild(fallbackAvatar(message.nick), img);
+          });
+          meta.appendChild(img);
+        } else {
+          meta.appendChild(fallbackAvatar(message.nick));
+        }
+
+        var who = document.createElement('div');
+        who.className = 'guestbook-card__who';
+        var nick = document.createElement('span');
+        nick.className = 'guestbook-card__nick';
+        nick.textContent = message.nick;
+        who.appendChild(nick);
+        var dateLabel = formatDate(message.created);
+        if (dateLabel) {
+          var time = document.createElement('time');
+          time.className = 'guestbook-card__date';
+          time.textContent = dateLabel;
+          time.dateTime = new Date(message.created).toISOString();
+          if (message.relativeTime) time.title = message.relativeTime;
+          who.appendChild(time);
+        }
+        meta.appendChild(who);
+
+        var text = document.createElement('p');
+        text.className = 'guestbook-card__text';
+        text.textContent = message.text;
+
+        var jump = document.createElement('a');
+        jump.className = 'guestbook-card__jump';
+        jump.href = '#tcomment';
+        jump.textContent = t('guestbook.jump_to_comment');
+        jump.addEventListener('click', function (event) {
+          event.preventDefault();
+          jumpToComment(message.id);
+        });
+
+        item.appendChild(meta);
+        item.appendChild(text);
+        item.appendChild(jump);
+        return item;
+      }
+
+      function renderNext() {
+        var next = messages.slice(shown, shown + pageSize);
+        next.forEach(function (message) {
+          list.appendChild(createCard(message));
+        });
+        shown += next.length;
+        more.hidden = shown >= messages.length;
+      }
+
+      function updateSummary(total) {
+        var totalEl = wall.querySelector('[data-guestbook-stat="total"]');
+        if (totalEl && typeof total === 'number') totalEl.textContent = t('guestbook.total_count', total);
+        var shownEl = wall.querySelector('[data-guestbook-stat="shown"]');
+        if (shownEl && truncated) {
+          shownEl.textContent = t('guestbook.latest_note', messages.length);
+          shownEl.hidden = false;
+        }
+        if (summary) summary.hidden = false;
+      }
+
+      // The Twikoo SDK loads with `defer` from a CDN while main.js runs at the
+      // end of <body>, so the global may not exist yet — poll instead of
+      // assuming script order.
+      function whenTwikooReady(onReady, onTimeout) {
+        var waited = 0;
+        (function poll() {
+          if (window.twikoo && typeof window.twikoo.getRecentComments === 'function') {
+            onReady();
+            return;
+          }
+          waited += 250;
+          if (waited >= 15000) {
+            onTimeout();
+            return;
+          }
+          window.setTimeout(poll, 250);
+        })();
+      }
+
+      more.addEventListener('click', renderNext);
+      setState(t('guestbook.loading'));
+
+      whenTwikooReady(function () {
+        window.twikoo.getRecentComments({
+          envId: envId,
+          urls: [pageKey],
+          pageSize: 100,
+          includeReply: false
+        }).then(function (raw) {
+          truncated = Array.isArray(raw) && raw.length >= 100;
+          messages = normalizeMessages(raw);
+          list.innerHTML = '';
+          shown = 0;
+          if (!messages.length) {
+            setState(t('guestbook.empty'));
+            return;
+          }
+          setState('');
+          renderNext();
+          updateSummary(messages.length);
+          // Replies live only in the comment section below; the wall shows
+          // top-level messages, so fetch the reply-inclusive total separately.
+          if (typeof window.twikoo.getCommentsCount === 'function') {
+            window.twikoo.getCommentsCount({ envId: envId, urls: [pageKey], includeReply: true })
+              .then(function (counts) {
+                var entry = Array.isArray(counts) ? counts[0] : null;
+                if (entry && typeof entry.count === 'number') updateSummary(entry.count);
+              })
+              .catch(function () { /* keep the top-level count */ });
+          }
+        }).catch(function () {
+          setState(t('guestbook.load_failed'), true);
+        });
+      }, function () {
+        setState(t('guestbook.load_failed'), true);
+      });
+    });
+  }
+
+  renderGuestbookWall();
+
   // ---- Home hero: scroll affordance and draggable scrapbook stickers ----
   (function () {
     var hero = document.querySelector('.home-hero');

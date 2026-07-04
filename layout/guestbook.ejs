@@ -1,0 +1,59 @@
+<%
+// Guestbook wall (`type: guestbook` front-matter). The article body becomes a
+// wall of sticker/letter cards re-rendered from the page's own Twikoo
+// comments; the regular comments section below (layout.ejs) stays the place
+// to actually write and reply. Client JS fetches via the already-loaded
+// Twikoo SDK (`getRecentComments`), so the wall only renders when the theme
+// is configured for Twikoo. Artalk support can plug into the same markup by
+// adding an adapter in main.js and another `data-guestbook-system` value.
+var sys = theme.comments ? String(theme.comments).toLowerCase() : '';
+var tk = theme.twikoo || {};
+var wallEnabled = sys === 'twikoo' && tk.envId && page.comments !== false;
+var pageSize = parseInt(page.page_size || 12, 10);
+if (!pageSize || pageSize < 1) pageSize = 12;
+if (pageSize > 50) pageSize = 50;
+var avatarFallback = flatpaper_safe_url(url_for('/images/icon-error.webp'), 'image');
+var pageTopImg = flatpaper_page_top_img_info(page);
+%>
+
+<div class="article-tape-wrap">
+<span class="tape tape--top-right" aria-hidden="true"></span>
+<article class="article-paper guestbook-page<%= pageTopImg.src ? ' article-paper--with-top-img article-paper--page-top-img' : '' %>">
+  <%- partial('_partial/page-top-img', { topImg: pageTopImg, label: page.title || flatpaper_i18n('guestbook.title') }) %>
+  <header class="article-header">
+    <span class="label-pill"><%= flatpaper_i18n('guestbook.label') %></span>
+    <h1><%= page.title || flatpaper_i18n('guestbook.title') %></h1>
+    <% if (page.subtitle) { %>
+      <p class="guestbook-subtitle"><%= page.subtitle %></p>
+    <% } %>
+  </header>
+
+  <% if (page.content && page.content.trim()) { %>
+    <div class="article-content guestbook-intro">
+      <%- page.content %>
+    </div>
+  <% } %>
+
+  <section
+    class="guestbook-wall"
+    <% if (wallEnabled) { %>
+    data-guestbook-system="twikoo"
+    data-guestbook-env="<%= tk.envId %>"
+    <% } %>
+    data-page-size="<%= pageSize %>"
+    data-avatar-fallback="<%= avatarFallback %>"
+    aria-label="<%= flatpaper_i18n('guestbook.title') %>"
+    aria-live="polite"
+  >
+    <div class="guestbook-wall__summary" hidden>
+      <span class="guestbook-wall__stat" data-guestbook-stat="total"></span>
+      <span class="guestbook-wall__stat" data-guestbook-stat="shown" hidden></span>
+      <a class="guestbook-wall__write" href="#tcomment"><%= flatpaper_i18n('guestbook.write_hint') %></a>
+    </div>
+
+    <p class="guestbook-wall__state" data-guestbook-state><%= wallEnabled ? flatpaper_i18n('guestbook.loading') : flatpaper_i18n('guestbook.missing_config') %></p>
+    <ul class="guestbook-wall__list" data-guestbook-list></ul>
+    <button class="guestbook-wall__more" type="button" data-guestbook-more hidden><%= flatpaper_i18n('guestbook.load_more') %></button>
+  </section>
+</article>
+</div>

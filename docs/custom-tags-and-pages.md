@@ -76,6 +76,7 @@ Recognized values:
 - `404`
 - `links`
 - `friends-feed`
+- `guestbook`
 - `tags`
 - `categories`
 
@@ -171,3 +172,24 @@ source_label: Source
 `fcl_all_json` can also be written as `all_json`. `page_size` and `source_label` are optional; different pages can point to different `all.json` files.
 
 With a GitHub raw URL, you do not need to bind GitHub Pages or a custom domain to Friend-Circle-Lite's `page` branch.
+
+## Guestbook Page
+
+`type: guestbook` re-renders the page's own Twikoo comments as a "message wall": each message becomes a journal-style scrap of paper (sticky note, ruled paper, grid paper, or an airmail letter with stamp and postmark; the look is derived deterministically from the comment id, so it never shuffles between reloads). The regular Twikoo comment section stays at the bottom of the page — visitors write there, and the message lands on the wall after a refresh:
+
+```yaml
+---
+title: Guestbook
+type: guestbook
+page_size: 12
+---
+```
+
+Prerequisite: the theme must have `comments: twikoo` with a `twikoo.envId` configured (the wall does not support Artalk yet; without Twikoo it shows a hint and the bottom comment section is unaffected).
+
+Behavior notes:
+
+- The wall shows top-level messages only (up to the latest 100). Threaded replies live in the comment section below; every card has a "view original comment" link that jumps there.
+- Wall cards use Twikoo's plain-text field, so image emotes do not appear on cards (they still show normally in the comment section).
+- `page_size` controls how many cards render per batch (default 12, max 50); the rest load via the "show more" button.
+- The page's markdown body renders above the wall and works as an intro.

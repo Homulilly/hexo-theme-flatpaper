@@ -59,6 +59,20 @@ friends_feed:
   unknown_author: Unknown site
   date_unknown: Unknown time
 
+guestbook:
+  label: Guestbook
+  title: Guestbook
+  loading: Unrolling the message wall...
+  missing_config: "The wall needs Twikoo: set comments: twikoo and an envId in the theme config."
+  load_failed: Failed to load messages. Try again later.
+  empty: The wall is still empty — stick the first note!
+  load_more: Show more messages
+  total_count: "%d messages in total"
+  latest_note: Showing the latest %d on the wall
+  jump_to_comment: View original comment
+  anonymous: Anonymous
+  write_hint: Leave a message below; it lands on the wall after a refresh
+
 post:
   scroll_to_comments: Jump to comments
   previous: Previous

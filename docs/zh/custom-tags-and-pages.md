@@ -76,6 +76,7 @@ type: links
 - `404`
 - `links`
 - `friends-feed`
+- `guestbook`
 - `tags`
 - `categories`
 
@@ -171,3 +172,24 @@ source_label: 数据源
 `fcl_all_json` 也可写作 `all_json`。`page_size` 和 `source_label` 可省略；不同页面可以填写不同的 `all.json`。
 
 如果使用 GitHub raw 地址，不需要给 FCL 的 `page` 分支绑定 GitHub Pages 或自定义域名。
+
+## 留言板页面
+
+`type: guestbook` 会把该页面自己的 Twikoo 评论重新渲染成一面「留言墙」：每条留言变成一张手帐风格的纸片（便签、横线纸、格纹纸或带邮票邮戳的信笺，样式由留言 id 确定性随机派生，刷新不跳变），页面底部仍是常规 Twikoo 评论区，访客在那里发言，刷新后留言就会贴到墙上：
+
+```yaml
+---
+title: 留言板
+type: guestbook
+page_size: 12
+---
+```
+
+前置条件：主题配置中 `comments: twikoo` 且 `twikoo.envId` 已填写（留言墙暂不支持 Artalk，未配置 Twikoo 时会显示提示，底部评论区不受影响）。
+
+行为说明：
+
+- 墙面只展示主楼留言（最新 100 条以内），楼中楼回复请在底部评论区查看；每张纸片有「查看原评论」链接可跳转过去。
+- 墙面内容取自 Twikoo 的纯文本字段，图片表情不会出现在纸片上（底部评论区不受影响）。
+- `page_size` 控制每批展示的张数（默认 12，上限 50），超出部分通过「展开更多留言」按钮加载。
+- front-matter 正文（markdown）会渲染在留言墙上方，可用作开场白。

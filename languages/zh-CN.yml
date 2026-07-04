@@ -59,6 +59,20 @@ friends_feed:
   unknown_author: 未知站点
   date_unknown: 时间未知
 
+guestbook:
+  label: 留言板
+  title: 留言板
+  loading: 正在铺开留言墙…
+  missing_config: "留言墙需要 Twikoo：请在主题配置中设置 comments: twikoo 并填写 envId。"
+  load_failed: 留言加载失败，请稍后再试。
+  empty: 墙上还空着，来贴第一张留言吧！
+  load_more: 展开更多留言
+  total_count: "共 %d 条留言"
+  latest_note: 墙上展示最新 %d 条
+  jump_to_comment: 查看原评论
+  anonymous: 匿名访客
+  write_hint: 在下方留言，刷新后就会贴到墙上
+
 post:
   scroll_to_comments: 跳转到评论区
   previous: 上一篇
