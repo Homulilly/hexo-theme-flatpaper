@@ -247,26 +247,7 @@
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-/* Postmark stamp effect overlaying the avatar */
-.guestbook-card__stamp::after {
-  content: "";
-  position: absolute;
-  top: -8px;
-  right: -10px;
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid var(--gb-stamp-outline);
-  border-radius: 50%;
-  opacity: 0.18;
-  pointer-events: none;
-  background: radial-gradient(circle, transparent 40%, var(--gb-stamp-outline) 42%, transparent 44%, transparent 56%, var(--gb-stamp-outline) 58%, transparent 60%);
-  transform: rotate(-15deg);
-  z-index: 2;
-  mix-blend-mode: multiply;
-}
-.dark-mode .guestbook-card__stamp::after {
-  mix-blend-mode: screen;
-}
+
 
 .guestbook-card:hover .guestbook-card__stamp {
   box-shadow: 3px 3px 0 var(--gb-stamp-lift-shadow), 0 4px 8px unquote('rgba(var(--paper-shadow-rgb), 0.16)');
