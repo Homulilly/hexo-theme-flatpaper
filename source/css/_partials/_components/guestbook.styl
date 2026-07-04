@@ -1,9 +1,11 @@
 /* ============== GUESTBOOK WALL ============== */
-/* Messages re-rendered as paper artifacts. Four variants, picked per comment
-   by a stable hash in main.js: sticky note / ruled paper / grid paper /
-   airmail letter (the signature one — striped edge, stamp, postmark).
-   Rotation and tape color arrive as inline custom props (--gb-rotate,
-   --gb-tape). */
+/* Messages re-rendered as sticky notes taped to the page, in the same look
+   as the home-hero builtin note (.hero-sticker--note): opaque candy-colored
+   paper, hard offset shadow, square corners, a short washi tape on top and a
+   visible tilt. Paper/ink pair comes from the --p0..--p4 modifier class,
+   tape color and tilt from inline custom props — all derived from a stable
+   per-comment hash in main.js. Paper stays bright in dark mode (like the
+   hero note); only its ink is baked to match. */
 
 .article-paper.guestbook-page {
   padding-bottom: 64px;
@@ -92,119 +94,57 @@
 .guestbook-card {
   --gb-rotate: 0deg;
   --gb-tape: var(--tape-yellow);
+  --gb-paper: #fff1a8;
+  --gb-ink: #6a5430;
   position: relative;
   display: block;
   break-inside: avoid;
-  margin: 0 0 20px;
-  padding: 18px 18px 14px;
-  background: var(--paper-solid);
-  border-radius: 4px;
-  box-shadow: var(--paper-shadow);
+  margin: 4px 0 22px;
+  padding: 16px 16px 12px;
+  color: var(--gb-ink);
+  background: var(--gb-paper);
+  box-shadow: 5px 7px 0 unquote('rgba(var(--paper-shadow-rgb), 0.1)');
   transform: rotate(var(--gb-rotate));
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .guestbook-card:hover {
   transform: rotate(0deg) translateY(-2px);
-  box-shadow: var(--small-shadow);
+  box-shadow: 6px 9px 0 unquote('rgba(var(--paper-shadow-rgb), 0.13)');
   z-index: 2;
+}
+
+/* Same candy palette family as the hero note (#fff1a8 / #6a5430). */
+.guestbook-card--p1 {
+  --gb-paper: #ffddd6;
+  --gb-ink: #7a463c;
+}
+
+.guestbook-card--p2 {
+  --gb-paper: #d9efd7;
+  --gb-ink: #44603f;
+}
+
+.guestbook-card--p3 {
+  --gb-paper: #d8e9f8;
+  --gb-ink: #3e5a76;
+}
+
+.guestbook-card--p4 {
+  --gb-paper: #f6e4c6;
+  --gb-ink: #6d5432;
 }
 
 .guestbook-card__tape {
   position: absolute;
-  top: -9px;
+  top: -8px;
   left: 50%;
-  width: 76px;
-  height: 20px;
+  width: 52px;
+  height: 16px;
   background-color: var(--gb-tape);
   background-image: var(--tape-stripes);
   filter: saturate(0.88);
-  transform: translateX(-50%) rotate(-2deg);
-}
-
-/* -- sticky note: paper tinted from its own tape color -- */
-.guestbook-card--note {
-  background: var(--paper-warm);
-  /* Stylus cannot parse `in` inside color-mix(); keep it as a raw string. */
-  background: unquote("color-mix(in srgb, var(--gb-tape) 16%, var(--paper-solid))");
-}
-
-/* -- ruled letter paper -- */
-.guestbook-card--ruled {
-  background-color: var(--paper-solid);
-  background-image: repeating-linear-gradient(transparent 0 25px, rgba(111, 169, 217, 0.22) 25px 26px);
-}
-
-.dark-mode .guestbook-card--ruled {
-  background-image: repeating-linear-gradient(transparent 0 25px, rgba(111, 169, 217, 0.16) 25px 26px);
-}
-
-/* -- grid / squared journal paper -- */
-.guestbook-card--grid {
-  background-color: var(--paper-solid);
-  background-image:
-    repeating-linear-gradient(rgba(143, 192, 152, 0.2) 0 1px, transparent 1px 18px),
-    repeating-linear-gradient(90deg, rgba(143, 192, 152, 0.2) 0 1px, transparent 1px 18px);
-}
-
-.dark-mode .guestbook-card--grid {
-  background-image:
-    repeating-linear-gradient(rgba(143, 192, 152, 0.14) 0 1px, transparent 1px 18px),
-    repeating-linear-gradient(90deg, rgba(143, 192, 152, 0.14) 0 1px, transparent 1px 18px);
-}
-
-/* -- airmail letter: striped edge + stamp + postmark -- */
-.guestbook-card--letter {
-  padding-top: 24px;
-  background: var(--paper);
-  box-shadow: var(--paper-shadow), inset 0 0 0 1px var(--dash);
-}
-
-.guestbook-card--letter::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  border-radius: 4px 4px 0 0;
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--tape-pink) 0 12px,
-    transparent 12px 24px,
-    var(--tape-blue) 24px 36px,
-    transparent 36px 48px
-  );
-}
-
-.guestbook-card--letter .guestbook-card__meta {
-  padding-right: 52px;
-}
-
-.guestbook-card__stamp {
-  position: absolute;
-  top: 16px;
-  right: 14px;
-  width: 34px;
-  height: 40px;
-  border: 1px dashed var(--color-accent);
-  border-radius: 2px;
-  background: var(--color-accent-soft);
-  background-image: var(--tape-stripes);
-  opacity: 0.85;
-}
-
-.guestbook-card__stamp::after {
-  content: "";
-  position: absolute;
-  top: 4px;
-  left: -16px;
-  width: 30px;
-  height: 30px;
-  border: 1.5px solid var(--muted);
-  border-radius: 50%;
-  opacity: 0.55;
-  transform: rotate(-12deg);
+  transform: translateX(-50%) rotate(4deg);
 }
 
 .guestbook-card__meta {
@@ -220,7 +160,7 @@
   height: 34px;
   border-radius: 50%;
   object-fit: cover;
-  background: var(--paper-warm);
+  background: rgba(255, 255, 255, 0.55);
   box-shadow: var(--paper-shadow);
 }
 
@@ -228,7 +168,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink-soft);
+  color: inherit;
   font-size: 15px;
   font-weight: 700;
 }
@@ -240,7 +180,7 @@
 }
 
 .guestbook-card__nick {
-  color: var(--ink);
+  color: inherit;
   font-size: 14px;
   font-weight: 700;
   overflow: hidden;
@@ -249,7 +189,8 @@
 }
 
 .guestbook-card__date {
-  color: var(--muted);
+  color: inherit;
+  opacity: 0.65;
   font-size: 12px;
   font-style: italic;
   letter-spacing: 0.04em;
@@ -258,9 +199,9 @@
 .guestbook-card__text {
   display: -webkit-box;
   margin: 0;
-  color: var(--ink-soft);
+  color: inherit;
   font-size: 14px;
-  line-height: 1.85;
+  line-height: 1.7;
   white-space: pre-line;
   overflow-wrap: anywhere;
   -webkit-box-orient: vertical;
@@ -271,20 +212,16 @@
 .guestbook-card__jump {
   display: inline-flex;
   margin-top: 10px;
-  border-bottom: 1px dashed var(--dash);
-  color: var(--muted);
+  border-bottom: 1px dashed currentColor;
+  color: inherit;
+  opacity: 0.68;
   font-size: 12px;
   text-decoration: none;
-  transition: color 0.18s ease, border-color 0.18s ease;
+  transition: opacity 0.18s ease;
 }
 
 .guestbook-card__jump:hover {
-  color: var(--color-accent-strong);
-  border-color: var(--color-accent);
-}
-
-.dark-mode .guestbook-card__jump:hover {
-  color: var(--color-accent-muted);
+  opacity: 1;
 }
 
 /* Brief highlight on the original Twikoo comment after a wall jump. */

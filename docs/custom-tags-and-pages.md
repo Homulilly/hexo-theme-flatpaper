@@ -175,7 +175,7 @@ With a GitHub raw URL, you do not need to bind GitHub Pages or a custom domain t
 
 ## Guestbook Page
 
-`type: guestbook` re-renders the page's own comments as a "message wall": each message becomes a journal-style scrap of paper (sticky note, ruled paper, grid paper, or an airmail letter with stamp and postmark; the look is derived deterministically from the comment id, so it never shuffles between reloads). The regular comment section stays at the bottom of the page — visitors write there, and the message lands on the wall after a refresh:
+`type: guestbook` re-renders the page's own comments as a "message wall": each message becomes a colored sticky note taped to the wall (paper tint, tape color and tilt are derived deterministically from the comment id, so the wall never shuffles between reloads). The regular comment section stays at the bottom of the page — visitors write there, and the message lands on the wall after a refresh:
 
 ```yaml
 ---

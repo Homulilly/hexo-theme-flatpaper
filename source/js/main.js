@@ -542,11 +542,12 @@
       // Where the real comment section below mounts; fallback jump target.
       var mountId = system === 'artalk' ? 'artalk-comments' : 'tcomment';
 
-      // Card look is derived from a hash of the comment id: stable across
-      // reloads (no layout jumps), still "random" across the wall.
-      var CARD_VARIANTS = ['note', 'ruled', 'grid', 'letter'];
+      // Card look (sticky-note color + tilt) is derived from a hash of the
+      // comment id: stable across reloads (no layout jumps), still "random"
+      // across the wall. Paper palettes live in guestbook.styl (--p0..--p4).
+      var PAPER_COUNT = 5;
       var TAPE_COLORS = ['var(--tape-yellow)', 'var(--tape-pink)', 'var(--tape-green)', 'var(--tape-blue)', 'var(--tape-brown)'];
-      var ROTATIONS = [-2.2, -1.4, -0.6, 0.7, 1.5, 2.3];
+      var ROTATIONS = [-4.5, -3, -1.5, 1.5, 3, 4.5];
 
       function setState(message, isError) {
         state.textContent = message || '';
@@ -598,23 +599,15 @@
 
       function createCard(message) {
         var seed = hashSeed(message.anchorId || message.nick + message.created);
-        var variant = CARD_VARIANTS[seed % CARD_VARIANTS.length];
         var item = document.createElement('li');
-        item.className = 'guestbook-card guestbook-card--' + variant;
+        item.className = 'guestbook-card guestbook-card--p' + (seed % PAPER_COUNT);
         item.style.setProperty('--gb-rotate', ROTATIONS[(seed >> 4) % ROTATIONS.length] + 'deg');
+        item.style.setProperty('--gb-tape', TAPE_COLORS[(seed >> 2) % TAPE_COLORS.length]);
 
-        if (variant === 'letter') {
-          var stamp = document.createElement('span');
-          stamp.className = 'guestbook-card__stamp';
-          stamp.setAttribute('aria-hidden', 'true');
-          item.appendChild(stamp);
-        } else {
-          item.style.setProperty('--gb-tape', TAPE_COLORS[(seed >> 2) % TAPE_COLORS.length]);
-          var tape = document.createElement('span');
-          tape.className = 'guestbook-card__tape';
-          tape.setAttribute('aria-hidden', 'true');
-          item.appendChild(tape);
-        }
+        var tape = document.createElement('span');
+        tape.className = 'guestbook-card__tape';
+        tape.setAttribute('aria-hidden', 'true');
+        item.appendChild(tape);
 
         var meta = document.createElement('div');
         meta.className = 'guestbook-card__meta';
