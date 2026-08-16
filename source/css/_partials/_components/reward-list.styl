@@ -1,0 +1,195 @@
+/* ============== REWARD / DONATION LIST ============== */
+/* anzhiyu-style donation roll re-skinned as FlatPaper scrapbook notes:
+   each donor becomes a paper slip with a washi tape top, a soft rotation
+   and a theme-colored amount badge. Colors cycle per item; dark mode
+   re-mixes the same tokens like the guestbook wall. */
+
+.reward-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 22px 18px;
+  margin: 20px 0 6px;
+  padding: 0;
+  list-style: none;
+}
+
+.reward-list__item {
+  --rl-hue: var(--green);
+  --rl-paper: unquote('color-mix(in srgb, var(--rl-hue) 18%, var(--paper-warm) 82%)');
+  --rl-ink: unquote('color-mix(in srgb, var(--rl-hue) 55%, var(--ink) 45%)');
+  --rl-rotate: -1.4deg;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 104px;
+  margin: 10px 2px 4px;
+  padding: 18px 16px 14px;
+  border: 1px dashed unquote('color-mix(in srgb, var(--rl-hue) 34%, var(--dash) 66%)');
+  border-radius: var(--radius-handdrawn);
+  background: var(--rl-paper);
+  box-shadow: 4px 5px 0 unquote('rgba(var(--paper-shadow-rgb), 0.09)'), 0 8px 16px -12px unquote('rgba(var(--paper-shadow-rgb), 0.24)');
+  transform: rotate(var(--rl-rotate));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Washi tape at the top edge of the slip */
+.reward-list__item::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 52px;
+  height: 18px;
+  margin-left: -26px;
+  background: var(--tape-yellow);
+  background-image: var(--tape-stripes);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px unquote('rgba(var(--paper-shadow-rgb), 0.1)');
+  transform: rotate(-3deg);
+  z-index: 3;
+}
+
+.reward-list__item:hover {
+  transform: translateY(-2px) rotate(0deg);
+  box-shadow: 5px 7px 0 unquote('rgba(var(--paper-shadow-rgb), 0.12)'), 0 12px 20px -13px unquote('rgba(var(--paper-shadow-rgb), 0.3)');
+}
+
+.reward-list__item--p1 { --rl-hue: var(--red); --rl-rotate: -1.8deg; }
+.reward-list__item--p1::before { background-color: var(--tape-pink); transform: rotate(2deg); }
+
+.reward-list__item--p2 { --rl-hue: var(--blue); --rl-rotate: 1.6deg; }
+.reward-list__item--p2::before { background-color: var(--tape-blue); transform: rotate(-3deg); }
+
+.reward-list__item--p3 { --rl-hue: var(--green); --rl-rotate: -1.2deg; }
+.reward-list__item--p3::before { background-color: var(--tape-green); transform: rotate(1deg); }
+
+.reward-list__item--p4 { --rl-hue: var(--orange); --rl-rotate: 2.2deg; }
+.reward-list__item--p4::before { background-color: var(--tape-brown); transform: rotate(-2deg); }
+
+.reward-list__item--p5 { --rl-hue: var(--violet); --rl-rotate: -2.4deg; }
+.reward-list__item--p5::before { background-color: var(--tape-yellow); transform: rotate(3deg); }
+
+/* Circular avatar pasted at the top-right corner, like a photo sticker.
+   Specificity beats .article-content img so the circle survives in prose. */
+.reward-list__item .reward-list__avatar {
+  position: absolute;
+  top: -13px;
+  right: -9px;
+  z-index: 2;
+  display: block;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--paper-solid);
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--rl-hue);
+  box-shadow: 2px 2px 0 unquote('rgba(var(--paper-shadow-rgb), 0.12)'), 0 3px 7px unquote('rgba(var(--paper-shadow-rgb), 0.2)');
+  transform: rotate(7deg);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* First-letter fallback when no avatar image is provided */
+.reward-list__item .reward-list__avatar--text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.reward-list__item:hover .reward-list__avatar {
+  transform: rotate(0deg) scale(1.06);
+  box-shadow: 3px 3px 0 unquote('rgba(var(--paper-shadow-rgb), 0.16)'), 0 5px 10px unquote('rgba(var(--paper-shadow-rgb), 0.24)');
+}
+
+.reward-list__name {
+  color: var(--rl-ink);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  word-break: break-all;
+}
+
+.reward-list__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Amount badge: RMB-note tier colors. Add a tier class next to the base
+   one (e.g. reward-list__amount--100) in the page markup. */
+.reward-list__amount {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+  box-shadow: var(--soft-shadow);
+}
+
+.reward-list__amount--100 { background: linear-gradient(135deg, #d9483f, #a92b24); }
+.reward-list__amount--50  { background: linear-gradient(135deg, #4f9e5d, #316f3b); }
+.reward-list__amount--20  { background: linear-gradient(135deg, #d9a441, #a87a24); }
+.reward-list__amount--10  { background: linear-gradient(135deg, #4a7ab5, #2f5386); }
+.reward-list__amount--5   { background: linear-gradient(135deg, #8a63b8, #62418f); }
+.reward-list__amount--1   { background: linear-gradient(135deg, #8a9449, #646d33); }
+
+.reward-list__date {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.reward-list__total {
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.reward-list__total time {
+  font-style: normal;
+}
+
+.dark-mode .reward-list__item {
+  --rl-paper: unquote('color-mix(in srgb, var(--rl-hue) 22%, var(--paper-warm) 78%)');
+  --rl-ink: unquote('color-mix(in srgb, var(--rl-hue) 70%, var(--ink) 30%)');
+  border-color: unquote('color-mix(in srgb, var(--rl-hue) 40%, var(--dash) 60%)');
+  box-shadow: 4px 5px 0 unquote('rgba(var(--paper-shadow-rgb), 0.16)'), 0 10px 18px -12px unquote('rgba(var(--paper-shadow-rgb), 0.5)');
+}
+
+@media (max-width: 640px) {
+  .reward-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 18px 14px;
+  }
+
+  .reward-list__item {
+    min-height: 92px;
+    padding: 15px 13px 12px;
+  }
+
+  .reward-list__name {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reward-list__item {
+    transition: none;
+  }
+
+  .reward-list__item:hover {
+    transform: rotate(var(--rl-rotate));
+  }
+}

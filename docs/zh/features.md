@@ -123,6 +123,31 @@ Hero 默认关闭；只有设置 `home_hero.enable: true` 后才会替换普通�
 - hover 信号脉冲动画
 - 链接数据下方继续渲染页面 markdown 正文
 
+## 赞赏名单
+
+在关于页等独立页面的正文中放入结构化 HTML，即可获得手账便签风格的赞赏名单卡片。每张卡片是带胶带、轻微歪斜的纸条，右上角可选圆形头像。
+
+```html
+<div class="reward-list">
+  <div class="reward-list__item reward-list__item--p1">
+    <img class="reward-list__avatar no-zoom" src="/images/donor.jpg" alt="昵称" loading="lazy" referrerpolicy="no-referrer">
+    <span class="reward-list__name">昵称</span>
+    <div class="reward-list__bottom">
+      <span class="reward-list__amount">¥100</span>
+      <time class="reward-list__date">2026-01-01</time>
+    </div>
+  </div>
+</div>
+<p class="reward-list__total">共 <strong>1</strong> 人 · 最新更新时间：<time datetime="2026-01-01">2026-01-01</time></p>
+```
+
+特性：
+
+- **金额档位配色**：JS 自动解析金额文本并着色，无需手写样式类——≥100 红、≥50 绿、≥20 棕黄、≥10 蓝、≥5 紫、≥1 橄榄绿（对应人民币纸币色）。手动添加 `reward-list__amount--100` 之类的类可显式覆盖。
+- **循环配色**：`--p1` 到 `--p5` 五个纸色档位（红/蓝/绿/橙/紫），胶带颜色随纸色切换。
+- **头像**：`no-zoom` 圆形头像贴在右上角；省略 `img` 时可用 `.reward-list__avatar--text` 显示名字首字符回退。
+- **响应式**：桌面多列自动排布，窄屏降为单列；支持深色模式与 `prefers-reduced-motion`。
+
 ## 多语言界面
 
 FlatPaper 的内置界面文案已本地化，根据 Hexo 站点 `language` 配置选择，支持 `zh-CN` 与 `en`，并回退到 `zh-CN`。

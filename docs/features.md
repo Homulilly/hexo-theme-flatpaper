@@ -127,6 +127,31 @@ Cards support:
 - hover signal-pulse animation
 - markdown body below the links data
 
+## Reward List
+
+Drop the structured HTML below into the body of an about page (or any standalone page) to get a scrapbook-style donation roll. Each donor becomes a paper slip with washi tape, a slight tilt, and an optional circular avatar in the top-right corner.
+
+```html
+<div class="reward-list">
+  <div class="reward-list__item reward-list__item--p1">
+    <img class="reward-list__avatar no-zoom" src="/images/donor.jpg" alt="Nickname" loading="lazy" referrerpolicy="no-referrer">
+    <span class="reward-list__name">Nickname</span>
+    <div class="reward-list__bottom">
+      <span class="reward-list__amount">¥100</span>
+      <time class="reward-list__date">2026-01-01</time>
+    </div>
+  </div>
+</div>
+<p class="reward-list__total">Total <strong>1</strong> · Latest update: <time datetime="2026-01-01">2026-01-01</time></p>
+```
+
+Features:
+
+- **Amount tier colors**: JS parses the amount text and colors the badge automatically — no style classes needed. ≥100 red, ≥50 green, ≥20 amber, ≥10 blue, ≥5 violet, ≥1 olive (RMB banknote colors). An explicit `reward-list__amount--100`-style class in the markup wins.
+- **Rotating paper colors**: `--p1` through `--p5` (red/blue/green/orange/violet), with the tape color following the slip.
+- **Avatar**: a `no-zoom` circular avatar is pasted in the top-right corner; omit the `img` and use `.reward-list__avatar--text` for a first-letter fallback.
+- **Responsive**: multi-column auto layout on desktop, single column on narrow screens; supports dark mode and `prefers-reduced-motion`.
+
 ## Multi-language UI
 
 FlatPaper's built-in interface text is localized and selected from the Hexo site `language` setting, supporting `zh-CN` and `en` with a `zh-CN` fallback.

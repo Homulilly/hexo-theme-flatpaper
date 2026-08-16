@@ -2171,5 +2171,24 @@
     syncBackToTop();
   }
 
+  // ---- Reward list: RMB-note tier badges ----
+  // Scan .reward-list__amount and derive a tier class from the amount text
+  // (¥100 -> --100, ¥50 -> --50, ...). Explicit tier classes in markup win.
+  var rewardAmounts = document.querySelectorAll('.reward-list__amount');
+  var rewardTiers = ['100', '50', '20', '10', '5', '1'];
+  for (var r = 0; r < rewardAmounts.length; r++) {
+    var amountEl = rewardAmounts[r];
+    if (amountEl.className.indexOf('reward-list__amount--') > -1) continue;
+    var amountMatch = (amountEl.textContent || '').match(/(\d+(?:\.\d+)?)/);
+    var amountValue = amountMatch ? parseFloat(amountMatch[1]) : NaN;
+    if (!isFinite(amountValue)) continue;
+    for (var ti = 0; ti < rewardTiers.length; ti++) {
+      if (amountValue >= parseInt(rewardTiers[ti], 10)) {
+        amountEl.classList.add('reward-list__amount--' + rewardTiers[ti]);
+        break;
+      }
+    }
+  }
+
   bindGlobalOnce();
 })();
