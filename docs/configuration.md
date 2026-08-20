@@ -449,6 +449,31 @@ footer:
   powered: false
 ```
 
+### Typewriter Effect
+
+`footer.typed` renders an anzhiyu-style typewriter next to the copyright line; `home_hero.typed` takes over the hero bio slot with the same fields. Both are disabled by default.
+
+```yaml
+footer:
+  typed:
+    enable: true
+    effect: true        # false shows the first sub entry without typing
+    loop: true
+    start_delay: 300
+    type_speed: 150
+    back_speed: 50
+    source: 1           # false = sub only | 1 = hitokoto | 2 = yijuzhan | 3 = jinrishici
+    # cdn: https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js
+    sub:
+      - Write the days down slowly
+```
+
+- The fetched quote shows first, then the `sub` list loops; sources `1` and `2` append a "from …" line (localised)
+- When `sub` is empty: `home_hero.typed` falls back to `home_hero.bio` / `profile.bio`, `footer.typed` to the site `subtitle`
+- Typed.js is loaded on demand and requested only once even with both slots enabled
+- **A failed load never leaves the slot empty**: on a CDN error or a 6s timeout the first entry is shown as plain text; with `effect: false` Typed.js is not loaded at all
+- If the quote endpoint fails it falls back to the `sub` list
+
 ## Note Blocks
 
 ```yaml

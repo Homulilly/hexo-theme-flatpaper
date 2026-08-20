@@ -459,6 +459,31 @@ footer:
   powered: false
 ```
 
+### 打字机效果
+
+`footer.typed` 在 © 版权行右侧渲染 anzhiyu 风格的打字机；`home_hero.typed` 用同一套字段接管开屏 bio 的位置。两处默认关闭。
+
+```yaml
+footer:
+  typed:
+    enable: true
+    effect: true        # false 时不打字，直接显示 sub 首行
+    loop: true
+    start_delay: 300
+    type_speed: 150
+    back_speed: 50
+    source: 1           # false 仅 sub | 1 一言 | 2 一句网 | 3 今日诗词
+    # cdn: https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js
+    sub:
+      - 桃李春风一杯酒，江湖夜雨十年灯
+```
+
+- `source` 取到的句子先显示，随后循环 `sub` 列表；`1` / `2` 会附带一条「出自 …」（文案走界面语言）
+- `sub` 为空时的回退：`home_hero.typed` 用 `home_hero.bio` / `profile.bio`，`footer.typed` 用站点 `subtitle`
+- Typed.js 按需从 CDN 加载，页脚与开屏同时开启也只请求一次
+- **加载失败不会留空**：CDN 报错或 6 秒未响应时，直接以纯文本显示首条内容；`effect: false` 时完全不加载 Typed.js
+- 句子接口失败时退回 `sub` 列表
+
 ## Note 提示块
 
 ```yaml

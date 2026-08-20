@@ -126,9 +126,17 @@ if (poweredItem) {
   else rows[0].items.push(poweredItem);
 }
 var rightRows = rows.map(renderLinkRow).filter(Boolean);
+// Typewriter next to the copyright line (anzhiyu footerBar.subTitle style).
+var typed = (f.typed && typeof f.typed === 'object') ? f.typed : {};
+var typedEnable = typed.enable === true;
 %>
 <footer class="site-footer">
-  <span class="site-footer__left"><%- left %></span>
+  <span class="site-footer__left"><%- left %><% if (typedEnable) { %><%- partial('_partial/typed', {
+    typed: typed,
+    target_id: 'footer-type-tips',
+    target_cls: 'site-footer__typed',
+    fallback_text: ''
+  }) %><% } %></span>
   <% if (rightRows.length) { %>
     <span class="site-footer__right">
       <% rightRows.forEach(function (row) { %>

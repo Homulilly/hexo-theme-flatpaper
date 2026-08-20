@@ -125,6 +125,18 @@ home_hero:
   #   - /images/hero-2.jpg
   # 移动端是否继续显示背景图；设为 false 时窄屏回退到纸张背景。
   mobile_image: true
+  # bio 位置的打字机效果（与 footer.typed 同一套字段），默认关闭。
+  # sub 为空时回退到 bio / profile.bio。
+  # typed:
+  #   enable: true
+  #   effect: true
+  #   loop: true
+  #   start_delay: 300
+  #   type_speed: 150
+  #   back_speed: 50
+  #   source: 1
+  #   sub:
+  #     - 桃李春风一杯酒，江湖夜雨十年灯
   #
   # 背景图暗色遮罩透明度：[顶部, 底部]，范围 0-1。
   # image_overlay: [0.2, 0.2]
@@ -256,6 +268,11 @@ tape:
 # - links 支持一维链接列表（一行）或二维链接列表（多行），同一行内用 " · " 分隔
 #   条目支持 name / link / title；仅图标时省略 name，配置 icons 数组即可
 #   （如 fa-regular:copyright）；aria-label 可单独指定无障碍名称
+# - typed 是 © 版权行右侧的打字机效果，默认关闭
+#   effect: true 打字 / false 直接显示 sub 首行；loop 循环
+#   source: false 仅 sub | 1 一言 hitokoto.cn | 2 一句网 yijuzhan.com | 3 今日诗词 jinrishici.com
+#   接口内容先显示，随后循环 sub 列表；cdn 可覆盖 Typed.js 加载地址
+#   CDN 不可达或超时（6s）时自动退回纯文本显示 sub 首行
 # 不配置 footer 时默认：左 "© {year} {author}"，右 "Powered by Theme FlatPaper"
 footer:
   left: '© {year} By {name}'
@@ -265,6 +282,17 @@ footer:
     name: FlatPaper
     link: https://github.com/Homulilly/hexo-theme-flatpaper
     # row: first
+  typed:
+    enable: false
+    effect: true
+    loop: true
+    start_delay: 300
+    type_speed: 150
+    back_speed: 50
+    # source: 1
+    # cdn: https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js
+    # sub:
+    #     - 桃李春风一杯酒，江湖夜雨十年灯.
   links:
     # 备案 / 版权链接示例：
     # - name: 蜀ICP备XXXXXXXX号-X

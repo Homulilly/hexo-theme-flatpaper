@@ -126,6 +126,18 @@ home_hero:
   #   - /images/hero-2.jpg
   # Keep the background image on mobile. Set to false to fall back to the paper background on narrow screens.
   mobile_image: true
+  # Typewriter in the bio slot (same fields as footer.typed). Disabled by default.
+  # Falls back to bio / profile.bio when sub is empty.
+  # typed:
+  #   enable: true
+  #   effect: true
+  #   loop: true
+  #   start_delay: 300
+  #   type_speed: 150
+  #   back_speed: 50
+  #   source: 1
+  #   sub:
+  #     - Write the days down slowly
   # Dark overlay opacity for hero images: [top, bottom], range 0-1.
   # image_overlay: [0.2, 0.2]
   # Text and target for the bottom sticker CTA. Defaults to the home content.
@@ -258,6 +270,11 @@ tape:
 # - links accepts a flat link list for one row, or nested link lists for multiple rows. Links in one row use " · " as the separator.
 #   Entries accept name / link / title. For icon-only links omit name and set an icons array
 #   (e.g. fa-regular:copyright); aria-label sets the accessible name explicitly.
+# - typed adds a typewriter next to the copyright line. Disabled by default.
+#   effect: true types it out, false shows the first sub entry directly; loop repeats.
+#   source: false = sub only | 1 = hitokoto.cn | 2 = yijuzhan.com | 3 = jinrishici.com.
+#   The fetched quote shows first, then the sub list loops; cdn overrides the Typed.js URL.
+#   If the CDN is unreachable or times out (6s) it falls back to plain text.
 # Defaults when footer is not configured: left "(c) {year} {author}", right "Powered by Theme FlatPaper".
 footer:
   left: '(c) {year} By {name}'
@@ -267,6 +284,17 @@ footer:
     name: FlatPaper
     link: https://github.com/Homulilly/hexo-theme-flatpaper
     # row: first
+  typed:
+    enable: false
+    effect: true
+    loop: true
+    start_delay: 300
+    type_speed: 150
+    back_speed: 50
+    # source: 1
+    # cdn: https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js
+    # sub:
+    #     - Write the days down slowly.
   links:
     # Filing / copyright link examples:
     # - name: ICP License XXXXXXXX

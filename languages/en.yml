@@ -147,6 +147,9 @@ welcome:
   title: Welcome to FlatPaper
   text: A blog theme focused on content and a calm reading experience.
 
+typed:
+  from: from
+
 home_hero:
   label: Home opening
   enter: Start reading

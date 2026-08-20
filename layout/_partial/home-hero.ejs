@@ -6,6 +6,8 @@ var rss = profile.rss || theme.rss || {};
 var heroTitle = hero.title || config.title || config.author || 'FlatPaper';
 var heroSubtitle = hero.subtitle || profile.role || '';
 var heroBio = hero.bio || profile.bio || flatpaper_i18n('profile.default_bio');
+var heroTyped = (hero.typed && typeof hero.typed === 'object') ? hero.typed : {};
+var heroTypedEnable = heroTyped.enable === true;
 var heroAvatar = hero.avatar || profile.avatar;
 var avatarShape = hero.avatar_shape || profile.avatar_shape || 'square';
 var stickers = hero.stickers;
@@ -200,7 +202,17 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
       <% } %>
       <p class="home-hero__eyebrow"><span class="green-dot"></span><%= heroSubtitle || flatpaper_i18n('home_hero.default_subtitle') %></p>
       <h1><%= heroTitle %></h1>
-      <p class="home-hero__bio"><%= heroBio %></p>
+      <% if (heroTypedEnable) { %>
+        <%# heroBio stays the fallback so an empty `sub` never leaves the slot blank %>
+        <p class="home-hero__bio"><%- partial('_partial/typed', {
+          typed: heroTyped,
+          target_id: 'home-hero-type-tips',
+          target_cls: 'home-hero__typed',
+          fallback_text: heroBio
+        }) %></p>
+      <% } else { %>
+        <p class="home-hero__bio"><%= heroBio %></p>
+      <% } %>
       <% var heroLinks = hero.hero_links; %>
       <% if (heroLinks && Array.isArray(heroLinks) && heroLinks.length > 0) { %>
         <nav class="home-hero__nav" aria-label="<%= flatpaper_i18n('home_hero.nav_links') %>">

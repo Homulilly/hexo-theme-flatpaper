@@ -1,0 +1,150 @@
+<%
+// Shared anzhiyu-style typewriter: renders a typed-effect span plus the
+// initializer script. Expected locals:
+//   typed         - config object (enable/effect/loop/start_delay/type_speed/back_speed/source/sub/cdn)
+//   target_id     - element id (default 'footer-type-tips')
+//   target_cls    - extra class for the span
+//   fallback_text - text to type when `sub` is empty (caller's own copy)
+// source (anzhiyu footerBar.subTitle compatible):
+//   false       - only `sub` strings
+//   1           - hitokoto.cn 一言 (fetched first, then `sub`)
+//   2           - yijuzhan.com 一句网 (loaded as script, then `sub`)
+//   3           - jinrishici.com 今日诗词 (SDK callback, then `sub`)
+var tdata = (typed && typeof typed === 'object') ? typed : {};
+var tId = target_id || 'footer-type-tips';
+var tCls = target_cls || '';
+var tEnable = tdata.enable === true;
+var tEffect = tdata.effect !== false;
+var tLoop = tdata.loop !== false;
+var tSource = parseInt(tdata.source, 10);
+if (!isFinite(tSource)) tSource = 0;
+var tStartDelay = parseInt(tdata.start_delay, 10);
+if (!isFinite(tStartDelay) || tStartDelay < 0) tStartDelay = 300;
+var tTypeSpeed = parseInt(tdata.type_speed, 10);
+if (!isFinite(tTypeSpeed) || tTypeSpeed < 0) tTypeSpeed = 150;
+var tBackSpeed = parseInt(tdata.back_speed, 10);
+if (!isFinite(tBackSpeed) || tBackSpeed < 0) tBackSpeed = 50;
+// `sub` wins; otherwise fall back to whatever the caller would have shown
+// without the typewriter, then to the site subtitle.
+var tFallback = (typeof fallback_text !== 'undefined' && fallback_text) ? String(fallback_text) : '';
+var tSub = Array.isArray(tdata.sub) && tdata.sub.length
+  ? tdata.sub.slice()
+  : (tFallback ? [tFallback] : (config.subtitle ? [config.subtitle] : []));
+var tCdn = tdata.cdn || 'https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js';
+%>
+<% if (tEnable) { %>
+<span<%- tCls ? ' class="' + tCls + '"' : '' %> id="<%= tId %>"></span>
+<script>
+(function () {
+  var el = document.getElementById(<%- JSON.stringify(tId) %>);
+  if (!el) return;
+  var sub = <%- JSON.stringify(tSub).replace(/</g, '\\u003c') %>;
+  var source = <%- tSource %>;
+  var effect = <%- tEffect %>;
+  var loop = <%- tLoop %>;
+  var startDelay = <%- tStartDelay %>;
+  var typeSpeed = <%- tTypeSpeed %>;
+  var backSpeed = <%- tBackSpeed %>;
+  var cdn = <%- JSON.stringify(tCdn) %>;
+  var fromLabel = <%- JSON.stringify(flatpaper_i18n('typed.from')) %>;
+
+  // One shared loader per page: footer and hero can both enable the
+  // typewriter, and they must not each request Typed.js.
+  var loader = window.flatpaperLoadTyped;
+  if (!loader) {
+    loader = window.flatpaperLoadTyped = function (src, done) {
+      var state = loader._state || (loader._state = { status: 0, waiting: [] });
+      if (typeof Typed !== 'undefined') { done(true); return; }
+      if (state.status === 2) { done(false); return; }
+      state.waiting.push(done);
+      if (state.status === 1) return;
+      state.status = 1;
+      var settled = false;
+      function settle(ok) {
+        if (settled) return;
+        settled = true;
+        state.status = ok ? 0 : 2;
+        var queue = state.waiting;
+        state.waiting = [];
+        for (var i = 0; i < queue.length; i++) queue[i](ok && typeof Typed !== 'undefined');
+      }
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = function () { settle(true); };
+      // A failed CDN must not leave the caller waiting: onerror settles as a
+      // failure, and the timeout covers a request that never resolves at all.
+      s.onerror = function () { settle(false); };
+      setTimeout(function () { settle(false); }, 6000);
+      (document.body || document.documentElement).appendChild(s);
+    };
+  }
+
+  // Without Typed.js (disabled, blocked CDN or timeout) the first string is
+  // still shown as plain text, so the slot is never left empty.
+  function render(strings) {
+    var list = [];
+    for (var i = 0; i < strings.length; i++) {
+      if (strings[i] != null && String(strings[i]) !== '') list.push(String(strings[i]));
+    }
+    if (!list.length) return;
+    if (!effect) { el.textContent = list[0]; return; }
+    loader(cdn, function (ready) {
+      if (!ready) { el.textContent = list[0]; return; }
+      new Typed(el, {
+        strings: list,
+        startDelay: startDelay,
+        typeSpeed: typeSpeed,
+        backSpeed: backSpeed,
+        loop: loop
+      });
+    });
+  }
+
+  function withQuote(quote, from) {
+    var strings = sub.slice();
+    if (quote) {
+      if (from) strings.unshift(fromLabel + ' ' + from);
+      strings.unshift(quote);
+    }
+    render(strings);
+  }
+
+  // Quote providers are plain <script> endpoints; a failure here only means
+  // falling back to the configured `sub` list.
+  function loadOnce(src, done) {
+    var settled = false;
+    function settle(ok) { if (!settled) { settled = true; done(ok); } }
+    var s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    s.onload = function () { settle(true); };
+    s.onerror = function () { settle(false); };
+    setTimeout(function () { settle(false); }, 6000);
+    (document.body || document.documentElement).appendChild(s);
+  }
+
+  if (source === 1) {
+    fetch('https://v1.hitokoto.cn')
+      .then(function (r) { return r.json(); })
+      .then(function (data) { withQuote(data && data.hitokoto, data && data.from); })
+      .catch(function () { render(sub); });
+  } else if (source === 2) {
+    loadOnce('https://yijuzhan.com/api/word.php?m=js', function (ok) {
+      if (ok && typeof str !== 'undefined' && str && str[0]) withQuote(str[0], str[1]);
+      else render(sub);
+    });
+  } else if (source === 3) {
+    loadOnce('https://sdk.jinrishici.com/v2/browser/jinrishici.js', function (ok) {
+      if (!ok || typeof jinrishici === 'undefined' || !jinrishici.load) { render(sub); return; }
+      jinrishici.load(function (result) {
+        withQuote(result && result.data && result.data.content, '');
+      });
+    });
+  } else {
+    render(sub);
+  }
+
+})();
+</script>
+<% } %>
