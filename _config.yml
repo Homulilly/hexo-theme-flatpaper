@@ -125,6 +125,15 @@ home_hero:
   #   - /images/hero-2.jpg
   # 移动端是否继续显示背景图；设为 false 时窄屏回退到纸张背景。
   mobile_image: true
+  # Medium 风格渐进加载：先铺一张高斯模糊的小图，背景大图解码完成后淡出交接；
+  # 同时开启滚动离场（图片轻微放大 + 整个开屏渐隐）。默认关闭。
+  # 图源仍然只有上面的 image —— 这里只改变它的加载表现，因此
+  # image_overlay / mobile_image / 多图轮播全部照常生效；
+  # 加载失败、脚本未执行或禁用 JS 时都会直接显示 image 本身。
+  # image_progressive: true
+  # 可选：模糊层用的小图（尽量 <100k）。省略时模糊层用纸面底色，仍有淡入。
+  # 注意不要填随机图接口，否则模糊层和最终显示的不是同一张照片。
+  # image_placeholder: /images/hero-lqip.jpg
   # bio 位置的打字机效果（与 footer.typed 同一套字段），默认关闭。
   # sub 为空时回退到 bio / profile.bio。
   # typed:

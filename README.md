@@ -158,6 +158,7 @@ language: en
 - **页脚链接与署名**：`footer.links` 条目支持纯图标链接（`icons` 数组，如 Font Awesome CC 标记）与 `title` / `aria-label`；`powered.row` 可把主题署名并入第一组 / 最后一组链接行末尾，或独占一行。
 - **打字机效果**：页脚版权行右侧与首页开屏 bio 支持 anzhiyu 风格打字机（Typed.js），句子源兼容一言 / 一句网 / 今日诗词，也可自定义 `sub` 列表循环；CDN 不可达时退回纯文本。
 - **滚动渐入**：首页轮播、章节标题、文章卡与侧栏卡进入视口时上浮渐显，文章卡交错出场；无 JS 或浏览器不支持 IntersectionObserver 时内容直接可见。
+- **渐进式开屏大图**：`image_progressive` 让开屏背景先模糊小图、大图解码后淡出交接，滚动时轻微放大并整体渐隐；图源仍是 `image`，加载失败或无 JS 时直接显示原图。
 - **多语言界面**：内置简体中文与英文界面文案，根据 Hexo `language` 配置选择并回退到 `zh-CN`；附带 `_config.yml` 与 `_config.en.yml` 两份配置。
 - **可选集成**：Twikoo、Artalk、Fancybox、Umami、Google Analytics 4、AdSense、自定义 HTML 注入与 RSS 资料链接。
 

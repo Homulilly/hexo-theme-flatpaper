@@ -38,6 +38,27 @@ Hero 默认关闭；只有设置 `home_hero.enable: true` 后才会替换普通�
 
 可用配置见[配置说明 → 首页开屏](configuration.md#首页开屏)。
 
+### 渐进式大图加载
+
+`home_hero.image_progressive` 为开屏背景启用 Medium 风格的渐进加载与滚动离场：
+
+```yaml
+home_hero:
+  enable: true
+  image: /images/hero.jpg
+  image_progressive: true
+  image_placeholder: /images/hero-lqip.jpg   # 可选
+```
+
+- 先铺一张高斯模糊的小图（`image_placeholder`），背景大图解码完成后淡出交接；未配置小图时模糊层用纸面底色，仍有淡入
+- 入场：照片层延迟 0.5s 后从 `scale(1.5)` 缩回 `1` 并由透明淡入，2.2s（沿用 pr-9 的时序与曲线）
+- 滚动离场：照片层放大 `+0.1` 并随进度线性渐隐至全透明。淡出只作用在照片层（位于贴纸与 profile 卡片之下），内容不受影响
+- **渐进加载是 `image` 的加载表现，不是第二个图源**：照片层由模板渲染、始终存在、消费同一个 `--hero-bg-image`，所以 `image_overlay`、`mobile_image`、多图轮播全部照常生效
+- 失败即降级：图片 404、脚本报错、`main.js` 未执行或禁用 JS 时，直接显示 `image` 本身（模糊层带 `hidden`，由紧随其后的内联脚本解除，2 秒内没人接管就重新藏回去）
+- 只用 `transform` 与 `opacity` 驱动滚动，不用 `filter`，避免全屏模糊的逐帧重栅格化
+- `prefers-reduced-motion` 下不注册滚动监听
+- `image_placeholder` 不要填随机图接口，否则模糊层预览的是另一张照片
+
 ### 滚动渐入
 
 首页模块（featured 轮播、章节标题、文章卡片，以及侧栏的 profile / 分类 / 标签卡）进入视口时逐个上浮渐显：

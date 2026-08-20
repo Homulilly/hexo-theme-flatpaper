@@ -126,6 +126,17 @@ home_hero:
   #   - /images/hero-2.jpg
   # Keep the background image on mobile. Set to false to fall back to the paper background on narrow screens.
   mobile_image: true
+  # Medium-style progressive loading: a blurred small image paints first and
+  # hands over to the background photo once it decodes, plus a scroll exit
+  # (slight photo scale-up and a fade of the whole hero). Disabled by default.
+  # `image` above stays the only source — this only changes how it loads, so
+  # image_overlay / mobile_image / multi-image rotation all keep working, and a
+  # failed load, a script error or no JS at all simply shows `image` itself.
+  # image_progressive: true
+  # Optional small image for the blur layer (aim for <100k). Without it the
+  # blur layer uses the paper colour and still fades in. Do not point this at a
+  # random-image API, or the blur will preview a different photo.
+  # image_placeholder: /images/hero-lqip.jpg
   # Typewriter in the bio slot (same fields as footer.typed). Disabled by default.
   # Falls back to bio / profile.bio when sub is empty.
   # typed:

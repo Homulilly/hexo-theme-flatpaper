@@ -22,11 +22,80 @@ body.has-home-hero.is-hero-active::before {
 
 .home-hero--image {
   color: #fffdf6;
+}
+
+/* Photo layer. Server-rendered and permanent, and it reads the very same
+   --hero-bg-image the section carries, so applyRandomHeroImage() rewriting
+   that variable is picked up for free and no script ever owns the image
+   source. Living in its own layer is what makes the scroll scale possible.
+   Every var() keeps a fallback: an undefined custom property would make the
+   whole background-image declaration invalid at computed-value time and drop
+   the photo entirely. */
+.home-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
   background-image:
-    linear-gradient(180deg, var(--hero-image-overlay-top, rgba(42, 33, 22, 0.2)), var(--hero-image-overlay-bottom, rgba(42, 33, 22, 0.2))),
+    linear-gradient(180deg,
+      var(--hero-image-overlay-top, rgba(42, 33, 22, 0.2)),
+      var(--hero-image-overlay-bottom, rgba(42, 33, 22, 0.2))),
     var(--hero-bg-image);
-  background-size: cover;
   background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  // The scroll exit fades this layer only, never the section: opacity on
+  // .home-hero would apply to the whole subtree and take the stickers and the
+  // profile card with it. Upstream faded .pl-container for the same reason.
+  opacity: var(--hero-media-opacity, 1);
+  transform: scale(var(--hero-media-scale, 1));
+  transform-origin: center;
+}
+
+/* Entry zoom, carrying over the upstream scale-in timing verbatim: 2.2s on the
+   same S-curve after a 0.5s delay, zooming out from 1.5 while fading up from
+   transparent. `backwards` fill holds the first frame through the delay (so the
+   photo is absent while the blur placeholder is still doing its job) and leaves
+   nothing behind afterwards, handing transform back to the scroll variable.
+   The upstream blur-to-clear pass is deliberately not carried over:
+   .hero-lqip already provides the blur-to-sharp handoff, and with a real small
+   image rather than the big one artificially blurred. */
+.home-hero--progressive .home-hero__media {
+  animation: fp-hero-media-in 2.2s cubic-bezier(0.6, 0.1, 0.25, 1) 0.5s 1 backwards;
+}
+
+@keyframes fp-hero-media-in {
+  from {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Blur-up placeholder. Same z-index as the photo but later in the DOM, so it
+   sits directly on top of it and every other layer looks identical before and
+   after the fade. Ships with the `hidden` attribute and is unhidden by the
+   inline script next to it, so it never appears without JS to remove it. */
+.hero-lqip {
+  position: absolute;
+  inset: -3%;
+  z-index: -3;
+  pointer-events: none;
+  background-image: var(--hero-lqip, linear-gradient(180deg, var(--hero-paper), var(--hero-paper)));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(40px);
+  transform: scale(1.06);
+  transition: opacity 0.6s ease;
+}
+
+.hero-lqip.is-done {
+  opacity: 0;
 }
 
 .home-hero::before,
@@ -795,6 +864,13 @@ body.has-home-hero.is-hero-active::before {
     opacity: 0.42;
   }
 
+  // mobile_image: false drops the photo on phones; the layers carrying it have
+  // to go with it, otherwise they would paint over the paper fallback.
+  .home-hero--image:not(.home-hero--mobile-image) .home-hero__media,
+  .home-hero--image:not(.home-hero--mobile-image) .hero-lqip {
+    display: none;
+  }
+
   .home-hero__tools {
     top: 16px;
     right: 16px;
@@ -929,5 +1005,18 @@ body.has-home-hero.is-hero-active::before {
 
   .home-hero__arrow {
     animation: none;
+  }
+
+  // The scroll handler is not registered at all under reduced motion; these
+  // only cover the preference being switched mid-session, and they override
+  // the property rather than the variable so they win against the rule above.
+  .home-hero__media {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .hero-lqip {
+    transition: none;
   }
 }

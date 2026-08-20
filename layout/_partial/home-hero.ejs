@@ -74,6 +74,13 @@ var heroMobileImage = heroImage && hero.mobile_image !== false;
 // on the output tag alone would miss.
 var heroImageCss = heroImage.replace(/[\\"]/g, '\\$&');
 var heroOverlay = heroImageOverlay(hero.image_overlay);
+// Progressive loading is a loading strategy for `image`, not a second image
+// source: the photo layer below is server-rendered and always consumes
+// --hero-bg-image, so a failure anywhere in JS only costs the blur-up, never
+// the background itself.
+var heroProgressive = heroImage && hero.image_progressive === true;
+var heroPlaceholder = heroProgressive ? heroImageUrl(hero.image_placeholder) : '';
+var heroPlaceholderCss = heroPlaceholder ? heroPlaceholder.replace(/[\\"]/g, '\\$&') : '';
 var ctaHref = heroHref(hero.cta_link || '#flatpaper-home-content');
 var enterLabel = flatpaper_i18n('home_hero.enter');
 var ctaText = hero.cta_text || enterLabel;
@@ -135,11 +142,31 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
 %>
 
 <section
-  class="home-hero<%= heroImage ? ' home-hero--image' : '' %><%= heroMobileImage ? ' home-hero--mobile-image' : '' %><%= stickersDraggable ? ' has-draggable-stickers' : '' %>"
+  class="home-hero<%= heroImage ? ' home-hero--image' : '' %><%= heroMobileImage ? ' home-hero--mobile-image' : '' %><%= heroProgressive ? ' home-hero--progressive' : '' %><%= stickersDraggable ? ' has-draggable-stickers' : '' %>"
   aria-label="<%= flatpaper_i18n('home_hero.label') %>"
   <% if (heroImage) { %>style="--hero-bg-image: url(&quot;<%= heroImageCss %>&quot;); --hero-image-overlay-top: rgba(42, 33, 22, <%= heroOverlay.top %>); --hero-image-overlay-bottom: rgba(42, 33, 22, <%= heroOverlay.bottom %>);"<% } %>
   <% if (heroImages.length > 1) { %>data-hero-images="<%= JSON.stringify(heroImages) %>"<% } %>
 >
+  <% if (heroImage) { %>
+    <div class="home-hero__media" aria-hidden="true"></div>
+  <% } %>
+  <% if (heroProgressive) { %>
+    <div class="hero-lqip" hidden aria-hidden="true"<% if (heroPlaceholder) { %> style="--hero-lqip: url(&quot;<%= heroPlaceholderCss %>&quot;)"<% } %>></div>
+    <script>
+      // The placeholder only earns its keep if it is painted from the first
+      // frame, so it is unhidden here rather than from main.js — and only ever
+      // when JS is running to fade it out again. If main.js never gets to it,
+      // the timeout hides it back so it cannot sit on top of the photo.
+      (function () {
+        var el = document.currentScript && document.currentScript.previousElementSibling;
+        if (!el) return;
+        el.hidden = false;
+        setTimeout(function () {
+          if (!window.flatpaperHeroProgressive) el.hidden = true;
+        }, 2000);
+      })();
+    </script>
+  <% } %>
   <div class="home-hero__grain" aria-hidden="true"></div>
   <div class="home-hero__tools" aria-label="<%= flatpaper_i18n('home_hero.tools') %>">
     <% if (stickersEnabled && stickersDraggable) { %>

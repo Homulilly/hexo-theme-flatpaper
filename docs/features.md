@@ -38,6 +38,27 @@ The hero is disabled by default, so existing sites keep the normal home layout u
 
 See [Configuration → Home Opening Hero](configuration.md#home-opening-hero) for the available options.
 
+### Progressive Hero Image
+
+`home_hero.image_progressive` turns on Medium-style progressive loading and a scroll exit for the hero backdrop:
+
+```yaml
+home_hero:
+  enable: true
+  image: /images/hero.jpg
+  image_progressive: true
+  image_placeholder: /images/hero-lqip.jpg   # optional
+```
+
+- A blurred small image (`image_placeholder`) paints first and fades out once the background photo has decoded; without a placeholder the blur layer uses the paper colour and still fades in
+- Entry: after a 0.5s delay the photo layer eases from `scale(1.5)` back to `1` while fading up from transparent, over 2.2s
+- Scroll exit: the photo layer scales by `+0.1` and fades out linearly with progress. Only that layer fades — it sits below the stickers and the profile card, so the content is untouched
+- **Progressive loading is how `image` loads, not a second image source**: the photo layer is server-rendered, always present, and consumes the same `--hero-bg-image`, so `image_overlay`, `mobile_image` and multi-image rotation all keep working
+- It fails open: a 404, a script error, `main.js` never running, or no JS at all simply shows `image` itself (the blur layer ships `hidden`, is unhidden by the inline script beside it, and is hidden again if nothing takes over within 2s)
+- The scroll effect drives only `transform` and `opacity`, never `filter`, so there is no full-viewport blur to re-rasterise each frame
+- No scroll listener is registered under `prefers-reduced-motion`
+- Do not point `image_placeholder` at a random-image API, or the blur will preview a different photo
+
 ### Reveal on Scroll
 
 Home modules — the featured carousel, the section heading, post cards, and the sidebar profile / categories / tag cards — fade up one by one as they enter the viewport:

@@ -1127,6 +1127,74 @@
     var scrollLinks = hero.querySelectorAll('[data-hero-scroll]');
     applyRandomHeroImage();
     applyRandomHeroCtaBackground();
+
+    // ---- Hero photo: blur-up handoff ----
+    // Must stay after applyRandomHeroImage(): that call may have rewritten
+    // --hero-bg-image, and the preload below has to watch the photo that
+    // actually ends up on screen. Should the rotation ever become a runtime
+    // loop, every change would need to restart this check behind a generation
+    // token.
+    (function initHeroBlurUp() {
+      var lqip = hero.querySelector('.hero-lqip');
+      var media = hero.querySelector('.home-hero__media');
+      if (!lqip) return;
+      // Releases the inline script's hide-it-back timeout.
+      window.flatpaperHeroProgressive = true;
+      var settled = false;
+      function reveal() {
+        if (settled) return;
+        settled = true;
+        lqip.classList.add('is-done');
+      }
+      lqip.addEventListener('transitionend', function () {
+        if (lqip.parentNode) lqip.parentNode.removeChild(lqip);
+      });
+      // mobile_image: false hides both layers on phones — nothing to wait for,
+      // and no reason to fetch the photo.
+      if (!media || getComputedStyle(lqip).display === 'none') { reveal(); return; }
+      var match = /url\(["']?([^"')]+)["']?\)/.exec(getComputedStyle(media).backgroundImage || '');
+      if (!match) { reveal(); return; }
+      var img = new Image();
+      // Loaded, broken and hung all leave through the same door: the
+      // placeholder must never be what's left covering the photo.
+      img.onload = reveal;
+      img.onerror = reveal;
+      img.src = match[1];
+      if (img.complete) reveal();
+      setTimeout(reveal, 8000);
+    })();
+
+    // ---- Hero scroll exit ----
+    // Both variables land on the photo layer, which sits below the stickers
+    // and the profile card: putting the fade on the section itself would apply
+    // it to the whole subtree and drag the content out with the backdrop.
+    (function initHeroScrollExit() {
+      if (!hero.classList.contains('home-hero--progressive')) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var ticking = false;
+      function update() {
+        ticking = false;
+        var rect = hero.getBoundingClientRect();
+        var height = Math.max(rect.height, 1);
+        // Same values as upstream (scale 1 -> 1.1, opacity 1 -> 0) but read
+        // off the hero's own rect instead of scrollY / innerHeight, which is
+        // equivalent while the hero is a full-viewport block at the top of the
+        // page and correct when it is not. The upstream per-frame
+        // blur(process * 10px) is left out: a full-viewport filter has to be
+        // re-rasterised every frame.
+        var progress = Math.max(0, Math.min(1, -rect.top / height));
+        hero.style.setProperty('--hero-media-scale', (1 + progress * 0.1).toFixed(3));
+        hero.style.setProperty('--hero-media-opacity', (1 - progress).toFixed(3));
+      }
+      function schedule() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      update();
+    })();
     var heroSocialLinks = hero.querySelector('.home-hero__links');
     function syncClippedHeroLinks() {
       if (!heroSocialLinks) return;
