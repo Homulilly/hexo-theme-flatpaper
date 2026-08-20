@@ -5,7 +5,7 @@ var summary = strip_html(post.excerpt || post.content || '').replace(/\s+/g, ' '
 var max = theme.excerpt_length || 96;
 if (summary.length > max) summary = summary.slice(0, max) + '...';
 %>
-<article class="post-card" data-title="<%= post.title %>">
+<article class="post-card reveal" data-title="<%= post.title %>" style="--reveal-delay: <%= Math.min(index % 6 * 60, 300) %>ms">
   <a class="post-thumb-link" href="<%- url_for(post.path) %>" aria-label="<%= post.title %>">
     <%- partial('_partial/thumbnail', { index: index, post: post }) %>
   </a>

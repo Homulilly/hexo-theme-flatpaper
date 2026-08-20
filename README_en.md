@@ -155,6 +155,7 @@ language: en
 - **Reward list**: structured HTML in an about page renders scrapbook-style donation slips — washi tape, rotating paper colors, circular top-right avatar; the amount badge auto-colors by RMB tier (≥100 red / ≥50 green / ≥20 amber / ≥10 blue / ≥5 violet / ≥1 olive).
 - **Footer links & credit**: `footer.links` entries support icon-only links via an `icons` array (e.g. Font Awesome CC marks) plus `title` / `aria-label`; `powered.row` places the theme credit at the end of the first or last link row, or on a row of its own.
 - **Typewriter effect**: anzhiyu-style typed text (Typed.js) next to the footer copyright line and in the home hero bio, with hitokoto / yijuzhan / jinrishici quote sources or a custom `sub` list; falls back to plain text when the CDN is unreachable.
+- **Reveal on scroll**: the featured carousel, section heading, post cards and sidebar cards fade up as they enter the viewport, with post cards staggered; content shows immediately without JS or IntersectionObserver support.
 - **Multi-language UI**: built-in interface text in Simplified Chinese and English, selected from the Hexo `language` setting with a `zh-CN` fallback; ships both `_config.yml` and `_config.en.yml`.
 - **Optional integrations**: Twikoo, Artalk, Fancybox, Umami, Google Analytics 4, AdSense, custom HTML injection, and RSS profile links.
 

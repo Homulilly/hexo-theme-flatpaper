@@ -25,7 +25,7 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
 
 <% if (featured.length) { %>
   <section
-    class="featured-carousel<%= featured.length > 1 ? ' has-multiple' : '' %>"
+    class="featured-carousel reveal<%= featured.length > 1 ? ' has-multiple' : '' %>"
     data-autoplay="<%= autoplay %>"
     aria-label="<%= flatpaper_i18n('index.featured') %>"
   >
@@ -77,7 +77,7 @@ var featuredImageZigzag = theme.featured_image_zigzag !== false;
 <% } %>
 
 <% if (featured.length) { %>
-  <section class="section-head">
+  <section class="section-head reveal">
     <h2><%- partial('_partial/icons', { icon: 'history' }) %><%= flatpaper_i18n('index.latest_posts') %></h2>
   </section>
 <% } %>

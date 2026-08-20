@@ -38,6 +38,17 @@ The hero is disabled by default, so existing sites keep the normal home layout u
 
 See [Configuration → Home Opening Hero](configuration.md#home-opening-hero) for the available options.
 
+### Reveal on Scroll
+
+Home modules — the featured carousel, the section heading, post cards, and the sidebar profile / categories / tag cards — fade up one by one as they enter the viewport:
+
+- Elements carry the `reveal` class; `main.js` adds `is-revealed` through an IntersectionObserver, once per element
+- Post cards stagger by index (60ms steps, capped at 300ms) via the `--reveal-delay` custom property, so the delay never leaks into the card's own transitions
+- The entry animation leaves no `transform` declaration behind, so the card `:hover` lift keeps working
+- Hiding is gated on `<html class="reveal-ready">`, added by the head inline script before first paint. Nothing is hidden without JS, without IntersectionObserver support, or when `main.js` fails to run (a 2s fallback removes the class in that case)
+- Under `prefers-reduced-motion` content appears immediately with no animation
+- Reuse it on custom pages by adding the `reveal` class, plus an inline `--reveal-delay` when you want a stagger
+
 ## Cover Images
 
 Post card and featured images are resolved in this order:

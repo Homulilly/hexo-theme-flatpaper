@@ -38,6 +38,17 @@ Hero 默认关闭；只有设置 `home_hero.enable: true` 后才会替换普通�
 
 可用配置见[配置说明 → 首页开屏](configuration.md#首页开屏)。
 
+### 滚动渐入
+
+首页模块（featured 轮播、章节标题、文章卡片，以及侧栏的 profile / 分类 / 标签卡）进入视口时逐个上浮渐显：
+
+- 元素带 `reveal` 类，`main.js` 用 IntersectionObserver 在进入视口时添加 `is-revealed`，只触发一次
+- 文章卡片按索引交错出场（每 60ms 递增，上限 300ms），延迟通过 `--reveal-delay` 自定义属性传入，不会影响卡片自身的 hover 过渡
+- 出场动画结束后不残留任何 `transform` 声明，因此卡片的 hover 抬升照常生效
+- 隐藏由 `<html class="reveal-ready">` 控制，该类由 head 内联脚本在首屏绘制前添加。没有 JS、浏览器不支持 IntersectionObserver、或 `main.js` 未能执行时都不会隐藏（最后一种由 2 秒兜底移除该类），内容始终可见
+- `prefers-reduced-motion` 下直接显示，不做动画
+- 自定义页面给元素加 `reveal` 类即可复用；需要错开出场时再加内联 `--reveal-delay`
+
 ## 封面图
 
 文章卡片和精选图按以下顺序解析：

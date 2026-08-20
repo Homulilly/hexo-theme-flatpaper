@@ -116,7 +116,7 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
     </nav>
   </section>
 
-  <section class="side-card profile-card">
+  <section class="side-card profile-card reveal">
     <% if (profile.avatar) { %>
       <div class="avatar avatar--image<%= profile.avatar_shape === 'circle' ? ' avatar--circle' : '' %>">
         <img src="<%= flatpaper_safe_url(url_for(profile.avatar), 'image') %>" alt="<%= config.author || '' %>" loading="lazy" referrerpolicy="no-referrer">
@@ -224,7 +224,7 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
       <%- partial('_partial/latest-posts') %>
     </div>
   <% } else { %>
-    <section class="side-card categories-card">
+    <section class="side-card categories-card reveal">
       <h2><%- partial('_partial/icons', { icon: 'folder' }) %><%= flatpaper_i18n('common.categories') %></h2>
       <% categories.slice(0, 6).forEach(function(category, index) { %>
         <a href="<%- url_for(category.path) %>">
@@ -235,7 +235,7 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
       <% }) %>
     </section>
 
-    <section class="side-card tag-card">
+    <section class="side-card tag-card reveal">
       <header class="tag-card__head">
         <h2><%- partial('_partial/icons', { icon: 'flame' }) %><%= flatpaper_i18n('sidebar.hot_tags') %></h2>
         <a class="tag-card__more" href="<%- url_for((config.tag_dir || 'tags') + '/') %>">

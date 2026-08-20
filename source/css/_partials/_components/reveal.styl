@@ -1,0 +1,45 @@
+/* ============== REVEAL-ON-SCROLL ============== */
+/* Home modules fade up as they enter the viewport. Elements opt in with the
+   `reveal` class; main.js adds `is-revealed` via IntersectionObserver.
+
+   Hiding is gated on html.reveal-ready, which the head inline script sets only
+   when IntersectionObserver exists and which is dropped again if main.js never
+   wires up the observer. Without JS nothing is ever hidden.
+
+   The revealed state deliberately declares no transform of its own: the entry
+   animation carries it with `animation-fill-mode: backwards`, so once the
+   animation finishes no declaration lingers to override the :hover lift on
+   post cards and sidebar cards. */
+
+.reveal-ready .reveal:not(.is-revealed) {
+  opacity: 0;
+}
+
+.reveal-ready .reveal.is-revealed {
+  animation: fp-reveal 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+  /* Stagger comes from a custom property so it cannot leak into the card's
+     own transitions the way an inline transition-delay would. */
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes fp-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready .reveal:not(.is-revealed) {
+    opacity: 1;
+  }
+
+  .reveal-ready .reveal.is-revealed {
+    animation: none;
+  }
+}

@@ -1,4 +1,26 @@
 (function () {
+  // ---- Reveal-on-scroll ----
+  // Deliberately first in this IIFE: `.reveal` elements start hidden once the
+  // head script has set html.reveal-ready, so a later failure in here must not
+  // be what decides whether the page has visible content.
+  (function initReveal() {
+    var root = document.documentElement;
+    if (!root.classList.contains('reveal-ready')) return;
+    if (!('IntersectionObserver' in window)) { root.classList.remove('reveal-ready'); return; }
+    // Tells the head script's safety timeout that the observer is wired up.
+    window.flatpaperRevealReady = true;
+    var targets = document.querySelectorAll('.reveal');
+    if (!targets.length) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-revealed');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    for (var i = 0; i < targets.length; i++) observer.observe(targets[i]);
+  })();
+
   // Safe storage wrapper: Safari private mode, sandboxed iframes, or strict
   // enterprise policies make raw localStorage access throw SecurityError,
   // which would otherwise abort this entire IIFE.

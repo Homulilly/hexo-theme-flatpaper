@@ -270,6 +270,17 @@ if (['orange', 'purple', 'sakura', 'blue', 'pink', 'green', 'black'].indexOf(acc
         document.documentElement.classList.add('dark-mode');
       }
     } catch (e) {}
+    // Reveal-on-scroll opts in from here so it is applied before first paint
+    // (no flash) and never applies without JS. If main.js never runs the
+    // observer, the timeout drops the class again so nothing stays hidden.
+    if ('IntersectionObserver' in window) {
+      document.documentElement.classList.add('reveal-ready');
+      setTimeout(function () {
+        if (!window.flatpaperRevealReady) {
+          document.documentElement.classList.remove('reveal-ready');
+        }
+      }, 2000);
+    }
   })();
 </script>
 <%- css('css/style') %>
