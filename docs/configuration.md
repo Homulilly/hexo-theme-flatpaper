@@ -380,6 +380,7 @@ footer:
     prefix: Powered by Theme
     name: FlatPaper
     link: https://github.com/Homulilly/hexo-theme-flatpaper
+    row: first
   links:
     -
       - name: Terms
@@ -404,9 +405,42 @@ footer:
 - `prefix`: credit prefix, default `Powered by Theme`
 - `name`: theme name, default `FlatPaper`
 - `link`: theme link, default FlatPaper repository
+- `row`: which row the credit sits in, default `first`
+  - `first`: appended to the end of the first link row (rightmost on that row)
+  - `last`: appended to the end of the last link row
+  - `own`: its own row, above every link row
 - You can also set `powered: false` to disable the whole theme credit
 
+The credit is inserted as a link item in its row, so the separator between it and the neighbouring links follows that row's `separator` setting. With no `links` configured the credit takes a row of its own.
+
 `links` controls extra footer links. A flat list renders as one row; nested lists render as multiple rows. Links in the same row use ` · ` as the separator by default. External `http(s)` links open in a new tab automatically.
+
+Link entries accept these fields:
+
+- `name` / `text`: visible text, resolved in that order
+- `link`: target URL; omit it to render plain text
+- `icons`: array of icon names rendered before the text; set `icons` without `name` for an icon-only link
+- `icon`: a single icon, equivalent to a one-item `icons`
+- `iconSize`: icon size, default `1em` (follows the footer font size)
+- `title`: emitted as the `title` attribute and **not** shown as text, which is what keeps entries with `icons` icon-only. It falls back to visible text only when the entry has neither `name` / `text` nor `icons`, so such an entry never renders as an empty link
+- `aria-label`: accessible name; icon-only links fall back to `title` when it is not set
+
+Filing numbers and CC licence icons:
+
+```yaml
+footer:
+  links:
+    - name: ICP License XXXXXXXX
+      link: https://beian.miit.gov.cn/
+    - link: /copyright
+      title: Copyright
+      aria-label: Copyright
+      icons:
+        - fa-regular:copyright
+        - fa-brands:creative-commons-by
+        - fa-brands:creative-commons-nc
+        - fa-brands:creative-commons-nd
+```
 
 To hide the theme credit:
 

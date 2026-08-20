@@ -153,6 +153,7 @@ language: en
 - **Custom writing blocks**: NexT-compatible `{% note %}` and `{% tabs %}`, plus VitePress-style `:::` note containers.
 - **Built-in pages**: archives, categories, tags, and grouped friend links from `source/_data/links.yml`.
 - **Reward list**: structured HTML in an about page renders scrapbook-style donation slips — washi tape, rotating paper colors, circular top-right avatar; the amount badge auto-colors by RMB tier (≥100 red / ≥50 green / ≥20 amber / ≥10 blue / ≥5 violet / ≥1 olive).
+- **Footer links & credit**: `footer.links` entries support icon-only links via an `icons` array (e.g. Font Awesome CC marks) plus `title` / `aria-label`; `powered.row` places the theme credit at the end of the first or last link row, or on a row of its own.
 - **Multi-language UI**: built-in interface text in Simplified Chinese and English, selected from the Hexo `language` setting with a `zh-CN` fallback; ships both `_config.yml` and `_config.en.yml`.
 - **Optional integrations**: Twikoo, Artalk, Fancybox, Umami, Google Analytics 4, AdSense, custom HTML injection, and RSS profile links.
 

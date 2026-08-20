@@ -15,6 +15,23 @@
 
 .site-footer__left { text-align: left; }
 
+/* Keep footer icons (e.g. FA CC marks) aligned with adjacent text:
+   the global .lucide rule forces 16px + middle, which sits low on the
+   text baseline; match the footer font-size (1em) and center the icon
+   in an inline-flex container so it tracks the text box exactly. */
+.site-footer a .flatpaper-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+
+.site-footer a.site-footer__icon-link {
+  display: inline-flex;
+  align-items: center;
+  height: 1.8em; /* matches the footer line-height */
+  vertical-align: bottom;
+}
+
 .site-footer__right {
   display: grid;
   justify-items: end;

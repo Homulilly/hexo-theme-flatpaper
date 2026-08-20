@@ -390,6 +390,7 @@ footer:
     prefix: Powered by Theme
     name: FlatPaper
     link: https://github.com/Homulilly/hexo-theme-flatpaper
+    row: first
   links:
     -
       - name: 服务条款
@@ -414,9 +415,42 @@ footer:
 - `prefix`：署名前缀，默认 `Powered by Theme`
 - `name`：主题名称，默认 `FlatPaper`
 - `link`：主题链接，默认 FlatPaper 仓库
+- `row`：署名所在行，默认 `first`
+  - `first`：并入第一组链接行的末尾（该行最右侧）
+  - `last`：并入最后一组链接行的末尾
+  - `own`：独占一行，排在所有链接行之前
 - 也可以直接写 `powered: false` 关闭整段主题署名
 
+署名作为一个链接条目并入所在行，因此它和同行链接之间的分隔符跟随该行的 `separator` 配置；没有配置 `links` 时署名自动独占一行。
+
 `links` 负责额外链接。一维列表会渲染为一行；二维列表会按行渲染，同一行内默认用 ` · ` 分隔。外部 `http(s)` 链接会自动在新标签页打开。
+
+链接条目支持这些字段：
+
+- `name` / `text`：可见文字，按此顺序回退
+- `link`：目标地址；省略时渲染为纯文本
+- `icons`：图标名数组，渲染在文字之前；只配 `icons` 不配 `name` 即为纯图标链接
+- `icon`：单个图标，等价于只有一项的 `icons`
+- `iconSize`：图标尺寸，默认 `1em`（跟随页脚字号）
+- `title`：作为 `title` 属性输出，**不会**显示为文字 —— 配了 `icons` 的条目因此保持纯图标外观；仅当条目既没有 `name` / `text` 也没有 `icons` 时，`title` 才兜底作为可见文字，避免渲染出空链接
+- `aria-label`：无障碍名称；纯图标链接未配置时自动取 `title`
+
+备案号与 CC 协议图标的写法：
+
+```yaml
+footer:
+  links:
+    - name: 蜀ICP备XXXXXXXX号-X
+      link: https://beian.miit.gov.cn/
+    - link: /copyright
+      title: 版权协议
+      aria-label: 版权协议
+      icons:
+        - fa-regular:copyright
+        - fa-brands:creative-commons-by
+        - fa-brands:creative-commons-nc
+        - fa-brands:creative-commons-nd
+```
 
 关闭主题署名时：
 

@@ -252,7 +252,10 @@ tape:
 # 页脚：
 # - left 支持 HTML；占位符：{year}=当前年份，{name}=站点 _config.yml 的 author
 # - powered 负责主题署名；设为 false 或配置 enable: false 可关闭
+#   row: first（默认，并入第一组链接行末尾）| last（并入最后一行末尾）| own（独占一行）
 # - links 支持一维链接列表（一行）或二维链接列表（多行），同一行内用 " · " 分隔
+#   条目支持 name / link / title；仅图标时省略 name，配置 icons 数组即可
+#   （如 fa-regular:copyright）；aria-label 可单独指定无障碍名称
 # 不配置 footer 时默认：左 "© {year} {author}"，右 "Powered by Theme FlatPaper"
 footer:
   left: '© {year} By {name}'
@@ -261,7 +264,21 @@ footer:
     prefix: Powered by Theme
     name: FlatPaper
     link: https://github.com/Homulilly/hexo-theme-flatpaper
+    # row: first
   links:
+    # 备案 / 版权链接示例：
+    # - name: 蜀ICP备XXXXXXXX号-X
+    #   link: https://beian.miit.gov.cn/
+    # - name: 萌ICP备XXXXXXXX号
+    #   link: https://icp.gov.moe/?keyword=XXXXXXXX
+    # - link: /copyright
+    #   title: 版权协议
+    #   aria-label: 版权协议
+    #   icons:
+    #     - fa-regular:copyright
+    #     - fa-brands:creative-commons-by
+    #     - fa-brands:creative-commons-nc
+    #     - fa-brands:creative-commons-nd
     # -
     #   - name: 服务条款
     #     link: /terms

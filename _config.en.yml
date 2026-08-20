@@ -254,7 +254,10 @@ tape:
 # Footer:
 # - left supports HTML. Placeholders: {year}=current year, {name}=site _config.yml author.
 # - powered controls the theme credit. Set powered to false, or set enable: false, to hide it.
+#   row: first (default, appended to the end of the first link row) | last (end of the last row) | own (its own row)
 # - links accepts a flat link list for one row, or nested link lists for multiple rows. Links in one row use " · " as the separator.
+#   Entries accept name / link / title. For icon-only links omit name and set an icons array
+#   (e.g. fa-regular:copyright); aria-label sets the accessible name explicitly.
 # Defaults when footer is not configured: left "(c) {year} {author}", right "Powered by Theme FlatPaper".
 footer:
   left: '(c) {year} By {name}'
@@ -263,7 +266,19 @@ footer:
     prefix: Powered by Theme
     name: FlatPaper
     link: https://github.com/Homulilly/hexo-theme-flatpaper
+    # row: first
   links:
+    # Filing / copyright link examples:
+    # - name: ICP License XXXXXXXX
+    #   link: https://beian.miit.gov.cn/
+    # - link: /copyright
+    #   title: Copyright
+    #   aria-label: Copyright
+    #   icons:
+    #     - fa-regular:copyright
+    #     - fa-brands:creative-commons-by
+    #     - fa-brands:creative-commons-nc
+    #     - fa-brands:creative-commons-nd
     # -
     #   - name: Terms
     #     link: /terms

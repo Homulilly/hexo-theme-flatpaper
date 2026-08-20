@@ -24,17 +24,37 @@ function resolveHref(raw) {
 }
 function renderAnchor(item) {
   if (!item || typeof item !== 'object') return '';
-  var label = item.name || item.text || item.title;
-  if (label == null) return '';
-  var safeLabel = escapeHTML(label);
+  // `title` is an attribute, not visible text: an entry configured with
+  // `icons` + `title` stays icon-only by design.
+  var label = item.name || item.text || '';
+  var icons = Array.isArray(item.icons) ? item.icons : (item.icon ? [item.icon] : []);
+  var iconHtml = icons.map(function (icon) {
+    return flatpaper_icon(icon, { size: item.iconSize || '1em' });
+  }).join('');
+  // With no label and no icons there is nothing to show, so fall back to
+  // `title` rather than emitting an empty (unclickable) node.
+  if (!label && !iconHtml && item.title) label = item.title;
+  var safeLabel = label == null ? '' : escapeHTML(label);
   var href = resolveHref(item.link || item.url || item.href);
-  if (!href) return '<span class="site-footer__text">' + safeLabel + '</span>';
+  // Nothing to show at all — drop the entry instead of emitting an empty node.
+  if (!href && !iconHtml && !safeLabel) return '';
+  if (!href) return '<span class="site-footer__text">' + iconHtml + safeLabel + '</span>';
   var target = item.target === false ? '' : (item.target || (shouldOpenInNewTab(href) ? '_blank' : ''));
   var rel = item.rel === false ? '' : (item.rel || (target === '_blank' ? 'noopener' : ''));
+  // Only emit the attribute when it carries something the visible text
+  // doesn't already say (it does when title acted as the label fallback).
+  var title = (item.title && item.title !== label) ? item.title : '';
+  // Icon-only links have no accessible name — borrow title when aria-label
+  // isn't configured explicitly.
+  var ariaLabel = item['aria-label'] || item.ariaLabel || (safeLabel ? '' : (item.title || ''));
+  var linkClass = iconHtml ? 'site-footer__icon-link' : '';
   return '<a href="' + escapeHTML(href) + '"' +
     (target ? ' target="' + escapeHTML(target) + '"' : '') +
     (rel ? ' rel="' + escapeHTML(rel) + '"' : '') +
-    '>' + safeLabel + '</a>';
+    (linkClass ? ' class="' + linkClass + '"' : '') +
+    (title ? ' title="' + escapeHTML(title) + '"' : '') +
+    (ariaLabel ? ' aria-label="' + escapeHTML(ariaLabel) + '"' : '') +
+    '>' + iconHtml + (iconHtml && safeLabel ? ' ' : '') + safeLabel + '</a>';
 }
 var themeLink = renderAnchor({ name: defaultThemeName, link: defaultThemeLink });
 function fill(tpl, fallback) {
@@ -43,36 +63,49 @@ function fill(tpl, fallback) {
     .replace(/\{name\}/g, function () { return name; })
     .replace(/\{theme\}/g, function () { return themeLink; });
 }
-function renderPowered(powered) {
-  if (powered === false) return '';
+// The theme credit is modelled as an implicit link item so it can be placed
+// inside a link row instead of being concatenated onto rendered HTML: the row
+// separator, empty-links handling and styling hooks then all come for free.
+function poweredToItem(powered) {
+  if (powered === false) return null;
   var p = (powered && typeof powered === 'object') ? powered : {};
-  if (p.enable === false) return '';
-  var prefix = p.prefix == null ? 'Powered by Theme' : String(p.prefix);
-  var anchor = renderAnchor({
+  if (p.enable === false) return null;
+  return {
     name: p.name || defaultThemeName,
     link: p.link || p.url || p.href || defaultThemeLink,
     target: p.target,
-    rel: p.rel
-  });
-  if (!anchor) return '';
-  return (prefix ? '<span class="site-footer__powered-prefix">' + escapeHTML(prefix) + '</span> ' : '') + anchor;
+    rel: p.rel,
+    prefix: p.prefix == null ? 'Powered by Theme' : String(p.prefix),
+    powered: true
+  };
 }
+// Rows always get a fresh `items` array: theme config is shared across every
+// page render, so pushing the credit into the configured array directly would
+// accumulate one extra credit per generated page.
 function normalizeLinkRows(value) {
   if (!Array.isArray(value)) return [];
   var hasRowConfig = value.some(function (item) {
     return Array.isArray(item) || (item && typeof item === 'object' && Array.isArray(item.items));
   });
-  if (!hasRowConfig) return [{ items: value }];
+  if (!hasRowConfig) return [{ items: value.slice() }];
   return value.map(function (row) {
-    if (Array.isArray(row)) return { items: row };
-    if (row && typeof row === 'object' && Array.isArray(row.items)) return row;
+    if (Array.isArray(row)) return { items: row.slice() };
+    if (row && typeof row === 'object' && Array.isArray(row.items)) {
+      return { items: row.items.slice(), separator: row.separator };
+    }
     return { items: [row] };
   });
 }
 function renderFooterLink(item) {
   if (!item) return '';
   if (typeof item === 'string') return '<span class="site-footer__text">' + escapeHTML(item) + '</span>';
-  return renderAnchor(item);
+  var anchor = renderAnchor(item);
+  if (!anchor) return '';
+  if (!item.powered) return anchor;
+  var prefix = item.prefix
+    ? '<span class="site-footer__powered-prefix">' + escapeHTML(item.prefix) + '</span> '
+    : '';
+  return '<span class="site-footer__powered">' + prefix + anchor + '</span>';
 }
 function renderLinkRow(row) {
   var items = Array.isArray(row.items) ? row.items : [];
@@ -82,12 +115,17 @@ function renderLinkRow(row) {
   return rendered.join('<span class="site-footer__separator">' + escapeHTML(separator) + '</span>');
 }
 var left = fill(f.left, '© ' + year + ' ' + name);
-var rightRows = [];
-var powered = renderPowered(f.powered);
-if (powered) rightRows.push(powered);
-normalizeLinkRows(f.links).map(renderLinkRow).filter(Boolean).forEach(function (row) {
-  rightRows.push(row);
-});
+var rows = normalizeLinkRows(f.links);
+var poweredItem = poweredToItem(f.powered);
+if (poweredItem) {
+  // first: end of the first link row (default) | last: end of the last row |
+  // own: a dedicated row above the links.
+  var poweredRow = String((f.powered && f.powered.row) || 'first').toLowerCase();
+  if (poweredRow === 'own' || !rows.length) rows.unshift({ items: [poweredItem] });
+  else if (poweredRow === 'last') rows[rows.length - 1].items.push(poweredItem);
+  else rows[0].items.push(poweredItem);
+}
+var rightRows = rows.map(renderLinkRow).filter(Boolean);
 %>
 <footer class="site-footer">
   <span class="site-footer__left"><%- left %></span>
