@@ -150,6 +150,9 @@ welcome:
 typed:
   from: 出自
 
+stack_album:
+  label: 堆叠相册
+
 home_hero:
   label: 首页开屏
   enter: 开始阅读

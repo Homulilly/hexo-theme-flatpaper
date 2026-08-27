@@ -151,6 +151,7 @@ language: en
 - **Article workflow**: sticky post TOC, previous/next navigation, related posts, comment jump/share actions, and optional custom reaction buttons.
 - **Code block UI**: language badge, copy/collapse controls, multiple code themes, and line-number click/double-click interactions.
 - **Custom writing blocks**: NexT-compatible `{% note %}` and `{% tabs %}`, plus VitePress-style `:::` note containers.
+- **Stacked album**: `{% stackalbum %}` stacks a set of photos like playing cards — click the top one and it lifts and slides to the bottom. `{% stackalbumnav <data.path> %}` is the small variant: point it at any list under `source/_data/` and hovering a title flips its cover to the top. Falls back to a plain image list without JS.
 - **Built-in pages**: archives, categories, tags, and grouped friend links from `source/_data/links.yml`.
 - **Reward list**: structured HTML in an about page renders scrapbook-style donation slips — washi tape, rotating paper colors, circular top-right avatar; the amount badge auto-colors by RMB tier (≥100 red / ≥50 green / ≥20 amber / ≥10 blue / ≥5 violet / ≥1 olive).
 - **Footer links & credit**: `footer.links` entries support icon-only links via an `icons` array (e.g. Font Awesome CC marks) plus `title` / `aria-label`; `powered.row` places the theme credit at the end of the first or last link row, or on a row of its own.

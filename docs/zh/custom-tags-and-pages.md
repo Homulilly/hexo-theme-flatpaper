@@ -195,3 +195,55 @@ page_size: 12
 - Twikoo 的头像会显示在纸片上；Artalk 的公开接口不返回头像地址，纸片统一使用昵称首字符头像。
 - `page_size` 控制每批展示的张数（默认 12，上限 50），超出部分通过「展开更多留言」按钮加载。
 - front-matter 正文（markdown）会渲染在留言墙上方，可用作开场白。
+
+## 堆叠相册（Stack Album）
+
+一组像扑克牌一样堆叠的照片：点击最上层，它会被抽起并滑到牌堆底部（澎湃 OS 相册风格）。最上层清晰，下方各层做模糊处理。
+
+```markdown
+{% stackalbum %}
+![横图](https://example.com/landscape.jpg "h")
+![竖图](https://example.com/portrait.jpg "v")
+![自动](https://example.com/auto.jpg)
+{% endstackalbum %}
+```
+
+- 可选参数 `宽,高` 控制容器尺寸（默认 `480,480`）。
+- 每张图可用 markdown title 声明方向：`"h"` 横屏卡（480×320）或 `"v"` 竖屏卡（320×480）；不填的按图片自身宽高比在客户端判断。
+- `object-fit: cover` 铺满卡片，横图横向满铺、无上下留白。
+- 抽起 0.26s → 滑落 0.38s；动画期间锁定点击，防止连点交错。
+- 键盘可用：牌堆本身可聚焦，`Enter` 或 `→` 翻到下一张（堆叠状态下只有最上层清晰，否则不用指针的读者看不到其余照片）。`Space` 有意不绑定——它是页面滚动键。
+- 容器高度按卡片实际占位计算，取 `高` 参数与内容所需高度中的较大值，所以竖图多、张数多时不会溢出到后文。
+- 窄容器（手机、窄栏）自动整体缩放到放得下为止；缩放看的是牌堆所在的可用宽度，不是某个像素断点。
+
+### 悬停翻牌（小号牌堆 + 名字列表）
+
+`{% stackalbumnav <数据路径> %}` 渲染一个小号牌堆 + 名字列表。鼠标悬停或键盘聚焦某个名字，对应封面翻到最上层；移开或失焦后恢复配置顺序。适合关于页的番剧 / 书单 / 影单一类的清单。
+
+数据路径是必填参数：第一段是 `source/_data/` 下的文件名（不含扩展名），其余按点号逐级下钻，最终要指向一个列表。主题不假定任何具体的文件名或键名。
+
+```markdown
+{% stackalbumnav about.comic.comic_list %}
+{% stackalbumnav anime.list %}
+{% stackalbumnav books %}
+```
+
+第一个例子对应 `source/_data/about.yml`：
+
+```yaml
+comic:
+  comic_list:
+    - name: 鲤氏侦探事务所
+      href: https://www.bilibili.com/bangumi/media/md28351530
+      cover: https://img.example.com/cover.webp
+```
+
+每个条目的字段都接别名，和主题其它地方一致：名字用 `name` 或 `title`，链接用 `href` / `link` / `url`，封面用 `cover` / `image` / `src`。路径解析不到、指向的不是列表、或列表为空时，标签不输出任何内容。
+
+行为说明：
+
+- 图片统一带 `referrerpolicy="no-referrer"`，可正常加载防盗链图床（如 B 站 `i0.hdslb.com`）；单张图片加载失败时会补该策略并重试一次，只作用于相册图片，不会改写页面上其它图片。
+- `cover` 与 `href` 都经过与主题其它链接相同的 URL 校验：被拒的条目整条不渲染，因此封面与名字的序号永远对齐。
+- 相册图片带 `no-zoom`，主题的 Fancybox 不会包裹它们，点击只翻牌、不弹灯箱。
+- 无 JS 降级：卡片保持普通块级排列，所有照片完整可见。
+- 样式与脚本随主题的 `style.css` / `js/main.js` 一起加载，不往页面里注入任何内联 `<style>` / `<script>`。

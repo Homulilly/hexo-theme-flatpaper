@@ -195,3 +195,55 @@ Behavior notes:
 - Twikoo avatars show on the cards; Artalk's public API returns no avatar URL, so its cards use initial-letter avatars.
 - `page_size` controls how many cards render per batch (default 12, max 50); the rest load via the "show more" button.
 - The page's markdown body renders above the wall and works as an intro.
+
+## Stacked Album
+
+A set of photos stacked like playing cards: clicking the top one lifts it and slides it to the bottom of the pile (the HyperOS gallery gesture). The top photo is sharp; the ones below are blurred.
+
+```markdown
+{% stackalbum %}
+![landscape](https://example.com/landscape.jpg "h")
+![portrait](https://example.com/portrait.jpg "v")
+![auto](https://example.com/auto.jpg)
+{% endstackalbum %}
+```
+
+- The optional `width,height` argument sets the container size (default `480,480`).
+- A markdown title declares orientation per image: `"h"` for a landscape card (480×320) or `"v"` for a portrait one (320×480). An image without one is classified client-side from its own aspect ratio.
+- `object-fit: cover` fills the card, so a landscape photo spans the full width with no letterboxing.
+- Lift 0.26s → drop 0.38s, with clicks locked while the animation runs so rapid clicks cannot interleave.
+- Keyboard accessible: the deck itself takes focus, and `Enter` or `→` advances it (only the top photo is legible while stacked, so without this the rest are unreachable without a pointer). `Space` is deliberately not bound — it is the page-scroll key.
+- The container's height is computed from the cards' real footprints, taking whichever is larger: the `height` argument or the space the deck needs. Portrait-heavy or long decks therefore never spill into the text below.
+- A narrow container (phone, narrow column) scales the whole deck down to fit. The scale is derived from the room the deck actually has, not from a pixel breakpoint.
+
+### Hover to flip (small deck plus a title list)
+
+`{% stackalbumnav <data.path> %}` renders a small deck plus a title list. Hovering or focusing a title flips its cover to the top of the deck; leaving or blurring restores the configured order. It suits an about-page list — anime, books, films, and the like.
+
+The data path is a required argument: the first segment names a file under `source/_data/` (without the extension) and the rest walks into it with dots, ending at a list. The theme assumes no particular file or key name of its own.
+
+```markdown
+{% stackalbumnav about.comic.comic_list %}
+{% stackalbumnav anime.list %}
+{% stackalbumnav books %}
+```
+
+The first example reads `source/_data/about.yml`:
+
+```yaml
+comic:
+  comic_list:
+    - name: Koi's Detective Agency
+      href: https://www.bilibili.com/bangumi/media/md28351530
+      cover: https://img.example.com/cover.webp
+```
+
+Item fields accept aliases, as elsewhere in the theme: the title from `name` or `title`, the link from `href` / `link` / `url`, and the cover from `cover` / `image` / `src`. When the path resolves to nothing, to something that is not a list, or to an empty list, the tag renders nothing.
+
+Behaviour:
+
+- Every image carries `referrerpolicy="no-referrer"`, so hotlink-protected hosts (Bilibili's `i0.hdslb.com` among them) load normally. An image that still fails gets the policy applied and is retried once — scoped to album images, never rewriting other pictures on the page.
+- Both `cover` and `href` go through the same URL validation as every other link the theme renders. A rejected entry is dropped whole, so covers and titles can never fall out of step.
+- Album images carry `no-zoom`, so the theme's Fancybox pass leaves them alone: a click flips the deck rather than opening a lightbox.
+- Without JS the cards stay as ordinary blocks and every photo is fully visible.
+- The stylesheet and behaviour ship with the theme's `style.css` / `js/main.js`; nothing is injected into the page as inline `<style>` / `<script>`.

@@ -150,6 +150,9 @@ welcome:
 typed:
   from: from
 
+stack_album:
+  label: Stacked album
+
 home_hero:
   label: Home opening
   enter: Start reading

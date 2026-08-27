@@ -8,6 +8,7 @@
  */
 
 const NOTE_TYPES = require('./_note-types');
+const safeUrl = require('./_safe-url');
 
 // Monotonic counter for tab group IDs. Avoids the random-collision window
 // from Math.random().toString(36).slice(2, 9) when many tabs render per page.
@@ -22,27 +23,6 @@ function escapeHTML(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
-}
-
-function safeUrl(value, kind) {
-  const fallback = kind === 'image' ? '' : '#';
-  const url = String(value == null ? '' : value).trim();
-  // Reject backslashes anywhere, not just leading: WHATWG URL treats \ as /
-  // in special schemes, so e.g. "/\evil.com" resolves cross-origin while
-  // still looking like a relative path. Legit URLs never need a raw backslash.
-  if (!url || /[\u0000-\u001f\u007f\\]/.test(url)) return fallback;
-
-  if (url.indexOf('//') === 0) return url;
-
-  const scheme = url.match(/^([a-z][a-z0-9+.-]*):/i);
-  if (scheme) {
-    const protocol = scheme[1].toLowerCase();
-    if (protocol === 'http' || protocol === 'https') return url;
-    if (kind !== 'image' && protocol === 'mailto') return url;
-    return fallback;
-  }
-
-  return url;
 }
 
 hexo.extend.helper.register('flatpaper_safe_url', safeUrl);
