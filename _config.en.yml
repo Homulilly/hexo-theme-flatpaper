@@ -124,8 +124,12 @@ home_hero:
   # image:
   #   - /images/hero-1.jpg
   #   - /images/hero-2.jpg
-  # Keep the background image on mobile. Set to false to fall back to the paper background on narrow screens.
+  # Background image on mobile: true (default) reuses `image` above, false falls
+  # back to the paper background on narrow screens, and a URL gives narrow
+  # screens (≤760px) their own image — handy for a portrait crop.
+  # A dedicated mobile source never joins the random rotation above; it is fixed.
   mobile_image: true
+  # mobile_image: /images/hero-mobile.jpg
   # Medium-style progressive loading: a blurred small image paints first and
   # hands over to the background photo once it decodes, plus a scroll exit
   # (slight photo scale-up and a fade of the whole hero). Disabled by default.

@@ -871,6 +871,18 @@ body.has-home-hero.is-hero-active::before {
     display: none;
   }
 
+  // mobile_image as a string: swap the source only. Photo mode stays on, so
+  // this is the one declaration that changes -- every colour rule keyed on
+  // .home-hero--mobile-image still applies. The var() fallback means heroes
+  // without a narrow-screen source re-declare exactly what they already had.
+  .home-hero__media {
+    background-image:
+      linear-gradient(180deg,
+        var(--hero-image-overlay-top, rgba(42, 33, 22, 0.2)),
+        var(--hero-image-overlay-bottom, rgba(42, 33, 22, 0.2))),
+      var(--hero-bg-image-mobile, var(--hero-bg-image));
+  }
+
   .home-hero__tools {
     top: 16px;
     right: 16px;

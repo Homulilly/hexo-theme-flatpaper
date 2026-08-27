@@ -67,12 +67,20 @@ function heroImageOverlay(value) {
 var configuredHeroImages = Array.isArray(hero.image) ? hero.image : (hero.image ? [hero.image] : []);
 var heroImages = configuredHeroImages.map(heroImageUrl).filter(Boolean);
 var heroImage = heroImages[0] || '';
+// mobile_image is enable-or-value: false drops the photo on phones, a string
+// swaps in a narrow-screen source (it does not join the random rotation), and
+// true/unset reuses `image`. A dedicated source keeps photo mode on, so only
+// the URL changes -- the class stays put and every colour rule with it.
 var heroMobileImage = heroImage && hero.mobile_image !== false;
+var heroMobileImageSrc = (heroMobileImage && typeof hero.mobile_image === 'string')
+  ? heroImageUrl(hero.mobile_image)
+  : '';
 // Escape backslash/quote before embedding in a CSS url("...") string, mirroring
 // the client-side randomizer. flatpaper_safe_url already strips control chars,
 // so this just closes the CSS-string-breakout gap that the HTML-entity escape
 // on the output tag alone would miss.
 var heroImageCss = heroImage.replace(/[\\"]/g, '\\$&');
+var heroMobileImageCss = heroMobileImageSrc ? heroMobileImageSrc.replace(/[\\"]/g, '\\$&') : '';
 var heroOverlay = heroImageOverlay(hero.image_overlay);
 // Progressive loading is a loading strategy for `image`, not a second image
 // source: the photo layer below is server-rendered and always consumes
@@ -144,7 +152,7 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
 <section
   class="home-hero<%= heroImage ? ' home-hero--image' : '' %><%= heroMobileImage ? ' home-hero--mobile-image' : '' %><%= heroProgressive ? ' home-hero--progressive' : '' %><%= stickersDraggable ? ' has-draggable-stickers' : '' %>"
   aria-label="<%= flatpaper_i18n('home_hero.label') %>"
-  <% if (heroImage) { %>style="--hero-bg-image: url(&quot;<%= heroImageCss %>&quot;); --hero-image-overlay-top: rgba(42, 33, 22, <%= heroOverlay.top %>); --hero-image-overlay-bottom: rgba(42, 33, 22, <%= heroOverlay.bottom %>);"<% } %>
+  <% if (heroImage) { %>style="--hero-bg-image: url(&quot;<%= heroImageCss %>&quot;);<% if (heroMobileImageCss) { %> --hero-bg-image-mobile: url(&quot;<%= heroMobileImageCss %>&quot;);<% } %> --hero-image-overlay-top: rgba(42, 33, 22, <%= heroOverlay.top %>); --hero-image-overlay-bottom: rgba(42, 33, 22, <%= heroOverlay.bottom %>);"<% } %>
   <% if (heroImages.length > 1) { %>data-hero-images="<%= JSON.stringify(heroImages) %>"<% } %>
 >
   <% if (heroImage) { %>
