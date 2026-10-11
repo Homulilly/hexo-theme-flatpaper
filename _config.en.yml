@@ -127,12 +127,12 @@ home_hero:
   # mobile_image: /images/hero-mobile.jpg
   # Progressive loading: a blurred preview fades into the full image, plus a scroll exit effect.
   # Shows image directly if loading fails or JS is off.
-  # image_progressive: true
+  image_progressive: true
   # Small blur-layer image (aim for <100k); no random-image APIs. Omit to use the paper colour.
   # image_placeholder: /images/hero-lqip.jpg
   # Typewriter in the bio slot, same fields as footer.typed; falls back to bio when sub is empty.
-  # typed:
-  #   enable: true
+  typed:
+    enable: true
   #   source: 1
   #   sub:
   #     - Write the days down slowly

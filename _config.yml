@@ -127,12 +127,12 @@ home_hero:
   # mobile_image: /images/hero-mobile.jpg
   # 渐进加载：先显示模糊小图，大图就绪后淡入，并启用滚动离场效果。
   # 加载失败或禁用 JS 时直接显示 image。
-  # image_progressive: true
+  image_progressive: true
   # 模糊层小图（建议 <100k），勿用随机图接口；省略则用纸面底色。
   # image_placeholder: /images/hero-lqip.jpg
   # bio 打字机效果，字段同 footer.typed；sub 为空时回退到 bio。
-  # typed:
-  #   enable: true
+  typed:
+    enable: true
   #   source: 1
   #   sub:
   #     - 桃李春风一杯酒，江湖夜雨十年灯
