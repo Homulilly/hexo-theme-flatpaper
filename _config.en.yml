@@ -117,48 +117,31 @@ home_hero:
   # bio: A short note for readers landing here.
   # avatar: /images/avatar.jpg
   # avatar_shape: circle
-  # Background image. Leave empty to use the built-in scrapbook paper background.
-  # When set, the image fills the opening screen.
-  # It can also be an array; the browser randomly picks one on each page load.
+  # Background image. Empty uses the paper background; a list picks one at random per load.
   # image: /images/hero.jpg
   # image:
   #   - /images/hero-1.jpg
   #   - /images/hero-2.jpg
-  # Background image on mobile: true (default) reuses `image` above, false falls
-  # back to the paper background on narrow screens, and a URL gives narrow
-  # screens (≤760px) their own image — handy for a portrait crop.
-  # A dedicated mobile source never joins the random rotation above; it is fixed.
-  mobile_image: true
+  # Narrow screens (≤760px): true reuses image; false falls back to paper;
+  # or set a dedicated image (excluded from the random pick).
   # mobile_image: /images/hero-mobile.jpg
-  # Medium-style progressive loading: a blurred small image paints first and
-  # hands over to the background photo once it decodes, plus a scroll exit
-  # (slight photo scale-up and a fade of the whole hero). Disabled by default.
-  # `image` above stays the only source — this only changes how it loads, so
-  # image_overlay / mobile_image / multi-image rotation all keep working, and a
-  # failed load, a script error or no JS at all simply shows `image` itself.
+  # Progressive loading: a blurred preview fades into the full image, plus a scroll exit effect.
+  # Shows image directly if loading fails or JS is off.
   # image_progressive: true
-  # Optional small image for the blur layer (aim for <100k). Without it the
-  # blur layer uses the paper colour and still fades in. Do not point this at a
-  # random-image API, or the blur will preview a different photo.
+  # Small blur-layer image (aim for <100k); no random-image APIs. Omit to use the paper colour.
   # image_placeholder: /images/hero-lqip.jpg
-  # Typewriter in the bio slot (same fields as footer.typed). Disabled by default.
-  # Falls back to bio / profile.bio when sub is empty.
+  # Typewriter in the bio slot, same fields as footer.typed; falls back to bio when sub is empty.
   # typed:
   #   enable: true
-  #   effect: true
-  #   loop: true
-  #   start_delay: 300
-  #   type_speed: 150
-  #   back_speed: 50
   #   source: 1
   #   sub:
   #     - Write the days down slowly
-  # Dark overlay opacity for hero images: [top, bottom], range 0-1.
+  # Background overlay opacity [top, bottom], 0-1.
   # image_overlay: [0.2, 0.2]
-  # Text and target for the bottom sticker CTA. Defaults to the home content.
+  # Sticker CTA text and target.
   # cta_text: Start reading
   # cta_link: "#flatpaper-home-content"
-  # Sticker CTA background: 01-09, random, or a custom image path.
+  # Sticker CTA background: 01-09, random, or an image path.
   # cta_background: 01
   #
   # Quick navigation links in the hero. When configured, they replace the default wavy divider.

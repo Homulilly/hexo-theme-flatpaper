@@ -117,45 +117,31 @@ home_hero:
   # avatar: /images/avatar.jpg
   # avatar_shape: circle
   #
-  # 背景图。留空时使用主题内置的手账纸张背景；设置后图片会铺满开屏。
-  # 也可配置为数组，浏览器每次载入随机使用一张。
+  # 背景图。留空使用纸张背景；可设为多张，每次载入随机一张。
   # image: /images/hero.jpg
   # image:
   #   - /images/hero-1.jpg
   #   - /images/hero-2.jpg
-  # 移动端背景图：true（默认）沿用上面的 image；false 让窄屏回退到纸张背景；
-  # 也可以直接填一个链接，窄屏（≤760px）单独使用该图片，适合准备竖版裁切。
-  # 单独指定的窄屏图源不参与上面数组的随机轮播，始终固定这一张。
-  mobile_image: true
+  # 窄屏（≤760px）背景：true 沿用 image；false 回退纸张背景；
+  # 或填一张图片单独使用（不参与随机）。
   # mobile_image: /images/hero-mobile.jpg
-  # Medium 风格渐进加载：先铺一张高斯模糊的小图，背景大图解码完成后淡出交接；
-  # 同时开启滚动离场（图片轻微放大 + 整个开屏渐隐）。默认关闭。
-  # 图源仍然只有上面的 image —— 这里只改变它的加载表现，因此
-  # image_overlay / mobile_image / 多图轮播全部照常生效；
-  # 加载失败、脚本未执行或禁用 JS 时都会直接显示 image 本身。
+  # 渐进加载：先显示模糊小图，大图就绪后淡入，并启用滚动离场效果。
+  # 加载失败或禁用 JS 时直接显示 image。
   # image_progressive: true
-  # 可选：模糊层用的小图（尽量 <100k）。省略时模糊层用纸面底色，仍有淡入。
-  # 注意不要填随机图接口，否则模糊层和最终显示的不是同一张照片。
+  # 模糊层小图（建议 <100k），勿用随机图接口；省略则用纸面底色。
   # image_placeholder: /images/hero-lqip.jpg
-  # bio 位置的打字机效果（与 footer.typed 同一套字段），默认关闭。
-  # sub 为空时回退到 bio / profile.bio。
+  # bio 打字机效果，字段同 footer.typed；sub 为空时回退到 bio。
   # typed:
   #   enable: true
-  #   effect: true
-  #   loop: true
-  #   start_delay: 300
-  #   type_speed: 150
-  #   back_speed: 50
   #   source: 1
   #   sub:
   #     - 桃李春风一杯酒，江湖夜雨十年灯
-  #
-  # 背景图暗色遮罩透明度：[顶部, 底部]，范围 0-1。
+  # 背景遮罩透明度 [顶部, 底部]，0-1。
   # image_overlay: [0.2, 0.2]
-  # 底部贴纸按钮的文字与目标锚点；默认进入首页内容区。
+  # 贴纸按钮文字与锚点。
   # cta_text: 开始阅读
   # cta_link: "#flatpaper-home-content"
-  # 贴纸按钮背景：01-09、random，或自定义图片路径。
+  # 贴纸按钮背景：01-09、random 或图片路径。
   # cta_background: 01
   #
   # Hero 区域的快速导航链接。配置后将替代默认的波浪线分隔符。
