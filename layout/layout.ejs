@@ -46,9 +46,6 @@ if (['default', 'grid', 'line', 'cross', 'dotted'].indexOf(backgroundStyle) === 
   data-button-style="<%= buttonStyle %>"
   data-strong-accent="<%= strongAccent ? 'on' : 'off' %>"
 >
-  <% if (backgroundStyle === 'default') { %>
-    <div class="page-grain"></div>
-  <% } %>
   <svg width="0" height="0" style="position:absolute;z-index:-1;" aria-hidden="true">
     <defs>
       <filter id="paper-edge" x="-5%" y="-5%" width="110%" height="110%">

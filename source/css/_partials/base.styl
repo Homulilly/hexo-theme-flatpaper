@@ -43,7 +43,12 @@ button {
   font-family: inherit;
 }
 
-.page-grain {
+/* Paper grain for the default background. A pseudo-element rather than a
+   fixed <div>: AdSense side rails treat visible fixed elements as obstacles
+   and would refuse to show over a full-viewport layer. (body::before is the
+   header fade.) */
+body.bg-style-default::after {
+  content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
