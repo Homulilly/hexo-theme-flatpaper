@@ -141,8 +141,12 @@ home_hero:
   # 贴纸按钮文字与锚点。
   # cta_text: 开始阅读
   # cta_link: "#flatpaper-home-content"
-  # 贴纸按钮背景：01-09、random 或图片路径。
+  # 贴纸按钮样式：01-09 内置纸片预设、random，或图片路径（整张图做按钮背景）。
   # cta_background: 01
+  # 覆盖预设的颜色：brown/pink/orange/green/yellow/blue/violet/accent 或 #hex。
+  # cta_color: accent
+  # 覆盖预设的贴纸：none/flower/bear/tulip/sprout/star/sparkle/heart/tape 或图片路径。
+  # cta_sticker: heart
   #
   # Hero 区域的快速导航链接。配置后将替代默认的波浪线分隔符。
   # hero_links:

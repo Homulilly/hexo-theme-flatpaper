@@ -30,7 +30,7 @@ It can show:
 - a built-in scrapbook paper background
 - one fixed image, or a random image from an array
 - a configurable image overlay
-- a bouncing arrow that scrolls into the home content
+- a paper sticker button that scrolls into the home content, with nine color + sticker presets that follow dark mode
 - draggable scrapbook stickers
 - up to five custom image stickers, with optional visit confirmation links
 

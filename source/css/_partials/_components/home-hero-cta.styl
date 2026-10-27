@@ -1,0 +1,308 @@
+/* ============== HOME HERO CTA ============== */
+// The bottom sticker button. Paper mode draws the card in CSS and tints it
+// from --cta-hue; presets 01-09 (cta_background) pick a hue + sticker pair,
+// and cta_color / cta_sticker override either half. A custom cta_background
+// image falls back to the old image-backed button (--bg-image).
+.home-hero__arrow {
+  position: absolute;
+  left: 50%;
+  bottom: 13px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  text-decoration: none;
+  transform: translateX(-50%) rotate(-0.6deg);
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+  animation: pull-tab-breathe 2.8s ease-in-out infinite;
+}
+
+.home-hero__arrow:hover,
+.home-hero__arrow:focus-visible {
+  transform: translateX(-50%) translateY(4px) rotate(0.4deg);
+  animation: pull-tab-hover-press 1.2s ease-in-out infinite;
+  outline: none;
+}
+
+.home-hero__arrow-text {
+  display: block;
+  min-width: 0;
+  padding-block: 0.08em;
+  overflow: hidden;
+  line-height: 1.24;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes pull-tab-breathe {
+  0%, 100% { transform: translateX(-50%) translateY(0) rotate(-0.6deg); }
+  50% { transform: translateX(-50%) translateY(3px) rotate(0.4deg); }
+}
+
+@keyframes pull-tab-hover-press {
+  0%, 100% { transform: translateX(-50%) translateY(4px) rotate(0.4deg); }
+  50% { transform: translateX(-50%) translateY(7px) rotate(-0.4deg); }
+}
+
+/* ---------- Paper card ---------- */
+.home-hero__arrow--paper {
+  --cta-hue: #b08968;
+  --cta-sticker-edge: #fffdf6;
+  --cta-fill: unquote('color-mix(in srgb, var(--cta-hue) 13%, var(--paper))');
+  --cta-edge: unquote('color-mix(in srgb, var(--cta-hue) 42%, var(--paper))');
+  --cta-edge-strong: unquote('color-mix(in srgb, var(--cta-hue) 58%, var(--paper))');
+  --cta-lip: unquote('color-mix(in srgb, var(--cta-hue) 30%, var(--paper))');
+  --cta-stitch: unquote('color-mix(in srgb, var(--cta-hue) 50%, transparent)');
+  --cta-icon: unquote('color-mix(in srgb, var(--cta-hue) 55%, var(--ink))');
+  --cta-shadow: unquote('rgba(var(--paper-shadow-rgb), 0.14)');
+  gap: 8px;
+  height: 44px;
+  max-width: unquote('min(80vw, 300px)');
+  padding: 0 18px 0 48px;
+  background: var(--cta-fill);
+  border-radius: 17px 14px 18px 13px / 14px 18px 13px 17px;
+  box-shadow: inset 0 0 0 1.5px var(--cta-edge), 0 3px 0 var(--cta-lip), 0 9px 16px var(--cta-shadow);
+}
+
+.home-hero__arrow--paper::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1.5px dashed var(--cta-stitch);
+  border-radius: 12px 10px 13px 9px;
+  pointer-events: none;
+}
+
+.home-hero__arrow--paper:hover,
+.home-hero__arrow--paper:focus-visible {
+  box-shadow: inset 0 0 0 1.5px var(--cta-edge-strong), 0 1px 0 var(--cta-lip), 0 4px 8px var(--cta-shadow);
+}
+
+.home-hero__arrow--paper .home-hero__arrow-icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  color: var(--cta-icon);
+  stroke-width: 2.4;
+}
+
+.home-hero__arrow-sticker {
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  // Stacked 1.5px offsets fake a die-cut white border around the SVG.
+  filter: drop-shadow(1.5px 0 0 var(--cta-sticker-edge)) drop-shadow(-1.5px 0 0 var(--cta-sticker-edge)) drop-shadow(0 1.5px 0 var(--cta-sticker-edge)) drop-shadow(0 -1.5px 0 var(--cta-sticker-edge)) drop-shadow(0 2px 3px unquote('rgba(var(--paper-shadow-rgb), 0.22)'));
+  transform: translateY(-62%) rotate(-10deg);
+  transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+  pointer-events: none;
+}
+
+.home-hero__arrow--paper:hover .home-hero__arrow-sticker,
+.home-hero__arrow--paper:focus-visible .home-hero__arrow-sticker {
+  transform: translateY(-70%) rotate(6deg) scale(1.08);
+}
+
+.home-hero--image .home-hero__arrow--paper {
+  --cta-shadow: rgba(20, 16, 12, 0.3);
+}
+
+.dark-mode .home-hero__arrow--paper {
+  --cta-sticker-edge: #e9e4d6;
+  --cta-shadow: rgba(0, 0, 0, 0.32);
+}
+
+/* ---------- Presets (cta_background 01-09) ---------- */
+.home-hero__arrow[data-cta-preset="02"] { --cta-hue: #e8899a; }
+.home-hero__arrow[data-cta-preset="03"] { --cta-hue: #c8935f; }
+.home-hero__arrow[data-cta-preset="04"] { --cta-hue: var(--orange); }
+.home-hero__arrow[data-cta-preset="05"] { --cta-hue: var(--green); }
+.home-hero__arrow[data-cta-preset="06"] { --cta-hue: var(--yellow); }
+.home-hero__arrow[data-cta-preset="07"] { --cta-hue: var(--blue); }
+.home-hero__arrow[data-cta-preset="08"] { --cta-hue: var(--violet); }
+.home-hero__arrow[data-cta-preset="09"] { --cta-hue: var(--blue); }
+
+// cta_color: same specificity as the presets, declared later so it wins.
+.home-hero__arrow[data-cta-color="brown"] { --cta-hue: #b08968; }
+.home-hero__arrow[data-cta-color="pink"] { --cta-hue: #e8899a; }
+.home-hero__arrow[data-cta-color="orange"] { --cta-hue: var(--orange); }
+.home-hero__arrow[data-cta-color="green"] { --cta-hue: var(--green); }
+.home-hero__arrow[data-cta-color="yellow"] { --cta-hue: var(--yellow); }
+.home-hero__arrow[data-cta-color="blue"] { --cta-hue: var(--blue); }
+.home-hero__arrow[data-cta-color="violet"] { --cta-hue: var(--violet); }
+.home-hero__arrow[data-cta-color="accent"] { --cta-hue: var(--color-accent); }
+
+/* ---------- Stickers ---------- */
+.home-hero__arrow[data-cta-preset="01"]:not([data-cta-sticker]),
+.home-hero__arrow[data-cta-sticker="none"] {
+  padding-left: 20px;
+}
+
+.home-hero__arrow[data-cta-preset="01"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="none"] .home-hero__arrow-sticker {
+  display: none;
+}
+
+.home-hero__arrow[data-cta-preset="02"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="flower"] .home-hero__arrow-sticker {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23f4a6b4' stroke='%23d97b8e' stroke-width='1.3'%3E%3Ccircle cx='20' cy='11' r='7'/%3E%3Ccircle cx='28.6' cy='17.2' r='7'/%3E%3Ccircle cx='25.3' cy='27.3' r='7'/%3E%3Ccircle cx='14.7' cy='27.3' r='7'/%3E%3Ccircle cx='11.4' cy='17.2' r='7'/%3E%3C/g%3E%3Ccircle cx='20' cy='20' r='5' fill='%23ffd98a' stroke='%23e0a94a' stroke-width='1.3'/%3E%3C/svg%3E");
+}
+
+.home-hero__arrow[data-cta-preset="03"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="bear"] .home-hero__arrow-sticker {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg stroke='%239c6b3d' stroke-width='1.3'%3E%3Ccircle cx='10.5' cy='12' r='5.5' fill='%23d9a066'/%3E%3Ccircle cx='29.5' cy='12' r='5.5' fill='%23d9a066'/%3E%3Ccircle cx='20' cy='22' r='13' fill='%23e0ad78'/%3E%3C/g%3E%3Ccircle cx='10.5' cy='12' r='2.6' fill='%23f2c9a0'/%3E%3Ccircle cx='29.5' cy='12' r='2.6' fill='%23f2c9a0'/%3E%3Cellipse cx='20' cy='26.5' rx='5.6' ry='4.4' fill='%23f7e1c4'/%3E%3Ccircle cx='15' cy='20' r='1.7' fill='%234a3426'/%3E%3Ccircle cx='25' cy='20' r='1.7' fill='%234a3426'/%3E%3Cellipse cx='20' cy='25' rx='2' ry='1.4' fill='%234a3426'/%3E%3Ccircle cx='11.8' cy='25' r='2' fill='%23f2a3a0' opacity='.75'/%3E%3Ccircle cx='28.2' cy='25' r='2' fill='%23f2a3a0' opacity='.75'/%3E%3C/svg%3E");
+}
+
+.home-hero__arrow[data-cta-preset="04"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="tulip"] .home-hero__arrow-sticker {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 22v14' stroke='%236fa67c' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M20 33c-6-1-8.5-5-8.5-8 4.5 0 7.5 3.5 8.5 8z' fill='%238fc098' stroke='%236fa67c' stroke-width='1.2' stroke-linejoin='round'/%3E%3Cpath d='M11 10c0 9 3.5 14 9 14s9-5 9-14l-4.5 4L20 8l-4.5 6z' fill='%23f5a56a' stroke='%23d67f3f' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.home-hero__arrow[data-cta-preset="05"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="sprout"] .home-hero__arrow-sticker {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 37c0-6 0-10 1-17' fill='none' stroke='%235e9a6c' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M21 23C14 24 8 19 8 12c7 0 13 4 13 11z' fill='%239fd0a5' stroke='%235e9a6c' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M21 19c1-7 6-12 13-12 0 7-5 12-13 12z' fill='%23b6dcb4' stroke='%235e9a6c' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.home-hero__arrow[data-cta-preset="06"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="star"] .home-hero__arrow-sticker {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 5l4.1 9.3 10.2 1-7.6 6.9 2.2 10-8.9-5.2-8.8 5.2 2.1-10-7.6-6.9 10.2-1z' fill='%23ffd56b' stroke='%23e0a93a' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.home-hero__arrow[data-cta-preset="07"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="sparkle"] .home-hero__arrow-sticker {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M18 6c1.4 9.5 5.5 13.6 15 15-9.5 1.4-13.6 5.5-15 15-1.4-9.5-5.5-13.6-15-15 9.5-1.4 13.6-5.5 15-15z' fill='%23a9d1f2' stroke='%236fa9d9' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M33 3c.5 3.3 1.9 4.7 5 5.2-3.1.5-4.5 1.9-5 5.2-.5-3.3-1.9-4.7-5-5.2 3.1-.5 4.5-1.9 5-5.2z' fill='%23cfe5f7' stroke='%236fa9d9' stroke-width='1.1' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.home-hero__arrow[data-cta-preset="08"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="heart"] .home-hero__arrow-sticker {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 34C9 26 5 20 5 14.5 5 10 8.5 7 12.5 7c3.5 0 6 2 7.5 4.5C21.5 9 24 7 27.5 7 31.5 7 35 10 35 14.5 35 20 31 26 20 34z' fill='%23c2b4f5' stroke='%238f7fe0' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M10 13.5c.4-2 1.8-3.2 3.6-3.4' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' opacity='.7'/%3E%3C/svg%3E");
+}
+
+// A washi strip pinned over the left edge instead of a die-cut sticker.
+.home-hero__arrow[data-cta-preset="09"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="tape"] .home-hero__arrow-sticker {
+  left: 9px;
+  width: 20px;
+  height: 54px;
+  background-color: var(--tape-blue);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.75) 1.6px, transparent 1.8px);
+  background-size: 7px 7px;
+  background-repeat: repeat;
+  clip-path: polygon(0 3%, 25% 0, 50% 4%, 75% 0, 100% 3%, 100% 97%, 75% 100%, 50% 96%, 25% 100%, 0 97%);
+  filter: none;
+  transform: translateY(-50%) rotate(5deg);
+}
+
+.home-hero__arrow[data-cta-preset="09"]:not([data-cta-sticker]):hover .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-preset="09"]:not([data-cta-sticker]):focus-visible .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="tape"]:hover .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="tape"]:focus-visible .home-hero__arrow-sticker {
+  transform: translateY(-50%) rotate(-2deg);
+}
+
+// These read heavier than the rest at full size; `scale` / `translate`
+// compose with the hover transform, so they hold across breakpoints and
+// states. The lift puts the top edge back where the full-size ones sit.
+.home-hero__arrow[data-cta-preset="02"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="flower"] .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-preset="07"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="sparkle"] .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-preset="09"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="tape"] .home-hero__arrow-sticker {
+  scale: 0.86;
+  translate: 0 -3px;
+}
+
+// cta_sticker as an image path: the site's own artwork, so no die-cut edge.
+.home-hero__arrow[data-cta-sticker="custom"] .home-hero__arrow-sticker {
+  background-image: var(--cta-sticker);
+  filter: drop-shadow(0 2px 3px unquote('rgba(var(--paper-shadow-rgb), 0.22)'));
+}
+
+/* ---------- Image-backed button (custom cta_background) ---------- */
+.home-hero__arrow--bg-image {
+  width: 180px;
+  height: 60px;
+  padding: 15px 42px 15px 28px;
+  color: #684029;
+  background-image: var(--hero-cta-bg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: drop-shadow(0 8px 14px unquote('rgba(var(--paper-shadow-rgb), 0.14)'));
+}
+
+.home-hero__arrow--bg-image .home-hero__arrow-text {
+  width: 100%;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 253, 246, 0.72);
+  transform: translate(3px, -1px);
+}
+
+.home-hero__arrow--bg-image:hover,
+.home-hero__arrow--bg-image:focus-visible {
+  color: #54311f;
+}
+
+.home-hero--image .home-hero__arrow--bg-image {
+  filter: drop-shadow(0 9px 16px rgba(20, 16, 12, 0.28));
+}
+
+.dark-mode .home-hero__arrow--bg-image {
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.24));
+}
+
+.dark-mode .home-hero--image .home-hero__arrow--bg-image {
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
+}
+
+@media (max-width: 760px) {
+  .home-hero__arrow {
+    bottom: 11px;
+    font-size: 13px;
+  }
+
+  .home-hero__arrow--paper {
+    height: 40px;
+    padding: 0 16px 0 42px;
+  }
+
+  .home-hero__arrow--paper .home-hero__arrow-icon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .home-hero__arrow-sticker {
+    left: -6px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .home-hero__arrow--bg-image {
+    width: 150px;
+    height: 50px;
+    padding: 13px 34px 12px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__arrow,
+  .home-hero__arrow:hover,
+  .home-hero__arrow:focus-visible {
+    animation: none;
+  }
+
+  .home-hero__arrow-sticker {
+    transition: none;
+  }
+}

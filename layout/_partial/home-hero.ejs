@@ -92,26 +92,36 @@ var heroPlaceholderCss = heroPlaceholder ? heroPlaceholder.replace(/[\\"]/g, '\\
 var ctaHref = heroHref(hero.cta_link || '#flatpaper-home-content');
 var enterLabel = flatpaper_i18n('home_hero.enter');
 var ctaText = hero.cta_text || enterLabel;
+// cta_background picks a built-in paper preset (01-09, each a hue + sticker
+// pair), `random`, or a custom image that keeps the image-backed button.
+// cta_color / cta_sticker override half of the preset; neither touches the
+// image-backed button.
 var ctaBackground = hero.cta_background == null ? '01' : String(hero.cta_background).trim();
-var ctaBgImages = [];
-function ctaBuiltinBackground(index) {
-  var number = parseInt(index, 10);
-  if (!isFinite(number) || number < 1 || number > 9) return '';
-  return flatpaper_safe_url(url_for('/images/home/cta/webp/cta-bg-' + String(number).padStart(2, '0') + '.webp'), 'image');
+var ctaRandom = ctaBackground.toLowerCase() === 'random';
+var ctaPreset = '01';
+var ctaBgImage = '';
+if (/^0?[1-9]$/.test(ctaBackground)) {
+  ctaPreset = '0' + parseInt(ctaBackground, 10);
+} else if (ctaBackground && !ctaRandom) {
+  ctaBgImage = heroImageUrl(ctaBackground);
 }
-function ctaBackgroundUrl(value) {
-  var raw = String(value || '').trim();
-  if (!raw) return ctaBuiltinBackground(1);
-  if (/^0?[1-9]$/.test(raw)) return ctaBuiltinBackground(raw);
-  return heroImageUrl(raw);
+var ctaColorNames = ['brown', 'pink', 'orange', 'green', 'yellow', 'blue', 'violet', 'accent'];
+var ctaColorRaw = hero.cta_color == null ? '' : String(hero.cta_color).trim();
+var ctaColorKey = ctaColorRaw.toLowerCase() === 'purple' ? 'violet' : ctaColorRaw.toLowerCase();
+var ctaColor = ctaColorNames.indexOf(ctaColorKey) !== -1 ? ctaColorKey : '';
+var ctaColorHex = !ctaColor && /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(ctaColorRaw) ? ctaColorRaw : '';
+var ctaStickerNames = ['none', 'flower', 'bear', 'tulip', 'sprout', 'star', 'sparkle', 'heart', 'tape'];
+var ctaStickerRaw = hero.cta_sticker === false ? 'none' : (hero.cta_sticker == null ? '' : String(hero.cta_sticker).trim());
+var ctaSticker = ctaStickerNames.indexOf(ctaStickerRaw.toLowerCase()) !== -1 ? ctaStickerRaw.toLowerCase() : '';
+var ctaStickerImage = !ctaSticker && ctaStickerRaw ? heroImageUrl(ctaStickerRaw) : '';
+if (ctaStickerImage) ctaSticker = 'custom';
+var ctaStyle = '';
+if (ctaBgImage) {
+  ctaStyle = '--hero-cta-bg: url("' + ctaBgImage.replace(/[\\"]/g, '\\$&') + '");';
+} else {
+  if (ctaColorHex) ctaStyle += '--cta-hue: ' + ctaColorHex + ';';
+  if (ctaStickerImage) ctaStyle += ' --cta-sticker: url("' + ctaStickerImage.replace(/[\\"]/g, '\\$&') + '");';
 }
-if (ctaBackground.toLowerCase() === 'random') {
-  for (var ctaBgIndex = 1; ctaBgIndex <= 9; ctaBgIndex++) {
-    ctaBgImages.push(ctaBuiltinBackground(ctaBgIndex));
-  }
-}
-var ctaBgImage = ctaBgImages[0] || ctaBackgroundUrl(ctaBackground);
-var ctaBgImageCss = ctaBgImage.replace(/[\\"]/g, '\\$&');
 var stickerItems = [
   { key: 'builtin-note', cls: 'hero-sticker--note', text: builtinNoteText }
 ];
@@ -303,15 +313,42 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
       </div>
     </div>
   </div>
-  <a
-    class="home-hero__arrow"
-    href="<%= ctaHref %>"
-    data-hero-scroll
-    <% if (ctaBgImages.length > 1) { %>data-hero-cta-backgrounds="<%= JSON.stringify(ctaBgImages) %>"<% } %>
-    style="--hero-cta-bg: url(&quot;<%= ctaBgImageCss %>&quot;);"
-    aria-label="<%= ctaText %>"
-    title="<%= ctaText %>"
-  >
-    <span class="home-hero__arrow-text"><%= ctaText %></span>
-  </a>
+  <% if (ctaBgImage) { %>
+    <a
+      class="home-hero__arrow home-hero__arrow--bg-image"
+      href="<%= ctaHref %>"
+      data-hero-scroll
+      style="<%= ctaStyle %>"
+      aria-label="<%= ctaText %>"
+      title="<%= ctaText %>"
+    >
+      <span class="home-hero__arrow-text"><%= ctaText %></span>
+    </a>
+  <% } else { %>
+    <a
+      class="home-hero__arrow home-hero__arrow--paper"
+      href="<%= ctaHref %>"
+      data-hero-scroll
+      data-cta-preset="<%= ctaPreset %>"
+      <% if (ctaColor) { %>data-cta-color="<%= ctaColor %>"<% } %>
+      <% if (ctaSticker) { %>data-cta-sticker="<%= ctaSticker %>"<% } %>
+      <% if (ctaStyle) { %>style="<%= ctaStyle.trim() %>"<% } %>
+      aria-label="<%= ctaText %>"
+      title="<%= ctaText %>"
+    >
+      <span class="home-hero__arrow-sticker" aria-hidden="true"></span>
+      <span class="home-hero__arrow-text"><%= ctaText %></span>
+      <%- flatpaper_icon('chevron-down', { cls: 'home-hero__arrow-icon' }) %>
+    </a>
+    <% if (ctaRandom) { %>
+      <script>
+        // Pick the preset before first paint so `random` never flashes 01;
+        // without JS the server-rendered 01 simply stays.
+        (function () {
+          var el = document.currentScript && document.currentScript.previousElementSibling;
+          if (el) el.setAttribute('data-cta-preset', '0' + (1 + Math.floor(Math.random() * 9)));
+        })();
+      </script>
+    <% } %>
+  <% } %>
 </section>

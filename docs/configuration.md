@@ -200,6 +200,8 @@ home_hero:
   cta_text: Start reading
   cta_link: "#flatpaper-home-content"
   cta_background: 01
+  cta_color: accent
+  cta_sticker: heart
   hero_links:
     - name: Archives
       link: /archives/
@@ -231,7 +233,24 @@ home_hero:
 - With `stickers.draggable: true`, the hero stickers get randomized and can be dragged around the page for the current view. Positions are not persisted.
 - `stickers.note_text` changes the text on the built-in note sticker.
 - `stickers.items` adds image stickers. The hero renders up to 5 custom stickers, plus the built-in note. `image` is required, while `link` is optional. `size` is optional and clamped to 48-180 pixels. Stickers with `link` show a visit confirmation bubble first and use `alt` in the prompt, such as "Visit GitHub?".
-- The bottom sticker CTA scrolls into the home content. `cta_text` changes the visible label; `cta_link` can point to another anchor and offsets for the sticky header. `cta_background` defaults to the neutral built-in `01`; set it to `01`-`09`, `random`, or a custom image path such as `/images/my-cta.webp`.
+- The bottom sticker CTA scrolls into the home content. `cta_text` changes the visible label; `cta_link` can point to another anchor and offsets for the sticky header.
+- The CTA is a CSS-drawn paper card, so it follows dark mode and grows with its label. `cta_background` picks a built-in preset, each a color + sticker pair, and defaults to the neutral `01`:
+
+  | Preset | Color | Sticker |
+  | --- | --- | --- |
+  | `01` | brown | none |
+  | `02` | pink | flower |
+  | `03` | brown | bear |
+  | `04` | orange | tulip |
+  | `05` | green | sprout |
+  | `06` | yellow | star |
+  | `07` | blue | sparkle |
+  | `08` | violet | heart |
+  | `09` | blue | tape |
+
+  `random` picks one of the nine on every page load. A custom image path such as `/images/my-cta.webp` switches to an image-backed 180×60 button instead; `cta_color` and `cta_sticker` do not apply then.
+- `cta_color` overrides the preset color: `brown`, `pink`, `orange`, `green`, `yellow`, `blue`, `violet`, `accent` (follows the accent color), or a hex value such as `#e8899a`.
+- `cta_sticker` overrides the preset sticker: `none`, `flower`, `bear`, `tulip`, `sprout`, `star`, `sparkle`, `heart`, `tape`, or an image path such as `/images/my-sticker.png` (a square transparent PNG/SVG works best). With `random`, a configured `cta_color` or `cta_sticker` stays fixed while the other half is randomized.
 
 ## Posts
 

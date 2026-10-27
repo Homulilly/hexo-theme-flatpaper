@@ -200,6 +200,8 @@ home_hero:
   cta_text: 开始阅读
   cta_link: "#flatpaper-home-content"
   cta_background: 01
+  cta_color: accent
+  cta_sticker: heart
   hero_links:
     - name: 归档
       link: /archives/
@@ -231,7 +233,24 @@ home_hero:
 - `stickers.draggable` 为 `true` 时，开屏里的贴纸可以在当前页面内随机摆放并拖动，位置不会写入本地存储。
 - `stickers.note_text` 可修改内置便签贴纸的文字。
 - `stickers.items` 可添加图片贴纸；自定义贴纸最多渲染 5 张，加上内置便签后开屏最多 6 个 sticker。`image` 必填，`link` 可选，`size` 可选并限制在 48 到 180 像素。带 `link` 的贴纸会先弹出访问确认气泡，文案使用 `alt`，例如“要访问 GitHub 吗？”。
-- 底部贴纸按钮会滚入首页内容；`cta_text` 可修改可见文字，`cta_link` 可改成其它锚点，并会避开顶部导航遮挡。`cta_background` 默认使用中性的内置 `01`，也可设置为 `01`-`09`、`random`，或 `/images/my-cta.webp` 这样的自定义图片路径。
+- 底部贴纸按钮会滚入首页内容；`cta_text` 可修改可见文字，`cta_link` 可改成其它锚点，并会避开顶部导航遮挡。
+- 按钮是 CSS 绘制的纸片，会跟随暗色模式，宽度随文字自适应。`cta_background` 选择内置预设，每个预设是一组颜色 + 贴纸，默认是中性的 `01`：
+
+  | 预设 | 颜色 | 贴纸 |
+  | --- | --- | --- |
+  | `01` | brown | 无 |
+  | `02` | pink | flower |
+  | `03` | brown | bear |
+  | `04` | orange | tulip |
+  | `05` | green | sprout |
+  | `06` | yellow | star |
+  | `07` | blue | sparkle |
+  | `08` | violet | heart |
+  | `09` | blue | tape |
+
+  `random` 会在每次载入时从九个预设中随机一个。设置为 `/images/my-cta.webp` 这样的自定义图片路径时，改用整张图片做背景的 180×60 按钮，此时 `cta_color` 与 `cta_sticker` 不生效。
+- `cta_color` 覆盖预设的颜色：`brown`、`pink`、`orange`、`green`、`yellow`、`blue`、`violet`、`accent`（跟随强调色），或 `#e8899a` 这样的十六进制色值。
+- `cta_sticker` 覆盖预设的贴纸：`none`、`flower`、`bear`、`tulip`、`sprout`、`star`、`sparkle`、`heart`、`tape`，或 `/images/my-sticker.png` 这样的图片路径（建议用正方形透明 PNG/SVG）。配合 `random` 时，已配置的 `cta_color` 或 `cta_sticker` 保持固定，只随机另一半。
 
 ## 文章相关
 

@@ -141,8 +141,12 @@ home_hero:
   # Sticker CTA text and target.
   # cta_text: Start reading
   # cta_link: "#flatpaper-home-content"
-  # Sticker CTA background: 01-09, random, or an image path.
+  # Sticker CTA style: built-in paper presets 01-09, random, or an image path (used as the whole button background).
   # cta_background: 01
+  # Override the preset color: brown/pink/orange/green/yellow/blue/violet/accent or a #hex.
+  # cta_color: accent
+  # Override the preset sticker: none/flower/bear/tulip/sprout/star/sparkle/heart/tape or an image path.
+  # cta_sticker: heart
   #
   # Quick navigation links in the hero. When configured, they replace the default wavy divider.
   # hero_links:
