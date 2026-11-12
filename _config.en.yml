@@ -132,7 +132,7 @@ home_hero:
   # image_placeholder: /images/hero-lqip.jpg
   # Typewriter in the bio slot, same fields as footer.typed; falls back to bio when sub is empty.
   typed:
-    enable: true
+    enable: false
   #   source: 1
   #   sub:
   #     - Write the days down slowly
@@ -279,7 +279,7 @@ tape:
 #   If the CDN is unreachable or times out (6s) it falls back to plain text.
 # Defaults when footer is not configured: left "(c) {year} {author}", right "Powered by Theme FlatPaper".
 footer:
-  left: '(c) {year} By {name}'
+  left: '© {year} By {name}'
   powered:
     enable: true
     prefix: Powered by Theme

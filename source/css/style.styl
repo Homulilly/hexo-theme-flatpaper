@@ -15,6 +15,8 @@
 // 3. globally reused atoms
 @import '_partials/_global/section-head'
 @import '_partials/_global/thumbnail'
+@import '_partials/_global/paper-button'
+@import '_partials/_global/arrow-link'
 @import '_partials/_global/pager'
 
 // 4. components
@@ -51,6 +53,9 @@
 @import '_partials/_page/article'
 @import '_partials/_page/not-found'
 @import '_partials/_page/archive-taxonomy'
+
+// shared hover treatment for text links (after components: its transition wins)
+@import '_partials/_global/marker-swipe'
 
 // 6. mode variants (code theme; loaded last so they win the cascade)
 @import '_partials/_mode/code-dark'

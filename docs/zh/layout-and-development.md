@@ -74,6 +74,33 @@ themes/flatpaper/
         `-- main.js
 ```
 
+## 手绘设计规范
+
+主题的手帐风格由 `source/css/_partials/var.styl` 中的一组共享变量驱动。新增或修改组件时优先复用它们，而不是重新写一份胶带、阴影或手绘线条。
+
+| 元素 | 变量 / 写法 | 用法 |
+| --- | --- | --- |
+| 纸张 | `--paper`、`--radius-paper`、`filter: url(#paper-edge)` | 卡片本体：伪元素铺纸色，再用 `#paper-edge` 滤镜做出撕边 |
+| 层次 | `--sheet-shadow` → `--soft-shadow` / `--small-shadow` → `--shadow` | 平放在桌面 → 被拿起 → hover 抬起，三级阴影都由 `--paper-shadow-rgb` 着色 |
+| 手绘圆角 | `--radius-handdrawn`、`--radius-handdrawn-wide`、`--radius-sketch` | 前两个用于按钮、标签、输入框、索引卡；`--radius-sketch` 用于选项卡这类大矩形 |
+| 胶带 | `--tape-color`、`--tape-w` | 配方统一写在 `_layout/tape.styl`，组件只声明位置、角度和颜色 |
+| 荧光笔 | `--highlighter` | 标题下的黄色荧光笔底色（精选标题、欢迎卡片） |
+| 链接荧光笔 | `--marker`、`--marker-rest`、`.marker-swipe` | 跟随主题色：`--marker` 是文字链接 hover 时从左划过的一笔，`--marker-rest` 是正文与开屏链接常驻的淡色一笔；配方在 `_global/marker-swipe.styl` |
+| 笔迹 | `--mask-squiggle`、`--mask-wave`、`--mask-arrow`、`--mask-check` | 作为 `mask` 使用，用 `background-color` 上色，因此自动跟随强调色与深色模式 |
+| 标记 | `.dot`、`.green-dot` | 倾斜的手绘小方块，用作条目前的标记：分类、欢迎卡片、搜索标题、主题色色块、目录当前项都用这一个形状 |
+| 标签 | `--label-fill`、`--label-text` | `.label-pill` 等实色小标签 |
+| 动效 | `--ease-paper`、`--ease-spring` | 纸张落定用 `--ease-paper`，贴纸类回弹用 `--ease-spring` |
+| 焦点 | 全局 `:focus-visible` | 统一的虚线铅笔圈，定义在 `base.styl`，组件无需单独处理 |
+
+约定：
+
+- 虚线（`--dash` / `--line`）表示折痕与分隔，实线只用于需要强调的边框（表头下划线、代码框）。
+- 文字链接 hover 统一用荧光笔划过：给包住链接文字的行内元素加 `.marker-swipe`，或把选择器加入 `_global/marker-swipe.styl`；正文链接、首页开屏的快速链接和 `stackalbumnav` 的标题常驻一道荧光笔，hover 时再划一遍加深；其余位置的链接常驻不加装饰。
+- 前进 / 后退类的文字入口（欢迎卡片的行动按钮、阅读全文、列表分页）不加方框，用 `_global/arrow-link.styl`：文字加一支手绘箭头，hover 时文字划过荧光笔、箭头朝所指方向滑动。卡片标题右侧的“查看全部 / 查看更多”（侧栏分类、标签、相关文章）是同一套写法的小号版本。
+- 带方框的文字按钮用 `_global/paper-button.styl` 的纸片按钮（目前是 404 操作），新按钮把选择器加入该文件即可。
+- 倾斜角度保持在 ±1° 左右，相邻元素方向交替，避免整排朝同一方向歪。
+- 装饰只出现在容器边缘（胶带、撕边、笔迹下划线），正文区域保持干净以保证阅读。
+
 ## JavaScript 职责
 
 `source/js/main.js` 负责：

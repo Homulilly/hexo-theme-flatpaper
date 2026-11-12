@@ -28,16 +28,11 @@ body::before {
   padding: 12px 24px;
 }
 
+/* tape strip — recipe in _layout/tape.styl */
 .site-header::after {
-  content: "";
-  position: absolute;
+  --tape-w: 60px;
   top: -8px;
   left: 25%;
-  z-index: 2;
-  width: 60px;
-  height: 20px;
-  background-color: var(--tape-yellow);
-  background-image: var(--tape-stripes);
   transform: translateX(-50%) rotate(2deg);
 }
 
@@ -184,15 +179,13 @@ body::before {
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.16s ease, color 0.16s ease;
+  transition: color 0.16s ease;
 }
 
-.brand-nav-group a:hover {
+/* hover: the tape strip shared with the main nav, see NAV STRIP below */
+.brand-nav-group a:hover,
+.brand-nav-group a:focus-visible {
   color: var(--color-accent-strong);
-  background-color: var(--color-accent-soft);
-  background-image: var(--nav-tape-stripes);
-  border-radius: var(--radius-handdrawn);
-  transform: scale(1.02) rotate(-1deg);
 }
 
 .brand-nav-group a .lucide {
@@ -208,7 +201,8 @@ body::before {
   border-radius: 2px;
 }
 
-.dark-mode .brand-nav-group a:hover {
+.dark-mode .brand-nav-group a:hover,
+.dark-mode .brand-nav-group a:focus-visible {
   color: var(--color-accent-muted);
 }
 
@@ -245,8 +239,16 @@ body::before {
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
+/* ---- NAV STRIP ----
+   One hover / current mark for every header link: the top-level items, the
+   dropdown items under them and the links in the brand menu. A strip of
+   striped tape lies under the lower half of the label and is laid down from
+   left to right. It is revealed with clip-path rather than scaled, so the
+   stripes stay put while it grows. */
 .site-nav > .site-nav-link::before,
-.site-nav-item > .site-nav-link::before {
+.site-nav-item > .site-nav-link::before,
+.site-nav-menu .nav-label::before,
+.brand-nav-group .nav-label::before {
   content: "";
   position: absolute;
   left: 8px;
@@ -258,11 +260,30 @@ body::before {
   background-image: var(--nav-tape-stripes);
   opacity: 0;
   z-index: -1;
-  transform: scaleX(0.36) rotate(-2deg);
-  transform-origin: center;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: rotate(-1deg);
+  clip-path: inset(0 100% 0 0);
+  transition: opacity 0.15s ease, clip-path 0.3s var(--ease-paper);
 }
 
+/* In the two menus a row is wider than what it holds, so there the strip
+   belongs to the label (icon + text) rather than the row: it reaches a
+   little past the label on both sides, as it does on the top-level items,
+   and never runs into the empty part of the row. */
+.nav-label {
+  position: relative;
+  z-index: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+}
+
+.site-nav-menu .nav-label::before,
+.brand-nav-group .nav-label::before {
+  left: -5px;
+  right: -6px;
+  bottom: 1px;
+  height: 12px;
+}
 
 
 .site-nav-parent::after {
@@ -308,9 +329,15 @@ body::before {
 }
 
 .site-nav > .site-nav-link:not(.active):hover::before,
-.site-nav-item:not(.active):hover > .site-nav-link::before {
+.site-nav > .site-nav-link:not(.active):focus-visible::before,
+.site-nav-item:not(.active):hover > .site-nav-link::before,
+.site-nav-item:not(.active) > .site-nav-link:focus-visible::before,
+.site-nav-menu a:not(.active):hover .nav-label::before,
+.site-nav-menu a:not(.active):focus-visible .nav-label::before,
+.brand-nav-group a:hover .nav-label::before,
+.brand-nav-group a:focus-visible .nav-label::before {
   opacity: 0.72;
-  transform: scaleX(1) rotate(-1deg);
+  clip-path: inset(0);
 }
 
 .site-nav > .site-nav-link.active,
@@ -322,18 +349,16 @@ body::before {
 
 .site-nav > .site-nav-link.active::before,
 .site-nav-item.active > .site-nav-link::before,
-.site-nav-item.is-open > .site-nav-link::before {
+.site-nav-item.is-open > .site-nav-link::before,
+.site-nav-menu a.active .nav-label::before {
   opacity: 1;
-  transform: scaleX(1) rotate(-1deg);
+  clip-path: inset(0);
 }
 
 .site-nav-menu a:hover,
+.site-nav-menu a:focus-visible,
 .site-nav-menu a.active {
   color: var(--color-accent-strong);
-  background-color: var(--color-accent-soft);
-  background-image: var(--nav-tape-stripes);
-  border-radius: var(--radius-handdrawn);
-  transform: scale(1.02) rotate(-1deg);
 }
 
 .dark-mode .site-nav > .site-nav-link:hover,
@@ -350,6 +375,7 @@ body::before {
 }
 
 .dark-mode .site-nav-menu a:hover,
+.dark-mode .site-nav-menu a:focus-visible,
 .dark-mode .site-nav-menu a.active {
   color: var(--color-accent-muted);
 }
@@ -393,7 +419,6 @@ body::before {
   min-width: 0;
   min-height: 32px;
   padding: 7px 10px;
-  border-radius: 8px;
   white-space: nowrap;
   color: var(--ink-soft);
   font-size: 13px;
@@ -479,11 +504,12 @@ body::before {
   height: 30px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
+  border-radius: var(--radius-handdrawn);
   color: var(--ink-soft);
   background: transparent;
   font: inherit;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .accent-option:hover,
@@ -493,11 +519,26 @@ body::before {
   background: var(--color-accent-soft);
 }
 
+/* Swatches use the theme's marker shape — the hand-drawn square of
+   .dot / .green-dot — instead of a plain circle. They sit upright in the
+   row; the one under the pointer tips over and grows a little, neighbours
+   tipping opposite ways. */
 .accent-swatch {
   width: 14px;
   height: 14px;
-  border-radius: 50%;
+  border-radius: var(--radius-handdrawn);
   box-shadow: inset 0 0 0 1px rgba(44, 53, 49, 0.12);
+  transition: transform 0.22s var(--ease-spring);
+}
+
+.accent-option:hover .accent-swatch,
+.accent-option:focus-visible .accent-swatch {
+  transform: rotate(-10deg) scale(1.16);
+}
+
+.accent-option:nth-child(even):hover .accent-swatch,
+.accent-option:nth-child(even):focus-visible .accent-swatch {
+  transform: rotate(10deg) scale(1.16);
 }
 
 .accent-swatch--green {
@@ -599,4 +640,13 @@ body::before {
 
 .dark-mode .theme-toggle .theme-icon--moon {
   display: inline-grid;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav > .site-nav-link::before,
+  .site-nav-item > .site-nav-link::before,
+  .site-nav-menu .nav-label::before,
+  .brand-nav-group .nav-label::before {
+    transition: none;
+  }
 }

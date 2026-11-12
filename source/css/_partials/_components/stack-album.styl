@@ -47,7 +47,7 @@
 }
 
 /* The photo frame, restated at a specificity that can win.
-   `.article-content img` (_mode/code-dark.styl) styles prose images for the
+   `.article-content img` (_page/article.styl) styles prose images for the
    whole theme: border-radius 0, no shadow, and a hover that shifts the image
    by 5px. It is (0,1,1) and imported after this file, so the rule above can
    reach neither the radius nor the shadow — and the prose hover would slide a
@@ -66,6 +66,15 @@
 .fp-stack.is-stacked {
   position: relative;
   height: var(--fp-stack-h, 480px);
+}
+
+/* The pile fans out downwards only: its lowest card ends flush with the
+   deck's box while the top has slack, and the blurred photos and their
+   shadows spill a little further. The prose block margin (15px) is not
+   enough to keep the following text clear of that, so the article deck
+   gets a deeper bottom margin, roughly matching the room above it. */
+.article-content .fp-stack.is-stacked:not(.fp-stack--nav) {
+  margin-bottom: 48px;
 }
 
 /* The top card is the click target, but the container carries the keyboard
@@ -87,8 +96,19 @@
   margin: 0;
   user-select: none;
   -webkit-user-select: none;
-  transition: transform 0.38s ease, width 0.3s ease, height 0.3s ease;
+  /* Where layout() puts a card before fanning it out. Without it a card
+     starts with its corner on the deck's centre, i.e. down and to the right
+     of where it belongs. */
+  transform: translate(-50%, -50%);
   will-change: transform;
+}
+
+/* Cards animate only once the deck has been laid out (main.js adds
+   `is-ready` after the first layout, and drops it again while a late image
+   settles its orientation). Before that, every card would visibly slide in
+   from the bottom right and morph to its size on each page load. */
+.fp-stack.is-stacked.is-ready .fp-stack__card {
+  transition: transform 0.38s ease, width 0.3s ease, height 0.3s ease;
 }
 
 .fp-stack.is-stacked .fp-stack__card--h {
@@ -114,6 +134,9 @@
   height: 100%;
   object-fit: cover;
   filter: blur(3px) saturate(0.85);
+}
+
+.fp-stack.is-stacked.is-ready .fp-stack__img {
   transition: transform 0.38s ease, filter 0.3s ease;
 }
 
@@ -146,6 +169,8 @@
 
 /* ---- Nav variant: deck + title list ---- */
 
+/* Titles on the left, the deck they drive on the right, pushed to the two
+   edges of the column. */
 .fp-stacknav {
   display: flex;
   flex-direction: row-reverse;
@@ -168,19 +193,43 @@
   list-style: none;
 }
 
-.fp-stacknav__list a {
-  display: block;
-  padding: 4px 8px;
-  border-radius: 6px;
-  color: inherit;
-  text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease;
+/* A row: the theme's tilted-square marker, then the title. */
+.article-content .fp-stacknav__list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 5px 8px;
+  line-height: 1.7;
 }
 
-.fp-stacknav__list a:hover,
-.fp-stacknav__list a:focus-visible {
-  background: var(--color-accent-soft);
-  color: var(--color-accent-strong);
+.fp-stacknav__list li::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-handdrawn);
+  background: var(--color-accent);
+  transform: rotate(-10deg);
+  transition: transform 0.22s var(--ease-spring);
+}
+
+/* marker colours alternate like the dots of the sidebar's category list */
+.fp-stacknav__list li:nth-child(4n+2)::before { background: var(--blue); }
+.fp-stacknav__list li:nth-child(4n+3)::before { background: var(--orange); }
+.fp-stacknav__list li:nth-child(4n+4)::before { background: var(--violet); }
+
+.fp-stacknav__list li:hover::before,
+.fp-stacknav__list li:focus-within::before {
+  transform: rotate(5deg) scale(1.24);
+}
+
+/* Titles are highlighted like the links in prose: a faint stroke at rest and
+   a second pass on hover (_global/marker-swipe.styl). Colour and weight come
+   from the prose link rule in _page/article.styl. Hovering one flips its
+   cover to the top (main.js). */
+.fp-stacknav__link {
+  min-width: 0;
 }
 
 @media (max-width: 480px) {
@@ -189,7 +238,8 @@
     flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-start;
-    gap: 16px;
+    /* room for the lower cards of the pile, which hang below the deck's box */
+    gap: 28px;
   }
 
   .fp-stack--nav {
@@ -200,21 +250,24 @@
   .article-content .fp-stacknav__list {
     width: 100%;
     min-width: 0;
-    text-align: center;
   }
 
-  .fp-stacknav__list a {
+  .article-content .fp-stacknav__list li {
+    justify-content: center;
+  }
+
+  .fp-stacknav__link {
     overflow-wrap: anywhere;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   /* The deck still reorders on click, it just does so without the travel. */
-  .fp-stack.is-stacked .fp-stack__card,
+  .fp-stack.is-stacked.is-ready .fp-stack__card,
   .fp-stack.is-stacked .fp-stack__card.is-taking,
-  .fp-stack.is-stacked .fp-stack__img,
+  .fp-stack.is-stacked.is-ready .fp-stack__img,
   .fp-stack.is-stacked .fp-stack__card.is-taking .fp-stack__img,
-  .fp-stacknav__list a {
+  .fp-stacknav__list li::before {
     transition: none;
   }
 }

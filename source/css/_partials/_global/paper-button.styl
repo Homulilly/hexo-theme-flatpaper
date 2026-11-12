@@ -1,0 +1,68 @@
+/* ============== PAPER BUTTON ============== */
+/* The boxed text-button recipe: a small slip of warm paper with a torn edge
+   and a pencilled outline, which takes the accent on hover. Used by the 404
+   actions; to give another button this look, add its selector here.
+   Forward / back links (welcome card, "read more", pager) are not boxed —
+   see _global/arrow-link.styl. */
+.not-found-action {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border: 0;
+  color: var(--ink-soft);
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.75;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.22s var(--ease-paper);
+}
+
+.not-found-action::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--radius-paper);
+  background: var(--paper-warm);
+  box-shadow: inset 0 0 0 1px var(--dash);
+  filter: url(#paper-edge) drop-shadow(var(--paper-shadow));
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark-mode .not-found-action::before {
+  box-shadow: none;
+}
+
+.not-found-action:hover {
+  color: var(--color-accent-strong);
+  transform: translateY(-1px) rotate(-0.6deg);
+}
+
+.dark-mode .not-found-action:hover {
+  color: var(--color-accent-muted);
+}
+
+.not-found-action:hover::before {
+  background: var(--color-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+/* pressed: the slip is pushed back onto the desk */
+.not-found-action:active {
+  transform: translateY(1px);
+  transition-duration: 0.08s;
+}
+
+.not-found-action .lucide {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}

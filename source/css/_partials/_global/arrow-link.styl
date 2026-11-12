@@ -1,0 +1,125 @@
+/* ============== ARROW LINK ============== */
+/* Forward / back links written by hand: plain text with a pen-drawn arrow,
+   no box. Used for the welcome card's call to action, "read more" on the
+   featured post and the list pager. On hover the text gets the highlighter
+   swipe (the label carries .marker-swipe, see _global/marker-swipe.styl) and
+   the arrow slides the way it points.
+
+   The arrow is a pseudo-element, so the templates carry only the label. */
+.welcome-cta,
+.read-more,
+.pager-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 2px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.75;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.welcome-cta::after,
+.read-more::after,
+.pager-link--next::after,
+.pager-link--prev::before {
+  content: "";
+  flex: 0 0 22px;
+  height: 13px;
+  background-color: currentColor;
+  -webkit-mask: var(--mask-arrow) center / contain no-repeat;
+  mask: var(--mask-arrow) center / contain no-repeat;
+  transition: transform 0.26s var(--ease-spring);
+}
+
+/* the same stroke, mirrored, for "previous" */
+.pager-link--prev::before {
+  transform: scaleX(-1);
+}
+
+.welcome-cta:hover,
+.welcome-cta:focus-visible,
+.read-more:hover,
+.read-more:focus-visible,
+a.pager-link:hover,
+a.pager-link:focus-visible {
+  color: var(--color-accent-strong);
+}
+
+.dark-mode .welcome-cta:hover,
+.dark-mode .welcome-cta:focus-visible,
+.dark-mode .read-more:hover,
+.dark-mode .read-more:focus-visible,
+.dark-mode a.pager-link:hover,
+.dark-mode a.pager-link:focus-visible {
+  color: var(--color-accent-muted);
+}
+
+.welcome-cta:hover::after,
+.read-more:hover::after,
+a.pager-link--next:hover::after {
+  transform: translateX(5px);
+}
+
+a.pager-link--prev:hover::before {
+  transform: scaleX(-1) translateX(5px);
+}
+
+/* The quiet size, for the "view all" links in card headers (sidebar
+   categories and tags, related posts): small muted text, the same arrow
+   drawn smaller. */
+.side-card__more,
+.related-paper__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.side-card__more::after,
+.related-paper__more::after {
+  content: "";
+  flex: 0 0 16px;
+  height: 10px;
+  background-color: currentColor;
+  -webkit-mask: var(--mask-arrow) center / contain no-repeat;
+  mask: var(--mask-arrow) center / contain no-repeat;
+  transition: transform 0.26s var(--ease-spring);
+}
+
+.side-card__more:hover,
+.side-card__more:focus-visible,
+.related-paper__more:hover,
+.related-paper__more:focus-visible {
+  color: var(--color-accent-strong);
+}
+
+.dark-mode .side-card__more:hover,
+.dark-mode .side-card__more:focus-visible,
+.dark-mode .related-paper__more:hover,
+.dark-mode .related-paper__more:focus-visible {
+  color: var(--color-accent-muted);
+}
+
+.side-card__more:hover::after,
+.related-paper__more:hover::after {
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-cta::after,
+  .read-more::after,
+  .pager-link--next::after,
+  .pager-link--prev::before,
+  .side-card__more::after,
+  .related-paper__more::after {
+    transition: none;
+  }
+}

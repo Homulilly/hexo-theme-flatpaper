@@ -7,12 +7,32 @@
 }
 
 .section-head h2 {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 0;
+  padding-bottom: 7px;
   font-size: 16px;
   font-weight: 700;
+}
+
+/* same pen stroke as the article headings, starting under the text */
+.section-head h2::after {
+  content: "";
+  position: absolute;
+  left: 26px;
+  bottom: 0;
+  width: 2.6em;
+  height: 7px;
+  background-color: var(--color-accent);
+  opacity: 0.8;
+  -webkit-mask: var(--mask-squiggle) left center / contain no-repeat;
+  mask: var(--mask-squiggle) left center / contain no-repeat;
+}
+
+.dark-mode .section-head h2::after {
+  background-color: var(--color-accent-muted);
 }
 
 .section-head h2 .lucide {

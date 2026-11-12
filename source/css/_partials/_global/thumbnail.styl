@@ -23,6 +23,19 @@
   background: var(--paper-warm);
 }
 
+/* Dark mode: bright covers glare against the dark desk, so they are dimmed a
+   little at rest and come back to full brightness when the card is hovered. */
+.dark-mode .paper-thumb__img {
+  filter: brightness(0.84) saturate(0.94);
+  transition: transform 0.45s ease, filter 0.3s ease;
+}
+
+.dark-mode .post-card:hover .paper-thumb__img,
+.dark-mode .featured-paper:hover .paper-thumb__img,
+.dark-mode .related-card:hover .paper-thumb__img {
+  filter: none;
+}
+
 .post-card:hover .paper-thumb__img,
 .featured-paper:hover .paper-thumb__img {
   transform: scale(1.04);

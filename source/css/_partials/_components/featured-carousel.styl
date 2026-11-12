@@ -97,19 +97,20 @@
   height: 8px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
-  background: var(--dash);
+  border-radius: var(--radius-handdrawn);
+  background-color: var(--dash);
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, width 0.3s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, width 0.3s var(--ease-paper);
 }
 
 .featured-carousel .carousel-dot:hover {
-  background: var(--color-accent);
+  background-color: var(--color-accent);
 }
 
 .featured-carousel .carousel-dot.is-active {
   width: 22px;
-  border-radius: 999px;
-  background: var(--color-accent);
+  background-color: var(--color-accent);
+  background-image: var(--tape-stripes);
+  transform: rotate(-2deg);
 }
 

@@ -80,6 +80,9 @@
   display: block;
   width: 44px;
   height: 44px;
+  /* prose images carry `margin: 22px auto` (.article-content img), which
+     would push an <img> avatar 22px down from the corner */
+  margin: 0;
   border: 2px solid var(--paper-solid);
   border-radius: 50%;
   object-fit: cover;

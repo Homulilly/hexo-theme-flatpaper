@@ -27,12 +27,24 @@
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.article-action .lucide {
+/* The arrow is the pen-drawn one from the list pager (--mask-arrow), as a
+   pseudo-element: before the text for "previous" (mirrored), after it for
+   "next". It spans both text rows of the grid. */
+.article-action--prev::before,
+.article-action--next::after {
+  content: "";
   grid-row: 1 / 3;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 13px;
   color: var(--muted);
-  transition: transform 0.2s ease, color 0.2s ease;
+  background-color: currentColor;
+  -webkit-mask: var(--mask-arrow) center / contain no-repeat;
+  mask: var(--mask-arrow) center / contain no-repeat;
+  transition: transform 0.26s var(--ease-spring), color 0.2s ease;
+}
+
+.article-action--prev::before {
+  transform: scaleX(-1);
 }
 
 .article-action .action-label {
@@ -64,9 +76,8 @@
   border-bottom-right-radius: 4px;
 }
 
-.article-action--next .lucide {
+.article-action--next::after {
   grid-column: 2;
-  grid-row: 1 / 3;
 }
 
 .article-action--next .action-label,
@@ -82,14 +93,16 @@ a.article-action:hover .action-title {
   color: var(--color-accent-strong);
 }
 
-a.article-action--prev:hover .lucide {
+a.article-action--prev:hover::before,
+a.article-action--prev:focus-visible::before {
   color: var(--color-accent-strong);
-  transform: translateX(-3px);
+  transform: scaleX(-1) translateX(4px);
 }
 
-a.article-action--next:hover .lucide {
+a.article-action--next:hover::after,
+a.article-action--next:focus-visible::after {
   color: var(--color-accent-strong);
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
 .article-action.is-disabled {
@@ -102,11 +115,22 @@ a.article-action--next:hover .lucide {
   color: var(--muted);
 }
 
-.article-action.is-disabled .lucide {
+.article-action.is-disabled::before,
+.article-action.is-disabled::after {
   opacity: 0.6;
 }
 
 .dark-mode a.article-action:hover .action-title,
-.dark-mode a.article-action:hover .lucide {
+.dark-mode a.article-action--prev:hover::before,
+.dark-mode a.article-action--prev:focus-visible::before,
+.dark-mode a.article-action--next:hover::after,
+.dark-mode a.article-action--next:focus-visible::after {
   color: var(--color-accent-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-action--prev::before,
+  .article-action--next::after {
+    transition: none;
+  }
 }

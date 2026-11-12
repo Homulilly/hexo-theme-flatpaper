@@ -135,7 +135,7 @@
   bottom: 1px;
   z-index: -1;
   height: 8px;
-  background: rgba(241, 193, 84, 0.4);
+  background: var(--highlighter);
 }
 
 .welcome-card .welcome-text {
@@ -145,62 +145,10 @@
   line-height: 1.7;
 }
 
-/* Shared styling with .pager-link — same dashed pill, fills green on hover. */
+/* Link look comes from _global/arrow-link.styl. */
 .welcome-cta,
 .read-more {
-  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   width: fit-content;
   margin: 0 4px 0 auto;
-  padding: 8px 18px;
-  color: var(--ink-soft);
-  font-size: 13px;
-  font-weight: 600;
-  transition: color 0.2s ease, transform 0.2s ease;
-  z-index: 1;
-}
-
-.welcome-cta::before,
-.read-more::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: var(--paper-warm);
-  z-index: -1;
-  border-radius: 4px;
-  box-shadow: inset 0 0 0 1px var(--dash);
-  filter: url(#paper-edge) drop-shadow(var(--paper-shadow));
-  transition: background 0.2s ease, box-shadow 0.2s ease;
-}
-
-.dark-mode .welcome-cta::before,
-.dark-mode .read-more::before {
-  box-shadow: none;
-}
-
-.welcome-cta:hover,
-.read-more:hover {
-  color: var(--color-accent-strong);
-  transform: translateY(-1px);
-}
-
-.welcome-cta:hover::before,
-.read-more:hover::before {
-  background: var(--color-accent-soft);
-  box-shadow: inset 0 0 0 1px var(--color-accent);
-}
-
-.welcome-cta .lucide,
-.read-more .lucide {
-  width: 14px;
-  height: 14px;
-  transition: transform 0.2s ease;
-}
-
-.welcome-cta:hover .lucide,
-.read-more:hover .lucide {
-  transform: translateX(2px);
 }

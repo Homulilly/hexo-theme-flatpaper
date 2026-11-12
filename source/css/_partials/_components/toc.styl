@@ -4,17 +4,11 @@
 }
 
 .toc-card::before {
-  content: "";
-  position: absolute;
-  top: -10px;
+  --tape-color: var(--tape-green);
   left: 50%;
+  right: auto;
   z-index: 4;
-  width: 70px;
-  height: 20px;
-  background-color: var(--tape-green);
-  background-image: var(--tape-stripes);
-  filter: saturate(0.9);
-  transform: translateX(-50%);
+  transform: translateX(-50%) rotate(1deg);
 }
 
 .toc-card__head {
@@ -109,19 +103,22 @@
   transition: color 0.18s ease, transform 0.25s cubic-bezier(0.34, 1.6, 0.64, 1);
 }
 
-/* left accent bar: hidden by default, slides in with a slight bounce
-   on hover / active (set by main.js scrollspy) */
+/* Entry marker: the theme's tilted hand-drawn square (same shape as .dot),
+   sitting beside the first line of the entry. Hidden by default; it slides
+   and turns into place with a slight bounce on hover / active (set by
+   main.js scrollspy). --toc-pad-y mirrors the link's vertical padding so the
+   marker stays centred on the first line at every nesting level. */
 .toc-content a::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 6px;
-  bottom: 6px;
-  width: 3px;
-  border-radius: 999px;
+  left: -2px;
+  top: calc(var(--toc-pad-y, 5px) + 0.75em - 3.5px);
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-handdrawn);
   background: var(--color-accent);
   opacity: 0;
-  transform: translateX(-10px);
+  transform: translateX(-10px) rotate(-45deg);
   transition: transform 0.28s cubic-bezier(0.34, 1.6, 0.64, 1), opacity 0.2s ease;
 }
 
@@ -141,7 +138,7 @@
 .toc-content a:hover::before,
 .toc-content a.is-active::before {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateX(0) rotate(-10deg);
 }
 
 .toc-content a.is-active {
@@ -169,6 +166,7 @@
 
 .toc-content ol ol a,
 .toc-content ul ul a {
+  --toc-pad-y: 4px;
   color: var(--muted);
   padding: 4px 8px 4px 10px;
 }

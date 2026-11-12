@@ -112,13 +112,11 @@ var relatedPosts = allPosts
   <nav class="article-actions">
     <% if (page.prev) { %>
       <a class="article-action article-action--prev" href="<%- url_for(page.prev.path) %>">
-        <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
         <span class="action-label"><%= flatpaper_i18n('post.previous') %></span>
-        <span class="action-title"><%= page.prev.title %></span>
+        <span class="action-title"><span class="marker-swipe"><%= page.prev.title %></span></span>
       </a>
     <% } else { %>
       <span class="article-action article-action--prev is-disabled" aria-disabled="true">
-        <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
         <span class="action-label"><%= flatpaper_i18n('post.previous') %></span>
         <span class="action-title"><%= flatpaper_i18n('post.no_previous') %></span>
       </span>
@@ -126,14 +124,12 @@ var relatedPosts = allPosts
     <% if (page.next) { %>
       <a class="article-action article-action--next" href="<%- url_for(page.next.path) %>">
         <span class="action-label"><%= flatpaper_i18n('post.next') %></span>
-        <span class="action-title"><%= page.next.title %></span>
-        <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
+        <span class="action-title"><span class="marker-swipe"><%= page.next.title %></span></span>
       </a>
     <% } else { %>
       <span class="article-action article-action--next is-disabled" aria-disabled="true">
         <span class="action-label"><%= flatpaper_i18n('post.next') %></span>
         <span class="action-title"><%= flatpaper_i18n('post.no_next') %></span>
-        <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </span>
     <% } %>
   </nav>
@@ -149,8 +145,7 @@ var relatedPosts = allPosts
     <header class="related-paper__head">
       <h2><%- partial('_partial/icons', { icon: 'link' }) %><%= flatpaper_i18n('post.related_posts') %></h2>
       <a class="related-paper__more" href="<%- url_for((config.archive_dir || 'archives') + '/') %>">
-        <span><%= flatpaper_i18n('post.view_more') %></span>
-        <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
+        <span class="marker-swipe"><%= flatpaper_i18n('post.view_more') %></span>
       </a>
     </header>
     <div class="related-paper__grid">
@@ -160,7 +155,7 @@ var relatedPosts = allPosts
             <%- partial('_partial/thumbnail', { index: index, post: post }) %>
           </span>
           <span class="related-card__body">
-            <strong class="related-card__title"><%= post.title %></strong>
+            <strong class="related-card__title"><span class="marker-swipe"><%= post.title %></span></strong>
             <em class="related-card__date"><%= date(post.date, 'YYYY-MM-DD') %></em>
           </span>
         </a>

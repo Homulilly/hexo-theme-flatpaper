@@ -150,6 +150,10 @@ welcome:
 typed:
   from: from
 
+reward_list:
+  total: "Total %s"
+  updated: "Latest update: "
+
 stack_album:
   label: Stacked album
 

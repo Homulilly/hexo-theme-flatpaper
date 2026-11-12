@@ -1,35 +1,56 @@
 /* ============== TAPE DECORATION ============== */
-.tape {
+/* One washi-tape recipe for the whole theme. Every strip — the standalone
+   `.tape` span and the pseudo-element strips on cards, quotes and notes —
+   shares the size and stripes below. A component only says where
+   its strip sits and how it is tilted, and picks a colour with --tape-color
+   (and optionally a length with --tape-w). */
+.tape,
+.side-card::before,
+.site-header::after,
+.related-paper::after,
+.comments-section::after,
+.article-content blockquote::before,
+body[data-note-style="sticky"] .flatpaper-note::before {
+  content: "";
   position: absolute;
-  z-index: 4;
-  width: 86px;
-  height: 22px;
-  background-color: var(--tape-yellow);
+  top: -10px;
+  z-index: 2;
+  width: var(--tape-w, 70px);
+  height: 20px;
+  background-color: var(--tape-color, var(--tape-yellow));
   background-image: var(--tape-stripes);
-  filter: saturate(0.88);
+  filter: saturate(0.9);
+  pointer-events: none;
+}
+
+.tape {
+  --tape-w: 86px;
+  --tape-color: var(--tape-pink);
+  z-index: 4;
+  height: 22px;
 }
 
 .tape--top-left {
-  top: -10px;
   left: 24px;
-  background-color: var(--tape-pink);
   transform: rotate(-6deg);
 }
 
 .tape--top-center {
-  top: -10px;
   left: 50%;
-  background-color: var(--tape-pink);
   transform: translateX(-50%) rotate(-2deg);
 }
 
 .tape--top-right {
-  top: -10px;
+  --tape-w: 70px;
   right: 32px;
-  width: 70px;
-  background-color: var(--tape-pink);
-  background-image: var(--tape-stripes);
   transform: rotate(7deg);
+}
+
+/* Sidebar cards: a strip on the top-right corner by default; individual
+   cards (categories, tags, toc, recent) move or recolour it. */
+.side-card::before {
+  right: 18px;
+  transform: rotate(6deg);
 }
 
 .tape-disabled .tape,
@@ -41,18 +62,4 @@
 .tape-disabled .welcome-thumb--image::before,
 .tape-disabled .welcome-thumb--image::after {
   display: none;
-}
-
-.side-card::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  right: 18px;
-  z-index: 2;
-  width: 70px;
-  height: 20px;
-  background-color: var(--tape-yellow);
-  background-image: var(--tape-stripes);
-  filter: saturate(0.9);
-  transform: rotate(6deg);
 }

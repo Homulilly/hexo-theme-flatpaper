@@ -135,6 +135,8 @@
   background: var(--paper);
   color: var(--ink);
   text-decoration: none;
+  position: relative;
+  isolation: isolate;
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
@@ -142,6 +144,23 @@
   transform: translateY(-3px);
   border-color: var(--color-accent);
   box-shadow: var(--small-shadow);
+}
+
+/* Hovering lifts the card (and straightens the tilted ones), which pulls its
+   bottom edge away from a pointer resting on it: the hover would end, the
+   card drop back, and the two states chase each other. While the card is
+   hovered an invisible pad keeps the strip it has just left part of the
+   card, so the pointer never falls off it. It sits behind the content and
+   exists only during hover, so it neither blocks clicks nor enlarges the
+   resting hit area. The friends feed cards use the same pad. */
+.friend-card__link:hover .friend-card__body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -1px;
+  bottom: -5px;
+  left: -1px;
+  z-index: -1;
 }
 
 .friend-card__avatar-wrap {

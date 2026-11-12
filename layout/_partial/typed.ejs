@@ -5,6 +5,9 @@
 //   target_id     - element id (default 'footer-type-tips')
 //   target_cls    - extra class for the span
 //   fallback_text - text to type when `sub` is empty (caller's own copy)
+//   reserve       - true to hold the height of the longest string, so text
+//                   that wraps while it is typed cannot resize the container
+//                   (for block slots such as the hero bio; inline slots skip it)
 // source (anzhiyu footerBar.subTitle compatible):
 //   false       - only `sub` strings
 //   1           - hitokoto.cn 一言 (fetched first, then `sub`)
@@ -31,9 +34,18 @@ var tSub = Array.isArray(tdata.sub) && tdata.sub.length
   ? tdata.sub.slice()
   : (tFallback ? [tFallback] : (config.subtitle ? [config.subtitle] : []));
 var tCdn = tdata.cdn || 'https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js';
+var tReserve = (typeof reserve !== 'undefined' && reserve === true);
 %>
 <% if (tEnable) { %>
+<% if (tReserve) { %>
+<%# Every string is laid out invisibly in the same grid cell as the live text,
+    so the cell is always as tall as the longest one. The trailing "|" stands
+    in for the Typed.js cursor. Rendered here as well as by the script so the
+    height is already right on first paint. %>
+<span class="typed-stack"><span class="typed-stack__live"><span<%- tCls ? ' class="' + tCls + '"' : '' %> id="<%= tId %>"></span></span><% tSub.forEach(function (text) { %><span class="typed-stack__ghost" aria-hidden="true"><%= String(text) %>|</span><% }) %></span>
+<% } else { %>
 <span<%- tCls ? ' class="' + tCls + '"' : '' %> id="<%= tId %>"></span>
+<% } %>
 <script>
 (function () {
   var el = document.getElementById(<%- JSON.stringify(tId) %>);
@@ -80,6 +92,23 @@ var tCdn = tdata.cdn || 'https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.
     };
   }
 
+  // `reserve` mode: keep one invisible copy of each string that will actually
+  // be shown (a fetched quote is only known here), replacing the server ones.
+  function hold(strings) {
+    var live = el.parentNode;
+    var stack = live && live.parentNode;
+    if (!stack || !stack.classList || !stack.classList.contains('typed-stack')) return;
+    var old = stack.querySelectorAll('.typed-stack__ghost');
+    for (var i = 0; i < old.length; i++) stack.removeChild(old[i]);
+    for (var j = 0; j < strings.length; j++) {
+      var ghost = document.createElement('span');
+      ghost.className = 'typed-stack__ghost';
+      ghost.setAttribute('aria-hidden', 'true');
+      ghost.textContent = strings[j] + '|';
+      stack.appendChild(ghost);
+    }
+  }
+
   // Without Typed.js (disabled, blocked CDN or timeout) the first string is
   // still shown as plain text, so the slot is never left empty.
   function render(strings) {
@@ -88,9 +117,10 @@ var tCdn = tdata.cdn || 'https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.
       if (strings[i] != null && String(strings[i]) !== '') list.push(String(strings[i]));
     }
     if (!list.length) return;
-    if (!effect) { el.textContent = list[0]; return; }
+    if (!effect) { hold([list[0]]); el.textContent = list[0]; return; }
+    hold(list);
     loader(cdn, function (ready) {
-      if (!ready) { el.textContent = list[0]; return; }
+      if (!ready) { hold([list[0]]); el.textContent = list[0]; return; }
       new Typed(el, {
         strings: list,
         startDelay: startDelay,

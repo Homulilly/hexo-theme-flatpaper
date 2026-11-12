@@ -1,0 +1,101 @@
+/* ============== HIGHLIGHTER SWIPE ============== */
+/* The theme's one hover treatment for text links: a highlighter pen is drawn
+   under the words from left to right. The stroke is a background layer, so it
+   follows text that wraps and never shifts layout.
+
+   Use it by adding `.marker-swipe` to an inline element (usually a <span>
+   around the link text), or by listing the selector here. The colour is
+   --marker, which follows the active accent. Imported after the components
+   so its transition wins over the ones they declare for the same elements. */
+.marker-swipe,
+.post-card h3 a,
+.meta-tag-link,
+.meta-cat-link,
+.toc-content .toc-text,
+.section-head a,
+.brand-text,
+.home-hero__nav-link,
+.site-footer a:not(.site-footer__icon-link),
+.fp-stacknav__link,
+.article-content :not(sup) > a:not([class]):not([data-fancybox]) {
+  background-image: linear-gradient(var(--marker), var(--marker));
+  background-repeat: no-repeat;
+  background-position: 0 92%;
+  background-size: 0% 0.42em;
+  transition:
+    color 0.2s ease,
+    background-size 0.4s var(--ease-paper),
+    transform 0.2s ease;
+}
+
+/* Prose links, the home hero links and the stacked-album titles are
+   highlighted all the time: a faint stroke at rest (--marker-rest), and
+   hovering goes over it from the left with the full one, which deepens the
+   colour. */
+.article-content :not(sup) > a:not([class]):not([data-fancybox]),
+.fp-stacknav__link,
+.home-hero__nav-link {
+  background-image:
+    linear-gradient(var(--marker), var(--marker)),
+    linear-gradient(var(--marker-rest), var(--marker-rest));
+  background-size: 0% 0.42em, 100% 0.42em;
+}
+
+/* Boxed links (flex items, inline-flex, inline-block) are as tall as their
+   line, not as their glyphs, so the stroke is raised to sit under the text
+   the way it does on plain inline links. */
+.meta-tag-link,
+.meta-cat-link,
+.section-head a,
+.brand-text,
+.home-hero__nav-link,
+.fp-stacknav__link,
+.side-card__more .marker-swipe,
+.related-paper__more .marker-swipe,
+.welcome-cta .marker-swipe,
+.read-more .marker-swipe,
+.pager-link .marker-swipe {
+  background-position: 0 76%;
+}
+
+.marker-swipe:hover,
+a:hover .marker-swipe,
+a:focus-visible .marker-swipe,
+.post-card:hover h3 a,
+.post-card h3 a:focus-visible,
+.meta-tag-link:hover,
+.meta-tag-link:focus-visible,
+.meta-cat-link:hover,
+.meta-cat-link:focus-visible,
+.toc-content a:hover .toc-text,
+.toc-content a:focus-visible .toc-text,
+.section-head a:hover,
+.section-head a:focus-visible,
+.brand-text:hover,
+.brand-text:focus-visible,
+.home-hero__nav-link:hover,
+.home-hero__nav-link:focus-visible,
+.site-footer a:not(.site-footer__icon-link):hover,
+.site-footer a:not(.site-footer__icon-link):focus-visible,
+.fp-stacknav__link:hover,
+.fp-stacknav__link:focus-visible,
+.article-content :not(sup) > a:not([class]):not([data-fancybox]):hover,
+.article-content :not(sup) > a:not([class]):not([data-fancybox]):focus-visible {
+  background-size: 100% 0.42em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker-swipe,
+  .post-card h3 a,
+  .meta-tag-link,
+  .meta-cat-link,
+  .toc-content .toc-text,
+  .section-head a,
+  .brand-text,
+  .home-hero__nav-link,
+  .site-footer a:not(.site-footer__icon-link),
+  .fp-stacknav__link,
+  .article-content :not(sup) > a:not([class]):not([data-fancybox]) {
+    transition: none;
+  }
+}

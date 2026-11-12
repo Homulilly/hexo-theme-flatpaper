@@ -157,7 +157,39 @@ home_hero:
 
 ## 赞赏名单
 
-在关于页等独立页面的正文中放入结构化 HTML，即可获得手账便签风格的赞赏名单卡片。每张卡片是带胶带、轻微歪斜的纸条，右上角可选圆形头像。
+在关于页等独立页面的正文中用 `rewardlist` 标签列出赞赏者，即可获得手账便签风格的赞赏名单卡片。每张卡片是带胶带、轻微歪斜的纸条，右上角是圆形头像。
+
+一行一位，字段用 `|` 分隔，顺序为 `昵称 | 金额 | 日期 | 头像`。只有昵称必填，中间的字段可以留空（`昵称 || 2026-01-01`）：
+
+```markdown
+{% rewardlist %}
+晓美焰 | ¥100 | 2026-08-14
+鹿目圆 | ¥50 | 2026-08-09 | /images/madoka.jpg
+巴麻美
+{% endrewardlist %}
+```
+
+名单较长时可以放进站点数据文件，用 `rewardlistfrom` 读取。参数是数据路径：第一段是 `source/_data/` 下的文件名，其余是文件内的键。
+
+```yaml
+# source/_data/rewards.yml
+list:
+  - name: 晓美焰
+    amount: ¥100
+    date: 2026-08-14
+  - name: 鹿目圆
+    amount: ¥50
+    date: 2026-08-09
+    avatar: /images/madoka.jpg
+```
+
+```markdown
+{% rewardlistfrom rewards.list %}
+```
+
+两个标签都会在名单下方输出一行汇总（人数与最近的日期）；在标签名或数据路径后加 `nototal` 可以去掉，例如 `{% rewardlist nototal %}`、`{% rewardlistfrom rewards.list nototal %}`。
+
+标签输出的就是下面这段结构，所以也可以继续手写 HTML：
 
 ```html
 <div class="reward-list">
@@ -177,7 +209,7 @@ home_hero:
 
 - **金额档位配色**：JS 自动解析金额文本并着色，无需手写样式类——≥100 红、≥50 绿、≥20 棕黄、≥10 蓝、≥5 紫、≥1 橄榄绿（对应人民币纸币色）。手动添加 `reward-list__amount--100` 之类的类可显式覆盖。
 - **循环配色**：`--p1` 到 `--p5` 五个纸色档位（红/蓝/绿/橙/紫），胶带颜色随纸色切换。
-- **头像**：`no-zoom` 圆形头像贴在右上角；省略 `img` 时可用 `.reward-list__avatar--text` 显示名字首字符回退。
+- **头像**：圆形头像贴在右上角；标签里不填头像时自动显示昵称首字。手写 HTML 时用带 `no-zoom` 的 `img`，或 `.reward-list__avatar--text`。
 - **响应式**：桌面多列自动排布，窄屏降为单列；支持深色模式与 `prefers-reduced-motion`。
 
 ## 多语言界面

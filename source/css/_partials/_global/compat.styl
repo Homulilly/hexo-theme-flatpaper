@@ -5,18 +5,19 @@
 @supports not (color: unquote('color-mix(in srgb, #000, #fff)')) {
   :root {
     --nav-tape-stripes: var(--tape-stripes);
+    --selection-bg: var(--color-accent-soft);
+    --marker: var(--color-accent-soft);
+    --marker-rest: var(--color-accent-soft);
   }
 
   .article-content :not(pre) > code {
     background: var(--color-accent-soft);
     border: 1px solid var(--color-accent);
-    box-shadow: 0 0 0 2px var(--color-accent-soft);
   }
 
   .dark-mode .article-content :not(pre) > code {
     background: var(--color-accent-soft);
     border-color: var(--color-accent-muted);
-    box-shadow: 0 0 0 2px var(--color-accent-soft);
   }
 
   .article-content .highlight .code-copy.is-copied {
@@ -62,14 +63,6 @@
     border-bottom-color: var(--line);
   }
 
-  .article-content a:not(.heading-anchor) {
-    text-decoration-color: var(--color-accent);
-  }
-
-  .dark-mode .article-content a:not(.heading-anchor) {
-    text-decoration-color: var(--color-accent-muted);
-  }
-
   .article-content mark,
   .dark-mode .article-content mark {
     background: var(--color-accent-soft);
@@ -98,9 +91,8 @@
   }
 
   body[data-note-style="sticky"] .flatpaper-note::before {
-    background:
-      repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px 7px),
-      var(--note-accent);
+    --tape-color: var(--note-accent);
+    opacity: 0.5;
   }
 
   .flatpaper-tabs__nav-item:hover:not(.is-active) {

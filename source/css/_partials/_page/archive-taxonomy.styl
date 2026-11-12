@@ -53,29 +53,41 @@
 .archive-item strong {
   font-size: 15px;
   font-weight: 600;
-  transition: color 0.22s ease;
 }
 
-.archive-item span {
+.archive-item > span {
   color: var(--muted);
   font-size: 13px;
+  font-variant-numeric: tabular-nums;
 }
 
+/* hand-drawn arrow: faint at rest, inks in and slides forward on hover */
 .archive-item em {
-  width: 8px;
-  height: 8px;
-  border-top: 1.6px solid var(--muted);
-  border-right: 1.6px solid var(--muted);
-  transform: rotate(45deg);
-  transition: border-color 0.22s ease;
+  width: 16px;
+  height: 10px;
+  background-color: var(--muted);
+  opacity: 0.55;
+  -webkit-mask: var(--mask-arrow) center / contain no-repeat;
+  mask: var(--mask-arrow) center / contain no-repeat;
+  transform: translateX(-4px);
+  transition: background-color 0.22s ease, opacity 0.22s ease, transform 0.26s var(--ease-spring);
 }
 
-.archive-item:hover strong {
+.archive-item strong {
+  transition: color 0.22s ease, transform 0.26s var(--ease-paper);
+}
+
+.archive-item:hover strong,
+.archive-item:focus-visible strong {
   color: var(--color-accent-strong);
+  transform: translateX(3px);
 }
 
-.archive-item:hover em {
-  border-color: var(--color-accent);
+.archive-item:hover em,
+.archive-item:focus-visible em {
+  background-color: var(--color-accent);
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .dark-mode .archive-item:hover strong {
@@ -100,10 +112,36 @@
   align-items: center;
   min-height: 70px;
   padding: 16px;
-  border: 1px dashed var(--line);
-  border-radius: 10px;
-  background: var(--paper-warm);
+  /* index card: same pencilled outline as the search results */
+  border: 1px dashed var(--dash);
+  border-radius: var(--radius-handdrawn-wide);
+  background-color: var(--paper-warm);
   font-size: 14px;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.26s var(--ease-paper), box-shadow 0.2s ease;
+}
+
+.taxonomy-card:hover {
+  color: var(--color-accent-strong);
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+  box-shadow: var(--soft-shadow);
+  transform: translateY(-2px) rotate(-0.8deg);
+}
+
+.taxonomy-card:nth-child(even):hover {
+  transform: translateY(-2px) rotate(0.8deg);
+}
+
+.taxonomy-card:hover em {
+  color: inherit;
+}
+
+.taxonomy-card:hover .dot {
+  transform: rotate(5deg) scale(1.24);
+}
+
+.dark-mode .taxonomy-card:hover {
+  color: var(--color-accent-muted);
 }
 
 .taxonomy-paper > .tag-cloud {

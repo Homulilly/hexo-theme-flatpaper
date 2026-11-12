@@ -43,6 +43,35 @@
   --small-shadow: 0 10px 22px unquote('rgba(var(--paper-shadow-rgb), 0.1)');
   --soft-shadow: 0 4px 14px unquote('rgba(var(--paper-shadow-rgb), 0.08)');
   --paper-shadow: 0 2px 6px unquote('rgba(var(--paper-shadow-rgb), 0.14)');
+
+  /* ---- Hand-drawn journal system ----
+     Shared recipes so every component draws from the same pen, paper and tape.
+     Elevation has three steps: --sheet-shadow (a sheet lying on the desk),
+     --soft-shadow / --small-shadow (picked up), --shadow (lifted on hover). */
+  --sheet-shadow: 0 2px 6px unquote('rgba(var(--paper-shadow-rgb), 0.09)');
+  --radius-paper: 4px;
+  /* box drawn freehand with a ruler-less pen: tab sets */
+  --radius-sketch: 10px 4px 12px 5px / 5px 12px 4px 10px;
+  /* text selection: translucent accent ink, deeper than the soft accent fills */
+  --selection-bg: unquote('color-mix(in srgb, var(--color-accent-strong) 34%, transparent)');
+  /* highlighter pen swipe behind titles */
+  --highlighter: unquote('rgba(var(--yellow-rgb), 0.42)');
+  /* link highlighter, in the active accent: --marker is the stroke drawn on
+     hover, --marker-rest the fainter one that prose and hero links carry
+     all the time */
+  --marker: unquote('color-mix(in srgb, var(--color-accent-strong) 32%, transparent)');
+  --marker-rest: unquote('color-mix(in srgb, var(--color-accent-strong) 15%, transparent)');
+  /* solid label / stamp fill; text colour is --label-text */
+  --label-fill: var(--color-accent-strong);
+  --label-text: #fff;
+  /* motion: paper settles, stickers spring */
+  --ease-paper: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* pen strokes, used as masks so they take any ink colour */
+  --mask-squiggle: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 7' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'><path d='M1 4.5 C 10 2.5 16 5 24 3.6 C 32 2.2 40 5.2 47 3.4'/></svg>");
+  --mask-wave: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'><path d='M0 5 C 5 0 7 0 10 5 C 13 10 17 10 20 5 C 23 0 27 0 30 5 C 33 10 37 10 40 5'/></svg>");
+  --mask-arrow: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 14' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M2 7.6 C 7 6.2 12 8.2 21 6.8'/><path d='M15.6 2.4 C 17.6 4.4 19.6 5.8 21.6 6.8 C 19.4 8 17.6 9.6 16.2 11.8'/></svg>");
+  --mask-check: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M2.6 8.6 C 4.2 9.8 5.4 11.2 6.4 12.8 C 8.4 8.6 10.8 5.4 14 2.6'/></svg>");
   color-scheme: light;
 }
 
@@ -86,6 +115,7 @@ html[data-accent="black"] {
   --color-accent-strong: #111111;
   --color-accent-soft: #e4e4e4;
   --color-accent-muted: #111111;
+  --selection-bg: rgba(17, 17, 17, 0.2);
 }
 
 .dark-mode {
@@ -126,6 +156,13 @@ html[data-accent="black"] {
   --small-shadow: 0 10px 22px unquote('rgba(var(--paper-shadow-rgb), 0.26)');
   --soft-shadow: 0 4px 14px unquote('rgba(var(--paper-shadow-rgb), 0.2)');
   --paper-shadow: 0 2px 6px unquote('rgba(var(--paper-shadow-rgb), 0.35)');
+  --sheet-shadow: 0 2px 8px unquote('rgba(var(--paper-shadow-rgb), 0.3)');
+  --selection-bg: unquote('color-mix(in srgb, var(--color-accent) 42%, transparent)');
+  --highlighter: unquote('rgba(var(--yellow-rgb), 0.3)');
+  --marker: unquote('color-mix(in srgb, var(--color-accent) 38%, transparent)');
+  --marker-rest: unquote('color-mix(in srgb, var(--color-accent) 18%, transparent)');
+  --label-fill: var(--color-accent);
+  --label-text: #16181d;
   color-scheme: dark;
 }
 
@@ -170,4 +207,5 @@ html[data-accent="black"] {
   --color-accent-soft: #333333;
   --color-accent-muted: #f5f5f5;
   --label-text: #161616;
+  --selection-bg: rgba(245, 245, 245, 0.26);
 }

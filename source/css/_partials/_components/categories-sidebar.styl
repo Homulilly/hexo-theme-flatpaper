@@ -1,19 +1,12 @@
 /* ============== CATEGORIES (sidebar) ============== */
 .categories-card::before {
-  content: "";
-  position: absolute;
-  top: -10px;
+  --tape-color: var(--tape-blue);
   left: 50%;
-  z-index: 2;
-  width: 70px;
-  height: 20px;
-  background-color: var(--tape-blue);
-  background-image: var(--tape-stripes);
-  filter: saturate(0.9);
-  transform: translateX(-50%);
+  right: auto;
+  transform: translateX(-50%) rotate(-1deg);
 }
 
-.categories-card a {
+.categories-card > a {
   display: grid;
   grid-template-columns: 12px 1fr auto;
   gap: 10px;
@@ -24,7 +17,7 @@
   transition: color 0.18s ease, transform 0.18s ease;
 }
 
-.categories-card a:last-child {
+.categories-card > a:last-child {
   border-bottom: 0;
 }
 
@@ -55,24 +48,24 @@
 .dot-2 { background: var(--orange); }
 .dot-3 { background: var(--violet); }
 
-.categories-card a:hover {
+.categories-card > a:hover {
   color: var(--color-accent-strong);
   transform: translateX(3px);
 }
 
-.categories-card a:hover em {
+.categories-card > a:hover em {
   color: var(--color-accent-strong);
 }
 
-.categories-card a:hover .dot {
+.categories-card > a:hover .dot {
   transform: rotate(5deg) scale(1.24);
   box-shadow: 0 0 0 4px rgba(111, 166, 124, 0.14);
 }
 
-.dark-mode .categories-card a:hover {
+.dark-mode .categories-card > a:hover {
   color: var(--color-accent-muted);
 }
 
-.dark-mode .categories-card a:hover em {
+.dark-mode .categories-card > a:hover em {
   color: var(--color-accent-muted);
 }

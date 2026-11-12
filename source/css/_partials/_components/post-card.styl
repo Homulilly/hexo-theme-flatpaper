@@ -11,7 +11,7 @@
   padding: 14px;
   color: inherit;
   text-decoration: none;
-  transition: transform 0.22s ease;
+  transition: transform 0.26s var(--ease-paper);
 }
 
 .post-card::after {
@@ -31,8 +31,18 @@
   text-decoration: none;
 }
 
+/* picked up off the desk: lifts and tips a little, alternating sides so a
+   row of cards does not lean the same way */
 .post-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) rotate(-0.5deg);
+}
+
+.post-card:nth-child(even):hover {
+  transform: translateY(-3px) rotate(0.5deg);
+}
+
+.post-card:focus-within::after {
+  opacity: 1;
 }
 
 .post-card:hover::after {
@@ -76,6 +86,7 @@
   word-break: break-word;
 }
 
+/* Title highlighter swipe on hover: _global/marker-swipe.styl. */
 .post-card:hover h3 a,
 .post-card h3 a:hover {
   color: var(--color-accent-strong);

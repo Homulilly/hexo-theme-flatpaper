@@ -225,27 +225,31 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
     </div>
   <% } else { %>
     <section class="side-card categories-card reveal">
-      <h2><%- partial('_partial/icons', { icon: 'folder' }) %><%= flatpaper_i18n('common.categories') %></h2>
+      <header class="side-card__head">
+        <h2><%- partial('_partial/icons', { icon: 'folder' }) %><%= flatpaper_i18n('common.categories') %></h2>
+        <a class="side-card__more" href="<%- url_for((config.category_dir || 'categories') + '/') %>">
+          <span class="marker-swipe"><%= flatpaper_i18n('common.view_all') %></span>
+        </a>
+      </header>
       <% categories.slice(0, 6).forEach(function(category, index) { %>
         <a href="<%- url_for(category.path) %>">
           <span class="dot dot-<%= index % 4 %>"></span>
-          <strong><%= category.name %></strong>
+          <strong><span class="marker-swipe"><%= category.name %></span></strong>
           <em><%= category.length %></em>
         </a>
       <% }) %>
     </section>
 
     <section class="side-card tag-card reveal">
-      <header class="tag-card__head">
+      <header class="side-card__head tag-card__head">
         <h2><%- partial('_partial/icons', { icon: 'flame' }) %><%= flatpaper_i18n('sidebar.hot_tags') %></h2>
-        <a class="tag-card__more" href="<%- url_for((config.tag_dir || 'tags') + '/') %>">
-          <span><%= flatpaper_i18n('common.view_all') %></span>
-          <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
+        <a class="side-card__more tag-card__more" href="<%- url_for((config.tag_dir || 'tags') + '/') %>">
+          <span class="marker-swipe"><%= flatpaper_i18n('common.view_all') %></span>
         </a>
       </header>
       <div class="tag-cloud">
         <%
-          var hotTags = tags.slice().sort(function (a, b) { return (b.length || 0) - (a.length || 0); }).slice(0, 12);
+          var hotTags = tags.slice().sort(function (a, b) { return (b.length || 0) - (a.length || 0); }).slice(0, 20);
         %>
         <% hotTags.forEach(function(tag, index) { %>
           <a class="tag-chip tag-chip-<%= index % 6 %>" href="<%- url_for(tag.path) %>"><%= tag.name %></a>

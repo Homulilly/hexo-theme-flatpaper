@@ -20,7 +20,7 @@
       <p class="hello"><span class="green-dot"></span><%= w.label || 'Hello!' %></p>
       <h1><%= w.title || flatpaper_i18n('welcome.title') %></h1>
       <p class="welcome-text"><%= w.text || flatpaper_i18n('welcome.text') %></p>
-      <a class="welcome-cta" href="<%- url_for(ctaLink) %>"><span><%= ctaText %></span><%- partial('_partial/icons', { icon: 'arrow-right' }) %></a>
+      <a class="welcome-cta" href="<%- url_for(ctaLink) %>"><span class="marker-swipe"><%= ctaText %></span></a>
     </section>
   <% } %>
   <%- partial('_partial/random-posts') %>

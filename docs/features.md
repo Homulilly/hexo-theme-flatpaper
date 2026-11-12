@@ -161,7 +161,39 @@ Cards support:
 
 ## Reward List
 
-Drop the structured HTML below into the body of an about page (or any standalone page) to get a scrapbook-style donation roll. Each donor becomes a paper slip with washi tape, a slight tilt, and an optional circular avatar in the top-right corner.
+List your supporters with the `rewardlist` tag in the body of an about page (or any standalone page) to get a scrapbook-style donation roll. Each donor becomes a paper slip with washi tape, a slight tilt, and a circular avatar in the top-right corner.
+
+One donor per line, fields separated by `|` in the order `name | amount | date | avatar`. Only the name is required, and a field in the middle can be left empty (`Name || 2026-01-01`):
+
+```markdown
+{% rewardlist %}
+Homura | ¥100 | 2026-08-14
+Madoka | ¥50 | 2026-08-09 | /images/madoka.jpg
+Mami
+{% endrewardlist %}
+```
+
+A longer list can live in a site data file and be read with `rewardlistfrom`. The argument is a data path: the first segment is the file name under `source/_data/`, the rest are keys inside it.
+
+```yaml
+# source/_data/rewards.yml
+list:
+  - name: Homura
+    amount: ¥100
+    date: 2026-08-14
+  - name: Madoka
+    amount: ¥50
+    date: 2026-08-09
+    avatar: /images/madoka.jpg
+```
+
+```markdown
+{% rewardlistfrom rewards.list %}
+```
+
+Both tags print a summary line under the list (the head count and the most recent date). Add `nototal` after the tag name or the data path to drop it, e.g. `{% rewardlist nototal %}` or `{% rewardlistfrom rewards.list nototal %}`.
+
+The tags output exactly the structure below, so hand-written HTML keeps working:
 
 ```html
 <div class="reward-list">
@@ -181,7 +213,7 @@ Features:
 
 - **Amount tier colors**: JS parses the amount text and colors the badge automatically — no style classes needed. ≥100 red, ≥50 green, ≥20 amber, ≥10 blue, ≥5 violet, ≥1 olive (RMB banknote colors). An explicit `reward-list__amount--100`-style class in the markup wins.
 - **Rotating paper colors**: `--p1` through `--p5` (red/blue/green/orange/violet), with the tape color following the slip.
-- **Avatar**: a `no-zoom` circular avatar is pasted in the top-right corner; omit the `img` and use `.reward-list__avatar--text` for a first-letter fallback.
+- **Avatar**: a circular avatar is pasted in the top-right corner; when a tag entry has no avatar, the first character of the name is shown instead. In hand-written HTML use an `img` with `no-zoom`, or `.reward-list__avatar--text`.
 - **Responsive**: multi-column auto layout on desktop, single column on narrow screens; supports dark mode and `prefers-reduced-motion`.
 
 ## Multi-language UI

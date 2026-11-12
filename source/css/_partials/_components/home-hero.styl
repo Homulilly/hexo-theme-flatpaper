@@ -270,6 +270,24 @@ body.has-home-hero.is-hero-active::before {
   line-height: 1.8;
 }
 
+/* Typewriter bio: the live text and an invisible copy of every string share
+   one grid cell, so the slot is always as tall as the longest string and the
+   card no longer resizes (and re-centres) when the typed text wraps. */
+.typed-stack {
+  display: grid;
+}
+
+.typed-stack > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.typed-stack__ghost {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
 .home-hero__divider {
   display: flex;
   justify-content: center;
@@ -291,40 +309,43 @@ body.has-home-hero.is-hero-active::before {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
-  margin: 16px auto 0;
+  gap: 8px 24px;
+  margin: 20px auto 4px;
 }
 
+/* Highlighted all the time, like links in article prose: one stroke at rest
+   and a second pass on hover (_global/marker-swipe.styl). No vertical
+   padding, so the stroke sits under the words. */
 .home-hero__nav-link {
   display: inline-flex;
   align-items: center;
-  padding: 4px 8px;
-  color: var(--muted);
+  padding: 0 4px;
+  color: var(--ink-soft);
   font-size: 14px;
   font-weight: 500;
-  text-decoration: underline;
-  text-decoration-style: wavy;
-  text-decoration-color: var(--dash);
-  text-underline-offset: 4px;
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  text-decoration: none;
 }
 
 .home-hero__nav-link:hover,
 .home-hero__nav-link:focus-visible {
   color: var(--color-accent-strong);
-  text-decoration-color: var(--color-accent);
-  outline: none;
+}
+
+/* On a photo an accent-coloured stroke would fight the image, so it becomes
+   a wash of paper white there; the links pick it up through the shared
+   recipe in _global/marker-swipe.styl. */
+.home-hero--image .home-hero__nav {
+  --marker: rgba(255, 253, 246, 0.3);
+  --marker-rest: rgba(255, 253, 246, 0.16);
 }
 
 .home-hero--image .home-hero__nav-link {
-  color: rgba(255, 253, 246, 0.6);
-  text-decoration-color: rgba(255, 253, 246, 0.25);
+  color: rgba(255, 253, 246, 0.8);
 }
 
 .home-hero--image .home-hero__nav-link:hover,
 .home-hero--image .home-hero__nav-link:focus-visible {
   color: #fff;
-  text-decoration-color: #fff;
 }
 
 .home-hero .home-hero__profile .home-hero__links {
@@ -684,25 +705,21 @@ body.has-home-hero.is-hero-active::before {
 }
 
 .dark-mode .home-hero__nav-link {
-  color: var(--muted);
-  text-decoration-color: rgba(255, 255, 255, 0.12);
+  color: var(--ink-soft);
 }
 
 .dark-mode .home-hero__nav-link:hover,
 .dark-mode .home-hero__nav-link:focus-visible {
   color: var(--color-accent-muted);
-  text-decoration-color: var(--color-accent);
 }
 
 .dark-mode .home-hero--image .home-hero__nav-link {
   color: rgba(255, 253, 246, 0.85);
-  text-decoration-color: rgba(255, 253, 246, 0.35);
 }
 
 .dark-mode .home-hero--image .home-hero__nav-link:hover,
 .dark-mode .home-hero--image .home-hero__nav-link:focus-visible {
   color: #fff;
-  text-decoration-color: #fff;
 }
 
 .dark-mode .home-hero .home-hero__profile .home-hero__links a {
