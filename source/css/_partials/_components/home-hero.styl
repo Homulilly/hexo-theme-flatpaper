@@ -295,14 +295,14 @@ body.has-home-hero.is-hero-active::before {
   margin: 20px auto 4px;
 }
 
-/* Plain text at rest; the highlighter swipe on hover comes from
-   _global/marker-swipe.styl. No vertical padding, so the stroke sits under
-   the words. */
+/* Highlighted all the time, like links in article prose: one stroke at rest
+   and a second pass on hover (_global/marker-swipe.styl). No vertical
+   padding, so the stroke sits under the words. */
 .home-hero__nav-link {
   display: inline-flex;
   align-items: center;
   padding: 0 4px;
-  color: var(--muted);
+  color: var(--ink-soft);
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -313,8 +313,16 @@ body.has-home-hero.is-hero-active::before {
   color: var(--color-accent-strong);
 }
 
+/* On a photo an accent-coloured stroke would fight the image, so it becomes
+   a wash of paper white there; the links pick it up through the shared
+   recipe in _global/marker-swipe.styl. */
+.home-hero--image .home-hero__nav {
+  --marker: rgba(255, 253, 246, 0.3);
+  --marker-rest: rgba(255, 253, 246, 0.16);
+}
+
 .home-hero--image .home-hero__nav-link {
-  color: rgba(255, 253, 246, 0.6);
+  color: rgba(255, 253, 246, 0.8);
 }
 
 .home-hero--image .home-hero__nav-link:hover,
@@ -679,7 +687,7 @@ body.has-home-hero.is-hero-active::before {
 }
 
 .dark-mode .home-hero__nav-link {
-  color: var(--muted);
+  color: var(--ink-soft);
 }
 
 .dark-mode .home-hero__nav-link:hover,

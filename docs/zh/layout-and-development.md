@@ -84,7 +84,8 @@ themes/flatpaper/
 | 层次 | `--sheet-shadow` → `--soft-shadow` / `--small-shadow` → `--shadow` | 平放在桌面 → 被拿起 → hover 抬起，三级阴影都由 `--paper-shadow-rgb` 着色 |
 | 手绘圆角 | `--radius-handdrawn`、`--radius-handdrawn-wide`、`--radius-sketch` | 前两个用于按钮、标签、输入框、索引卡；`--radius-sketch` 用于选项卡这类大矩形 |
 | 胶带 | `--tape-color`、`--tape-w` | 配方统一写在 `_layout/tape.styl`，组件只声明位置、角度和颜色 |
-| 荧光笔 | `--highlighter`、`.marker-swipe` | 标题下的荧光笔底色（精选标题、欢迎卡片），以及所有文字链接 hover 时从左划过的荧光笔，配方在 `_global/marker-swipe.styl` |
+| 荧光笔 | `--highlighter` | 标题下的黄色荧光笔底色（精选标题、欢迎卡片） |
+| 链接荧光笔 | `--marker`、`--marker-rest`、`.marker-swipe` | 跟随主题色：`--marker` 是文字链接 hover 时从左划过的一笔，`--marker-rest` 是正文与开屏链接常驻的淡色一笔；配方在 `_global/marker-swipe.styl` |
 | 笔迹 | `--mask-squiggle`、`--mask-wave`、`--mask-arrow`、`--mask-check` | 作为 `mask` 使用，用 `background-color` 上色，因此自动跟随强调色与深色模式 |
 | 标记 | `.dot`、`.green-dot` | 倾斜的手绘小方块，用作条目前的标记：分类、欢迎卡片、搜索标题、主题色色块、目录当前项都用这一个形状 |
 | 标签 | `--label-fill`、`--label-text` | `.label-pill` 等实色小标签 |

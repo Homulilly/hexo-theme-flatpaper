@@ -84,7 +84,8 @@ The journal look is driven by a shared set of variables in `source/css/_partials
 | Elevation | `--sheet-shadow` → `--soft-shadow` / `--small-shadow` → `--shadow` | Lying on the desk → picked up → lifted on hover; all three are tinted by `--paper-shadow-rgb` |
 | Hand-drawn corners | `--radius-handdrawn`, `--radius-handdrawn-wide`, `--radius-sketch` | The first two are for buttons, chips, inputs and index cards; `--radius-sketch` is for large boxes such as tab sets |
 | Tape | `--tape-color`, `--tape-w` | The recipe lives in `_layout/tape.styl`; a component only sets position, tilt and colour |
-| Highlighter | `--highlighter`, `.marker-swipe` | Highlighter under titles (featured title, welcome card), and the left-to-right highlighter swipe every text link gets on hover; the recipe lives in `_global/marker-swipe.styl` |
+| Highlighter | `--highlighter` | Yellow highlighter under titles (featured title, welcome card) |
+| Link highlighter | `--marker`, `--marker-rest`, `.marker-swipe` | Follows the accent colour: `--marker` is the left-to-right stroke every text link gets on hover, `--marker-rest` the fainter stroke that prose and hero links carry all the time; the recipe lives in `_global/marker-swipe.styl` |
 | Pen strokes | `--mask-squiggle`, `--mask-wave`, `--mask-arrow`, `--mask-check` | Used as a `mask` and coloured with `background-color`, so they follow the accent and dark mode |
 | Marker | `.dot`, `.green-dot` | A tilted hand-drawn square used as the marker in front of an entry: categories, the welcome card, the search title, the accent swatches and the current TOC entry all use this one shape |
 | Labels | `--label-fill`, `--label-text` | Solid labels such as `.label-pill` |

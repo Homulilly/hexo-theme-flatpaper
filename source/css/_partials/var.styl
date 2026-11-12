@@ -56,6 +56,11 @@
   --selection-bg: unquote('color-mix(in srgb, var(--color-accent-strong) 34%, transparent)');
   /* highlighter pen swipe behind titles */
   --highlighter: unquote('rgba(var(--yellow-rgb), 0.42)');
+  /* link highlighter, in the active accent: --marker is the stroke drawn on
+     hover, --marker-rest the fainter one that prose and hero links carry
+     all the time */
+  --marker: unquote('color-mix(in srgb, var(--color-accent-strong) 32%, transparent)');
+  --marker-rest: unquote('color-mix(in srgb, var(--color-accent-strong) 15%, transparent)');
   /* solid label / stamp fill; text colour is --label-text */
   --label-fill: var(--color-accent-strong);
   --label-text: #fff;
@@ -154,6 +159,8 @@ html[data-accent="black"] {
   --sheet-shadow: 0 2px 8px unquote('rgba(var(--paper-shadow-rgb), 0.3)');
   --selection-bg: unquote('color-mix(in srgb, var(--color-accent) 42%, transparent)');
   --highlighter: unquote('rgba(var(--yellow-rgb), 0.3)');
+  --marker: unquote('color-mix(in srgb, var(--color-accent) 38%, transparent)');
+  --marker-rest: unquote('color-mix(in srgb, var(--color-accent) 18%, transparent)');
   --label-fill: var(--color-accent);
   --label-text: #16181d;
   color-scheme: dark;

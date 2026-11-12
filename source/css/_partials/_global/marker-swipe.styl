@@ -4,9 +4,9 @@
    follows text that wraps and never shifts layout.
 
    Use it by adding `.marker-swipe` to an inline element (usually a <span>
-   around the link text), or by listing the selector here. The colour comes
-   from --highlighter. Imported after the components so its transition wins
-   over the ones they declare for the same elements. */
+   around the link text), or by listing the selector here. The colour is
+   --marker, which follows the active accent. Imported after the components
+   so its transition wins over the ones they declare for the same elements. */
 .marker-swipe,
 .post-card h3 a,
 .meta-tag-link,
@@ -19,7 +19,7 @@
 .home-hero__nav-link,
 .site-footer a:not(.site-footer__icon-link),
 .article-content :not(sup) > a:not([class]):not([data-fancybox]) {
-  background-image: linear-gradient(var(--highlighter), var(--highlighter));
+  background-image: linear-gradient(var(--marker), var(--marker));
   background-repeat: no-repeat;
   background-position: 0 92%;
   background-size: 0% 0.42em;
@@ -29,12 +29,14 @@
     transform 0.2s ease;
 }
 
-/* Prose links are highlighted all the time: one stroke at rest, and hovering
-   goes over it a second time from the left, which deepens the colour. */
-.article-content :not(sup) > a:not([class]):not([data-fancybox]) {
+/* Prose links and the home hero links are highlighted all the time: a faint
+   stroke at rest (--marker-rest), and hovering goes over it from the left
+   with the full one, which deepens the colour. */
+.article-content :not(sup) > a:not([class]):not([data-fancybox]),
+.home-hero__nav-link {
   background-image:
-    linear-gradient(var(--highlighter), var(--highlighter)),
-    linear-gradient(var(--highlighter), var(--highlighter));
+    linear-gradient(var(--marker), var(--marker)),
+    linear-gradient(var(--marker-rest), var(--marker-rest));
   background-size: 0% 0.42em, 100% 0.42em;
 }
 
