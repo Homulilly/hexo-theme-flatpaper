@@ -270,6 +270,24 @@ body.has-home-hero.is-hero-active::before {
   line-height: 1.8;
 }
 
+/* Typewriter bio: the live text and an invisible copy of every string share
+   one grid cell, so the slot is always as tall as the longest string and the
+   card no longer resizes (and re-centres) when the typed text wraps. */
+.typed-stack {
+  display: grid;
+}
+
+.typed-stack > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.typed-stack__ghost {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
 .home-hero__divider {
   display: flex;
   justify-content: center;

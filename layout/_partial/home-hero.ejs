@@ -253,7 +253,8 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
           typed: heroTyped,
           target_id: 'home-hero-type-tips',
           target_cls: 'home-hero__typed',
-          fallback_text: heroBio
+          fallback_text: heroBio,
+          reserve: true
         }) %></p>
       <% } else { %>
         <p class="home-hero__bio"><%= heroBio %></p>
