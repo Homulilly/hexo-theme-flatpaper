@@ -132,7 +132,7 @@ home_hero:
   # image_placeholder: /images/hero-lqip.jpg
   # bio 打字机效果，字段同 footer.typed；sub 为空时回退到 bio。
   typed:
-    enable: true
+    enable: false
   #   source: 1
   #   sub:
   #     - 桃李春风一杯酒，江湖夜雨十年灯
