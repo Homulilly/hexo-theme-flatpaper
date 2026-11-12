@@ -179,15 +179,13 @@ body::before {
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.16s ease, color 0.16s ease;
+  transition: color 0.16s ease;
 }
 
-.brand-nav-group a:hover {
+/* hover: the tape strip shared with the main nav, see NAV STRIP below */
+.brand-nav-group a:hover,
+.brand-nav-group a:focus-visible {
   color: var(--color-accent-strong);
-  background-color: var(--color-accent-soft);
-  background-image: var(--nav-tape-stripes);
-  border-radius: var(--radius-handdrawn);
-  transform: scale(1.02) rotate(-1deg);
 }
 
 .brand-nav-group a .lucide {
@@ -203,7 +201,8 @@ body::before {
   border-radius: 2px;
 }
 
-.dark-mode .brand-nav-group a:hover {
+.dark-mode .brand-nav-group a:hover,
+.dark-mode .brand-nav-group a:focus-visible {
   color: var(--color-accent-muted);
 }
 
@@ -240,8 +239,16 @@ body::before {
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
+/* ---- NAV STRIP ----
+   One hover / current mark for every header link: the top-level items, the
+   dropdown items under them and the links in the brand menu. A strip of
+   striped tape lies under the lower half of the label and is laid down from
+   left to right. It is revealed with clip-path rather than scaled, so the
+   stripes stay put while it grows. */
 .site-nav > .site-nav-link::before,
-.site-nav-item > .site-nav-link::before {
+.site-nav-item > .site-nav-link::before,
+.site-nav-menu a::before,
+.brand-nav-group a::before {
   content: "";
   position: absolute;
   left: 8px;
@@ -253,11 +260,26 @@ body::before {
   background-image: var(--nav-tape-stripes);
   opacity: 0;
   z-index: -1;
-  transform: scaleX(0.36) rotate(-2deg);
-  transform-origin: center;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: rotate(-1deg);
+  clip-path: inset(0 100% 0 0);
+  transition: opacity 0.15s ease, clip-path 0.3s var(--ease-paper);
 }
 
+/* Menu rows are shorter than the top-level items. They get a stacking
+   context of their own so the strip stays above the menu's paper. */
+.site-nav-menu a,
+.brand-nav-group a {
+  position: relative;
+  z-index: 0;
+}
+
+.site-nav-menu a::before,
+.brand-nav-group a::before {
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  height: 12px;
+}
 
 
 .site-nav-parent::after {
@@ -303,9 +325,15 @@ body::before {
 }
 
 .site-nav > .site-nav-link:not(.active):hover::before,
-.site-nav-item:not(.active):hover > .site-nav-link::before {
+.site-nav > .site-nav-link:not(.active):focus-visible::before,
+.site-nav-item:not(.active):hover > .site-nav-link::before,
+.site-nav-item:not(.active) > .site-nav-link:focus-visible::before,
+.site-nav-menu a:not(.active):hover::before,
+.site-nav-menu a:not(.active):focus-visible::before,
+.brand-nav-group a:hover::before,
+.brand-nav-group a:focus-visible::before {
   opacity: 0.72;
-  transform: scaleX(1) rotate(-1deg);
+  clip-path: inset(0);
 }
 
 .site-nav > .site-nav-link.active,
@@ -317,18 +345,16 @@ body::before {
 
 .site-nav > .site-nav-link.active::before,
 .site-nav-item.active > .site-nav-link::before,
-.site-nav-item.is-open > .site-nav-link::before {
+.site-nav-item.is-open > .site-nav-link::before,
+.site-nav-menu a.active::before {
   opacity: 1;
-  transform: scaleX(1) rotate(-1deg);
+  clip-path: inset(0);
 }
 
 .site-nav-menu a:hover,
+.site-nav-menu a:focus-visible,
 .site-nav-menu a.active {
   color: var(--color-accent-strong);
-  background-color: var(--color-accent-soft);
-  background-image: var(--nav-tape-stripes);
-  border-radius: var(--radius-handdrawn);
-  transform: scale(1.02) rotate(-1deg);
 }
 
 .dark-mode .site-nav > .site-nav-link:hover,
@@ -345,6 +371,7 @@ body::before {
 }
 
 .dark-mode .site-nav-menu a:hover,
+.dark-mode .site-nav-menu a:focus-visible,
 .dark-mode .site-nav-menu a.active {
   color: var(--color-accent-muted);
 }
@@ -388,7 +415,6 @@ body::before {
   min-width: 0;
   min-height: 32px;
   padding: 7px 10px;
-  border-radius: 8px;
   white-space: nowrap;
   color: var(--ink-soft);
   font-size: 13px;
@@ -610,4 +636,13 @@ body::before {
 
 .dark-mode .theme-toggle .theme-icon--moon {
   display: inline-grid;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav > .site-nav-link::before,
+  .site-nav-item > .site-nav-link::before,
+  .site-nav-menu a::before,
+  .brand-nav-group a::before {
+    transition: none;
+  }
 }
