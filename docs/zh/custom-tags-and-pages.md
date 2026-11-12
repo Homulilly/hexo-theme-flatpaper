@@ -247,3 +247,18 @@ comic:
 - 相册图片带 `no-zoom`，主题的 Fancybox 不会包裹它们，点击只翻牌、不弹灯箱。
 - 无 JS 降级：卡片保持普通块级排列，所有照片完整可见。
 - 样式与脚本随主题的 `style.css` / `js/main.js` 一起加载，不往页面里注入任何内联 `<style>` / `<script>`。
+
+## 赞赏名单（Reward List）
+
+`{% rewardlist %}` 把赞赏者列成手账便签风的纸条卡片，一行一位，字段用 `|` 分隔，顺序为 `昵称 | 金额 | 日期 | 头像`，只有昵称必填：
+
+```markdown
+{% rewardlist %}
+晓美焰 | ¥100 | 2026-08-14
+鹿目圆 | ¥50 | 2026-08-09 | /images/madoka.jpg
+{% endrewardlist %}
+```
+
+`{% rewardlistfrom <数据路径> %}` 从 `source/_data/` 下的列表读取同样的字段（`name` / `amount` / `date` / `avatar`），数据路径的写法与 `stackalbumnav` 相同。两个标签后都可以加 `nototal` 去掉名单下方的汇总行。
+
+完整字段、数据文件示例与配色规则见[功能说明 · 赞赏名单](features.md#赞赏名单)。

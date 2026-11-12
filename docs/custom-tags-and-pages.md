@@ -247,3 +247,18 @@ Behaviour:
 - Album images carry `no-zoom`, so the theme's Fancybox pass leaves them alone: a click flips the deck rather than opening a lightbox.
 - Without JS the cards stay as ordinary blocks and every photo is fully visible.
 - The stylesheet and behaviour ship with the theme's `style.css` / `js/main.js`; nothing is injected into the page as inline `<style>` / `<script>`.
+
+## Reward List
+
+`{% rewardlist %}` lists your supporters as scrapbook-style paper slips. One donor per line, fields separated by `|` in the order `name | amount | date | avatar`; only the name is required:
+
+```markdown
+{% rewardlist %}
+Homura | ¥100 | 2026-08-14
+Madoka | ¥50 | 2026-08-09 | /images/madoka.jpg
+{% endrewardlist %}
+```
+
+`{% rewardlistfrom <data.path> %}` reads the same fields (`name` / `amount` / `date` / `avatar`) from a list under `source/_data/`; the data path works as it does for `stackalbumnav`. Add `nototal` after either tag to drop the summary line under the list.
+
+See [Features · Reward List](features.md#reward-list) for the full field list, a data file example and the colour rules.
