@@ -1,8 +1,11 @@
 /* ============== HOME HERO CTA ============== */
 // The bottom sticker button. Paper mode draws the card in CSS and tints it
-// from --cta-hue; presets 01-09 (cta_background) pick a hue + sticker pair,
-// and cta_color / cta_sticker override either half. A custom cta_background
-// image falls back to the old image-backed button (--bg-image).
+// from --cta-hue; presets 01-09 (cta_background) pick a hue + sticker pair
+// modelled on the original cta-bg-0x artwork, and cta_color / cta_sticker
+// override either half. Each sticker SVG is drawn on a 64x56 canvas with the
+// card's top-left corner at (10, 10) and carries its own size and position,
+// so the CSS only supplies the slot. A custom cta_background image falls back
+// to the old image-backed button (--bg-image).
 .home-hero__arrow {
   position: absolute;
   left: 50%;
@@ -52,7 +55,6 @@
 /* ---------- Paper card ---------- */
 .home-hero__arrow--paper {
   --cta-hue: #b08968;
-  --cta-sticker-edge: #fffdf6;
   --cta-fill: unquote('color-mix(in srgb, var(--cta-hue) 13%, var(--paper))');
   --cta-edge: unquote('color-mix(in srgb, var(--cta-hue) 42%, var(--paper))');
   --cta-edge-strong: unquote('color-mix(in srgb, var(--cta-hue) 58%, var(--paper))');
@@ -94,23 +96,24 @@
 
 .home-hero__arrow-sticker {
   position: absolute;
-  left: -8px;
-  top: 50%;
-  width: 44px;
-  height: 44px;
-  background-position: center;
+  left: -10px;
+  top: -10px;
+  // Above the ::after stitch, since the art sits partly inside the card.
+  z-index: 1;
+  width: 64px;
+  height: 56px;
+  background-position: 0 0;
   background-repeat: no-repeat;
-  background-size: contain;
-  // Stacked 1.5px offsets fake a die-cut white border around the SVG.
-  filter: drop-shadow(1.5px 0 0 var(--cta-sticker-edge)) drop-shadow(-1.5px 0 0 var(--cta-sticker-edge)) drop-shadow(0 1.5px 0 var(--cta-sticker-edge)) drop-shadow(0 -1.5px 0 var(--cta-sticker-edge)) drop-shadow(0 2px 3px unquote('rgba(var(--paper-shadow-rgb), 0.22)'));
-  transform: translateY(-62%) rotate(-10deg);
+  background-size: 100% 100%;
+  filter: drop-shadow(0 1px 1px unquote('rgba(var(--paper-shadow-rgb), 0.12)'));
+  transform-origin: 36% 46%;
   transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
   pointer-events: none;
 }
 
 .home-hero__arrow--paper:hover .home-hero__arrow-sticker,
 .home-hero__arrow--paper:focus-visible .home-hero__arrow-sticker {
-  transform: translateY(-70%) rotate(6deg) scale(1.08);
+  transform: rotate(-6deg) scale(1.06);
 }
 
 .home-hero--image .home-hero__arrow--paper {
@@ -118,8 +121,13 @@
 }
 
 .dark-mode .home-hero__arrow--paper {
-  --cta-sticker-edge: #e9e4d6;
   --cta-shadow: rgba(0, 0, 0, 0.32);
+}
+
+// The pastel art washes out against the dark card, so deepen it a little.
+// A custom image sticker keeps its own filter (higher specificity).
+.dark-mode .home-hero__arrow-sticker {
+  filter: unquote('saturate(1.3) brightness(0.9) drop-shadow(0 1px 1px rgba(var(--paper-shadow-rgb), 0.12))');
 }
 
 /* ---------- Presets (cta_background 01-09) ---------- */
@@ -155,78 +163,62 @@
 
 .home-hero__arrow[data-cta-preset="02"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
 .home-hero__arrow[data-cta-sticker="flower"] .home-hero__arrow-sticker {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23f4a6b4' stroke='%23d97b8e' stroke-width='2.6'%3E%3Ccircle cx='20.00' cy='11.60' r='7'/%3E%3Ccircle cx='28.56' cy='17.82' r='7'/%3E%3Ccircle cx='25.29' cy='27.88' r='7'/%3E%3Ccircle cx='14.71' cy='27.88' r='7'/%3E%3Ccircle cx='11.44' cy='17.82' r='7'/%3E%3C/g%3E%3Cg fill='%23f4a6b4'%3E%3Ccircle cx='20.00' cy='11.60' r='7'/%3E%3Ccircle cx='28.56' cy='17.82' r='7'/%3E%3Ccircle cx='25.29' cy='27.88' r='7'/%3E%3Ccircle cx='14.71' cy='27.88' r='7'/%3E%3Ccircle cx='11.44' cy='17.82' r='7'/%3E%3C/g%3E%3Ccircle cx='20' cy='20.6' r='5' fill='%23ffd98a' stroke='%23e0a94a' stroke-width='1.3'/%3E%3Ccircle cx='18.4' cy='19' r='1.2' fill='%23fff' opacity='.7'/%3E%3Cpath d='M16.6 9.6c.6-1.4 1.8-2.3 3.2-2.5' fill='none' stroke='%23fff' stroke-linecap='round' opacity='.75' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cdefs%3E%3CradialGradient id='p' cx='.36' cy='.3' r='.75'%3E%3Cstop offset='0' stop-color='%23fff' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%23fff' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg transform='translate(2.57 2.67) scale(.6667)' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M31.5 41C33.5 50 37 58.5 41 66' fill='none' stroke='%2374b8a0' stroke-width='2.8'/%3E%3Cg fill='%23b6ddd0' stroke='%2374b8a0' stroke-width='1.2'%3E%3Cpath d='M36.1 58.5C31.6 50.5 24.1 49.5 20.1 52.5C23.6 59.5 31.1 61.5 36.1 58.5Z'/%3E%3Cpath d='M37.6 55.5C36.6 48 41.6 43 47.6 43C48.6 49 45.1 55 37.6 55.5Z'/%3E%3C/g%3E%3Cpath d='M35 57.6L24.6 53.6M38.2 54.6L45.2 46' fill='none' stroke='%2374b8a0' stroke-width='.9' opacity='.6'/%3E%3C/g%3E%3Cg transform='translate(-5 -3.5) scale(1.25)'%3E%3Cg fill='%23f3a6b8' stroke='%23f3a6b8' stroke-width='1.7'%3E%3Ccircle cx='21' cy='10.3' r='5.6'/%3E%3Ccircle cx='26.9' cy='14.58' r='5.6'/%3E%3Ccircle cx='24.64' cy='21.52' r='5.6'/%3E%3Ccircle cx='17.36' cy='21.52' r='5.6'/%3E%3Ccircle cx='15.1' cy='14.58' r='5.6'/%3E%3C/g%3E%3Cg fill='%23f9bccb'%3E%3Ccircle cx='21' cy='10.3' r='5.6'/%3E%3Ccircle cx='26.9' cy='14.58' r='5.6'/%3E%3Ccircle cx='24.64' cy='21.52' r='5.6'/%3E%3Ccircle cx='17.36' cy='21.52' r='5.6'/%3E%3Ccircle cx='15.1' cy='14.58' r='5.6'/%3E%3C/g%3E%3Cg fill='url(%23p)'%3E%3Ccircle cx='21' cy='10.3' r='5.6'/%3E%3Ccircle cx='26.9' cy='14.58' r='5.6'/%3E%3Ccircle cx='24.64' cy='21.52' r='5.6'/%3E%3Ccircle cx='17.36' cy='21.52' r='5.6'/%3E%3Ccircle cx='15.1' cy='14.58' r='5.6'/%3E%3C/g%3E%3Cpath d='M17.8 6.6c.9-.9 2-1.3 3.2-1.2M27.6 11.4c.6.6.9 1.4 1 2.3M13 15.4c-.4 1.1-.4 2.2 0 3.2M16.8 22.6c.6.6 1.4.9 2.2 1' fill='none' stroke='%23fff' stroke-linecap='round' stroke-width='1' opacity='.95'/%3E%3Ccircle cx='21' cy='16.5' r='3.1' fill='%23fff' stroke='%23f3a6b8' stroke-width='.9'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .home-hero__arrow[data-cta-preset="03"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
 .home-hero__arrow[data-cta-sticker="bear"] .home-hero__arrow-sticker {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23d9a066' stroke='%239c6b3d' stroke-width='1.3'%3E%3Ccircle cx='10.8' cy='12.4' r='5.2'/%3E%3Ccircle cx='29.2' cy='12.4' r='5.2'/%3E%3C/g%3E%3Ccircle cx='10.4' cy='12' r='2.6' fill='%23f2c9a0'/%3E%3Ccircle cx='29.6' cy='12' r='2.6' fill='%23f2c9a0'/%3E%3Ccircle cx='20' cy='22.6' r='12' fill='%23e0ad78' stroke='%239c6b3d' stroke-width='1.3'/%3E%3Cellipse cx='20' cy='27' rx='5.4' ry='4.2' fill='%23f7e1c4'/%3E%3Ccircle cx='15.2' cy='20.8' r='1.7' fill='%234a3426'/%3E%3Ccircle cx='24.8' cy='20.8' r='1.7' fill='%234a3426'/%3E%3Ccircle cx='15.8' cy='20.2' r='.55' fill='%23fff'/%3E%3Ccircle cx='25.4' cy='20.2' r='.55' fill='%23fff'/%3E%3Cellipse cx='20' cy='25.4' rx='1.9' ry='1.35' fill='%234a3426'/%3E%3Cpath d='M18.2 27.9c.8.7 1.5.7 1.8 0 .3.7 1 .7 1.8 0' fill='none' stroke='%234a3426' stroke-width='.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12.4' cy='25.4' r='2' fill='%23f2a3a0' opacity='.7'/%3E%3Ccircle cx='27.6' cy='25.4' r='2' fill='%23f2a3a0' opacity='.7'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='56' viewBox='0 0 64 56' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='fur' x1='32' y1='9' x2='32' y2='50' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23F0D0A0'/%3E%3Cstop offset='1' stop-color='%23E7BC87'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg transform='translate(2 5.5) scale(.7)'%3E%3Cg transform='rotate(-8 32 29)' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 23C5 21 5 11 11 8 C17 5 23 8 24 14 C29 12 36 12 41 14 C42 8 48 6 53 10 C59 14 57 22 52 24 C56 29 57 35 54 41 C51 48 41 51 31 50 C21 50 12 47 9 41 C6 35 8 28 12 23Z' fill='url(%23fur)' stroke='%23C99A6A' stroke-width='1.4'/%3E%3Cg fill='%23DDB181'%3E%3Cpath d='M13 20C9 18 10 13 13 12C17 11 20 14 19 17Z'/%3E%3Cpath d='M45 17C44 13 48 11 51 13C54 15 53 19 50 20Z'/%3E%3C/g%3E%3Cpath d='M10 15C10 11 14 9 17 10 M46 10C49 9 53 12 54 15 M13 43C17 47 23 48 28 48' stroke='%23FFF0D4' stroke-width='1.2' opacity='.6'/%3E%3Cg fill='%23E4A68A' opacity='.45'%3E%3Cellipse cx='17' cy='37' rx='4' ry='2.6'/%3E%3Cellipse cx='48' cy='37' rx='4' ry='2.6'/%3E%3C/g%3E%3Cg fill='%23805B3D'%3E%3Cellipse cx='23' cy='31' rx='1.6' ry='2.1'/%3E%3Cellipse cx='43' cy='31' rx='1.6' ry='2.1'/%3E%3C/g%3E%3Cellipse cx='33' cy='38' rx='8.7' ry='6.4' fill='%23FFF0D3'/%3E%3Cpath d='M30.5 35.5C30.5 33.5 35.5 33.5 35.5 35.5 C35.5 36.5 34 37.5 33 37.5 C32 37.5 30.5 36.5 30.5 35.5Z' fill='%23805B3D'/%3E%3Cpath d='M33 37V39 M28.7 38.5C28.7 42 32 42 33 39 C34 42 37.3 42 37.3 38.5' stroke='%23805B3D' stroke-width='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 .home-hero__arrow[data-cta-preset="04"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
 .home-hero__arrow[data-cta-sticker="tulip"] .home-hero__arrow-sticker {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%238fc098' stroke='%236fa67c' stroke-width='1.3' stroke-linejoin='round'%3E%3Cpath d='M19.2 35c-6.2-.2-9.6-4-10-8.8 5.3.2 9.1 3.4 10 8.8z'/%3E%3Cpath d='M20.8 32.4c5.2-.4 8.4-3.6 9-7.8-4.8 0-8.3 3-9 7.8z'/%3E%3C/g%3E%3Cpath d='M20 23.5V35.5' stroke='%236fa67c' stroke-width='4.4' stroke-linecap='round'/%3E%3Cpath d='M20 23.5V35.5' stroke='%238fc098' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M10.6 9.4c-.6 9.6 3.4 15.4 9.4 15.4s10-5.8 9.4-15.4l-4.8 4.4L20 6.6l-4.6 7.2z' fill='%23f5a56a' stroke='%23d67f3f' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M20 24.8c-3.7 0-5.5-4.4-4.6-11L20 6.6l4.6 7.2c.9 6.6-.9 11-4.6 11z' fill='%23f8b986' stroke='%23d67f3f' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M13 14.2c0 2.4.6 4.4 1.6 5.8' fill='none' stroke='%23fff' stroke-linecap='round' opacity='.75' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cdefs%3E%3CradialGradient id='t' cx='38' cy='35' r='20' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23fdd5b0'/%3E%3Cstop offset='1' stop-color='%23f6b182'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg transform='translate(-3 -3.8) scale(.6667)' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M36.5 46.5C35 56 35.5 66 36.5 76' fill='none' stroke='%23a3c474' stroke-width='2.5'/%3E%3Cg fill='%23d4e4b4' stroke='%23a3c474' stroke-width='1.2'%3E%3Cpath d='M35 65C29.5 66 22.5 61 21.5 53.5C28 52.5 34 57.5 35 65Z'/%3E%3Cpath d='M37 66.5C38.5 59.5 44.5 55 50.5 56C50.5 62.5 44.5 67.5 37 66.5Z'/%3E%3C/g%3E%3Cpath d='M38 47C29 47 21.5 40.5 20.5 31C20 25.5 21.5 20.5 25.5 20C29.5 19.5 32 23 33.5 26.5C34.5 22.5 36.5 18.5 40 18.5C43.5 18.5 45.5 23.5 46.5 28C48 25 50.5 23 53.5 23.5C57.5 24.5 58 29.5 57 34C55 42 47.5 47 38 47Z' fill='url(%23t)' stroke='%23ef9f66' stroke-width='1.5'/%3E%3Cpath d='M33.5 26.5C33.8 29 34.6 31 35.8 32.8M46.5 28C46.2 30.4 45.4 32.4 44 34' fill='none' stroke='%23ef9f66' stroke-width='1' opacity='.55'/%3E%3Cpath d='M31.2 34L32.8 38M38 33.8L37.3 38.8M41.6 36.4L41.2 38.2M47.4 36.8L46.2 39.4' fill='none' stroke='%23fffaf0' stroke-width='1.4' opacity='.9'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .home-hero__arrow[data-cta-preset="05"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
 .home-hero__arrow[data-cta-sticker="sprout"] .home-hero__arrow-sticker {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20.6 36c-.4-5-.2-9.6.8-14.6' fill='none' stroke='%235e9a6c' stroke-width='4.4' stroke-linecap='round'/%3E%3Cpath d='M20.6 36c-.4-5-.2-9.6.8-14.6' fill='none' stroke='%239fd0a5' stroke-width='1.8' stroke-linecap='round'/%3E%3Cpath d='M21.2 24C13.4 25 6.4 20.4 6.4 11.6c8.2 0 14.8 4.6 14.8 12.4z' fill='%239fd0a5' stroke='%235e9a6c' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M21.6 20.2c.4-8.2 6.6-13.8 13.8-13.8 0 8.2-6.2 13.8-13.8 13.8z' fill='%23b6dcb4' stroke='%235e9a6c' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cg fill='none' stroke='%235e9a6c' stroke-width='1' stroke-linecap='round' opacity='.55'%3E%3Cpath d='M19.4 22.2c-3-2.2-5.8-4.8-8.4-7.6'/%3E%3Cpath d='M23.4 18.2c2.6-2.8 5.2-5.4 8.2-7.8'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cg transform='translate(2.67 4.67) scale(.6667)' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 56C32 48 30.5 38 27.5 30.5M32 47.5C32.5 45.5 33.5 44.5 35 43.5' fill='none' stroke='%23a5c05c' stroke-width='2.3'/%3E%3Cg fill='%23dceaae' stroke='%23a5c05c' stroke-width='1.4'%3E%3Cpath d='M28 30C24.5 22 28 8 36 6.5C43.5 9 42 24.5 28 30Z'/%3E%3Cpath d='M27 30.5C21 34.5 8 30 7 18.5C14 13.5 25 20 27 30.5Z'/%3E%3Cpath d='M34.5 44C33.5 36 42 27.5 51 29.5C54 36 46 45.5 34.5 44Z'/%3E%3C/g%3E%3Cpath d='M28 30L34.2 13.6M27 30.5L13 21.8M34.5 44L46 34' fill='none' stroke='%23a5c05c' stroke-width='1'/%3E%3Cg fill='%23afc873'%3E%3Ccircle cx='62.5' cy='27' r='2.1'/%3E%3Ccircle cx='59.5' cy='45.5' r='2.3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 .home-hero__arrow[data-cta-preset="06"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
 .home-hero__arrow[data-cta-sticker="star"] .home-hero__arrow-sticker {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20.0 6.5L24.5 15.4L34.3 16.9L27.2 23.8L28.8 33.6L20.0 29.1L11.2 33.6L12.8 23.8L5.7 16.9L15.5 15.4z' fill='%23e0a93a' stroke='%23e0a93a' stroke-width='4.6' stroke-linejoin='round'/%3E%3Cpath d='M20.0 6.5L24.5 15.4L34.3 16.9L27.2 23.8L28.8 33.6L20.0 29.1L11.2 33.6L12.8 23.8L5.7 16.9L15.5 15.4z' fill='%23ffd56b' stroke='%23ffd56b' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M13.4 18.2c.5-1.3 1.4-2.1 2.7-2.4' fill='none' stroke='%23fff' stroke-linecap='round' opacity='.75' stroke-width='1.7'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cdefs%3E%3Cfilter id='w' x='-5%25' y='-5%25' width='110%25' height='110%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='2' seed='4'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='.55' xChannelSelector='R' yChannelSelector='G'/%3E%3C/filter%3E%3Cpattern id='h' width='1.9' height='1.9' patternUnits='userSpaceOnUse' patternTransform='rotate(-38)'%3E%3Cpath d='M0 .5H1.9' stroke='%23fff' stroke-width='.42'/%3E%3C/pattern%3E%3CradialGradient id='g' cx='.36' cy='.3' r='.75'%3E%3Cstop offset='0' stop-color='%23fff' stop-opacity='.5'/%3E%3Cstop offset='1' stop-color='%23fff' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg filter='url(%23w)'%3E%3Cpath d='M22.86 13.15L29.32 20.28L38.84 21.65L34.06 30.00L35.70 39.48L26.28 37.51L17.77 42.00L16.73 32.43L9.83 25.73L18.61 21.78z' fill='%23f3c357' stroke='%23f3c357' stroke-width='3.8' stroke-linejoin='round'/%3E%3Cpath d='M22.86 13.15L29.32 20.28L38.84 21.65L34.06 30.00L35.70 39.48L26.28 37.51L17.77 42.00L16.73 32.43L9.83 25.73L18.61 21.78z' fill='%23ffe08c' stroke='%23ffe08c' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M22.86 13.15L29.32 20.28L38.84 21.65L34.06 30.00L35.70 39.48L26.28 37.51L17.77 42.00L16.73 32.43L9.83 25.73L18.61 21.78z' fill='url(%23g)'/%3E%3Cpath d='M22.86 13.15L29.32 20.28L38.84 21.65L34.06 30.00L35.70 39.48L26.28 37.51L17.77 42.00L16.73 32.43L9.83 25.73L18.61 21.78z' fill='url(%23h)' opacity='.12'/%3E%3Cpath d='M25 23.0C25.528 27.752 25.648 27.872 29.4 28.4C25.648 28.927999999999997 25.528 29.048 25 33.8C24.472 29.048 24.352 28.927999999999997 20.6 28.4C24.352 27.872 24.472 27.752 25 23.0z' fill='%23fff' opacity='.95'/%3E%3Cpath d='M49 26.6C49.476 30.384 49.616 30.524 52.4 31C49.616 31.476 49.476 31.616 49 35.4C48.524 31.616 48.384 31.476 45.6 31C48.384 30.524 48.524 30.384 49 26.6z' fill='%23ffe08c' stroke='%23f3c357' stroke-width='.85' stroke-linejoin='round'/%3E%3Ccircle cx='53.6' cy='23.4' r='.95' fill='%23f5cc6a'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .home-hero__arrow[data-cta-preset="07"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
 .home-hero__arrow[data-cta-sticker="sparkle"] .home-hero__arrow-sticker {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M17.5 8.5c1.3 8.4 5.1 12.2 13.5 13.5-8.4 1.3-12.2 5.1-13.5 13.5-1.3-8.4-5.1-12.2-13.5-13.5 8.4-1.3 12.2-5.1 13.5-13.5z' fill='%23a9d1f2' stroke='%236fa9d9' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M31 4c.5 3.1 1.8 4.4 4.9 4.9-3.1.5-4.4 1.8-4.9 4.9-.5-3.1-1.8-4.4-4.9-4.9 3.1-.5 4.4-1.8 4.9-4.9z' fill='%23cfe5f7' stroke='%236fa9d9' stroke-width='1.2' stroke-linejoin='round'/%3E%3Ccircle cx='32.4' cy='30.4' r='1.9' fill='%23cfe5f7' stroke='%236fa9d9' stroke-width='1.1'/%3E%3Cpath d='M15 18.4c.8-.9 1.4-2 1.8-3.4' fill='none' stroke='%23fff' stroke-linecap='round' opacity='.75' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cdefs%3E%3CradialGradient id='k' cx='.4' cy='.34' r='.7'%3E%3Cstop offset='0' stop-color='%23fff' stop-opacity='.75'/%3E%3Cstop offset='1' stop-color='%23fff' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg transform='translate(3.9 3.9) scale(.85)' stroke-linejoin='round' stroke-linecap='round'%3E%3Cg transform='translate(29 21.5) rotate(8)'%3E%3Cpath d='M0-13.6C.9-4.6 4.2-.9 10.4 0C4.2 .9 .9 4.6 0 13.6C-.9 4.6-4.2 .9-10.4 0C-4.2-.9-.9-4.6 0-13.6Z' fill='%2374aede' stroke='%2374aede' stroke-width='4.2'/%3E%3Cpath d='M0-13.6C.9-4.6 4.2-.9 10.4 0C4.2 .9 .9 4.6 0 13.6C-.9 4.6-4.2 .9-10.4 0C-4.2-.9-.9-4.6 0-13.6Z' fill='%23b3d8f4' stroke='%23b3d8f4' stroke-width='1.9'/%3E%3Cpath d='M0-13.6C.9-4.6 4.2-.9 10.4 0C4.2 .9 .9 4.6 0 13.6C-.9 4.6-4.2 .9-10.4 0C-4.2-.9-.9-4.6 0-13.6Z' fill='url(%23k)'/%3E%3Cpath d='M0-6.2C.3-2 .9-1 4.6 0C.9 1 .3 2 0 6.2C-.3 2-.9 1-4.6 0C-.9-1-.3-2 0-6.2Z' fill='%23fff' opacity='.85'/%3E%3C/g%3E%3Cg transform='translate(17.5 40.5) rotate(-6)'%3E%3Cpath d='M0-6C.4-2.1 1.9-.4 4.8 0C1.9 .4 .4 2.1 0 6C-.4 2.1-1.9 .4-4.8 0C-1.9-.4-.4-2.1 0-6Z' fill='%2374aede' stroke='%2374aede' stroke-width='3.2'/%3E%3Cpath d='M0-6C.4-2.1 1.9-.4 4.8 0C1.9 .4 .4 2.1 0 6C-.4 2.1-1.9 .4-4.8 0C-1.9-.4-.4-2.1 0-6Z' fill='%23d3e8fa' stroke='%23d3e8fa' stroke-width='1.3'/%3E%3C/g%3E%3Ccircle cx='38.5' cy='38' r='1.5' fill='%238fbfe8'/%3E%3Ccircle cx='31' cy='45.5' r='1.1' fill='%23a9cdee'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .home-hero__arrow[data-cta-preset="08"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
 .home-hero__arrow[data-cta-sticker="heart"] .home-hero__arrow-sticker {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 33C10.4 26.4 6.2 20.8 6.2 15.4 6.2 11.2 9.4 8.2 13.2 8.2c3 0 5.3 1.6 6.8 4 1.5-2.4 3.8-4 6.8-4 3.8 0 7 3 7 7.2 0 5.4-4.2 11-13.8 17.6z' fill='%23c2b4f5' stroke='%238f7fe0' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cpath d='M10.4 14.4c.3-1.9 1.6-3.2 3.4-3.4' fill='none' stroke='%23fff' stroke-linecap='round' opacity='.75' stroke-width='1.8'/%3E%3Ccircle cx='10.6' cy='17.6' r='.95' fill='%23fff' opacity='.75'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cdefs%3E%3CclipPath id='c'%3E%3Cpath d='M46.5 31.5C44 23.5 38 18 31.5 18.5C25 19 21 25 22 31.5C23.5 42 36 51.5 48.5 58C58.5 50.5 68 41.5 69 30C69.5 23.5 65.5 18.5 60 18.5C53.5 18.5 48.5 24 46.5 31.5Z'/%3E%3C/clipPath%3E%3C/defs%3E%3Cg transform='translate(-1.33 3.33) scale(.6667)' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M46.5 31.5C44 23.5 38 18 31.5 18.5C25 19 21 25 22 31.5C23.5 42 36 51.5 48.5 58C58.5 50.5 68 41.5 69 30C69.5 23.5 65.5 18.5 60 18.5C53.5 18.5 48.5 24 46.5 31.5Z' fill='%23cdb3ea'/%3E%3Cg clip-path='url(%23c)' fill='none'%3E%3Cpath d='M26 41L31.5 23M33 49L40 27M41 54L47.5 36M49 56L59.5 22M57 50L66.5 24' stroke='%23e2d2f5' stroke-width='2.6' opacity='.5'/%3E%3Cpath d='M29.5 46L36.5 21M45 56L53.5 28M53.5 54L63.5 21' stroke='%23b996e2' stroke-width='1.2' opacity='.35'/%3E%3C/g%3E%3Cg fill='%23fff' opacity='.85'%3E%3Cpath d='M28.4 39.8L30.8 41L30.2 43.2L28 42Z'/%3E%3Ccircle cx='39.8' cy='25' r='1.1'/%3E%3Ccircle cx='62.4' cy='22.6' r='1.2'/%3E%3Ccircle cx='36.6' cy='46.4' r='.8'/%3E%3C/g%3E%3Cpath d='M46.5 31.5C44 23.5 38 18 31.5 18.5C25 19 21 25 22 31.5C23.5 42 36 51.5 48.5 58C58.5 50.5 68 41.5 69 30C69.5 23.5 65.5 18.5 60 18.5C53.5 18.5 48.5 24 46.5 31.5Z' fill='none' stroke='%239c76d1' stroke-width='1.7'/%3E%3Cg fill='%23b78ae6'%3E%3Cpath d='M22.6 3.2C22.2 1.4 25.4 .8 25.9 2.6L27.6 9.6C27.9 10.8 26 11.3 25.6 10.1Z'/%3E%3Cpath d='M9.6 11.8C8.2 10.4 10.6 8 12.1 9.3L17.6 14.6C18.5 15.5 17.2 16.9 16.2 16.1Z'/%3E%3Cpath d='M5.6 22.8C4 22.2 5 19.6 6.6 20.2L12.4 22.6C13.4 23 12.9 24.6 11.8 24.3Z'/%3E%3Cpath d='M4.8 34.4C2.8 34.7 2.3 31.4 4.3 31L12.8 29.9C14 29.8 14.2 31.6 13 31.9Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-// A washi strip pinned over the left edge instead of a die-cut sticker.
+// A washi strip folded over the card's left edge.
 .home-hero__arrow[data-cta-preset="09"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
 .home-hero__arrow[data-cta-sticker="tape"] .home-hero__arrow-sticker {
-  left: 9px;
-  width: 20px;
-  height: 54px;
-  background-color: var(--tape-blue);
-  background-image: radial-gradient(rgba(255, 255, 255, 0.75) 1.6px, transparent 1.8px);
-  background-size: 7px 7px;
-  background-repeat: repeat;
-  clip-path: polygon(0 3%, 25% 0, 50% 4%, 75% 0, 100% 3%, 100% 97%, 75% 100%, 50% 96%, 25% 100%, 0 97%);
-  filter: none;
-  transform: translateY(-50%) rotate(5deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 56'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23cfdbee'/%3E%3Cstop offset='.5' stop-color='%23c3d1e8'/%3E%3Cstop offset='1' stop-color='%23c9d6eb'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg transform='translate(0 4.67) scale(.6667)' stroke-linejoin='round'%3E%3Cpath d='M6.5 15.5L10 14.5L13.5 17.5L18 14.5L22 14.2L26 17L30 14.5L33 14.8C33.4 32 33 50 33.3 68L31 68.5L27 65.5L22.5 70L18.5 66.5L15 66L12 67.2L7 67.5C6.2 50 7 33 6.5 15.5Z' fill='url(%23a)' stroke='%239ab6de' stroke-width='.8'/%3E%3Cg fill='%23fff' opacity='.9'%3E%3Ccircle cx='12' cy='26' r='2.2'/%3E%3Cellipse cx='28' cy='25.5' rx='2.1' ry='1.8' transform='rotate(-30 28 25.5)'/%3E%3Cellipse cx='21' cy='32.5' rx='2.7' ry='2.3' transform='rotate(-35 21 32.5)'/%3E%3Ccircle cx='28.5' cy='32' r='1.3'/%3E%3Cellipse cx='11.5' cy='37.5' rx='2.5' ry='1.5'/%3E%3Ccircle cx='27.5' cy='45' r='2.5'/%3E%3Cellipse cx='10.5' cy='46' rx='2.3' ry='1.9' transform='rotate(25 10.5 46)'/%3E%3Ccircle cx='19.5' cy='44' r='.9'/%3E%3Ccircle cx='23' cy='54.5' r='1.9'/%3E%3Ccircle cx='11.5' cy='56' r='1.9'/%3E%3Ccircle cx='12' cy='60.5' r='1.5'/%3E%3Cellipse cx='29' cy='58' rx='2' ry='1.5' transform='rotate(-35 29 58)'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-.home-hero__arrow[data-cta-preset="09"]:not([data-cta-sticker]):hover .home-hero__arrow-sticker,
-.home-hero__arrow[data-cta-preset="09"]:not([data-cta-sticker]):focus-visible .home-hero__arrow-sticker,
-.home-hero__arrow[data-cta-sticker="tape"]:hover .home-hero__arrow-sticker,
-.home-hero__arrow[data-cta-sticker="tape"]:focus-visible .home-hero__arrow-sticker {
-  transform: translateY(-50%) rotate(-2deg);
-}
-
-// These read heavier than the rest at full size; `scale` / `translate`
-// compose with the hover transform, so they hold across breakpoints and
-// states. The lift puts the top edge back where the full-size ones sit.
-.home-hero__arrow[data-cta-preset="02"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
-.home-hero__arrow[data-cta-sticker="flower"] .home-hero__arrow-sticker,
-.home-hero__arrow[data-cta-preset="07"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
-.home-hero__arrow[data-cta-sticker="sparkle"] .home-hero__arrow-sticker,
-.home-hero__arrow[data-cta-preset="09"]:not([data-cta-sticker]) .home-hero__arrow-sticker,
-.home-hero__arrow[data-cta-sticker="tape"] .home-hero__arrow-sticker {
-  scale: 0.86;
-  translate: 0 -3px;
-}
-
-// cta_sticker as an image path: the site's own artwork, so no die-cut edge.
+// cta_sticker as an image path: the site's own artwork in a square slot.
 .home-hero__arrow[data-cta-sticker="custom"] .home-hero__arrow-sticker {
+  left: -8px;
+  top: 50%;
+  width: 44px;
+  height: 44px;
   background-image: var(--cta-sticker);
+  background-position: center;
+  background-size: contain;
   filter: drop-shadow(0 2px 3px unquote('rgba(var(--paper-shadow-rgb), 0.22)'));
+  transform: translateY(-62%) rotate(-10deg);
+  transform-origin: 50% 50%;
+}
+
+.home-hero__arrow[data-cta-sticker="custom"]:hover .home-hero__arrow-sticker,
+.home-hero__arrow[data-cta-sticker="custom"]:focus-visible .home-hero__arrow-sticker {
+  transform: translateY(-70%) rotate(6deg) scale(1.08);
 }
 
 /* ---------- Image-backed button (custom cta_background) ---------- */
@@ -282,8 +274,17 @@
     height: 15px;
   }
 
+  // 40/44 of the desktop slot, keeping the card-relative layout.
   .home-hero__arrow-sticker {
+    left: -9px;
+    top: -9px;
+    width: 58px;
+    height: 51px;
+  }
+
+  .home-hero__arrow[data-cta-sticker="custom"] .home-hero__arrow-sticker {
     left: -6px;
+    top: 50%;
     width: 38px;
     height: 38px;
   }
