@@ -846,12 +846,52 @@
             // so the live pathname keeps the wall and the comment box below
             // reading the same bucket.
             var pageKey = window.location.pathname || '/';
-            return window.twikoo.getRecentComments({
-              envId: envId,
-              urls: [pageKey],
-              pageSize: 100,
-              includeReply: false
-            }).then(function (raw) {
+
+            // The wall must show this page's comments only. The backend
+            // filters GET_RECENT_COMMENTS by `urls`, and the 1.x SDK passed
+            // the option through — but the 2.x SDK drops it and returns the
+            // newest comments of the whole site. So:
+            //  - a self-hosted backend (envId is a URL) is asked directly,
+            //    with `urls`, which is the same request the 1.x SDK made;
+            //  - otherwise (a CloudBase env id needs the SDK) the SDK is used
+            //    and its result is narrowed to this page here. That can only
+            //    keep what is among the site's newest 100, but never shows
+            //    another page's comments.
+            function samePage(url) {
+              function norm(value) {
+                return String(value || '').replace(/^https?:\/\/[^/]+/i, '').replace(/index\.html$/, '').replace(/\/+$/, '') || '/';
+              }
+              return norm(url) === norm(pageKey);
+            }
+            function viaSdk() {
+              return window.twikoo.getRecentComments({
+                envId: envId,
+                urls: [pageKey],
+                pageSize: 100,
+                includeReply: false
+              }).then(function (raw) {
+                var list = Array.isArray(raw) ? raw : [];
+                return list.filter(function (item) { return !item || item.url == null || samePage(item.url); });
+              });
+            }
+            function viaBackend() {
+              return fetch(envId, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event: 'GET_RECENT_COMMENTS', urls: [pageKey], pageSize: 100, includeReply: false })
+              }).then(function (response) {
+                if (!response.ok) throw new Error('twikoo: backend ' + response.status);
+                return response.json();
+              }).then(function (payload) {
+                if (!payload || !Array.isArray(payload.data)) throw new Error('twikoo: unexpected response');
+                return payload.data.filter(function (item) { return !item || item.url == null || samePage(item.url); });
+              });
+            }
+            var request = /^https?:\/\//i.test(envId)
+              ? viaBackend().catch(function () { return viaSdk(); })
+              : viaSdk();
+
+            return request.then(function (raw) {
               var items = Array.isArray(raw) ? raw : [];
               var normalized = items.map(function (item) {
                 // Parse the comment HTML with DOMParser rather than assigning
