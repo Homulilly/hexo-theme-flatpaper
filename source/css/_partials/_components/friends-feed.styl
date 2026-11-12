@@ -167,6 +167,18 @@
   width: 14px;
 }
 
+/* hover pad: keeps the lifted card under a pointer resting on its bottom
+   edge, see the note in friends.styl */
+.friends-feed-card:hover .friends-feed-card__body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -1px;
+  bottom: -5px;
+  left: -1px;
+  z-index: -1;
+}
+
 .dark-mode .friends-feed-card {
   background:
     linear-gradient(90deg, transparent 0, transparent 54px, rgba(225, 230, 245, 0.1) 54px, rgba(225, 230, 245, 0.1) 55px, transparent 55px),
