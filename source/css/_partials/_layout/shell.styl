@@ -140,6 +140,20 @@
   font-weight: 700;
 }
 
+/* A card title with a "view all" link on its right (categories, tags). The
+   link itself is the quiet arrow link in _global/arrow-link.styl. */
+.side-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.side-card__head h2 {
+  margin: 0;
+}
+
 .side-card h2 > .lucide {
   width: 16px;
   height: 16px;

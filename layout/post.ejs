@@ -149,8 +149,7 @@ var relatedPosts = allPosts
     <header class="related-paper__head">
       <h2><%- partial('_partial/icons', { icon: 'link' }) %><%= flatpaper_i18n('post.related_posts') %></h2>
       <a class="related-paper__more" href="<%- url_for((config.archive_dir || 'archives') + '/') %>">
-        <span><%= flatpaper_i18n('post.view_more') %></span>
-        <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
+        <span class="marker-swipe"><%= flatpaper_i18n('post.view_more') %></span>
       </a>
     </header>
     <div class="related-paper__grid">

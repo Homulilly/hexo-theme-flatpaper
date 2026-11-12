@@ -96,7 +96,7 @@ Conventions:
 
 - Dashed lines (`--dash` / `--line`) mean folds and separators; solid lines are kept for borders that need weight (the rule under a table header, the code frame).
 - Text links share one hover: the highlighter swipe. Add `.marker-swipe` to an inline element around the link text, or list the selector in `_global/marker-swipe.styl`. Links in article prose carry the highlighter permanently and get a second, deeper pass on hover; links elsewhere are plain at rest.
-- Forward / back text entries (the welcome card's call to action, read more, the list pager) are not boxed; they use `_global/arrow-link.styl`: text plus a hand-drawn arrow, with the highlighter swipe on the text and the arrow sliding the way it points on hover.
+- Forward / back text entries (the welcome card's call to action, read more, the list pager) are not boxed; they use `_global/arrow-link.styl`: text plus a hand-drawn arrow, with the highlighter swipe on the text and the arrow sliding the way it points on hover. The "view all" / "view more" links in card headers (sidebar categories, tags, related posts) are the small size of the same recipe.
 - Boxed text buttons use the paper button in `_global/paper-button.styl` (currently the 404 actions); add a new button's selector to that file.
 - Keep tilts around ±1° and alternate the direction of neighbours so a row never leans one way.
 - Decoration stays on container edges (tape, torn edges, pen underlines); the reading area stays clean.
