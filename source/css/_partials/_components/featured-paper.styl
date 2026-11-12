@@ -28,13 +28,16 @@
   align-self: flex-start;
   min-height: 24px;
   padding: 0 12px;
-  border-radius: 6px;
-  color: var(--label-text, #fff);
+  border-radius: var(--radius-handdrawn);
+  color: var(--label-text);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
-  box-shadow: var(--soft-shadow);
+  /* a flat strip of label tape, stuck on slightly askew */
+  background-color: var(--label-fill);
+  background-image: var(--tape-stripes);
+  box-shadow: var(--paper-shadow);
+  transform: rotate(-1.2deg);
 }
 
 .label-pill .lucide {
@@ -52,7 +55,7 @@
 }
 
 .featured-paper h1 a {
-  background-image: linear-gradient(180deg, transparent 62%, rgba(241, 193, 84, 0.45) 62%);
+  background-image: linear-gradient(180deg, transparent 62%, var(--highlighter) 62%);
 }
 
 .featured-paper p {

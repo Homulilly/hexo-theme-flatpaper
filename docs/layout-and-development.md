@@ -74,6 +74,29 @@ themes/flatpaper/
         `-- main.js
 ```
 
+## Hand-drawn Design Language
+
+The journal look is driven by a shared set of variables in `source/css/_partials/var.styl`. When adding or changing a component, reuse them instead of writing another tape strip, shadow or pen stroke.
+
+| Element | Variable / recipe | Use |
+| --- | --- | --- |
+| Paper | `--paper`, `--radius-paper`, `filter: url(#paper-edge)` | Card body: a pseudo-element paints the paper colour and the `#paper-edge` filter tears its edge |
+| Elevation | `--sheet-shadow` → `--soft-shadow` / `--small-shadow` → `--shadow` | Lying on the desk → picked up → lifted on hover; all three are tinted by `--paper-shadow-rgb` |
+| Hand-drawn corners | `--radius-handdrawn`, `--radius-handdrawn-wide`, `--radius-sketch` | The first two are for buttons, chips, inputs and index cards; `--radius-sketch` is for large boxes such as tab sets |
+| Tape | `--tape-color`, `--tape-w` | The recipe lives in `_layout/tape.styl`; a component only sets position, tilt and colour |
+| Highlighter | `--highlighter` | Highlighter swipe under titles (featured title, welcome card, post card hover) |
+| Pen strokes | `--mask-squiggle`, `--mask-wave`, `--mask-arrow`, `--mask-check` | Used as a `mask` and coloured with `background-color`, so they follow the accent and dark mode |
+| Labels | `--label-fill`, `--label-text` | Solid labels such as `.label-pill` |
+| Motion | `--ease-paper`, `--ease-spring` | `--ease-paper` for paper settling, `--ease-spring` for sticker-like bounce |
+| Focus | global `:focus-visible` | One dashed pencil ring, defined in `base.styl`; components need no focus styles of their own |
+
+Conventions:
+
+- Dashed lines (`--dash` / `--line`) mean folds and separators; solid lines are kept for borders that need weight (the rule under a table header, the code frame).
+- Text buttons all use the paper button in `_global/paper-button.styl` (pager, read more, welcome card, 404 actions); add a new button's selector to that file.
+- Keep tilts around ±1° and alternate the direction of neighbours so a row never leans one way.
+- Decoration stays on container edges (tape, torn edges, pen underlines); the reading area stays clean.
+
 ## JavaScript Responsibilities
 
 `source/js/main.js` handles:

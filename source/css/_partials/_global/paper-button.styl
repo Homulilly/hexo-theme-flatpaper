@@ -1,0 +1,101 @@
+/* ============== PAPER BUTTON ============== */
+/* The theme's one text-button recipe: a small slip of warm paper with a
+   torn edge and a pencilled outline, which takes the accent on hover.
+   Shared by the pager, the welcome / "read more" links and the 404 actions;
+   each of those only adds its own size and placement. */
+.pager-link,
+.welcome-cta,
+.read-more,
+.not-found-action {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border: 0;
+  color: var(--ink-soft);
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.75;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.22s var(--ease-paper);
+}
+
+.pager-link::before,
+.welcome-cta::before,
+.read-more::before,
+.not-found-action::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--radius-paper);
+  background: var(--paper-warm);
+  box-shadow: inset 0 0 0 1px var(--dash);
+  filter: url(#paper-edge) drop-shadow(var(--paper-shadow));
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark-mode .pager-link::before,
+.dark-mode .welcome-cta::before,
+.dark-mode .read-more::before,
+.dark-mode .not-found-action::before {
+  box-shadow: none;
+}
+
+a.pager-link:hover,
+.welcome-cta:hover,
+.read-more:hover,
+.not-found-action:hover {
+  color: var(--color-accent-strong);
+  transform: translateY(-1px) rotate(-0.6deg);
+}
+
+.dark-mode a.pager-link:hover,
+.dark-mode .welcome-cta:hover,
+.dark-mode .read-more:hover,
+.dark-mode .not-found-action:hover {
+  color: var(--color-accent-muted);
+}
+
+a.pager-link:hover::before,
+.welcome-cta:hover::before,
+.read-more:hover::before,
+.not-found-action:hover::before {
+  background: var(--color-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+/* pressed: the slip is pushed back onto the desk */
+a.pager-link:active,
+.welcome-cta:active,
+.read-more:active,
+.not-found-action:active {
+  transform: translateY(1px);
+  transition-duration: 0.08s;
+}
+
+.pager-link .lucide,
+.welcome-cta .lucide,
+.read-more .lucide,
+.not-found-action .lucide {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.welcome-cta:hover .lucide,
+.read-more:hover .lucide,
+a.pager-link--next:hover .lucide {
+  transform: translateX(2px);
+}
+
+a.pager-link--prev:hover .lucide {
+  transform: translateX(-2px);
+}

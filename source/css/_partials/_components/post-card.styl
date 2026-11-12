@@ -11,7 +11,7 @@
   padding: 14px;
   color: inherit;
   text-decoration: none;
-  transition: transform 0.22s ease;
+  transition: transform 0.26s var(--ease-paper);
 }
 
 .post-card::after {
@@ -31,8 +31,18 @@
   text-decoration: none;
 }
 
+/* picked up off the desk: lifts and tips a little, alternating sides so a
+   row of cards does not lean the same way */
 .post-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) rotate(-0.5deg);
+}
+
+.post-card:nth-child(even):hover {
+  transform: translateY(-3px) rotate(0.5deg);
+}
+
+.post-card:focus-within::after {
+  opacity: 1;
 }
 
 .post-card:hover::after {
@@ -74,6 +84,20 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-word;
+}
+
+/* highlighter pen: swipes under the title when the card is hovered */
+.post-card h3 a {
+  background-image: linear-gradient(var(--highlighter), var(--highlighter));
+  background-repeat: no-repeat;
+  background-position: 0 92%;
+  background-size: 0% 0.4em;
+  transition: color 0.2s ease, background-size 0.4s var(--ease-paper);
+}
+
+.post-card:hover h3 a,
+.post-card h3 a:focus-visible {
+  background-size: 100% 0.4em;
 }
 
 .post-card:hover h3 a,

@@ -15,19 +15,15 @@
   background: var(--paper);
   z-index: -1;
   border-radius: 4px;
-  filter: url(#paper-edge) drop-shadow(0 2px 6px rgba(0,0,0,0.06));
+  filter: url(#paper-edge) drop-shadow(var(--sheet-shadow));
 }
 
 .comments-section::after {
-  content: "";
-  position: absolute;
+  --tape-w: 90px;
+  --tape-color: var(--tape-pink);
   top: -12px;
   left: 50%;
-  z-index: 2;
-  width: 90px;
   height: 22px;
-  background-color: var(--tape-pink);
-  background-image: var(--tape-stripes);
   transform: translateX(-50%) rotate(-2deg);
 }
 

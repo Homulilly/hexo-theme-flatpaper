@@ -195,8 +195,8 @@
   height: 7px;
   background-color: var(--color-accent);
   opacity: 0.8;
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 7' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'><path d='M1 4.5 C 10 2.5 16 5 24 3.6 C 32 2.2 40 5.2 47 3.4'/></svg>");
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 7' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'><path d='M1 4.5 C 10 2.5 16 5 24 3.6 C 32 2.2 40 5.2 47 3.4'/></svg>");
+  -webkit-mask-image: var(--mask-squiggle);
+  mask-image: var(--mask-squiggle);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: contain;
@@ -261,7 +261,7 @@
 }
 
 @keyframes flatpaper-anchor-flash {
-  0%   { background-color: rgba(241, 193, 84, 0.35); }
+  0%   { background-color: var(--highlighter); }
   100% { background-color: transparent; }
 }
 
@@ -382,6 +382,83 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
   color: var(--ink-soft);
 }
 
+/* list markers are inked in the accent, like bullets added with a coloured pen */
+.article-content li::marker {
+  color: var(--color-accent);
+}
+
+.article-content ol > li::marker {
+  color: var(--color-accent-strong);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.dark-mode .article-content ol > li::marker {
+  color: var(--color-accent-muted);
+}
+
+.article-content .footnotes li::marker {
+  color: inherit;
+  font-weight: inherit;
+}
+
+/* task list: a hand-ruled box with a pen tick instead of the native control */
+.article-content li:has(> input[type="checkbox"]) {
+  list-style: none;
+  margin-left: -22px;
+}
+
+.article-content li > input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin: 0 8px 0 0;
+  vertical-align: -3px;
+  border: 1.5px solid var(--muted);
+  border-radius: 4px 2px 5px 2px / 2px 5px 2px 4px;
+  background: var(--paper-solid);
+  opacity: 1;
+}
+
+.article-content li > input[type="checkbox"]:checked {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+/* the tick overshoots the box a little, as a quick pen stroke does */
+.article-content li > input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: -4px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-accent-strong);
+  -webkit-mask: var(--mask-check) center / contain no-repeat;
+  mask: var(--mask-check) center / contain no-repeat;
+}
+
+.dark-mode .article-content li > input[type="checkbox"]:checked::after {
+  background-color: var(--color-accent-muted);
+}
+
+/* keyboard key, drawn as a little key cap */
+.article-content kbd {
+  display: inline-block;
+  padding: 0 6px;
+  margin: 0 2px;
+  border: 1px solid var(--dash);
+  border-bottom-width: 2.5px;
+  border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px;
+  color: var(--ink-soft);
+  background: var(--paper-warm);
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  line-height: 1.6;
+}
+
 /* hand-drawn wavy divider: an SVG squiggle masks a solid ink fill, so it
    inherits --line and the dark-mode token like the rest of the ink. */
 .article-content hr {
@@ -389,8 +466,8 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
   margin: 30px auto;
   border: 0;
   background-color: var(--line);
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'><path d='M0 5 C 5 0 7 0 10 5 C 13 10 17 10 20 5 C 23 0 27 0 30 5 C 33 10 37 10 40 5'/></svg>");
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'><path d='M0 5 C 5 0 7 0 10 5 C 13 10 17 10 20 5 C 23 0 27 0 30 5 C 33 10 37 10 40 5'/></svg>");
+  -webkit-mask-image: var(--mask-wave);
+  mask-image: var(--mask-wave);
   -webkit-mask-repeat: repeat-x;
   mask-repeat: repeat-x;
   -webkit-mask-size: 40px 10px;
@@ -411,20 +488,9 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
 }
 
 .article-content blockquote::before {
-  content: "";
-  position: absolute;
-  top: -10px;
+  --tape-color: var(--tape-pink);
   left: 50%;
   z-index: 1;
-  width: 70px;
-  height: 20px;
-  border-radius: 1px;
-  background:
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px 7px),
-    var(--tape-pink);
-  opacity: 0.6;
-  box-shadow: 0 2px 6px unquote('rgba(var(--paper-shadow-rgb), 0.14)');
-  filter: saturate(0.92);
   transform: translateX(-50%) rotate(-1deg);
 }
 
@@ -438,10 +504,6 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
 .dark-mode .article-content blockquote {
   border-color: unquote('color-mix(in srgb, var(--color-accent-muted) 28%, var(--line) 72%)');
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-}
-
-.dark-mode .article-content blockquote::before {
-  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.24);
 }
 
 .article-content sup {
@@ -488,6 +550,141 @@ body[data-strong-accent="on"] .article-content :is(strong, b) {
   margin-left: 6px;
   color: var(--orange);
   text-decoration: none;
+}
+
+/* ============== TABLE ============== */
+/* A table ruled by hand in a notebook: pencilled outer frame, one firm rule
+   under the header, dashed rules between rows and columns. */
+.article-content table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 22px 0;
+  border: 1.5px solid var(--dash);
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.article-content th,
+.article-content td {
+  min-width: 10ch;
+  padding: 10px 12px;
+  border: 0;
+  border-right: 1px dashed var(--line);
+  border-bottom: 1px dashed var(--dash);
+  text-align: left;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.article-content table a:not(.heading-anchor) {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.article-content .highlight th,
+.article-content .highlight td {
+  min-width: 0;
+}
+
+.article-content th[align="center"],
+.article-content td[align="center"] {
+  text-align: center;
+}
+
+.article-content th[align="right"],
+.article-content td[align="right"] {
+  text-align: right;
+}
+
+.article-content th[align="left"],
+.article-content td[align="left"] {
+  text-align: left;
+}
+
+.article-content tr > :last-child {
+  border-right: 0;
+}
+
+.article-content tbody tr:last-child > th,
+.article-content tbody tr:last-child > td,
+.article-content tfoot tr:last-child > th,
+.article-content tfoot tr:last-child > td,
+.article-content table > tr:last-child > th,
+.article-content table > tr:last-child > td,
+.article-content thead:last-child tr:last-child > th {
+  border-bottom: 0;
+}
+
+.article-content th {
+  border-bottom: 1.5px solid unquote('color-mix(in srgb, var(--color-accent) 55%, var(--dash) 45%)');
+  background: unquote('color-mix(in srgb, var(--color-accent-soft) 34%, var(--paper) 66%)');
+  font-weight: 700;
+}
+
+.article-content tbody tr {
+  transition: background-color 0.18s ease;
+}
+
+.article-content tbody tr:hover {
+  background-color: unquote('color-mix(in srgb, var(--paper-warm) 70%, transparent)');
+}
+
+.article-content .highlight tbody tr:hover {
+  background-color: transparent;
+}
+
+/* ============== IMAGES ============== */
+.article-content img {
+  display: block;
+  margin: 22px auto;
+  border-radius: 0;
+  box-shadow: none;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.article-content img:hover,
+.article-content img:focus-visible {
+  box-shadow: 5px 5px 0 unquote('rgba(var(--paper-shadow-rgb), 0.1)');
+  transform: translate(-5px, -5px);
+}
+
+.dark-mode .article-content img:hover,
+.dark-mode .article-content img:focus-visible {
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+/* Captioned figure: the caption sits centred under the picture like a
+   pencilled note, led in by a short pen stroke. */
+.article-content figure:not(.highlight) {
+  margin: 22px 0;
+}
+
+.article-content figure:not(.highlight) img {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.article-content figure:not(.highlight) figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.article-content figure:not(.highlight) figcaption::before {
+  content: "";
+  flex: 0 0 18px;
+  height: 5px;
+  background-color: var(--dash);
+  -webkit-mask: var(--mask-squiggle) center / contain no-repeat;
+  mask: var(--mask-squiggle) center / contain no-repeat;
 }
 
 /* ============== GALLERY ROW ============== */

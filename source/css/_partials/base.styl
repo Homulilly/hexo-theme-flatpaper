@@ -43,6 +43,18 @@ button {
   font-family: inherit;
 }
 
+/* Keyboard focus: one pencilled dashed ring everywhere, following each
+   control's own outline (it hugs the hand-drawn radii). Mouse clicks do not
+   trigger it. Components that draw their own focus state opt out locally. */
+:focus-visible {
+  outline: 2px dashed var(--color-accent);
+  outline-offset: 3px;
+}
+
+.dark-mode :focus-visible {
+  outline-color: var(--color-accent-muted);
+}
+
 /* Paper grain for the default background. A pseudo-element rather than a
    fixed <div>: AdSense side rails treat visible fixed elements as obstacles
    and would refuse to show over a full-viewport layer. (body::before is the

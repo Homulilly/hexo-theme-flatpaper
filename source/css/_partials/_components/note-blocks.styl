@@ -197,18 +197,9 @@ body[data-note-style="sticky"] .flatpaper-note {
 
 /* striped tape, tinted to the note's own accent */
 body[data-note-style="sticky"] .flatpaper-note::before {
-  content: "";
-  position: absolute;
-  top: -10px;
+  --tape-color: unquote('color-mix(in srgb, var(--note-accent) 40%, transparent)');
   left: 50%;
   z-index: 1;
-  width: 70px;
-  height: 20px;
-  border-radius: 1px;
-  background:
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px 7px),
-    unquote('color-mix(in srgb, var(--note-accent) 36%, transparent)');
-  box-shadow: 0 2px 6px unquote('rgba(var(--paper-shadow-rgb), 0.14)');
   transform: translateX(-50%) rotate(-1deg);
 }
 

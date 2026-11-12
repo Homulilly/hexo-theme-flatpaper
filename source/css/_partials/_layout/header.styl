@@ -28,16 +28,11 @@ body::before {
   padding: 12px 24px;
 }
 
+/* tape strip — recipe in _layout/tape.styl */
 .site-header::after {
-  content: "";
-  position: absolute;
+  --tape-w: 60px;
   top: -8px;
   left: 25%;
-  z-index: 2;
-  width: 60px;
-  height: 20px;
-  background-color: var(--tape-yellow);
-  background-image: var(--tape-stripes);
   transform: translateX(-50%) rotate(2deg);
 }
 

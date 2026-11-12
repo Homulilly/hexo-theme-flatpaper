@@ -4,9 +4,9 @@
   margin: 32px 0;
   z-index: 1;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: var(--radius-sketch);
   background: var(--paper);
-  box-shadow: 2px 4px 10px rgba(0,0,0,0.03);
+  box-shadow: var(--sheet-shadow);
 }
 
 .flatpaper-tabs__intro {
@@ -26,10 +26,16 @@
   gap: 8px;
   padding: 12px 12px 0 12px;
   background: var(--bg);
-  border-radius: 6px 6px 0 0;
   border-bottom: 1px solid var(--line);
   position: relative;
   z-index: 2;
+}
+
+/* without an intro the nav is the top of the box and follows its corners */
+.flatpaper-tabs__nav:first-child {
+  border-radius: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .flatpaper-tabs__nav-item {
@@ -68,6 +74,7 @@
   right: -5%;
   height: 12px;
   background-color: var(--tape-pink, #f8a5c2);
+  background-image: var(--tape-stripes);
   opacity: 0.8;
   transform: rotate(-1.5deg);
 }

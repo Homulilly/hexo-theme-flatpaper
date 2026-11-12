@@ -74,6 +74,29 @@ themes/flatpaper/
         `-- main.js
 ```
 
+## 手绘设计规范
+
+主题的手帐风格由 `source/css/_partials/var.styl` 中的一组共享变量驱动。新增或修改组件时优先复用它们，而不是重新写一份胶带、阴影或手绘线条。
+
+| 元素 | 变量 / 写法 | 用法 |
+| --- | --- | --- |
+| 纸张 | `--paper`、`--radius-paper`、`filter: url(#paper-edge)` | 卡片本体：伪元素铺纸色，再用 `#paper-edge` 滤镜做出撕边 |
+| 层次 | `--sheet-shadow` → `--soft-shadow` / `--small-shadow` → `--shadow` | 平放在桌面 → 被拿起 → hover 抬起，三级阴影都由 `--paper-shadow-rgb` 着色 |
+| 手绘圆角 | `--radius-handdrawn`、`--radius-handdrawn-wide`、`--radius-sketch` | 前两个用于按钮、标签、输入框、索引卡；`--radius-sketch` 用于选项卡这类大矩形 |
+| 胶带 | `--tape-color`、`--tape-w` | 配方统一写在 `_layout/tape.styl`，组件只声明位置、角度和颜色 |
+| 荧光笔 | `--highlighter` | 标题下的荧光笔底色（精选标题、欢迎卡片、文章卡片 hover） |
+| 笔迹 | `--mask-squiggle`、`--mask-wave`、`--mask-arrow`、`--mask-check` | 作为 `mask` 使用，用 `background-color` 上色，因此自动跟随强调色与深色模式 |
+| 标签 | `--label-fill`、`--label-text` | `.label-pill` 等实色小标签 |
+| 动效 | `--ease-paper`、`--ease-spring` | 纸张落定用 `--ease-paper`，贴纸类回弹用 `--ease-spring` |
+| 焦点 | 全局 `:focus-visible` | 统一的虚线铅笔圈，定义在 `base.styl`，组件无需单独处理 |
+
+约定：
+
+- 虚线（`--dash` / `--line`）表示折痕与分隔，实线只用于需要强调的边框（表头下划线、代码框）。
+- 文字按钮统一使用 `_global/paper-button.styl` 的纸片按钮（分页、阅读全文、欢迎卡片、404 操作），新按钮把选择器加入该文件即可。
+- 倾斜角度保持在 ±1° 左右，相邻元素方向交替，避免整排朝同一方向歪。
+- 装饰只出现在容器边缘（胶带、撕边、笔迹下划线），正文区域保持干净以保证阅读。
+
 ## JavaScript 职责
 
 `source/js/main.js` 负责：
