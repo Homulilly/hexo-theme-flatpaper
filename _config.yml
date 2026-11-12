@@ -382,14 +382,14 @@ comments:
 # Twikoo（https://twikoo.js.org，需自行部署后端 https://twikoo.js.org/quick-start.html）
 twikoo:
   envId:                                # Twikoo 后端 URL，例如：https://twikoo.example.com
-  # cdn:                                # 可选；覆盖默认 jsDelivr CDN（私有镜像 / 企业 CDN）
+  # cdn:                                # 可选；默认 jsDelivr 的 twikoo@2（跟随 2.x 更新），填完整 URL 可锁定具体版本或换镜像
 
 # Artalk（https://artalk.js.org，需自行部署后端 https://artalk.js.org/guide/deploy.html）
 artalk:
   server:                               # Artalk 后端 URL，例如：https://artalk.example.com
   site:                                 # 站点名（需与 Artalk 后台已注册的站点一致）
-  # cdn_css:                            # 可选；覆盖默认 jsDelivr CSS
-  # cdn_js:                             # 可选；覆盖默认 jsDelivr JS
+  # cdn_css:                            # 可选；默认 jsDelivr 的 artalk@2（跟随 2.x 更新），填完整 URL 可锁定具体版本
+  # cdn_js:                             # 可选；同上，需与 cdn_css 保持同一版本
 
 # Fancybox 图片灯箱（https://fancyapps.com/fancybox/）
 # 启用后，文章页与独立页面（layout: page）的正文 <img> 自动用 Fancybox 包裹：

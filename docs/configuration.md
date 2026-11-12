@@ -631,6 +631,8 @@ Both systems require self-hosted backends:
 - [Twikoo quick start](https://twikoo.js.org/quick-start.html)
 - [Artalk deployment guide](https://artalk.js.org/guide/deploy.html)
 
+The frontend SDK loads from jsDelivr by default, locked to major version 2 (`twikoo@2`, `artalk@2`), so it follows 2.x minor and patch releases automatically. The frontend version has to match your backend: if the backend is still on an older major version, or you want to pin an exact version, set a full URL in `cdn`, `cdn_css` or `cdn_js`, for example `https://cdn.jsdelivr.net/npm/twikoo@1.7.9/dist/twikoo.all.min.js`. Keep Artalk's `cdn_css` and `cdn_js` on the same version.
+
 ## Fancybox
 
 ```yaml

@@ -382,14 +382,14 @@ comments:
 # Twikoo (https://twikoo.js.org). Deploy your own backend first: https://twikoo.js.org/quick-start.html
 twikoo:
   envId:                                # Twikoo backend URL, for example https://twikoo.example.com
-  # cdn:                                # Optional. Override the default jsDelivr CDN for private mirrors or enterprise CDNs.
+  # cdn:                                # Optional. Defaults to twikoo@2 on jsDelivr (follows 2.x); set a full URL to pin an exact version or use a mirror.
 
 # Artalk (https://artalk.js.org). Deploy your own backend first: https://artalk.js.org/guide/deploy.html
 artalk:
   server:                               # Artalk backend URL, for example https://artalk.example.com
   site:                                 # Site name. Must match a site registered in the Artalk dashboard.
-  # cdn_css:                            # Optional. Override the default jsDelivr CSS.
-  # cdn_js:                             # Optional. Override the default jsDelivr JS.
+  # cdn_css:                            # Optional. Defaults to artalk@2 on jsDelivr (follows 2.x); set a full URL to pin an exact version.
+  # cdn_js:                             # Optional. Same as above; keep it on the same version as cdn_css.
 
 # Fancybox image lightbox (https://fancyapps.com/fancybox/)
 # When enabled, images in posts and standalone pages (layout: page) are automatically wrapped by Fancybox:

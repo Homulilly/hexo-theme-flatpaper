@@ -641,6 +641,8 @@ artalk:
 - [Twikoo 快速开始](https://twikoo.js.org/quick-start.html)
 - [Artalk 部署文档](https://artalk.js.org/guide/deploy.html)
 
+前端 SDK 默认从 jsDelivr 加载，并锁定在大版本 2（`twikoo@2`、`artalk@2`），会自动跟随 2.x 的小版本更新。前端版本需要和后端匹配：后端还停在旧的大版本，或想固定到某个具体版本时，在 `cdn`、`cdn_css`、`cdn_js` 里填完整 URL，例如 `https://cdn.jsdelivr.net/npm/twikoo@1.7.9/dist/twikoo.all.min.js`。Artalk 的 `cdn_css` 和 `cdn_js` 要保持同一版本。
+
 ## Fancybox
 
 ```yaml
