@@ -291,40 +291,35 @@ body.has-home-hero.is-hero-active::before {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
-  margin: 16px auto 0;
+  gap: 8px 24px;
+  margin: 20px auto 4px;
 }
 
+/* Plain text at rest; the highlighter swipe on hover comes from
+   _global/marker-swipe.styl. No vertical padding, so the stroke sits under
+   the words. */
 .home-hero__nav-link {
   display: inline-flex;
   align-items: center;
-  padding: 4px 8px;
+  padding: 0 4px;
   color: var(--muted);
   font-size: 14px;
   font-weight: 500;
-  text-decoration: underline;
-  text-decoration-style: wavy;
-  text-decoration-color: var(--dash);
-  text-underline-offset: 4px;
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  text-decoration: none;
 }
 
 .home-hero__nav-link:hover,
 .home-hero__nav-link:focus-visible {
   color: var(--color-accent-strong);
-  text-decoration-color: var(--color-accent);
-  outline: none;
 }
 
 .home-hero--image .home-hero__nav-link {
   color: rgba(255, 253, 246, 0.6);
-  text-decoration-color: rgba(255, 253, 246, 0.25);
 }
 
 .home-hero--image .home-hero__nav-link:hover,
 .home-hero--image .home-hero__nav-link:focus-visible {
   color: #fff;
-  text-decoration-color: #fff;
 }
 
 .home-hero .home-hero__profile .home-hero__links {
@@ -685,24 +680,20 @@ body.has-home-hero.is-hero-active::before {
 
 .dark-mode .home-hero__nav-link {
   color: var(--muted);
-  text-decoration-color: rgba(255, 255, 255, 0.12);
 }
 
 .dark-mode .home-hero__nav-link:hover,
 .dark-mode .home-hero__nav-link:focus-visible {
   color: var(--color-accent-muted);
-  text-decoration-color: var(--color-accent);
 }
 
 .dark-mode .home-hero--image .home-hero__nav-link {
   color: rgba(255, 253, 246, 0.85);
-  text-decoration-color: rgba(255, 253, 246, 0.35);
 }
 
 .dark-mode .home-hero--image .home-hero__nav-link:hover,
 .dark-mode .home-hero--image .home-hero__nav-link:focus-visible {
   color: #fff;
-  text-decoration-color: #fff;
 }
 
 .dark-mode .home-hero .home-hero__profile .home-hero__links a {

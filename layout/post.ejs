@@ -114,7 +114,7 @@ var relatedPosts = allPosts
       <a class="article-action article-action--prev" href="<%- url_for(page.prev.path) %>">
         <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
         <span class="action-label"><%= flatpaper_i18n('post.previous') %></span>
-        <span class="action-title"><%= page.prev.title %></span>
+        <span class="action-title"><span class="marker-swipe"><%= page.prev.title %></span></span>
       </a>
     <% } else { %>
       <span class="article-action article-action--prev is-disabled" aria-disabled="true">
@@ -126,7 +126,7 @@ var relatedPosts = allPosts
     <% if (page.next) { %>
       <a class="article-action article-action--next" href="<%- url_for(page.next.path) %>">
         <span class="action-label"><%= flatpaper_i18n('post.next') %></span>
-        <span class="action-title"><%= page.next.title %></span>
+        <span class="action-title"><span class="marker-swipe"><%= page.next.title %></span></span>
         <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </a>
     <% } else { %>
@@ -160,7 +160,7 @@ var relatedPosts = allPosts
             <%- partial('_partial/thumbnail', { index: index, post: post }) %>
           </span>
           <span class="related-card__body">
-            <strong class="related-card__title"><%= post.title %></strong>
+            <strong class="related-card__title"><span class="marker-swipe"><%= post.title %></span></strong>
             <em class="related-card__date"><%= date(post.date, 'YYYY-MM-DD') %></em>
           </span>
         </a>

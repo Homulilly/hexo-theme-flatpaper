@@ -229,7 +229,7 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
       <% categories.slice(0, 6).forEach(function(category, index) { %>
         <a href="<%- url_for(category.path) %>">
           <span class="dot dot-<%= index % 4 %>"></span>
-          <strong><%= category.name %></strong>
+          <strong><span class="marker-swipe"><%= category.name %></span></strong>
           <em><%= category.length %></em>
         </a>
       <% }) %>

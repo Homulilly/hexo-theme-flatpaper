@@ -16,7 +16,7 @@ var latestPosts = latestEnabled && latestLimit > 0
       <% latestPosts.forEach(function (post) { %>
         <li>
           <a class="recent-item" href="<%- url_for(post.path) %>">
-            <strong><%= post.title %></strong>
+            <strong><span class="marker-swipe"><%= post.title %></span></strong>
             <em><%= date(post.date, 'YYYY-MM-DD') %></em>
           </a>
         </li>

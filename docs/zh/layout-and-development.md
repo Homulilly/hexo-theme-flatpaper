@@ -84,7 +84,7 @@ themes/flatpaper/
 | 层次 | `--sheet-shadow` → `--soft-shadow` / `--small-shadow` → `--shadow` | 平放在桌面 → 被拿起 → hover 抬起，三级阴影都由 `--paper-shadow-rgb` 着色 |
 | 手绘圆角 | `--radius-handdrawn`、`--radius-handdrawn-wide`、`--radius-sketch` | 前两个用于按钮、标签、输入框、索引卡；`--radius-sketch` 用于选项卡这类大矩形 |
 | 胶带 | `--tape-color`、`--tape-w` | 配方统一写在 `_layout/tape.styl`，组件只声明位置、角度和颜色 |
-| 荧光笔 | `--highlighter` | 标题下的荧光笔底色（精选标题、欢迎卡片、文章卡片 hover） |
+| 荧光笔 | `--highlighter`、`.marker-swipe` | 标题下的荧光笔底色（精选标题、欢迎卡片），以及所有文字链接 hover 时从左划过的荧光笔，配方在 `_global/marker-swipe.styl` |
 | 笔迹 | `--mask-squiggle`、`--mask-wave`、`--mask-arrow`、`--mask-check` | 作为 `mask` 使用，用 `background-color` 上色，因此自动跟随强调色与深色模式 |
 | 标签 | `--label-fill`、`--label-text` | `.label-pill` 等实色小标签 |
 | 动效 | `--ease-paper`、`--ease-spring` | 纸张落定用 `--ease-paper`，贴纸类回弹用 `--ease-spring` |
@@ -93,6 +93,7 @@ themes/flatpaper/
 约定：
 
 - 虚线（`--dash` / `--line`）表示折痕与分隔，实线只用于需要强调的边框（表头下划线、代码框）。
+- 文字链接 hover 统一用荧光笔划过：给包住链接文字的行内元素加 `.marker-swipe`，或把选择器加入 `_global/marker-swipe.styl`；正文链接常驻一道荧光笔，hover 时再划一遍加深；其余位置的链接常驻不加装饰。
 - 文字按钮统一使用 `_global/paper-button.styl` 的纸片按钮（分页、阅读全文、欢迎卡片、404 操作），新按钮把选择器加入该文件即可。
 - 倾斜角度保持在 ±1° 左右，相邻元素方向交替，避免整排朝同一方向歪。
 - 装饰只出现在容器边缘（胶带、撕边、笔迹下划线），正文区域保持干净以保证阅读。

@@ -84,7 +84,7 @@ The journal look is driven by a shared set of variables in `source/css/_partials
 | Elevation | `--sheet-shadow` → `--soft-shadow` / `--small-shadow` → `--shadow` | Lying on the desk → picked up → lifted on hover; all three are tinted by `--paper-shadow-rgb` |
 | Hand-drawn corners | `--radius-handdrawn`, `--radius-handdrawn-wide`, `--radius-sketch` | The first two are for buttons, chips, inputs and index cards; `--radius-sketch` is for large boxes such as tab sets |
 | Tape | `--tape-color`, `--tape-w` | The recipe lives in `_layout/tape.styl`; a component only sets position, tilt and colour |
-| Highlighter | `--highlighter` | Highlighter swipe under titles (featured title, welcome card, post card hover) |
+| Highlighter | `--highlighter`, `.marker-swipe` | Highlighter under titles (featured title, welcome card), and the left-to-right highlighter swipe every text link gets on hover; the recipe lives in `_global/marker-swipe.styl` |
 | Pen strokes | `--mask-squiggle`, `--mask-wave`, `--mask-arrow`, `--mask-check` | Used as a `mask` and coloured with `background-color`, so they follow the accent and dark mode |
 | Labels | `--label-fill`, `--label-text` | Solid labels such as `.label-pill` |
 | Motion | `--ease-paper`, `--ease-spring` | `--ease-paper` for paper settling, `--ease-spring` for sticker-like bounce |
@@ -93,6 +93,7 @@ The journal look is driven by a shared set of variables in `source/css/_partials
 Conventions:
 
 - Dashed lines (`--dash` / `--line`) mean folds and separators; solid lines are kept for borders that need weight (the rule under a table header, the code frame).
+- Text links share one hover: the highlighter swipe. Add `.marker-swipe` to an inline element around the link text, or list the selector in `_global/marker-swipe.styl`. Links in article prose carry the highlighter permanently and get a second, deeper pass on hover; links elsewhere are plain at rest.
 - Text buttons all use the paper button in `_global/paper-button.styl` (pager, read more, welcome card, 404 actions); add a new button's selector to that file.
 - Keep tilts around ±1° and alternate the direction of neighbours so a row never leans one way.
 - Decoration stays on container edges (tape, torn edges, pen underlines); the reading area stays clean.

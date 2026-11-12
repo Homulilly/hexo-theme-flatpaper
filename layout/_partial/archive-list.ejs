@@ -16,7 +16,7 @@ var hasPageTopImg = !!pageTopImg.src;
     <% posts.forEach(function(post, index) { %>
       <a class="archive-item" href="<%- url_for(post.path) %>">
         <span><%= date(post.date, 'YYYY-MM-DD') %></span>
-        <strong><%= post.title %></strong>
+        <strong><span class="marker-swipe"><%= post.title %></span></strong>
         <em></em>
       </a>
     <% }) %>

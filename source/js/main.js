@@ -286,7 +286,10 @@
       link.href = post.url || '#';
 
       var title = document.createElement('strong');
-      title.textContent = post.title || 'Untitled';
+      var titleText = document.createElement('span');
+      titleText.className = 'marker-swipe';
+      titleText.textContent = post.title || 'Untitled';
+      title.appendChild(titleText);
       link.appendChild(title);
 
       var date = document.createElement('em');

@@ -86,20 +86,7 @@
   word-break: break-word;
 }
 
-/* highlighter pen: swipes under the title when the card is hovered */
-.post-card h3 a {
-  background-image: linear-gradient(var(--highlighter), var(--highlighter));
-  background-repeat: no-repeat;
-  background-position: 0 92%;
-  background-size: 0% 0.4em;
-  transition: color 0.2s ease, background-size 0.4s var(--ease-paper);
-}
-
-.post-card:hover h3 a,
-.post-card h3 a:focus-visible {
-  background-size: 100% 0.4em;
-}
-
+/* Title highlighter swipe on hover: _global/marker-swipe.styl. */
 .post-card:hover h3 a,
 .post-card h3 a:hover {
   color: var(--color-accent-strong);
