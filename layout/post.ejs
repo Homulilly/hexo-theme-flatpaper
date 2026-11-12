@@ -112,13 +112,11 @@ var relatedPosts = allPosts
   <nav class="article-actions">
     <% if (page.prev) { %>
       <a class="article-action article-action--prev" href="<%- url_for(page.prev.path) %>">
-        <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
         <span class="action-label"><%= flatpaper_i18n('post.previous') %></span>
         <span class="action-title"><span class="marker-swipe"><%= page.prev.title %></span></span>
       </a>
     <% } else { %>
       <span class="article-action article-action--prev is-disabled" aria-disabled="true">
-        <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
         <span class="action-label"><%= flatpaper_i18n('post.previous') %></span>
         <span class="action-title"><%= flatpaper_i18n('post.no_previous') %></span>
       </span>
@@ -127,13 +125,11 @@ var relatedPosts = allPosts
       <a class="article-action article-action--next" href="<%- url_for(page.next.path) %>">
         <span class="action-label"><%= flatpaper_i18n('post.next') %></span>
         <span class="action-title"><span class="marker-swipe"><%= page.next.title %></span></span>
-        <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </a>
     <% } else { %>
       <span class="article-action article-action--next is-disabled" aria-disabled="true">
         <span class="action-label"><%= flatpaper_i18n('post.next') %></span>
         <span class="action-title"><%= flatpaper_i18n('post.no_next') %></span>
-        <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </span>
     <% } %>
   </nav>
