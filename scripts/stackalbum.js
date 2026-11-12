@@ -145,7 +145,9 @@ hexo.extend.tag.register('stackalbumnav', function (args) {
       // The href comes from a site data file, so it goes through the same
       // validation as every other link the theme renders.
       const href = safeUrl(entry.href, 'href');
-      return '<li><a href="' + escapeHTML(href) + '" target="_blank" rel="noopener"' +
+      // The class keeps these out of the prose-link styles (which target
+      // class-less anchors) so the stylesheet can draw them as buttons.
+      return '<li><a class="fp-stacknav__link" href="' + escapeHTML(href) + '" target="_blank" rel="noopener"' +
         ' data-fp-stack-index="' + index + '">' + escapeHTML(entry.name) + '</a></li>';
     })
     .join('');

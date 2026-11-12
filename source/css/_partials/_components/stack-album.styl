@@ -146,13 +146,16 @@
 
 /* ---- Nav variant: deck + title list ---- */
 
+/* List and deck are one figure: kept side by side and centred in the column
+   like the article deck, rather than pushed to opposite edges, so it is plain
+   which pile a title flips. */
 .fp-stacknav {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 24px 44px;
   margin: 1.6em 0;
 }
 
@@ -161,26 +164,89 @@
 .article-content .fp-stacknav__list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   min-width: 200px;
+  /* long titles wrap inside their card instead of shoving the deck away */
+  max-width: 340px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.fp-stacknav__list a {
+/* Title buttons: one pencilled index card per entry — the same recipe as the
+   search results and the category cards — in a column beside the deck.
+   Hovering one flips its cover to the top (main.js), so the card leans
+   towards the deck and a hand-drawn arrow inks in on that side.
+
+   The selector is this long on purpose: `.article-content a` and its
+   dark-mode twin (_page/article.styl) colour every anchor in prose at up to
+   (0,3,1), and these are buttons, not prose links. */
+.article-content .fp-stacknav .fp-stacknav__list .fp-stacknav__link {
+  position: relative;
   display: block;
-  padding: 4px 8px;
-  border-radius: 6px;
-  color: inherit;
+  padding: 7px 38px 7px 14px;
+  border: 1px dashed var(--dash);
+  border-radius: var(--radius-handdrawn-wide);
+  color: var(--ink-soft);
+  background-color: var(--paper-warm);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
   text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.26s var(--ease-paper);
 }
 
-.fp-stacknav__list a:hover,
-.fp-stacknav__list a:focus-visible {
-  background: var(--color-accent-soft);
+.fp-stacknav__link::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 13px;
+  width: 16px;
+  height: 10px;
+  margin-top: -5px;
+  background-color: currentColor;
+  opacity: 0;
+  -webkit-mask: var(--mask-arrow) center / contain no-repeat;
+  mask: var(--mask-arrow) center / contain no-repeat;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.26s var(--ease-spring);
+}
+
+.article-content .fp-stacknav .fp-stacknav__list .fp-stacknav__link:hover,
+.article-content .fp-stacknav .fp-stacknav__list .fp-stacknav__link:focus-visible {
   color: var(--color-accent-strong);
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-soft);
+  box-shadow: var(--soft-shadow);
+  transform: translateX(4px) rotate(-0.6deg);
+}
+
+.article-content .fp-stacknav .fp-stacknav__list li:nth-child(even) .fp-stacknav__link:hover,
+.article-content .fp-stacknav .fp-stacknav__list li:nth-child(even) .fp-stacknav__link:focus-visible {
+  transform: translateX(4px) rotate(0.6deg);
+}
+
+.dark-mode .article-content .fp-stacknav .fp-stacknav__list .fp-stacknav__link:hover,
+.dark-mode .article-content .fp-stacknav .fp-stacknav__list .fp-stacknav__link:focus-visible {
+  color: var(--color-accent-muted);
+}
+
+.fp-stacknav__link:hover::after,
+.fp-stacknav__link:focus-visible::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* pressed: the card is pushed back onto the page */
+.article-content .fp-stacknav .fp-stacknav__list .fp-stacknav__link:active {
+  box-shadow: none;
+  transform: translateX(2px);
+  transition-duration: 0.08s;
 }
 
 @media (max-width: 480px) {
@@ -200,11 +266,20 @@
   .article-content .fp-stacknav__list {
     width: 100%;
     min-width: 0;
+    max-width: none;
     text-align: center;
   }
 
-  .fp-stacknav__list a {
+  /* Deck sits above the list here, so the cards stay level instead of
+     leaning sideways, and the padding is evened out to keep titles centred. */
+  .article-content .fp-stacknav .fp-stacknav__list .fp-stacknav__link {
+    padding-left: 38px;
     overflow-wrap: anywhere;
+  }
+
+  .article-content .fp-stacknav .fp-stacknav__list li .fp-stacknav__link:hover,
+  .article-content .fp-stacknav .fp-stacknav__list li .fp-stacknav__link:focus-visible {
+    transform: translateY(-2px);
   }
 }
 
@@ -214,7 +289,8 @@
   .fp-stack.is-stacked .fp-stack__card.is-taking,
   .fp-stack.is-stacked .fp-stack__img,
   .fp-stack.is-stacked .fp-stack__card.is-taking .fp-stack__img,
-  .fp-stacknav__list a {
+  .article-content .fp-stacknav .fp-stacknav__list .fp-stacknav__link,
+  .fp-stacknav__link::after {
     transition: none;
   }
 }
