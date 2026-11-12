@@ -68,6 +68,15 @@
   height: var(--fp-stack-h, 480px);
 }
 
+/* The pile fans out downwards only: its lowest card ends flush with the
+   deck's box while the top has slack, and the blurred photos and their
+   shadows spill a little further. The prose block margin (15px) is not
+   enough to keep the following text clear of that, so the article deck
+   gets a deeper bottom margin, roughly matching the room above it. */
+.article-content .fp-stack.is-stacked:not(.fp-stack--nav) {
+  margin-bottom: 48px;
+}
+
 /* The top card is the click target, but the container carries the keyboard
    affordance (main.js gives it tabindex), so the focus ring belongs here — and
    it has to be drawn explicitly: the cards overflow the container, and a UA
