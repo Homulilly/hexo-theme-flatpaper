@@ -86,6 +86,7 @@ themes/flatpaper/
 | 胶带 | `--tape-color`、`--tape-w` | 配方统一写在 `_layout/tape.styl`，组件只声明位置、角度和颜色 |
 | 荧光笔 | `--highlighter`、`.marker-swipe` | 标题下的荧光笔底色（精选标题、欢迎卡片），以及所有文字链接 hover 时从左划过的荧光笔，配方在 `_global/marker-swipe.styl` |
 | 笔迹 | `--mask-squiggle`、`--mask-wave`、`--mask-arrow`、`--mask-check` | 作为 `mask` 使用，用 `background-color` 上色，因此自动跟随强调色与深色模式 |
+| 标记 | `.dot`、`.green-dot` | 倾斜的手绘小方块，用作条目前的标记：分类、欢迎卡片、搜索标题、主题色色块、目录当前项都用这一个形状 |
 | 标签 | `--label-fill`、`--label-text` | `.label-pill` 等实色小标签 |
 | 动效 | `--ease-paper`、`--ease-spring` | 纸张落定用 `--ease-paper`，贴纸类回弹用 `--ease-spring` |
 | 焦点 | 全局 `:focus-visible` | 统一的虚线铅笔圈，定义在 `base.styl`，组件无需单独处理 |

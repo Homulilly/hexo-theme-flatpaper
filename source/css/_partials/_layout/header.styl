@@ -474,11 +474,12 @@ body::before {
   height: 30px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
+  border-radius: var(--radius-handdrawn);
   color: var(--ink-soft);
   background: transparent;
   font: inherit;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .accent-option:hover,
@@ -488,11 +489,26 @@ body::before {
   background: var(--color-accent-soft);
 }
 
+/* Swatches use the theme's marker shape — the hand-drawn square of
+   .dot / .green-dot — instead of a plain circle. They sit upright in the
+   row; the one under the pointer tips over and grows a little, neighbours
+   tipping opposite ways. */
 .accent-swatch {
   width: 14px;
   height: 14px;
-  border-radius: 50%;
+  border-radius: var(--radius-handdrawn);
   box-shadow: inset 0 0 0 1px rgba(44, 53, 49, 0.12);
+  transition: transform 0.22s var(--ease-spring);
+}
+
+.accent-option:hover .accent-swatch,
+.accent-option:focus-visible .accent-swatch {
+  transform: rotate(-10deg) scale(1.16);
+}
+
+.accent-option:nth-child(even):hover .accent-swatch,
+.accent-option:nth-child(even):focus-visible .accent-swatch {
+  transform: rotate(10deg) scale(1.16);
 }
 
 .accent-swatch--green {

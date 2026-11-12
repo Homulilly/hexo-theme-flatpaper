@@ -86,6 +86,7 @@ The journal look is driven by a shared set of variables in `source/css/_partials
 | Tape | `--tape-color`, `--tape-w` | The recipe lives in `_layout/tape.styl`; a component only sets position, tilt and colour |
 | Highlighter | `--highlighter`, `.marker-swipe` | Highlighter under titles (featured title, welcome card), and the left-to-right highlighter swipe every text link gets on hover; the recipe lives in `_global/marker-swipe.styl` |
 | Pen strokes | `--mask-squiggle`, `--mask-wave`, `--mask-arrow`, `--mask-check` | Used as a `mask` and coloured with `background-color`, so they follow the accent and dark mode |
+| Marker | `.dot`, `.green-dot` | A tilted hand-drawn square used as the marker in front of an entry: categories, the welcome card, the search title, the accent swatches and the current TOC entry all use this one shape |
 | Labels | `--label-fill`, `--label-text` | Solid labels such as `.label-pill` |
 | Motion | `--ease-paper`, `--ease-spring` | `--ease-paper` for paper settling, `--ease-spring` for sticker-like bounce |
 | Focus | global `:focus-visible` | One dashed pencil ring, defined in `base.styl`; components need no focus styles of their own |
