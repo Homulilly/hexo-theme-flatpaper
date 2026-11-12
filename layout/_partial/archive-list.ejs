@@ -27,12 +27,10 @@ var hasPageTopImg = !!pageTopImg.src;
   <nav class="pager" aria-label="<%= flatpaper_i18n('pagination.archive_pager') %>">
     <% if (page.prev) { %>
       <a class="pager-link pager-link--prev" href="<%- url_for(page.prev_link) %>">
-        <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
-        <span><%= flatpaper_i18n('pagination.prev') %></span>
+        <span class="marker-swipe"><%= flatpaper_i18n('pagination.prev') %></span>
       </a>
     <% } else { %>
       <span class="pager-link pager-link--prev is-disabled" aria-disabled="true">
-        <%- partial('_partial/icons', { icon: 'arrow-left' }) %>
         <span><%= flatpaper_i18n('pagination.prev') %></span>
       </span>
     <% } %>
@@ -41,13 +39,11 @@ var hasPageTopImg = !!pageTopImg.src;
 
     <% if (page.next) { %>
       <a class="pager-link pager-link--next" href="<%- url_for(page.next_link) %>">
-        <span><%= flatpaper_i18n('pagination.next') %></span>
-        <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
+        <span class="marker-swipe"><%= flatpaper_i18n('pagination.next') %></span>
       </a>
     <% } else { %>
       <span class="pager-link pager-link--next is-disabled" aria-disabled="true">
         <span><%= flatpaper_i18n('pagination.next') %></span>
-        <%- partial('_partial/icons', { icon: 'arrow-right' }) %>
       </span>
     <% } %>
   </nav>
