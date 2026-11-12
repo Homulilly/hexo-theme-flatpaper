@@ -150,6 +150,10 @@ welcome:
 typed:
   from: 出自
 
+reward_list:
+  total: 共 %s 人
+  updated: 最新更新时间：
+
 stack_album:
   label: 堆叠相册
 

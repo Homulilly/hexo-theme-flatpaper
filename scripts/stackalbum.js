@@ -22,6 +22,7 @@
  */
 
 const safeUrl = require('./_safe-url');
+const resolveDataList = require('./_data-list');
 
 const DEFAULT_SIZE = 480;
 const NAV_SIZE = 160;
@@ -90,28 +91,6 @@ hexo.extend.tag.register('stackalbum', function (args, content) {
     ' role="group" aria-label="' + escapeHTML(t('stack_album.label', '堆叠相册')) + '">' + cards + '</div>';
 }, { ends: true });
 
-// Resolve a dotted path into the site's _data: the first segment names the
-// file (source/_data/<name>.yml), the rest walks into it. The theme deliberately
-// does not know or assume any particular file or key name — it owns no page type
-// that would define such a schema, unlike links.yml, which layout/link.ejs reads
-// because the theme owns the `links` page type.
-// Hexo 6+ keeps _data/*.yml in the Data model rather than on hexo.site.data.
-function resolveDataList(path) {
-  const parts = String(path == null ? '' : path).split('.')
-    .map(function (part) { return part.trim(); })
-    .filter(Boolean);
-  if (!parts.length) return null;
-  const doc = hexo.model && hexo.model('Data') ? hexo.model('Data').findById(parts[0]) : null;
-  let node = doc && doc.data;
-  // A YAML file whose top level is a single-entry list reads back wrapped.
-  if (Array.isArray(node) && node.length === 1 && parts.length > 1) node = node[0];
-  for (let i = 1; i < parts.length; i++) {
-    if (!node || typeof node !== 'object') return null;
-    node = node[parts[i]];
-  }
-  return Array.isArray(node) ? node : null;
-}
-
 // Field aliases follow the rest of the theme: footer links accept
 // name/text/title, hero images accept image/src/url/path.
 function entryField(item, keys) {
@@ -125,7 +104,7 @@ function entryField(item, keys) {
 hexo.extend.tag.register('stackalbumnav', function (args) {
   // The data path is required: there is no sensible default the theme could
   // pick without inventing a schema it does not own.
-  const list = resolveDataList(args.join(' '));
+  const list = resolveDataList(hexo, args.join(' '));
   if (!list || !list.length) return '';
 
   // Cards and list items are built from the same filtered set so a rejected
