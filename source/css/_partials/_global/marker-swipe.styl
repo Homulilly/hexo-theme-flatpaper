@@ -16,6 +16,7 @@
 .brand-text,
 .home-hero__nav-link,
 .site-footer a:not(.site-footer__icon-link),
+.fp-stacknav__link,
 .article-content :not(sup) > a:not([class]):not([data-fancybox]) {
   background-image: linear-gradient(var(--marker), var(--marker));
   background-repeat: no-repeat;
@@ -27,10 +28,12 @@
     transform 0.2s ease;
 }
 
-/* Prose links and the home hero links are highlighted all the time: a faint
-   stroke at rest (--marker-rest), and hovering goes over it from the left
-   with the full one, which deepens the colour. */
+/* Prose links, the home hero links and the stacked-album titles are
+   highlighted all the time: a faint stroke at rest (--marker-rest), and
+   hovering goes over it from the left with the full one, which deepens the
+   colour. */
 .article-content :not(sup) > a:not([class]):not([data-fancybox]),
+.fp-stacknav__link,
 .home-hero__nav-link {
   background-image:
     linear-gradient(var(--marker), var(--marker)),
@@ -46,6 +49,7 @@
 .section-head a,
 .brand-text,
 .home-hero__nav-link,
+.fp-stacknav__link,
 .side-card__more .marker-swipe,
 .related-paper__more .marker-swipe,
 .welcome-cta .marker-swipe,
@@ -73,6 +77,8 @@ a:focus-visible .marker-swipe,
 .home-hero__nav-link:focus-visible,
 .site-footer a:not(.site-footer__icon-link):hover,
 .site-footer a:not(.site-footer__icon-link):focus-visible,
+.fp-stacknav__link:hover,
+.fp-stacknav__link:focus-visible,
 .article-content :not(sup) > a:not([class]):not([data-fancybox]):hover,
 .article-content :not(sup) > a:not([class]):not([data-fancybox]):focus-visible {
   background-size: 100% 0.42em;
@@ -88,6 +94,7 @@ a:focus-visible .marker-swipe,
   .brand-text,
   .home-hero__nav-link,
   .site-footer a:not(.site-footer__icon-link),
+  .fp-stacknav__link,
   .article-content :not(sup) > a:not([class]):not([data-fancybox]) {
     transition: none;
   }
