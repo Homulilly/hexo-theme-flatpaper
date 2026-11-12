@@ -249,7 +249,7 @@ var menuChildren = __menu.children, menuHref = __menu.href, menuIcon = __menu.ic
       </header>
       <div class="tag-cloud">
         <%
-          var hotTags = tags.slice().sort(function (a, b) { return (b.length || 0) - (a.length || 0); }).slice(0, 12);
+          var hotTags = tags.slice().sort(function (a, b) { return (b.length || 0) - (a.length || 0); }).slice(0, 20);
         %>
         <% hotTags.forEach(function(tag, index) { %>
           <a class="tag-chip tag-chip-<%= index % 6 %>" href="<%- url_for(tag.path) %>"><%= tag.name %></a>
