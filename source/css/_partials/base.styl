@@ -24,14 +24,16 @@ a {
   text-decoration: none;
 }
 
-/* Text selection follows the active accent (remapped via --color-accent). */
+/* Text selection follows the active accent, but one step deeper than
+   --color-accent-soft: inline code, <mark> and hover fills are built on that
+   soft tone, and a selection in the same colour would vanish over them. */
 ::selection {
   color: var(--ink);
-  background: var(--color-accent-soft);
+  background: var(--selection-bg);
 }
 ::-moz-selection {
   color: var(--ink);
-  background: var(--color-accent-soft);
+  background: var(--selection-bg);
 }
 
 img {
