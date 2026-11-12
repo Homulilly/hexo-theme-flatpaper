@@ -87,8 +87,19 @@
   margin: 0;
   user-select: none;
   -webkit-user-select: none;
-  transition: transform 0.38s ease, width 0.3s ease, height 0.3s ease;
+  /* Where layout() puts a card before fanning it out. Without it a card
+     starts with its corner on the deck's centre, i.e. down and to the right
+     of where it belongs. */
+  transform: translate(-50%, -50%);
   will-change: transform;
+}
+
+/* Cards animate only once the deck has been laid out (main.js adds
+   `is-ready` after the first layout, and drops it again while a late image
+   settles its orientation). Before that, every card would visibly slide in
+   from the bottom right and morph to its size on each page load. */
+.fp-stack.is-stacked.is-ready .fp-stack__card {
+  transition: transform 0.38s ease, width 0.3s ease, height 0.3s ease;
 }
 
 .fp-stack.is-stacked .fp-stack__card--h {
@@ -114,6 +125,9 @@
   height: 100%;
   object-fit: cover;
   filter: blur(3px) saturate(0.85);
+}
+
+.fp-stack.is-stacked.is-ready .fp-stack__img {
   transition: transform 0.38s ease, filter 0.3s ease;
 }
 
@@ -285,9 +299,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   /* The deck still reorders on click, it just does so without the travel. */
-  .fp-stack.is-stacked .fp-stack__card,
+  .fp-stack.is-stacked.is-ready .fp-stack__card,
   .fp-stack.is-stacked .fp-stack__card.is-taking,
-  .fp-stack.is-stacked .fp-stack__img,
+  .fp-stack.is-stacked.is-ready .fp-stack__img,
   .fp-stack.is-stacked .fp-stack__card.is-taking .fp-stack__img,
   .article-content .fp-stacknav .fp-stacknav__list .fp-stacknav__link,
   .fp-stacknav__link::after {

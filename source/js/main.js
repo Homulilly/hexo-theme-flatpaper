@@ -2339,6 +2339,18 @@
       }
     }
 
+    // Lay the deck out with no animation: the stylesheet only transitions
+    // cards while the deck carries `is-ready`. Used for the first layout and
+    // whenever a photo that finished loading changes a card's shape — on a
+    // page load those are not moves the reader made, so nothing should slide.
+    function layoutInstant(state) {
+      state.deck.classList.remove('is-ready');
+      layout(state);
+      // Commit the new positions before transitions are switched back on.
+      void state.deck.offsetWidth;
+      state.deck.classList.add('is-ready');
+    }
+
     // Lift the top card, then drop it to the back of the pile.
     function advance(state) {
       if (state.animating) return;
@@ -2396,7 +2408,8 @@
         if (img.complete) applyOrientation(card, img);
         else img.addEventListener('load', function () {
           applyOrientation(card, img);
-          layout(state);
+          // Mid-flip, the running animation's own layout() picks this up.
+          if (!state.animating) layoutInstant(state);
         });
       });
 
@@ -2410,7 +2423,7 @@
         });
       });
 
-      layout(state);
+      layoutInstant(state);
       return state;
     }
 
