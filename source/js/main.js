@@ -1052,24 +1052,6 @@
       return ROTATE_MIN + Math.random() * ROTATE_SPREAD;
     }
 
-    function applyRandomHeroImage() {
-      var rawImages = hero.getAttribute('data-hero-images');
-      if (!rawImages) return;
-      var images = [];
-      try { images = JSON.parse(rawImages); } catch (e) { images = []; }
-      images = images.filter(function (image) {
-        return typeof image === 'string' && image;
-      });
-      if (images.length < 2) return;
-      var selected = images[Math.floor(Math.random() * images.length)];
-      var next = 'url("' + selected.replace(/"/g, '\\"') + '")';
-      // The server already renders the first image inline; skip the write when
-      // the random pick matches it so we don't trigger a redundant style recalc
-      // (and, when it differs, this is the only extra fetch — by design).
-      if (hero.style.getPropertyValue('--hero-bg-image').trim() === next) return;
-      hero.style.setProperty('--hero-bg-image', next);
-    }
-
     function homeTop() {
       if (!homeTarget) return hero.offsetTop + hero.offsetHeight;
       var headerHeight = header ? header.getBoundingClientRect().height : 0;
@@ -1078,7 +1060,10 @@
     }
 
     function setHeroActive() {
-      var active = window.pageYOffset < (hero.offsetTop + hero.offsetHeight - 80);
+      // Active until the hero has left the viewport entirely. The class holds
+      // back the page's top fade (body::before), and with the photo staying
+      // opaque to the end that band would otherwise land on top of it.
+      var active = window.pageYOffset < (hero.offsetTop + hero.offsetHeight);
       document.body.classList.toggle('is-hero-active', active);
     }
 
@@ -1151,65 +1136,43 @@
     }
 
     var scrollLinks = hero.querySelectorAll('[data-hero-scroll]');
-    applyRandomHeroImage();
 
-    // ---- Hero photo: blur-up handoff ----
-    // Must stay after applyRandomHeroImage(): that call may have rewritten
-    // --hero-bg-image, and the preload below has to watch the photo that
-    // actually ends up on screen. Should the rotation ever become a runtime
-    // loop, every change would need to restart this check behind a generation
-    // token.
-    (function initHeroBlurUp() {
-      var lqip = hero.querySelector('.hero-lqip');
-      var media = hero.querySelector('.home-hero__media');
-      if (!lqip) return;
-      // Releases the inline script's hide-it-back timeout.
-      window.flatpaperHeroProgressive = true;
-      var settled = false;
-      function reveal() {
-        if (settled) return;
-        settled = true;
-        lqip.classList.add('is-done');
-      }
-      lqip.addEventListener('transitionend', function () {
-        if (lqip.parentNode) lqip.parentNode.removeChild(lqip);
-      });
-      // mobile_image: false hides both layers on phones — nothing to wait for,
-      // and no reason to fetch the photo.
-      if (!media || getComputedStyle(lqip).display === 'none') { reveal(); return; }
-      var match = /url\(["']?([^"')]+)["']?\)/.exec(getComputedStyle(media).backgroundImage || '');
-      if (!match) { reveal(); return; }
-      var img = new Image();
-      // Loaded, broken and hung all leave through the same door: the
-      // placeholder must never be what's left covering the photo.
-      img.onload = reveal;
-      img.onerror = reveal;
-      img.src = match[1];
-      if (img.complete) reveal();
-      setTimeout(reveal, 8000);
-    })();
+    // The random image pick and the blur-up handoff are not here: both have
+    // to happen before first paint, so they live in the inline loader in
+    // _partial/home-hero.ejs and never wait on this bundle.
 
     // ---- Hero scroll exit ----
     // Both variables land on the photo layer, which sits below the stickers
-    // and the profile card: putting the fade on the section itself would apply
-    // it to the whole subtree and drag the content out with the backdrop.
+    // and the profile card: putting the blur on the section itself would apply
+    // it to the whole subtree and take the content out of focus with it.
     (function initHeroScrollExit() {
       if (!hero.classList.contains('home-hero--progressive')) return;
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      // How much the photo has grown by the time the hero has scrolled out.
+      // Upstream used 0.1, which is too little to see next to the fade.
+      var EXIT_ZOOM = 0.3;
+      // Blur radius, in px, reached by the same point. The photo is not faded:
+      // it stays opaque and goes out of focus. A blurred layer is soft for
+      // about three radii in from its edge, and the zoom is what pushes that
+      // edge off screen, so keep this under EXIT_ZOOM * 50 (a 320px screen).
+      var EXIT_BLUR = 12;
       var ticking = false;
       function update() {
         ticking = false;
         var rect = hero.getBoundingClientRect();
         var height = Math.max(rect.height, 1);
-        // Same values as upstream (scale 1 -> 1.1, opacity 1 -> 0) but read
-        // off the hero's own rect instead of scrollY / innerHeight, which is
-        // equivalent while the hero is a full-viewport block at the top of the
-        // page and correct when it is not. The upstream per-frame
-        // blur(process * 10px) is left out: a full-viewport filter has to be
-        // re-rasterised every frame.
+        // Progress is read off the hero's own rect instead of scrollY /
+        // innerHeight, which is equivalent while the hero is a full-viewport
+        // block at the top of the page and correct when it is not. The photo
+        // itself is pinned to the viewport in CSS, so the zoom happens in
+        // place. The blur is a filter on an already-composited layer, so
+        // changing its radius costs a GPU pass, not a repaint.
         var progress = Math.max(0, Math.min(1, -rect.top / height));
-        hero.style.setProperty('--hero-media-scale', (1 + progress * 0.1).toFixed(3));
-        hero.style.setProperty('--hero-media-opacity', (1 - progress).toFixed(3));
+        hero.style.setProperty('--hero-media-scale', (1 + progress * EXIT_ZOOM).toFixed(3));
+        // Unset at the top rather than blur(0px), so the photo carries no
+        // filter until the visitor actually scrolls.
+        if (progress > 0) hero.style.setProperty('--hero-media-filter', 'blur(' + (progress * EXIT_BLUR).toFixed(1) + 'px)');
+        else hero.style.removeProperty('--hero-media-filter');
       }
       function schedule() {
         if (ticking) return;

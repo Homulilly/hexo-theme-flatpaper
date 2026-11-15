@@ -50,13 +50,14 @@ home_hero:
   image_placeholder: /images/hero-lqip.jpg   # optional
 ```
 
-- A blurred small image (`image_placeholder`) paints first and fades out once the background photo has decoded; without a placeholder the blur layer uses the paper colour and still fades in
-- Entry: after a 0.5s delay the photo layer eases from `scale(1.5)` back to `1` while fading up from transparent, over 2.2s
-- Scroll exit: the photo layer scales by `+0.1` and fades out linearly with progress. Only that layer fades — it sits below the stickers and the profile card, so the content is untouched
+- A blurred small image (`image_placeholder`) paints first and the photo layer fades in on top of it, so the backdrop never shows through mid-handoff; without a placeholder no blur layer is rendered and the photo fades in over the paper colour
+- Entry: once the photo has loaded, the photo layer eases from `scale(1.5)` back to `1` while fading up from transparent, over 2.2s. The load is the trigger rather than time since parse, so a cached photo starts straight away and a slow one does not play its entry before it arrives
+- The random pick for multi-image rotation and the loading sequence above both run in a small inline script inside the hero, before first paint and independent of `main.js`: the first image is never requested only to be swapped out, and a slow bundle cannot break the handoff
+- Scroll exit: the photo is pinned to the viewport instead of scrolling away, zooms in place by `+0.3` and goes progressively out of focus with a Gaussian blur (up to `12px`), while the hero's bottom edge wipes up over it. The photo stays opaque throughout, so the paper colour never shows through. Only that layer is affected — it sits below the stickers and the profile card, so the content is untouched
 - **Progressive loading is how `image` loads, not a second image source**: the photo layer is server-rendered, always present, and consumes the same `--hero-bg-image`, so `image_overlay`, `mobile_image` and multi-image rotation all keep working
-- It fails open: a 404, a script error, `main.js` never running, or no JS at all simply shows `image` itself (the blur layer ships `hidden`, is unhidden by the inline script beside it, and is hidden again if nothing takes over within 2s)
-- The scroll effect drives only `transform` and `opacity`, never `filter`, so there is no full-viewport blur to re-rasterise each frame
-- No scroll listener is registered under `prefers-reduced-motion`
+- It fails open: with no JS the hero simply shows `image` itself (the blur layer ships `hidden` and only the inline script unhides it); a 404 drops the blur layer and leaves the paper colour; a request still pending after 8s releases the photo layer, and the photo paints over the blur whenever it does arrive
+- Scrolling drives only the photo layer's `transform` and `filter`. That layer is fixed and composited on its own, so a changing blur radius is a GPU pass rather than a repaint
+- Under `prefers-reduced-motion` no scroll listener is registered and the photo is not pinned; it scrolls away with the hero
 - Do not point `image_placeholder` at a random-image API, or the blur will preview a different photo
 
 ### Reveal on Scroll

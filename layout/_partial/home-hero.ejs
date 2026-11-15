@@ -76,7 +76,7 @@ var heroMobileImageSrc = (heroMobileImage && typeof hero.mobile_image === 'strin
   ? heroImageUrl(hero.mobile_image)
   : '';
 // Escape backslash/quote before embedding in a CSS url("...") string, mirroring
-// the client-side randomizer. flatpaper_safe_url already strips control chars,
+// the inline randomizer below. flatpaper_safe_url already strips control chars,
 // so this just closes the CSS-string-breakout gap that the HTML-entity escape
 // on the output tag alone would miss.
 var heroImageCss = heroImage.replace(/[\\"]/g, '\\$&');
@@ -84,8 +84,8 @@ var heroMobileImageCss = heroMobileImageSrc ? heroMobileImageSrc.replace(/[\\"]/
 var heroOverlay = heroImageOverlay(hero.image_overlay);
 // Progressive loading is a loading strategy for `image`, not a second image
 // source: the photo layer below is server-rendered and always consumes
-// --hero-bg-image, so a failure anywhere in JS only costs the blur-up, never
-// the background itself.
+// --hero-bg-image, so without JS the background still shows; with JS, the
+// inline loader below releases the layer on load, error and timeout alike.
 var heroProgressive = heroImage && hero.image_progressive === true;
 var heroPlaceholder = heroProgressive ? heroImageUrl(hero.image_placeholder) : '';
 var heroPlaceholderCss = heroPlaceholder ? heroPlaceholder.replace(/[\\"]/g, '\\$&') : '';
@@ -165,23 +165,89 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
   <% if (heroImage) { %>style="--hero-bg-image: url(&quot;<%= heroImageCss %>&quot;);<% if (heroMobileImageCss) { %> --hero-bg-image-mobile: url(&quot;<%= heroMobileImageCss %>&quot;);<% } %> --hero-image-overlay-top: rgba(42, 33, 22, <%= heroOverlay.top %>); --hero-image-overlay-bottom: rgba(42, 33, 22, <%= heroOverlay.bottom %>);"<% } %>
   <% if (heroImages.length > 1) { %>data-hero-images="<%= JSON.stringify(heroImages) %>"<% } %>
 >
+  <%# The placeholder comes first in the DOM so the photo layer stacks above it:
+      the photo fades in over the blur instead of the blur fading out over a
+      photo that may not be opaque yet. Without a placeholder image there is
+      no layer at all: the section's own paper background is already what
+      would show, and a full-viewport blur of a flat colour is pure cost. %>
   <% if (heroImage) { %>
-    <div class="home-hero__media" aria-hidden="true"></div>
+    <%# The backdrop is the track the photo is pinned inside while the hero
+        scrolls away; see "Scroll exit: pin" in home-hero.styl. %>
+    <div class="home-hero__backdrop" aria-hidden="true">
+      <% if (heroProgressive && heroPlaceholder) { %>
+        <div class="hero-lqip" hidden style="--hero-lqip: url(&quot;<%= heroPlaceholderCss %>&quot;)"></div>
+      <% } %>
+      <div class="home-hero__media"></div>
+    </div>
   <% } %>
-  <% if (heroProgressive) { %>
-    <div class="hero-lqip" hidden aria-hidden="true"<% if (heroPlaceholder) { %> style="--hero-lqip: url(&quot;<%= heroPlaceholderCss %>&quot;)"<% } %>></div>
+  <% if (heroImages.length > 1 || heroProgressive) { %>
     <script>
-      // The placeholder only earns its keep if it is painted from the first
-      // frame, so it is unhidden here rather than from main.js — and only ever
-      // when JS is running to fade it out again. If main.js never gets to it,
-      // the timeout hides it back so it cannot sit on top of the photo.
+      // The whole image-loading handoff lives here rather than in main.js so
+      // that it runs before first paint and does not wait on a 100KB bundle:
+      // the slower the connection, the more that wait would cost. Everything
+      // it does is additive -- without JS the photo layer above simply shows
+      // the server-rendered --hero-bg-image.
       (function () {
-        var el = document.currentScript && document.currentScript.previousElementSibling;
-        if (!el) return;
-        el.hidden = false;
-        setTimeout(function () {
-          if (!window.flatpaperHeroProgressive) el.hidden = true;
-        }, 2000);
+        var hero = document.currentScript && document.currentScript.parentNode;
+        if (!hero) return;
+        <% if (heroImages.length > 1) { %>
+        // Pick the photo before the browser has styled the section, so the
+        // first image is never requested only to be thrown away.
+        try {
+          var images = JSON.parse(hero.getAttribute('data-hero-images'));
+          var picked = images[Math.floor(Math.random() * images.length)];
+          if (typeof picked === 'string' && picked) {
+            hero.style.setProperty('--hero-bg-image', 'url("' + picked.replace(/[\\"]/g, '\\$&') + '")');
+          }
+        } catch (e) {}
+        <% } %>
+        <% if (heroProgressive) { %>
+        var media = hero.querySelector('.home-hero__media');
+        var lqip = hero.querySelector('.hero-lqip'); // absent without image_placeholder
+        if (!media) return;
+        // Read the photo off the computed style so the CSS stays the single
+        // owner of which source applies (mobile_image, the 760px breakpoint).
+        // mobile_image: false hides the layer on phones: nothing to wait for.
+        var style = getComputedStyle(media);
+        if (style.display === 'none') return;
+        var match = /url\(["']?([^"')]+)["']?\)/.exec(style.backgroundImage || '');
+        if (!match) return;
+
+        // Once the photo covers the placeholder it has nothing left to do.
+        // Faded rather than cut: if the visitor has already scrolled, the
+        // photo above is partly transparent and a cut would show.
+        function dropPlaceholder() {
+          if (!lqip) return;
+          lqip.classList.add('is-done');
+          setTimeout(function () { lqip.hidden = true; }, 700);
+        }
+        var done = false;
+        var img = new Image();
+        img.onload = function () {
+          if (done) return;
+          done = true;
+          if (hero.classList.contains('is-loading')) {
+            // is-loaded starts the entry animation; the placeholder stays
+            // underneath until it has finished (2.2s in home-hero.styl).
+            hero.classList.remove('is-loading');
+            hero.classList.add('is-loaded');
+            setTimeout(dropPlaceholder, 2300);
+          } else {
+            dropPlaceholder();
+          }
+        };
+        img.onerror = function () {
+          done = true;
+          hero.classList.remove('is-loading');
+          dropPlaceholder();
+        };
+        // A hung request must not keep the photo layer hidden: release it and
+        // let the photo paint over the placeholder whenever it does arrive.
+        setTimeout(function () { hero.classList.remove('is-loading'); }, 8000);
+        if (lqip) lqip.hidden = false;
+        hero.classList.add('is-loading');
+        img.src = match[1];
+        <% } %>
       })();
     </script>
   <% } %>

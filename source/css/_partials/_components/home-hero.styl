@@ -16,6 +16,10 @@
   isolation: isolate;
 }
 
+body.has-home-hero::before {
+  transition: opacity 0.25s ease;
+}
+
 body.has-home-hero.is-hero-active::before {
   opacity: 0;
 }
@@ -25,17 +29,22 @@ body.has-home-hero.is-hero-active::before {
 }
 
 /* Photo layer. Server-rendered and permanent, and it reads the very same
-   --hero-bg-image the section carries, so applyRandomHeroImage() rewriting
+   --hero-bg-image the section carries, so the inline randomizer rewriting
    that variable is picked up for free and no script ever owns the image
    source. Living in its own layer is what makes the scroll scale possible.
    Every var() keeps a fallback: an undefined custom property would make the
    whole background-image declaration invalid at computed-value time and drop
    the photo entirely. */
-.home-hero__media {
+.home-hero__backdrop {
   position: absolute;
   inset: 0;
   z-index: -3;
   pointer-events: none;
+}
+
+.home-hero__media {
+  position: absolute;
+  inset: 0;
   background-image:
     linear-gradient(180deg,
       var(--hero-image-overlay-top, rgba(42, 33, 22, 0.2)),
@@ -44,53 +53,109 @@ body.has-home-hero.is-hero-active::before {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  // The scroll exit fades this layer only, never the section: opacity on
-  // .home-hero would apply to the whole subtree and take the stickers and the
-  // profile card with it. Upstream faded .pl-container for the same reason.
-  opacity: var(--hero-media-opacity, 1);
+  // The scroll exit works on this layer only, never the section: a filter on
+  // .home-hero would apply to the whole subtree and blur the stickers and the
+  // profile card with it. The photo stays opaque throughout -- it leaves by
+  // going out of focus, not by letting the paper show through. The zoom always
+  // outruns the blur's soft edge, so that edge never comes into view.
+  // The whole filter value is the variable, not just the radius: at rest the
+  // layer must have no filter at all. Even blur(0) puts a full-viewport layer
+  // through an offscreen pass on every frame, entry animation included.
   transform: scale(var(--hero-media-scale, 1));
   transform-origin: center;
+  filter: var(--hero-media-filter, none);
 }
 
-/* Entry zoom, carrying over the upstream scale-in timing verbatim: 2.2s on the
-   same S-curve after a 0.5s delay, zooming out from 1.5 while fading up from
-   transparent. `backwards` fill holds the first frame through the delay (so the
-   photo is absent while the blur placeholder is still doing its job) and leaves
-   nothing behind afterwards, handing transform back to the scroll variable.
+/* Scroll exit: pin. For the zoom to read as a zoom the photo has to stay put
+   while the page moves, otherwise it is simply carried off screen. It is
+   pinned with position: sticky, so the compositor does it rather than a
+   scroll handler a frame behind: the backdrop becomes a track three heroes
+   tall, the photo sticks to the top of the viewport inside it, and the
+   section clips whatever hangs below its own bottom edge -- which is the
+   edge that wipes up over the photo. The track is longer than it needs to be
+   so the photo stays pinned until the hero is fully gone even when 100lvh is
+   taller than the hero.
+   overflow: clip rather than hidden, because hidden would make the section
+   the scroll container the photo sticks to, and it never scrolls. Where clip
+   is unsupported the declaration drops out, hidden stays, and the photo
+   simply scrolls away with the section.
+   Not position: fixed under a clip-path: that pins just as well, but in
+   Chrome a clip-path on the section makes the profile card's backdrop-filter
+   show a flickering vertical seam (seen on macOS, on load and on returning
+   to the tab).
+   100lvh keeps the layer one size while a phone's toolbar collapses; `cover`
+   would otherwise resize the photo mid-scroll. The zoom and blur themselves
+   come from the two variables that main.js writes on scroll. */
+.home-hero--progressive {
+  overflow: clip;
+}
+
+.home-hero--progressive .home-hero__backdrop {
+  bottom: auto;
+  height: 300%;
+  display: grid;
+}
+
+.home-hero--progressive .home-hero__media,
+.home-hero--progressive .hero-lqip {
+  position: sticky;
+  inset: 0 auto auto;
+  grid-area: 1 / 1;
+  align-self: start;
+  height: 100vh;
+  height: 100lvh;
+}
+
+/* Progressive loading is driven by two classes the inline loader in
+   home-hero.ejs puts on the section, so the entry is keyed to the photo
+   actually being there rather than to time since parse:
+     is-loading  the photo is still on its way; hold the layer transparent so
+                 a half-decoded image never shows through
+     is-loaded   it has arrived; play the entry
+   Neither exists without JS, where the layer just shows. */
+.home-hero.is-loading .home-hero__media {
+  opacity: 0;
+}
+
+/* Entry zoom, carrying over the upstream scale-in curve: 2.2s on the same
+   S-curve, zooming out from 1.5 while fading up from transparent. The upstream
+   0.5s delay stood in for "the image has probably loaded by now" and is gone
+   now that the load itself is the trigger. Nothing is left behind afterwards,
+   handing transform back to the scroll variable.
    The upstream blur-to-clear pass is deliberately not carried over:
    .hero-lqip already provides the blur-to-sharp handoff, and with a real small
    image rather than the big one artificially blurred. */
-.home-hero--progressive .home-hero__media {
-  animation: fp-hero-media-in 2.2s cubic-bezier(0.6, 0.1, 0.25, 1) 0.5s 1 backwards;
+.home-hero.is-loaded .home-hero__media {
+  animation: fp-hero-media-in 2.2s cubic-bezier(0.6, 0.1, 0.25, 1) 1 backwards;
 }
 
+/* No `to` keyframe on purpose: the entry then lands on whatever the layer's
+   own opacity and transform are, and those follow the scroll variables. A
+   fixed `to` would pin the photo fully opaque for as long as the entry runs
+   and drop it to the scroll value the instant it ends. */
 @keyframes fp-hero-media-in {
   from {
     transform: scale(1.5);
     opacity: 0;
   }
-
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
 }
 
-/* Blur-up placeholder. Same z-index as the photo but later in the DOM, so it
-   sits directly on top of it and every other layer looks identical before and
-   after the fade. Ships with the `hidden` attribute and is unhidden by the
-   inline script next to it, so it never appears without JS to remove it. */
+/* Blur-up placeholder. Shares the photo's grid cell in the backdrop and comes
+   earlier in the DOM, so it sits directly underneath: the photo's own entry fade is the blur-to-sharp
+   handoff, and there is never a moment where neither layer is opaque. Ships
+   with the `hidden` attribute; the inline loader unhides it and hides it again
+   once the photo covers it, so it never appears without JS to remove it.
+   Only rendered when image_placeholder is set; the paper background colour
+   covers the moment before that small image has itself arrived. */
 .hero-lqip {
-  position: absolute;
-  inset: -3%;
-  z-index: -3;
-  pointer-events: none;
-  background-image: var(--hero-lqip, linear-gradient(180deg, var(--hero-paper), var(--hero-paper)));
+  background-color: var(--hero-paper);
+  background-image: var(--hero-lqip, none);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   filter: blur(40px);
-  transform: scale(1.06);
+  // Oversized so the blur's soft edge falls outside the section.
+  transform: scale(1.12);
   transition: opacity 0.6s ease;
 }
 
@@ -638,7 +703,7 @@ body.has-home-hero.is-hero-active::before {
 .dark-mode .home-hero {
   // Swap the paper backdrop for the dark palette; .home-hero (and the mobile
   // image-reset) already paint via var(--hero-paper). In --image mode the photo
-  // overrides background-image, so this var simply goes unused there.
+  // layer covers it, so it only shows while the photo is still loading.
   --hero-paper: #22262b;
 }
 
@@ -940,9 +1005,27 @@ body.has-home-hero.is-hero-active::before {
   // only cover the preference being switched mid-session, and they override
   // the property rather than the variable so they win against the rule above.
   .home-hero__media {
-    opacity: 1;
     transform: none;
+    filter: none;
+  }
+
+  // Same selector as the entry rule so this actually outranks it. The photo
+  // still waits for is-loading to clear; it just appears instead of zooming.
+  .home-hero.is-loaded .home-hero__media {
     animation: none;
+  }
+
+  // No pinning either: with a track no taller than the section the sticky
+  // layers have nowhere to travel, so the photo scrolls away with the section
+  // as it does without progressive loading.
+  .home-hero--progressive .home-hero__backdrop {
+    bottom: 0;
+    height: auto;
+  }
+
+  .home-hero--progressive .home-hero__media,
+  .home-hero--progressive .hero-lqip {
+    height: 100%;
   }
 
   .hero-lqip {
