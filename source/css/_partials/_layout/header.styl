@@ -1,18 +1,41 @@
 /* ============== HEADER ============== */
+/* Top fade: content scrolling up through the gap above the sticky header
+   blurs out under a frosted strip instead of being cut by a flat band. The
+   fade comes from the mask rather than the colour, so whatever background
+   style is underneath (grid, dots, paper grain) carries through blurred
+   instead of being painted over, and one rule serves both colour modes. */
 body::before {
   content: "";
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 36px;
+  height: 40px;
   z-index: 19;
-  background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) 60%, transparent 100%);
+  background: unquote('color-mix(in srgb, var(--bg) 75%, transparent)');
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent);
+  mask-image: linear-gradient(to bottom, #000 35%, transparent);
   pointer-events: none;
 }
 
-.dark-mode body::before {
-  background: linear-gradient(to bottom, var(--bg) 0%, var(--bg) 60%, transparent 100%);
+/* At the very top nothing is under the gap yet, so the strip stays clear and
+   fades in over the first 48px of scroll. Without scroll-driven animations it
+   simply stays on. The home hero keeps its own toggle (is-hero-active in
+   home-hero.styl), which an animation here would override. */
+@supports (animation-timeline: scroll()) {
+  body:not(.has-home-hero)::before {
+    animation: fp-top-fade-in linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 48px;
+  }
+}
+
+@keyframes fp-top-fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 .site-header {
