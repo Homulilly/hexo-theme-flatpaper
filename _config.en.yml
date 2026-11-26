@@ -130,6 +130,8 @@ home_hero:
   image_progressive: true
   # Small blur-layer image (aim for <100k); no random-image APIs. Omit to use the paper colour.
   # image_placeholder: /images/hero-lqip.jpg
+  # Entrance animation: the card drops, the tape presses on, stickers slap in; false turns it off. Skipped under reduced motion.
+  entrance: true
   # Typewriter in the bio slot, same fields as footer.typed; falls back to bio when sub is empty.
   typed:
     enable: false

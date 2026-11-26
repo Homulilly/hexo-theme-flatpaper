@@ -1037,6 +1037,11 @@
     var ROTATE_MIN = -18;
     var ROTATE_SPREAD = 36;
     var DRAG_THRESHOLD = 3;
+    // Entrance slap stagger (s): the first sticker lands just after the
+    // card's tape (home-hero-entrance.styl); shuffle restarts from zero.
+    var STICKER_ENTRANCE_DELAY = 0.8;
+    var STICKER_ENTRANCE_STEP = 0.1;
+    var STICKER_SHUFFLE_STEP = 0.05;
     var STICKER_ZONES = [
       { leftMin: 4, leftMax: 19, topMin: 8, topMax: 78 },
       { leftMin: 78, leftMax: 90, topMin: 8, topMax: 78 },
@@ -1252,7 +1257,33 @@
     }, { passive: true });
     setHeroActive();
 
-    if (!stickers.length || !hero.classList.contains('has-draggable-stickers')) return;
+    var stickerEntrance = hero.classList.contains('home-hero--entrance');
+
+    function slapStickers(baseDelay, step) {
+      stickers.forEach(function (sticker) { sticker.classList.remove('is-slapped'); });
+      // Flush styles so re-adding the class restarts the animation (shuffle).
+      void hero.offsetWidth;
+      stickers.forEach(function (sticker, index) {
+        sticker.style.setProperty('--hero-sticker-delay', (baseDelay + index * step).toFixed(2) + 's');
+        sticker.classList.add('is-slapped');
+      });
+    }
+
+    // The inline script in home-hero.ejs holds the stickers hidden with
+    // is-entering until they are placed. Release them here, keeping the
+    // stagger on the card's clock however long this bundle took to arrive.
+    function releaseStickers() {
+      if (!hero.classList.contains('is-entering')) return;
+      var startedAt = parseFloat(hero.getAttribute('data-entrance-at')) || 0;
+      var waited = window.performance ? (performance.now() - startedAt) / 1000 : 0;
+      slapStickers(Math.max(0, STICKER_ENTRANCE_DELAY - waited), STICKER_ENTRANCE_STEP);
+      hero.classList.remove('is-entering');
+    }
+
+    if (!stickers.length || !hero.classList.contains('has-draggable-stickers')) {
+      releaseStickers();
+      return;
+    }
 
     function randomizeSticker(sticker) {
       var zone = STICKER_ZONES[Math.floor(Math.random() * STICKER_ZONES.length)];
@@ -1347,6 +1378,8 @@
       sticker.addEventListener('pointercancel', function (event) { endDrag(event, true); });
     });
 
+    releaseStickers();
+
     var shuffleButton = hero.querySelector('.js-hero-shuffle');
     if (shuffleButton) {
       shuffleButton.addEventListener('click', function () {
@@ -1357,6 +1390,7 @@
           sticker.classList.remove('is-dragging');
           randomizeSticker(sticker);
         });
+        if (stickerEntrance) slapStickers(0, STICKER_SHUFFLE_STEP);
       });
     }
 

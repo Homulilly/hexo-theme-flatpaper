@@ -130,6 +130,8 @@ home_hero:
   image_progressive: true
   # 模糊层小图（建议 <100k），勿用随机图接口；省略则用纸面底色。
   # image_placeholder: /images/hero-lqip.jpg
+  # 入场动画：卡片落下、胶带按上、贴纸依次贴入；false 关闭。减少动态效果时不播放。
+  entrance: true
   # bio 打字机效果，字段同 footer.typed；sub 为空时回退到 bio。
   typed:
     enable: false

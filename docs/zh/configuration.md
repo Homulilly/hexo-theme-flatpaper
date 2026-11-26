@@ -196,6 +196,7 @@ home_hero:
     - /images/hero-1.jpg
     - /images/hero-2.jpg
   mobile_image: true
+  entrance: true
   image_overlay: [0.2, 0.2]
   cta_text: 开始阅读
   cta_link: "#flatpaper-home-content"
@@ -227,6 +228,7 @@ home_hero:
 - 未配置 `title`、`subtitle`、`bio`、`avatar` 或社交链接时，会复用站点标题与 `profile` 配置。
 - `image` 留空时使用内置手账纸张背景；设置为字符串时固定使用该图片，设置为数组时浏览器每次载入会随机使用一张，图片会在宽屏和窄屏默认铺满开屏。
 - `mobile_image` 既是开关也可以是图源：`true`（默认）沿用 `image`；`false` 让窄屏回退到纸张背景，让贴纸保持清晰；填一个链接（如 `/images/hero-mobile.jpg`）则让窄屏（≤760px）单独使用该图片，适合另外准备竖版裁切。单独指定窄屏图源时开屏仍是照片模式，文字与按钮配色不变；该图源不参与 `image` 数组的随机轮播，始终固定这一张。开启 `image_progressive` 时窄屏会自动预载这张窄屏图，模糊层仍复用 `image_placeholder`。
+- `entrance` 控制入场动画，默认开启：纸卡落下、胶带按上、内容依次浮现、书签吊牌摆动、贴纸逐张贴上，最后弹出底部按钮，全程约 1.7 秒。贴纸会等脚本随机摆好位置后再贴入，点「打乱贴纸」时也会重新贴一次。设为 `false` 关闭；系统开启「减少动态效果」时不播放。
 - `image_overlay` 控制图片开屏的可配置暗色遮罩，使用 `[顶部, 底部]` 两个 `0` 到 `1` 的透明度数值；默认是 `[0.2, 0.2]`。
 - `hero_links` 可在开屏简介和社交链接之间添加快速导航链接；配置后会替代默认的波浪线分隔符。每一项需要 `name` 和 `link`，`alt` 可选，用于标签和外链访问确认文案。外链会先弹出访问确认，再在新标签页打开。
 - 开屏中的社交链接复用 profile 的 `.socials` 样式、tooltip 文案，也会跟随 `buttons.style` 的配置变化。

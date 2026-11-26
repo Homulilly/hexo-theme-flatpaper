@@ -1,0 +1,162 @@
+/* ============== HOME HERO ENTRANCE ============== */
+// On by default (home_hero.entrance: false turns it off) "pasting it into the journal" entry: the paper
+// card drops onto the desk, the tape is pressed over it, the contents rise,
+// the bookmark tabs swing in, then the stickers are slapped down one by one
+// and the CTA comes up last.
+//
+// Timeline (s):  paper 0 | contents .18-.48 | tape .42 | tabs .70+ |
+//                stickers .80+ (main.js) | CTA 1.15
+//
+// Every keyframe below omits `to`, like fp-hero-media-in, so it lands on the
+// element's own computed values instead of pinning them while it runs.
+// Elements whose `transform` belongs to someone else -- stickers (main.js
+// writes rotate on place / drag / shuffle), bookmark tabs (hover transition),
+// the CTA (its breathe loop) -- are animated through the individual
+// translate / rotate / scale properties, which compose with `transform`
+// instead of replacing it, so a drag or hover mid-entry never fights it.
+
+// Held, not animated: the inline script in home-hero.ejs adds is-entering
+// before first paint so the stickers never show at their CSS fallback spots
+// before main.js has placed them; main.js removes it (or the script's own
+// timeout does, should main.js never run).
+.home-hero.is-entering .hero-sticker {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-hero--entrance .home-hero__profile::before {
+    animation: fp-hero-paper-drop 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) backwards;
+  }
+
+  .home-hero--entrance .home-hero__profile::after {
+    animation: fp-hero-tape-press 0.45s cubic-bezier(0.3, 0.7, 0.4, 1) 0.42s backwards;
+  }
+
+  .home-hero--entrance .home-hero__avatar,
+  .home-hero--entrance .home-hero__eyebrow,
+  .home-hero--entrance h1,
+  .home-hero--entrance .home-hero__bio,
+  .home-hero--entrance .home-hero__nav,
+  .home-hero--entrance .home-hero__divider {
+    animation: fp-hero-rise 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  }
+
+  .home-hero--entrance .home-hero__avatar { animation-delay: 0.18s; }
+  .home-hero--entrance .home-hero__eyebrow { animation-delay: 0.26s; }
+  .home-hero--entrance h1 { animation-delay: 0.32s; }
+  .home-hero--entrance .home-hero__bio { animation-delay: 0.4s; }
+  .home-hero--entrance .home-hero__nav,
+  .home-hero--entrance .home-hero__divider { animation-delay: 0.48s; }
+
+  // The tabs hang from their top edge (transform-origin: top center), so
+  // `rotate` swings them like bookmarks settling under the card.
+  .home-hero--entrance .home-hero__profile .home-hero__links a {
+    animation: fp-hero-tab-swing 1s ease-out 0.7s backwards;
+  }
+
+  .home-hero--entrance .home-hero__profile .home-hero__links a:nth-child(2) { animation-delay: 0.76s; }
+  .home-hero--entrance .home-hero__profile .home-hero__links a:nth-child(3) { animation-delay: 0.82s; }
+  .home-hero--entrance .home-hero__profile .home-hero__links a:nth-child(4) { animation-delay: 0.88s; }
+  .home-hero--entrance .home-hero__profile .home-hero__links a:nth-child(5) { animation-delay: 0.94s; }
+  .home-hero--entrance .home-hero__profile .home-hero__links a:nth-child(n+6) { animation-delay: 1s; }
+
+  // main.js sets --hero-sticker-delay per sticker: staggered after the tape
+  // on entry, a quicker stagger from zero on shuffle.
+  .home-hero--entrance .hero-sticker.is-slapped {
+    animation: fp-hero-sticker-slap 0.55s cubic-bezier(0.3, 0.7, 0.4, 1) var(--hero-sticker-delay, 0s) backwards;
+  }
+
+  // The CTA already runs an animation list (breathe at rest, press on
+  // hover), so the entry rides along as the first entry of both lists:
+  // keeping the same name in the same slot lets hover swap the loop without
+  // restarting the entry.
+  .home-hero--entrance .home-hero__arrow {
+    animation: fp-hero-cta-in 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) 1.15s backwards, pull-tab-breathe 2.8s ease-in-out infinite;
+  }
+
+  .home-hero--entrance .home-hero__arrow:hover,
+  .home-hero--entrance .home-hero__arrow:focus-visible {
+    animation: fp-hero-cta-in 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) 1.15s backwards, pull-tab-hover-press 1.2s ease-in-out infinite;
+  }
+}
+
+// The paper's own transform is a fixed rotate(-0.6deg) nobody else touches,
+// so these two can animate `transform` directly. Scaling the tape through
+// `scale` would also scale its translateX(-50%) and drift it sideways.
+@keyframes fp-hero-paper-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-28px) rotate(-3deg);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(3px) rotate(-0.2deg);
+  }
+}
+
+@keyframes fp-hero-tape-press {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) rotate(-4deg) scale(1.6);
+  }
+  55% {
+    opacity: 1;
+    transform: translateX(-50%) rotate(2.5deg) scale(0.94);
+  }
+  80% {
+    transform: translateX(-50%) rotate(2deg) scale(1.03);
+  }
+}
+
+@keyframes fp-hero-rise {
+  0% {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+
+@keyframes fp-hero-tab-swing {
+  0% {
+    opacity: 0;
+    translate: 0 -14px;
+    rotate: -16deg;
+  }
+  30% {
+    opacity: 1;
+    translate: 0 0;
+    rotate: 9deg;
+  }
+  55% {
+    rotate: -5deg;
+  }
+  78% {
+    rotate: 2deg;
+  }
+}
+
+@keyframes fp-hero-sticker-slap {
+  0% {
+    opacity: 0;
+    translate: 0 -12px;
+    scale: 1.4;
+  }
+  45% {
+    opacity: 1;
+    translate: 0 0;
+    scale: 0.93;
+  }
+  70% {
+    scale: 1.04;
+  }
+}
+
+@keyframes fp-hero-cta-in {
+  0% {
+    opacity: 0;
+    translate: 0 28px;
+  }
+  60% {
+    opacity: 1;
+    translate: 0 -4px;
+  }
+}

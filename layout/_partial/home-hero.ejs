@@ -89,6 +89,8 @@ var heroOverlay = heroImageOverlay(hero.image_overlay);
 var heroProgressive = heroImage && hero.image_progressive === true;
 var heroPlaceholder = heroProgressive ? heroImageUrl(hero.image_placeholder) : '';
 var heroPlaceholderCss = heroPlaceholder ? heroPlaceholder.replace(/[\\"]/g, '\\$&') : '';
+// Entrance animation, on unless set to false; see _components/home-hero-entrance.styl.
+var heroEntrance = hero.entrance !== false;
 var ctaHref = heroHref(hero.cta_link || '#flatpaper-home-content');
 var enterLabel = flatpaper_i18n('home_hero.enter');
 var ctaText = hero.cta_text || enterLabel;
@@ -160,11 +162,27 @@ var hasLinkedCustomStickers = customStickerItems.some(function (item) { return !
 %>
 
 <section
-  class="home-hero<%= heroImage ? ' home-hero--image' : '' %><%= heroMobileImage ? ' home-hero--mobile-image' : '' %><%= heroProgressive ? ' home-hero--progressive' : '' %><%= stickersDraggable ? ' has-draggable-stickers' : '' %>"
+  class="home-hero<%= heroImage ? ' home-hero--image' : '' %><%= heroMobileImage ? ' home-hero--mobile-image' : '' %><%= heroProgressive ? ' home-hero--progressive' : '' %><%= stickersDraggable ? ' has-draggable-stickers' : '' %><%= heroEntrance ? ' home-hero--entrance' : '' %>"
   aria-label="<%= flatpaper_i18n('home_hero.label') %>"
   <% if (heroImage) { %>style="--hero-bg-image: url(&quot;<%= heroImageCss %>&quot;);<% if (heroMobileImageCss) { %> --hero-bg-image-mobile: url(&quot;<%= heroMobileImageCss %>&quot;);<% } %> --hero-image-overlay-top: rgba(42, 33, 22, <%= heroOverlay.top %>); --hero-image-overlay-bottom: rgba(42, 33, 22, <%= heroOverlay.bottom %>);"<% } %>
   <% if (heroImages.length > 1) { %>data-hero-images="<%= JSON.stringify(heroImages) %>"<% } %>
 >
+  <% if (heroEntrance && stickersEnabled) { %>
+    <script>
+      // Hold the stickers hidden (is-entering) until main.js has placed them
+      // and can slap them in; otherwise they would flash at their CSS
+      // fallback spots first. Skipped under reduced motion, where nothing
+      // animates. The timeout lets them appear anyway if main.js never runs.
+      (function () {
+        var hero = document.currentScript && document.currentScript.parentNode;
+        if (!hero) return;
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        hero.setAttribute('data-entrance-at', String(Math.round(window.performance ? performance.now() : 0)));
+        hero.classList.add('is-entering');
+        setTimeout(function () { hero.classList.remove('is-entering'); }, 5000);
+      })();
+    </script>
+  <% } %>
   <%# The placeholder comes first in the DOM so the photo layer stacks above it:
       the photo fades in over the blur instead of the blur fading out over a
       photo that may not be opaque yet. Without a placeholder image there is
